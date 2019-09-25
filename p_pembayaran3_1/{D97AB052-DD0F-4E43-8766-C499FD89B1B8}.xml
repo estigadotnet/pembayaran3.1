@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration date="2019/09/25" author="e.World Technology Ltd.">
+  <project id="{D97AB052-DD0F-4E43-8766-C499FD89B1B8}" file="C:\xampp\htdocs\pembayaran3.1\p_pembayaran3.1.pmp" name="p_pembayaran3_1" product="PHPMaker" version="15.0" datetime="2019/09/25 00:39:33" languagefolder="phplang" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0">
+    <table id="c301_home" name="c301_home.php" caption="Home" userlevel="-2,&quot;Anonymous&quot;,72;0,&quot;Default&quot;,0" priv="1" />
+    <table id="t001_tahun_ajaran" name="t001_tahun_ajaran" caption="Tahun Ajaran" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+    <table id="t002_sekolah" name="t002_sekolah" caption="Sekolah" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+    <table id="t003_kelas" name="t003_kelas" caption="Kelas" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+    <table id="t004_siswa" name="t004_siswa" caption="Siswa" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+    <table id="t005_iuran" name="t005_iuran" caption="Iuran" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+    <table id="t101_daf_kelas" name="t101_daf_kelas" caption="Daftar Kelas" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+    <table id="t102_daf_kelas_siswa" name="t102_daf_kelas_siswa" caption="Siswa" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+    <table id="t103_daf_kelas_siswa_iuran" name="t103_daf_kelas_siswa_iuran" caption="Iuran" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+    <table id="t301_employees" name="t301_employees" caption="Users" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+    <table id="t302_userlevels" name="t302_userlevels" caption="Hak Akses" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+    <table id="t303_userlevelpermissions" name="t303_userlevelpermissions" caption="Hak Akses (Detail)" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+    <table id="t304_audit_trail" name="t304_audit_trail" caption="Log Aktifitas" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+    <table id="v101_daf_kelas" name="v101_daf_kelas" caption="v 101 daf kelas" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+    <table id="v102_daf_kelas_siswa" name="v102_daf_kelas_siswa" caption="Daftar Iuran Siswa" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+    <table id="v103_daf_kelas_siswa_iuran" name="v103_daf_kelas_siswa_iuran" caption="Pembayaran" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+    <table id="v104_pembayaran" name="v104_pembayaran" caption="v 104 pembayaran" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+    <table id="v105_lap_bayar" name="v105_lap_bayar" caption="v 105 lap bayar" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+  </project>
+</configuration>

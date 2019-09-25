@@ -1,0 +1,47 @@
+<?php
+namespace PHPMaker2019\p_pembayaran3_1;
+
+// Menu Language
+if ($Language && $Language->LanguageFolder == $LANGUAGE_FOLDER)
+	$MenuLanguage = &$Language;
+else
+	$MenuLanguage = new Language();
+
+// Navbar menu
+$topMenu = new Menu("navbar", TRUE, TRUE);
+$topMenu->addMenuItem(18, "mi_c301_home", $MenuLanguage->MenuPhrase("18", "MenuText"), "c301_home.php", -1, "", AllowListMenu('{D97AB052-DD0F-4E43-8766-C499FD89B1B8}c301_home.php'), FALSE, FALSE, "", "", TRUE);
+$topMenu->addMenuItem(17, "mci_Setup", $MenuLanguage->MenuPhrase("17", "MenuText"), "", -1, "", IsLoggedIn(), FALSE, TRUE, "", "", TRUE);
+$topMenu->addMenuItem(1, "mi_t001_tahun_ajaran", $MenuLanguage->MenuPhrase("1", "MenuText"), "t001_tahun_ajaranlist.php", 17, "", AllowListMenu('{D97AB052-DD0F-4E43-8766-C499FD89B1B8}t001_tahun_ajaran'), FALSE, FALSE, "", "", TRUE);
+$topMenu->addMenuItem(2, "mi_t002_sekolah", $MenuLanguage->MenuPhrase("2", "MenuText"), "t002_sekolahlist.php", 17, "", AllowListMenu('{D97AB052-DD0F-4E43-8766-C499FD89B1B8}t002_sekolah'), FALSE, FALSE, "", "", TRUE);
+$topMenu->addMenuItem(3, "mi_t003_kelas", $MenuLanguage->MenuPhrase("3", "MenuText"), "t003_kelaslist.php", 17, "", AllowListMenu('{D97AB052-DD0F-4E43-8766-C499FD89B1B8}t003_kelas'), FALSE, FALSE, "", "", TRUE);
+$topMenu->addMenuItem(4, "mi_t004_siswa", $MenuLanguage->MenuPhrase("4", "MenuText"), "t004_siswalist.php", 17, "", AllowListMenu('{D97AB052-DD0F-4E43-8766-C499FD89B1B8}t004_siswa'), FALSE, FALSE, "", "", TRUE);
+$topMenu->addMenuItem(5, "mi_t005_iuran", $MenuLanguage->MenuPhrase("5", "MenuText"), "t005_iuranlist.php", 17, "", AllowListMenu('{D97AB052-DD0F-4E43-8766-C499FD89B1B8}t005_iuran'), FALSE, FALSE, "", "", TRUE);
+$topMenu->addMenuItem(20, "mci_Daftar", $MenuLanguage->MenuPhrase("20", "MenuText"), "", -1, "", IsLoggedIn(), FALSE, TRUE, "", "", TRUE);
+$topMenu->addMenuItem(6, "mi_t101_daf_kelas", $MenuLanguage->MenuPhrase("6", "MenuText"), "t101_daf_kelaslist.php", 20, "", AllowListMenu('{D97AB052-DD0F-4E43-8766-C499FD89B1B8}t101_daf_kelas'), FALSE, FALSE, "", "", TRUE);
+$topMenu->addMenuItem(13, "mi_v102_daf_kelas_siswa", $MenuLanguage->MenuPhrase("13", "MenuText"), "v102_daf_kelas_siswalist.php", 20, "", AllowListMenu('{D97AB052-DD0F-4E43-8766-C499FD89B1B8}v102_daf_kelas_siswa'), FALSE, FALSE, "", "", TRUE);
+$topMenu->addMenuItem(14, "mi_v103_daf_kelas_siswa_iuran", $MenuLanguage->MenuPhrase("14", "MenuText"), "v103_daf_kelas_siswa_iuranlist.php", -1, "", AllowListMenu('{D97AB052-DD0F-4E43-8766-C499FD89B1B8}v103_daf_kelas_siswa_iuran'), FALSE, FALSE, "", "", TRUE);
+$topMenu->addMenuItem(21, "mci_General", $MenuLanguage->MenuPhrase("21", "MenuText"), "", -1, "", IsLoggedIn(), FALSE, TRUE, "", "", TRUE);
+$topMenu->addMenuItem(9, "mi_t301_employees", $MenuLanguage->MenuPhrase("9", "MenuText"), "t301_employeeslist.php", 21, "", AllowListMenu('{D97AB052-DD0F-4E43-8766-C499FD89B1B8}t301_employees'), FALSE, FALSE, "", "", TRUE);
+$topMenu->addMenuItem(10, "mi_t302_userlevels", $MenuLanguage->MenuPhrase("10", "MenuText"), "t302_userlevelslist.php", 21, "", AllowListMenu('{D97AB052-DD0F-4E43-8766-C499FD89B1B8}t302_userlevels'), FALSE, FALSE, "", "", TRUE);
+$topMenu->addMenuItem(19, "mi_t304_audit_trail", $MenuLanguage->MenuPhrase("19", "MenuText"), "t304_audit_traillist.php", 21, "", AllowListMenu('{D97AB052-DD0F-4E43-8766-C499FD89B1B8}t304_audit_trail'), FALSE, FALSE, "", "", TRUE);
+echo $topMenu->toScript();
+
+// Sidebar menu
+$sideMenu = new Menu("menu", TRUE, FALSE);
+$sideMenu->addMenuItem(18, "mi_c301_home", $MenuLanguage->MenuPhrase("18", "MenuText"), "c301_home.php", -1, "", AllowListMenu('{D97AB052-DD0F-4E43-8766-C499FD89B1B8}c301_home.php'), FALSE, FALSE, "", "", TRUE);
+$sideMenu->addMenuItem(17, "mci_Setup", $MenuLanguage->MenuPhrase("17", "MenuText"), "", -1, "", IsLoggedIn(), FALSE, TRUE, "", "", TRUE);
+$sideMenu->addMenuItem(1, "mi_t001_tahun_ajaran", $MenuLanguage->MenuPhrase("1", "MenuText"), "t001_tahun_ajaranlist.php", 17, "", AllowListMenu('{D97AB052-DD0F-4E43-8766-C499FD89B1B8}t001_tahun_ajaran'), FALSE, FALSE, "", "", TRUE);
+$sideMenu->addMenuItem(2, "mi_t002_sekolah", $MenuLanguage->MenuPhrase("2", "MenuText"), "t002_sekolahlist.php", 17, "", AllowListMenu('{D97AB052-DD0F-4E43-8766-C499FD89B1B8}t002_sekolah'), FALSE, FALSE, "", "", TRUE);
+$sideMenu->addMenuItem(3, "mi_t003_kelas", $MenuLanguage->MenuPhrase("3", "MenuText"), "t003_kelaslist.php", 17, "", AllowListMenu('{D97AB052-DD0F-4E43-8766-C499FD89B1B8}t003_kelas'), FALSE, FALSE, "", "", TRUE);
+$sideMenu->addMenuItem(4, "mi_t004_siswa", $MenuLanguage->MenuPhrase("4", "MenuText"), "t004_siswalist.php", 17, "", AllowListMenu('{D97AB052-DD0F-4E43-8766-C499FD89B1B8}t004_siswa'), FALSE, FALSE, "", "", TRUE);
+$sideMenu->addMenuItem(5, "mi_t005_iuran", $MenuLanguage->MenuPhrase("5", "MenuText"), "t005_iuranlist.php", 17, "", AllowListMenu('{D97AB052-DD0F-4E43-8766-C499FD89B1B8}t005_iuran'), FALSE, FALSE, "", "", TRUE);
+$sideMenu->addMenuItem(20, "mci_Daftar", $MenuLanguage->MenuPhrase("20", "MenuText"), "", -1, "", IsLoggedIn(), FALSE, TRUE, "", "", TRUE);
+$sideMenu->addMenuItem(6, "mi_t101_daf_kelas", $MenuLanguage->MenuPhrase("6", "MenuText"), "t101_daf_kelaslist.php", 20, "", AllowListMenu('{D97AB052-DD0F-4E43-8766-C499FD89B1B8}t101_daf_kelas'), FALSE, FALSE, "", "", TRUE);
+$sideMenu->addMenuItem(13, "mi_v102_daf_kelas_siswa", $MenuLanguage->MenuPhrase("13", "MenuText"), "v102_daf_kelas_siswalist.php", 20, "", AllowListMenu('{D97AB052-DD0F-4E43-8766-C499FD89B1B8}v102_daf_kelas_siswa'), FALSE, FALSE, "", "", TRUE);
+$sideMenu->addMenuItem(14, "mi_v103_daf_kelas_siswa_iuran", $MenuLanguage->MenuPhrase("14", "MenuText"), "v103_daf_kelas_siswa_iuranlist.php", -1, "", AllowListMenu('{D97AB052-DD0F-4E43-8766-C499FD89B1B8}v103_daf_kelas_siswa_iuran'), FALSE, FALSE, "", "", TRUE);
+$sideMenu->addMenuItem(21, "mci_General", $MenuLanguage->MenuPhrase("21", "MenuText"), "", -1, "", IsLoggedIn(), FALSE, TRUE, "", "", TRUE);
+$sideMenu->addMenuItem(9, "mi_t301_employees", $MenuLanguage->MenuPhrase("9", "MenuText"), "t301_employeeslist.php", 21, "", AllowListMenu('{D97AB052-DD0F-4E43-8766-C499FD89B1B8}t301_employees'), FALSE, FALSE, "", "", TRUE);
+$sideMenu->addMenuItem(10, "mi_t302_userlevels", $MenuLanguage->MenuPhrase("10", "MenuText"), "t302_userlevelslist.php", 21, "", AllowListMenu('{D97AB052-DD0F-4E43-8766-C499FD89B1B8}t302_userlevels'), FALSE, FALSE, "", "", TRUE);
+$sideMenu->addMenuItem(19, "mi_t304_audit_trail", $MenuLanguage->MenuPhrase("19", "MenuText"), "t304_audit_traillist.php", 21, "", AllowListMenu('{D97AB052-DD0F-4E43-8766-C499FD89B1B8}t304_audit_trail'), FALSE, FALSE, "", "", TRUE);
+echo $sideMenu->toScript();
+?>
