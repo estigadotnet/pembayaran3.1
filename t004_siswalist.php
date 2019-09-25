@@ -59,6 +59,7 @@ var ft004_siswalistsrch = currentSearchForm = new ew.Form("ft004_siswalistsrch")
 // Filters
 ft004_siswalistsrch.filterList = <?php echo $t004_siswa_list->getFilterList() ?>;
 </script>
+<script src="phpjs/ewscrolltable.js"></script>
 <style type="text/css">
 .ew-table-preview-row { /* main table preview row color */
 	background-color: #FFFFFF; /* preview row color */
@@ -377,6 +378,11 @@ if (DEBUG_ENABLED)
 // document.write("page loaded");
 
 </script>
+<?php if (!$t004_siswa->isExport()) { ?>
+<script>
+ew.scrollableTable("gmp_t004_siswa", "100%", "100%");
+</script>
+<?php } ?>
 <?php } ?>
 <?php include_once "footer.php" ?>
 <?php

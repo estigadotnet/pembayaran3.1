@@ -620,7 +620,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 		$CurrentForm = new HttpForm();
 		$this->CurrentAction = Param("action"); // Set up current action
 		$this->id->Visible = FALSE;
-		$this->daf_kelas_siswa_id->setVisibility();
+		$this->daf_kelas_siswa_id->Visible = FALSE;
 		$this->iuran_id->setVisibility();
 		$this->Jumlah->setVisibility();
 		$this->byr01->setVisibility();
@@ -680,8 +680,9 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 		$this->createToken();
 
 		// Set up lookup cache
-		// Check modal
+		$this->setupLookupOptions($this->iuran_id);
 
+		// Check modal
 		if ($this->IsModal)
 			$SkipHeaderFooter = TRUE;
 		$this->IsMobileOrModal = IsMobile() || $this->IsModal;
@@ -860,15 +861,6 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 		// Load from form
 		global $CurrentForm;
 
-		// Check field name 'daf_kelas_siswa_id' first before field var 'x_daf_kelas_siswa_id'
-		$val = $CurrentForm->hasValue("daf_kelas_siswa_id") ? $CurrentForm->getValue("daf_kelas_siswa_id") : $CurrentForm->getValue("x_daf_kelas_siswa_id");
-		if (!$this->daf_kelas_siswa_id->IsDetailKey) {
-			if (IsApi() && $val == NULL)
-				$this->daf_kelas_siswa_id->Visible = FALSE; // Disable update for API request
-			else
-				$this->daf_kelas_siswa_id->setFormValue($val);
-		}
-
 		// Check field name 'iuran_id' first before field var 'x_iuran_id'
 		$val = $CurrentForm->hasValue("iuran_id") ? $CurrentForm->getValue("iuran_id") : $CurrentForm->getValue("x_iuran_id");
 		if (!$this->iuran_id->IsDetailKey) {
@@ -912,7 +904,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 				$this->tgl01->Visible = FALSE; // Disable update for API request
 			else
 				$this->tgl01->setFormValue($val);
-			$this->tgl01->CurrentValue = UnFormatDateTime($this->tgl01->CurrentValue, 0);
+			$this->tgl01->CurrentValue = UnFormatDateTime($this->tgl01->CurrentValue, 7);
 		}
 
 		// Check field name 'byr02' first before field var 'x_byr02'
@@ -940,7 +932,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 				$this->tgl02->Visible = FALSE; // Disable update for API request
 			else
 				$this->tgl02->setFormValue($val);
-			$this->tgl02->CurrentValue = UnFormatDateTime($this->tgl02->CurrentValue, 0);
+			$this->tgl02->CurrentValue = UnFormatDateTime($this->tgl02->CurrentValue, 7);
 		}
 
 		// Check field name 'byr03' first before field var 'x_byr03'
@@ -968,7 +960,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 				$this->tgl03->Visible = FALSE; // Disable update for API request
 			else
 				$this->tgl03->setFormValue($val);
-			$this->tgl03->CurrentValue = UnFormatDateTime($this->tgl03->CurrentValue, 0);
+			$this->tgl03->CurrentValue = UnFormatDateTime($this->tgl03->CurrentValue, 7);
 		}
 
 		// Check field name 'byr04' first before field var 'x_byr04'
@@ -996,7 +988,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 				$this->tgl04->Visible = FALSE; // Disable update for API request
 			else
 				$this->tgl04->setFormValue($val);
-			$this->tgl04->CurrentValue = UnFormatDateTime($this->tgl04->CurrentValue, 0);
+			$this->tgl04->CurrentValue = UnFormatDateTime($this->tgl04->CurrentValue, 7);
 		}
 
 		// Check field name 'byr05' first before field var 'x_byr05'
@@ -1024,7 +1016,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 				$this->tgl05->Visible = FALSE; // Disable update for API request
 			else
 				$this->tgl05->setFormValue($val);
-			$this->tgl05->CurrentValue = UnFormatDateTime($this->tgl05->CurrentValue, 0);
+			$this->tgl05->CurrentValue = UnFormatDateTime($this->tgl05->CurrentValue, 7);
 		}
 
 		// Check field name 'byr06' first before field var 'x_byr06'
@@ -1052,7 +1044,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 				$this->tgl06->Visible = FALSE; // Disable update for API request
 			else
 				$this->tgl06->setFormValue($val);
-			$this->tgl06->CurrentValue = UnFormatDateTime($this->tgl06->CurrentValue, 0);
+			$this->tgl06->CurrentValue = UnFormatDateTime($this->tgl06->CurrentValue, 7);
 		}
 
 		// Check field name 'byr07' first before field var 'x_byr07'
@@ -1080,7 +1072,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 				$this->tgl07->Visible = FALSE; // Disable update for API request
 			else
 				$this->tgl07->setFormValue($val);
-			$this->tgl07->CurrentValue = UnFormatDateTime($this->tgl07->CurrentValue, 0);
+			$this->tgl07->CurrentValue = UnFormatDateTime($this->tgl07->CurrentValue, 7);
 		}
 
 		// Check field name 'byr08' first before field var 'x_byr08'
@@ -1108,7 +1100,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 				$this->tgl08->Visible = FALSE; // Disable update for API request
 			else
 				$this->tgl08->setFormValue($val);
-			$this->tgl08->CurrentValue = UnFormatDateTime($this->tgl08->CurrentValue, 0);
+			$this->tgl08->CurrentValue = UnFormatDateTime($this->tgl08->CurrentValue, 7);
 		}
 
 		// Check field name 'byr09' first before field var 'x_byr09'
@@ -1136,7 +1128,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 				$this->tgl09->Visible = FALSE; // Disable update for API request
 			else
 				$this->tgl09->setFormValue($val);
-			$this->tgl09->CurrentValue = UnFormatDateTime($this->tgl09->CurrentValue, 0);
+			$this->tgl09->CurrentValue = UnFormatDateTime($this->tgl09->CurrentValue, 7);
 		}
 
 		// Check field name 'byr10' first before field var 'x_byr10'
@@ -1164,7 +1156,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 				$this->tgl10->Visible = FALSE; // Disable update for API request
 			else
 				$this->tgl10->setFormValue($val);
-			$this->tgl10->CurrentValue = UnFormatDateTime($this->tgl10->CurrentValue, 0);
+			$this->tgl10->CurrentValue = UnFormatDateTime($this->tgl10->CurrentValue, 7);
 		}
 
 		// Check field name 'byr11' first before field var 'x_byr11'
@@ -1192,7 +1184,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 				$this->tgl11->Visible = FALSE; // Disable update for API request
 			else
 				$this->tgl11->setFormValue($val);
-			$this->tgl11->CurrentValue = UnFormatDateTime($this->tgl11->CurrentValue, 0);
+			$this->tgl11->CurrentValue = UnFormatDateTime($this->tgl11->CurrentValue, 7);
 		}
 
 		// Check field name 'byr12' first before field var 'x_byr12'
@@ -1220,7 +1212,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 				$this->tgl12->Visible = FALSE; // Disable update for API request
 			else
 				$this->tgl12->setFormValue($val);
-			$this->tgl12->CurrentValue = UnFormatDateTime($this->tgl12->CurrentValue, 0);
+			$this->tgl12->CurrentValue = UnFormatDateTime($this->tgl12->CurrentValue, 7);
 		}
 
 		// Check field name 'id' first before field var 'x_id'
@@ -1231,57 +1223,56 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 	public function restoreFormValues()
 	{
 		global $CurrentForm;
-		$this->daf_kelas_siswa_id->CurrentValue = $this->daf_kelas_siswa_id->FormValue;
 		$this->iuran_id->CurrentValue = $this->iuran_id->FormValue;
 		$this->Jumlah->CurrentValue = $this->Jumlah->FormValue;
 		$this->byr01->CurrentValue = $this->byr01->FormValue;
 		$this->jml01->CurrentValue = $this->jml01->FormValue;
 		$this->tgl01->CurrentValue = $this->tgl01->FormValue;
-		$this->tgl01->CurrentValue = UnFormatDateTime($this->tgl01->CurrentValue, 0);
+		$this->tgl01->CurrentValue = UnFormatDateTime($this->tgl01->CurrentValue, 7);
 		$this->byr02->CurrentValue = $this->byr02->FormValue;
 		$this->jml02->CurrentValue = $this->jml02->FormValue;
 		$this->tgl02->CurrentValue = $this->tgl02->FormValue;
-		$this->tgl02->CurrentValue = UnFormatDateTime($this->tgl02->CurrentValue, 0);
+		$this->tgl02->CurrentValue = UnFormatDateTime($this->tgl02->CurrentValue, 7);
 		$this->byr03->CurrentValue = $this->byr03->FormValue;
 		$this->jml03->CurrentValue = $this->jml03->FormValue;
 		$this->tgl03->CurrentValue = $this->tgl03->FormValue;
-		$this->tgl03->CurrentValue = UnFormatDateTime($this->tgl03->CurrentValue, 0);
+		$this->tgl03->CurrentValue = UnFormatDateTime($this->tgl03->CurrentValue, 7);
 		$this->byr04->CurrentValue = $this->byr04->FormValue;
 		$this->jml04->CurrentValue = $this->jml04->FormValue;
 		$this->tgl04->CurrentValue = $this->tgl04->FormValue;
-		$this->tgl04->CurrentValue = UnFormatDateTime($this->tgl04->CurrentValue, 0);
+		$this->tgl04->CurrentValue = UnFormatDateTime($this->tgl04->CurrentValue, 7);
 		$this->byr05->CurrentValue = $this->byr05->FormValue;
 		$this->jml05->CurrentValue = $this->jml05->FormValue;
 		$this->tgl05->CurrentValue = $this->tgl05->FormValue;
-		$this->tgl05->CurrentValue = UnFormatDateTime($this->tgl05->CurrentValue, 0);
+		$this->tgl05->CurrentValue = UnFormatDateTime($this->tgl05->CurrentValue, 7);
 		$this->byr06->CurrentValue = $this->byr06->FormValue;
 		$this->jml06->CurrentValue = $this->jml06->FormValue;
 		$this->tgl06->CurrentValue = $this->tgl06->FormValue;
-		$this->tgl06->CurrentValue = UnFormatDateTime($this->tgl06->CurrentValue, 0);
+		$this->tgl06->CurrentValue = UnFormatDateTime($this->tgl06->CurrentValue, 7);
 		$this->byr07->CurrentValue = $this->byr07->FormValue;
 		$this->jml07->CurrentValue = $this->jml07->FormValue;
 		$this->tgl07->CurrentValue = $this->tgl07->FormValue;
-		$this->tgl07->CurrentValue = UnFormatDateTime($this->tgl07->CurrentValue, 0);
+		$this->tgl07->CurrentValue = UnFormatDateTime($this->tgl07->CurrentValue, 7);
 		$this->byr08->CurrentValue = $this->byr08->FormValue;
 		$this->jml08->CurrentValue = $this->jml08->FormValue;
 		$this->tgl08->CurrentValue = $this->tgl08->FormValue;
-		$this->tgl08->CurrentValue = UnFormatDateTime($this->tgl08->CurrentValue, 0);
+		$this->tgl08->CurrentValue = UnFormatDateTime($this->tgl08->CurrentValue, 7);
 		$this->byr09->CurrentValue = $this->byr09->FormValue;
 		$this->jml09->CurrentValue = $this->jml09->FormValue;
 		$this->tgl09->CurrentValue = $this->tgl09->FormValue;
-		$this->tgl09->CurrentValue = UnFormatDateTime($this->tgl09->CurrentValue, 0);
+		$this->tgl09->CurrentValue = UnFormatDateTime($this->tgl09->CurrentValue, 7);
 		$this->byr10->CurrentValue = $this->byr10->FormValue;
 		$this->jml10->CurrentValue = $this->jml10->FormValue;
 		$this->tgl10->CurrentValue = $this->tgl10->FormValue;
-		$this->tgl10->CurrentValue = UnFormatDateTime($this->tgl10->CurrentValue, 0);
+		$this->tgl10->CurrentValue = UnFormatDateTime($this->tgl10->CurrentValue, 7);
 		$this->byr11->CurrentValue = $this->byr11->FormValue;
 		$this->jml11->CurrentValue = $this->jml11->FormValue;
 		$this->tgl11->CurrentValue = $this->tgl11->FormValue;
-		$this->tgl11->CurrentValue = UnFormatDateTime($this->tgl11->CurrentValue, 0);
+		$this->tgl11->CurrentValue = UnFormatDateTime($this->tgl11->CurrentValue, 7);
 		$this->byr12->CurrentValue = $this->byr12->FormValue;
 		$this->jml12->CurrentValue = $this->jml12->FormValue;
 		$this->tgl12->CurrentValue = $this->tgl12->FormValue;
-		$this->tgl12->CurrentValue = UnFormatDateTime($this->tgl12->CurrentValue, 0);
+		$this->tgl12->CurrentValue = UnFormatDateTime($this->tgl12->CurrentValue, 7);
 	}
 
 	// Load row based on key values
@@ -1548,13 +1539,31 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 			$this->daf_kelas_siswa_id->ViewCustomAttributes = "";
 
 			// iuran_id
-			$this->iuran_id->ViewValue = $this->iuran_id->CurrentValue;
-			$this->iuran_id->ViewValue = FormatNumber($this->iuran_id->ViewValue, 0, -2, -2, -2);
+			$curVal = strval($this->iuran_id->CurrentValue);
+			if ($curVal <> "") {
+				$this->iuran_id->ViewValue = $this->iuran_id->lookupCacheOption($curVal);
+				if ($this->iuran_id->ViewValue === NULL) { // Lookup from database
+					$filterWrk = "`id`" . SearchString("=", $curVal, DATATYPE_NUMBER, "");
+					$sqlWrk = $this->iuran_id->Lookup->getSql(FALSE, $filterWrk, '', $this);
+					$rswrk = Conn()->execute($sqlWrk);
+					if ($rswrk && !$rswrk->EOF) { // Lookup values found
+						$arwrk = array();
+						$arwrk[1] = $rswrk->fields('df');
+						$this->iuran_id->ViewValue = $this->iuran_id->displayValue($arwrk);
+						$rswrk->Close();
+					} else {
+						$this->iuran_id->ViewValue = $this->iuran_id->CurrentValue;
+					}
+				}
+			} else {
+				$this->iuran_id->ViewValue = NULL;
+			}
 			$this->iuran_id->ViewCustomAttributes = "";
 
 			// Jumlah
 			$this->Jumlah->ViewValue = $this->Jumlah->CurrentValue;
-			$this->Jumlah->ViewValue = FormatNumber($this->Jumlah->ViewValue, 2, -2, -2, -2);
+			$this->Jumlah->ViewValue = FormatNumber($this->Jumlah->ViewValue, 0, -2, -2, -2);
+			$this->Jumlah->CellCssStyle .= "text-align: right;";
 			$this->Jumlah->ViewCustomAttributes = "";
 
 			// byr01
@@ -1567,12 +1576,13 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 
 			// jml01
 			$this->jml01->ViewValue = $this->jml01->CurrentValue;
-			$this->jml01->ViewValue = FormatNumber($this->jml01->ViewValue, 2, -2, -2, -2);
+			$this->jml01->ViewValue = FormatNumber($this->jml01->ViewValue, 0, -2, -2, -2);
+			$this->jml01->CellCssStyle .= "text-align: right;";
 			$this->jml01->ViewCustomAttributes = "";
 
 			// tgl01
 			$this->tgl01->ViewValue = $this->tgl01->CurrentValue;
-			$this->tgl01->ViewValue = FormatDateTime($this->tgl01->ViewValue, 0);
+			$this->tgl01->ViewValue = FormatDateTime($this->tgl01->ViewValue, 7);
 			$this->tgl01->ViewCustomAttributes = "";
 
 			// byr02
@@ -1585,12 +1595,13 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 
 			// jml02
 			$this->jml02->ViewValue = $this->jml02->CurrentValue;
-			$this->jml02->ViewValue = FormatNumber($this->jml02->ViewValue, 2, -2, -2, -2);
+			$this->jml02->ViewValue = FormatNumber($this->jml02->ViewValue, 0, -2, -2, -2);
+			$this->jml02->CellCssStyle .= "text-align: right;";
 			$this->jml02->ViewCustomAttributes = "";
 
 			// tgl02
 			$this->tgl02->ViewValue = $this->tgl02->CurrentValue;
-			$this->tgl02->ViewValue = FormatDateTime($this->tgl02->ViewValue, 0);
+			$this->tgl02->ViewValue = FormatDateTime($this->tgl02->ViewValue, 7);
 			$this->tgl02->ViewCustomAttributes = "";
 
 			// byr03
@@ -1603,12 +1614,13 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 
 			// jml03
 			$this->jml03->ViewValue = $this->jml03->CurrentValue;
-			$this->jml03->ViewValue = FormatNumber($this->jml03->ViewValue, 2, -2, -2, -2);
+			$this->jml03->ViewValue = FormatNumber($this->jml03->ViewValue, 0, -2, -2, -2);
+			$this->jml03->CellCssStyle .= "text-align: right;";
 			$this->jml03->ViewCustomAttributes = "";
 
 			// tgl03
 			$this->tgl03->ViewValue = $this->tgl03->CurrentValue;
-			$this->tgl03->ViewValue = FormatDateTime($this->tgl03->ViewValue, 0);
+			$this->tgl03->ViewValue = FormatDateTime($this->tgl03->ViewValue, 7);
 			$this->tgl03->ViewCustomAttributes = "";
 
 			// byr04
@@ -1621,12 +1633,13 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 
 			// jml04
 			$this->jml04->ViewValue = $this->jml04->CurrentValue;
-			$this->jml04->ViewValue = FormatNumber($this->jml04->ViewValue, 2, -2, -2, -2);
+			$this->jml04->ViewValue = FormatNumber($this->jml04->ViewValue, 0, -2, -2, -2);
+			$this->jml04->CellCssStyle .= "text-align: right;";
 			$this->jml04->ViewCustomAttributes = "";
 
 			// tgl04
 			$this->tgl04->ViewValue = $this->tgl04->CurrentValue;
-			$this->tgl04->ViewValue = FormatDateTime($this->tgl04->ViewValue, 0);
+			$this->tgl04->ViewValue = FormatDateTime($this->tgl04->ViewValue, 7);
 			$this->tgl04->ViewCustomAttributes = "";
 
 			// byr05
@@ -1639,12 +1652,13 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 
 			// jml05
 			$this->jml05->ViewValue = $this->jml05->CurrentValue;
-			$this->jml05->ViewValue = FormatNumber($this->jml05->ViewValue, 2, -2, -2, -2);
+			$this->jml05->ViewValue = FormatNumber($this->jml05->ViewValue, 0, -2, -2, -2);
+			$this->jml05->CellCssStyle .= "text-align: right;";
 			$this->jml05->ViewCustomAttributes = "";
 
 			// tgl05
 			$this->tgl05->ViewValue = $this->tgl05->CurrentValue;
-			$this->tgl05->ViewValue = FormatDateTime($this->tgl05->ViewValue, 0);
+			$this->tgl05->ViewValue = FormatDateTime($this->tgl05->ViewValue, 7);
 			$this->tgl05->ViewCustomAttributes = "";
 
 			// byr06
@@ -1657,12 +1671,13 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 
 			// jml06
 			$this->jml06->ViewValue = $this->jml06->CurrentValue;
-			$this->jml06->ViewValue = FormatNumber($this->jml06->ViewValue, 2, -2, -2, -2);
+			$this->jml06->ViewValue = FormatNumber($this->jml06->ViewValue, 0, -2, -2, -2);
+			$this->jml06->CellCssStyle .= "text-align: right;";
 			$this->jml06->ViewCustomAttributes = "";
 
 			// tgl06
 			$this->tgl06->ViewValue = $this->tgl06->CurrentValue;
-			$this->tgl06->ViewValue = FormatDateTime($this->tgl06->ViewValue, 0);
+			$this->tgl06->ViewValue = FormatDateTime($this->tgl06->ViewValue, 7);
 			$this->tgl06->ViewCustomAttributes = "";
 
 			// byr07
@@ -1675,12 +1690,13 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 
 			// jml07
 			$this->jml07->ViewValue = $this->jml07->CurrentValue;
-			$this->jml07->ViewValue = FormatNumber($this->jml07->ViewValue, 2, -2, -2, -2);
+			$this->jml07->ViewValue = FormatNumber($this->jml07->ViewValue, 0, -2, -2, -2);
+			$this->jml07->CellCssStyle .= "text-align: right;";
 			$this->jml07->ViewCustomAttributes = "";
 
 			// tgl07
 			$this->tgl07->ViewValue = $this->tgl07->CurrentValue;
-			$this->tgl07->ViewValue = FormatDateTime($this->tgl07->ViewValue, 0);
+			$this->tgl07->ViewValue = FormatDateTime($this->tgl07->ViewValue, 7);
 			$this->tgl07->ViewCustomAttributes = "";
 
 			// byr08
@@ -1693,12 +1709,13 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 
 			// jml08
 			$this->jml08->ViewValue = $this->jml08->CurrentValue;
-			$this->jml08->ViewValue = FormatNumber($this->jml08->ViewValue, 2, -2, -2, -2);
+			$this->jml08->ViewValue = FormatNumber($this->jml08->ViewValue, 0, -2, -2, -2);
+			$this->jml08->CellCssStyle .= "text-align: right;";
 			$this->jml08->ViewCustomAttributes = "";
 
 			// tgl08
 			$this->tgl08->ViewValue = $this->tgl08->CurrentValue;
-			$this->tgl08->ViewValue = FormatDateTime($this->tgl08->ViewValue, 0);
+			$this->tgl08->ViewValue = FormatDateTime($this->tgl08->ViewValue, 7);
 			$this->tgl08->ViewCustomAttributes = "";
 
 			// byr09
@@ -1711,12 +1728,13 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 
 			// jml09
 			$this->jml09->ViewValue = $this->jml09->CurrentValue;
-			$this->jml09->ViewValue = FormatNumber($this->jml09->ViewValue, 2, -2, -2, -2);
+			$this->jml09->ViewValue = FormatNumber($this->jml09->ViewValue, 0, -2, -2, -2);
+			$this->jml09->CellCssStyle .= "text-align: right;";
 			$this->jml09->ViewCustomAttributes = "";
 
 			// tgl09
 			$this->tgl09->ViewValue = $this->tgl09->CurrentValue;
-			$this->tgl09->ViewValue = FormatDateTime($this->tgl09->ViewValue, 0);
+			$this->tgl09->ViewValue = FormatDateTime($this->tgl09->ViewValue, 7);
 			$this->tgl09->ViewCustomAttributes = "";
 
 			// byr10
@@ -1729,12 +1747,13 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 
 			// jml10
 			$this->jml10->ViewValue = $this->jml10->CurrentValue;
-			$this->jml10->ViewValue = FormatNumber($this->jml10->ViewValue, 2, -2, -2, -2);
+			$this->jml10->ViewValue = FormatNumber($this->jml10->ViewValue, 0, -2, -2, -2);
+			$this->jml10->CellCssStyle .= "text-align: right;";
 			$this->jml10->ViewCustomAttributes = "";
 
 			// tgl10
 			$this->tgl10->ViewValue = $this->tgl10->CurrentValue;
-			$this->tgl10->ViewValue = FormatDateTime($this->tgl10->ViewValue, 0);
+			$this->tgl10->ViewValue = FormatDateTime($this->tgl10->ViewValue, 7);
 			$this->tgl10->ViewCustomAttributes = "";
 
 			// byr11
@@ -1747,12 +1766,13 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 
 			// jml11
 			$this->jml11->ViewValue = $this->jml11->CurrentValue;
-			$this->jml11->ViewValue = FormatNumber($this->jml11->ViewValue, 2, -2, -2, -2);
+			$this->jml11->ViewValue = FormatNumber($this->jml11->ViewValue, 0, -2, -2, -2);
+			$this->jml11->CellCssStyle .= "text-align: right;";
 			$this->jml11->ViewCustomAttributes = "";
 
 			// tgl11
 			$this->tgl11->ViewValue = $this->tgl11->CurrentValue;
-			$this->tgl11->ViewValue = FormatDateTime($this->tgl11->ViewValue, 0);
+			$this->tgl11->ViewValue = FormatDateTime($this->tgl11->ViewValue, 7);
 			$this->tgl11->ViewCustomAttributes = "";
 
 			// byr12
@@ -1765,18 +1785,14 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 
 			// jml12
 			$this->jml12->ViewValue = $this->jml12->CurrentValue;
-			$this->jml12->ViewValue = FormatNumber($this->jml12->ViewValue, 2, -2, -2, -2);
+			$this->jml12->ViewValue = FormatNumber($this->jml12->ViewValue, 0, -2, -2, -2);
+			$this->jml12->CellCssStyle .= "text-align: right;";
 			$this->jml12->ViewCustomAttributes = "";
 
 			// tgl12
 			$this->tgl12->ViewValue = $this->tgl12->CurrentValue;
-			$this->tgl12->ViewValue = FormatDateTime($this->tgl12->ViewValue, 0);
+			$this->tgl12->ViewValue = FormatDateTime($this->tgl12->ViewValue, 7);
 			$this->tgl12->ViewCustomAttributes = "";
-
-			// daf_kelas_siswa_id
-			$this->daf_kelas_siswa_id->LinkCustomAttributes = "";
-			$this->daf_kelas_siswa_id->HrefValue = "";
-			$this->daf_kelas_siswa_id->TooltipValue = "";
 
 			// iuran_id
 			$this->iuran_id->LinkCustomAttributes = "";
@@ -1969,24 +1985,28 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 			$this->tgl12->TooltipValue = "";
 		} elseif ($this->RowType == ROWTYPE_ADD) { // Add row
 
-			// daf_kelas_siswa_id
-			$this->daf_kelas_siswa_id->EditAttrs["class"] = "form-control";
-			$this->daf_kelas_siswa_id->EditCustomAttributes = "";
-			if ($this->daf_kelas_siswa_id->getSessionValue() <> "") {
-				$this->daf_kelas_siswa_id->CurrentValue = $this->daf_kelas_siswa_id->getSessionValue();
-			$this->daf_kelas_siswa_id->ViewValue = $this->daf_kelas_siswa_id->CurrentValue;
-			$this->daf_kelas_siswa_id->ViewValue = FormatNumber($this->daf_kelas_siswa_id->ViewValue, 0, -2, -2, -2);
-			$this->daf_kelas_siswa_id->ViewCustomAttributes = "";
-			} else {
-			$this->daf_kelas_siswa_id->EditValue = HtmlEncode($this->daf_kelas_siswa_id->CurrentValue);
-			$this->daf_kelas_siswa_id->PlaceHolder = RemoveHtml($this->daf_kelas_siswa_id->caption());
-			}
-
 			// iuran_id
 			$this->iuran_id->EditAttrs["class"] = "form-control";
 			$this->iuran_id->EditCustomAttributes = "";
-			$this->iuran_id->EditValue = HtmlEncode($this->iuran_id->CurrentValue);
-			$this->iuran_id->PlaceHolder = RemoveHtml($this->iuran_id->caption());
+			$curVal = trim(strval($this->iuran_id->CurrentValue));
+			if ($curVal <> "")
+				$this->iuran_id->ViewValue = $this->iuran_id->lookupCacheOption($curVal);
+			else
+				$this->iuran_id->ViewValue = $this->iuran_id->Lookup !== NULL && is_array($this->iuran_id->Lookup->Options) ? $curVal : NULL;
+			if ($this->iuran_id->ViewValue !== NULL) { // Load from cache
+				$this->iuran_id->EditValue = array_values($this->iuran_id->Lookup->Options);
+			} else { // Lookup from database
+				if ($curVal == "") {
+					$filterWrk = "0=1";
+				} else {
+					$filterWrk = "`id`" . SearchString("=", $this->iuran_id->CurrentValue, DATATYPE_NUMBER, "");
+				}
+				$sqlWrk = $this->iuran_id->Lookup->getSql(TRUE, $filterWrk, '', $this);
+				$rswrk = Conn()->execute($sqlWrk);
+				$arwrk = ($rswrk) ? $rswrk->GetRows() : array();
+				if ($rswrk) $rswrk->Close();
+				$this->iuran_id->EditValue = $arwrk;
+			}
 
 			// Jumlah
 			$this->Jumlah->EditAttrs["class"] = "form-control";
@@ -2011,7 +2031,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 			// tgl01
 			$this->tgl01->EditAttrs["class"] = "form-control";
 			$this->tgl01->EditCustomAttributes = "";
-			$this->tgl01->EditValue = HtmlEncode(FormatDateTime($this->tgl01->CurrentValue, 8));
+			$this->tgl01->EditValue = HtmlEncode(FormatDateTime($this->tgl01->CurrentValue, 7));
 			$this->tgl01->PlaceHolder = RemoveHtml($this->tgl01->caption());
 
 			// byr02
@@ -2029,7 +2049,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 			// tgl02
 			$this->tgl02->EditAttrs["class"] = "form-control";
 			$this->tgl02->EditCustomAttributes = "";
-			$this->tgl02->EditValue = HtmlEncode(FormatDateTime($this->tgl02->CurrentValue, 8));
+			$this->tgl02->EditValue = HtmlEncode(FormatDateTime($this->tgl02->CurrentValue, 7));
 			$this->tgl02->PlaceHolder = RemoveHtml($this->tgl02->caption());
 
 			// byr03
@@ -2047,7 +2067,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 			// tgl03
 			$this->tgl03->EditAttrs["class"] = "form-control";
 			$this->tgl03->EditCustomAttributes = "";
-			$this->tgl03->EditValue = HtmlEncode(FormatDateTime($this->tgl03->CurrentValue, 8));
+			$this->tgl03->EditValue = HtmlEncode(FormatDateTime($this->tgl03->CurrentValue, 7));
 			$this->tgl03->PlaceHolder = RemoveHtml($this->tgl03->caption());
 
 			// byr04
@@ -2065,7 +2085,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 			// tgl04
 			$this->tgl04->EditAttrs["class"] = "form-control";
 			$this->tgl04->EditCustomAttributes = "";
-			$this->tgl04->EditValue = HtmlEncode(FormatDateTime($this->tgl04->CurrentValue, 8));
+			$this->tgl04->EditValue = HtmlEncode(FormatDateTime($this->tgl04->CurrentValue, 7));
 			$this->tgl04->PlaceHolder = RemoveHtml($this->tgl04->caption());
 
 			// byr05
@@ -2083,7 +2103,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 			// tgl05
 			$this->tgl05->EditAttrs["class"] = "form-control";
 			$this->tgl05->EditCustomAttributes = "";
-			$this->tgl05->EditValue = HtmlEncode(FormatDateTime($this->tgl05->CurrentValue, 8));
+			$this->tgl05->EditValue = HtmlEncode(FormatDateTime($this->tgl05->CurrentValue, 7));
 			$this->tgl05->PlaceHolder = RemoveHtml($this->tgl05->caption());
 
 			// byr06
@@ -2101,7 +2121,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 			// tgl06
 			$this->tgl06->EditAttrs["class"] = "form-control";
 			$this->tgl06->EditCustomAttributes = "";
-			$this->tgl06->EditValue = HtmlEncode(FormatDateTime($this->tgl06->CurrentValue, 8));
+			$this->tgl06->EditValue = HtmlEncode(FormatDateTime($this->tgl06->CurrentValue, 7));
 			$this->tgl06->PlaceHolder = RemoveHtml($this->tgl06->caption());
 
 			// byr07
@@ -2119,7 +2139,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 			// tgl07
 			$this->tgl07->EditAttrs["class"] = "form-control";
 			$this->tgl07->EditCustomAttributes = "";
-			$this->tgl07->EditValue = HtmlEncode(FormatDateTime($this->tgl07->CurrentValue, 8));
+			$this->tgl07->EditValue = HtmlEncode(FormatDateTime($this->tgl07->CurrentValue, 7));
 			$this->tgl07->PlaceHolder = RemoveHtml($this->tgl07->caption());
 
 			// byr08
@@ -2137,7 +2157,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 			// tgl08
 			$this->tgl08->EditAttrs["class"] = "form-control";
 			$this->tgl08->EditCustomAttributes = "";
-			$this->tgl08->EditValue = HtmlEncode(FormatDateTime($this->tgl08->CurrentValue, 8));
+			$this->tgl08->EditValue = HtmlEncode(FormatDateTime($this->tgl08->CurrentValue, 7));
 			$this->tgl08->PlaceHolder = RemoveHtml($this->tgl08->caption());
 
 			// byr09
@@ -2155,7 +2175,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 			// tgl09
 			$this->tgl09->EditAttrs["class"] = "form-control";
 			$this->tgl09->EditCustomAttributes = "";
-			$this->tgl09->EditValue = HtmlEncode(FormatDateTime($this->tgl09->CurrentValue, 8));
+			$this->tgl09->EditValue = HtmlEncode(FormatDateTime($this->tgl09->CurrentValue, 7));
 			$this->tgl09->PlaceHolder = RemoveHtml($this->tgl09->caption());
 
 			// byr10
@@ -2173,7 +2193,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 			// tgl10
 			$this->tgl10->EditAttrs["class"] = "form-control";
 			$this->tgl10->EditCustomAttributes = "";
-			$this->tgl10->EditValue = HtmlEncode(FormatDateTime($this->tgl10->CurrentValue, 8));
+			$this->tgl10->EditValue = HtmlEncode(FormatDateTime($this->tgl10->CurrentValue, 7));
 			$this->tgl10->PlaceHolder = RemoveHtml($this->tgl10->caption());
 
 			// byr11
@@ -2191,7 +2211,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 			// tgl11
 			$this->tgl11->EditAttrs["class"] = "form-control";
 			$this->tgl11->EditCustomAttributes = "";
-			$this->tgl11->EditValue = HtmlEncode(FormatDateTime($this->tgl11->CurrentValue, 8));
+			$this->tgl11->EditValue = HtmlEncode(FormatDateTime($this->tgl11->CurrentValue, 7));
 			$this->tgl11->PlaceHolder = RemoveHtml($this->tgl11->caption());
 
 			// byr12
@@ -2209,16 +2229,12 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 			// tgl12
 			$this->tgl12->EditAttrs["class"] = "form-control";
 			$this->tgl12->EditCustomAttributes = "";
-			$this->tgl12->EditValue = HtmlEncode(FormatDateTime($this->tgl12->CurrentValue, 8));
+			$this->tgl12->EditValue = HtmlEncode(FormatDateTime($this->tgl12->CurrentValue, 7));
 			$this->tgl12->PlaceHolder = RemoveHtml($this->tgl12->caption());
 
 			// Add refer script
-			// daf_kelas_siswa_id
-
-			$this->daf_kelas_siswa_id->LinkCustomAttributes = "";
-			$this->daf_kelas_siswa_id->HrefValue = "";
-
 			// iuran_id
+
 			$this->iuran_id->LinkCustomAttributes = "";
 			$this->iuran_id->HrefValue = "";
 
@@ -2399,16 +2415,10 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 				AddMessage($FormError, str_replace("%s", $this->daf_kelas_siswa_id->caption(), $this->daf_kelas_siswa_id->RequiredErrorMessage));
 			}
 		}
-		if (!CheckInteger($this->daf_kelas_siswa_id->FormValue)) {
-			AddMessage($FormError, $this->daf_kelas_siswa_id->errorMessage());
-		}
 		if ($this->iuran_id->Required) {
 			if (!$this->iuran_id->IsDetailKey && $this->iuran_id->FormValue != NULL && $this->iuran_id->FormValue == "") {
 				AddMessage($FormError, str_replace("%s", $this->iuran_id->caption(), $this->iuran_id->RequiredErrorMessage));
 			}
-		}
-		if (!CheckInteger($this->iuran_id->FormValue)) {
-			AddMessage($FormError, $this->iuran_id->errorMessage());
 		}
 		if ($this->Jumlah->Required) {
 			if (!$this->Jumlah->IsDetailKey && $this->Jumlah->FormValue != NULL && $this->Jumlah->FormValue == "") {
@@ -2436,7 +2446,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 				AddMessage($FormError, str_replace("%s", $this->tgl01->caption(), $this->tgl01->RequiredErrorMessage));
 			}
 		}
-		if (!CheckDate($this->tgl01->FormValue)) {
+		if (!CheckEuroDate($this->tgl01->FormValue)) {
 			AddMessage($FormError, $this->tgl01->errorMessage());
 		}
 		if ($this->byr02->Required) {
@@ -2457,7 +2467,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 				AddMessage($FormError, str_replace("%s", $this->tgl02->caption(), $this->tgl02->RequiredErrorMessage));
 			}
 		}
-		if (!CheckDate($this->tgl02->FormValue)) {
+		if (!CheckEuroDate($this->tgl02->FormValue)) {
 			AddMessage($FormError, $this->tgl02->errorMessage());
 		}
 		if ($this->byr03->Required) {
@@ -2478,7 +2488,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 				AddMessage($FormError, str_replace("%s", $this->tgl03->caption(), $this->tgl03->RequiredErrorMessage));
 			}
 		}
-		if (!CheckDate($this->tgl03->FormValue)) {
+		if (!CheckEuroDate($this->tgl03->FormValue)) {
 			AddMessage($FormError, $this->tgl03->errorMessage());
 		}
 		if ($this->byr04->Required) {
@@ -2499,7 +2509,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 				AddMessage($FormError, str_replace("%s", $this->tgl04->caption(), $this->tgl04->RequiredErrorMessage));
 			}
 		}
-		if (!CheckDate($this->tgl04->FormValue)) {
+		if (!CheckEuroDate($this->tgl04->FormValue)) {
 			AddMessage($FormError, $this->tgl04->errorMessage());
 		}
 		if ($this->byr05->Required) {
@@ -2520,7 +2530,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 				AddMessage($FormError, str_replace("%s", $this->tgl05->caption(), $this->tgl05->RequiredErrorMessage));
 			}
 		}
-		if (!CheckDate($this->tgl05->FormValue)) {
+		if (!CheckEuroDate($this->tgl05->FormValue)) {
 			AddMessage($FormError, $this->tgl05->errorMessage());
 		}
 		if ($this->byr06->Required) {
@@ -2541,7 +2551,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 				AddMessage($FormError, str_replace("%s", $this->tgl06->caption(), $this->tgl06->RequiredErrorMessage));
 			}
 		}
-		if (!CheckDate($this->tgl06->FormValue)) {
+		if (!CheckEuroDate($this->tgl06->FormValue)) {
 			AddMessage($FormError, $this->tgl06->errorMessage());
 		}
 		if ($this->byr07->Required) {
@@ -2562,7 +2572,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 				AddMessage($FormError, str_replace("%s", $this->tgl07->caption(), $this->tgl07->RequiredErrorMessage));
 			}
 		}
-		if (!CheckDate($this->tgl07->FormValue)) {
+		if (!CheckEuroDate($this->tgl07->FormValue)) {
 			AddMessage($FormError, $this->tgl07->errorMessage());
 		}
 		if ($this->byr08->Required) {
@@ -2583,7 +2593,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 				AddMessage($FormError, str_replace("%s", $this->tgl08->caption(), $this->tgl08->RequiredErrorMessage));
 			}
 		}
-		if (!CheckDate($this->tgl08->FormValue)) {
+		if (!CheckEuroDate($this->tgl08->FormValue)) {
 			AddMessage($FormError, $this->tgl08->errorMessage());
 		}
 		if ($this->byr09->Required) {
@@ -2604,7 +2614,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 				AddMessage($FormError, str_replace("%s", $this->tgl09->caption(), $this->tgl09->RequiredErrorMessage));
 			}
 		}
-		if (!CheckDate($this->tgl09->FormValue)) {
+		if (!CheckEuroDate($this->tgl09->FormValue)) {
 			AddMessage($FormError, $this->tgl09->errorMessage());
 		}
 		if ($this->byr10->Required) {
@@ -2625,7 +2635,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 				AddMessage($FormError, str_replace("%s", $this->tgl10->caption(), $this->tgl10->RequiredErrorMessage));
 			}
 		}
-		if (!CheckDate($this->tgl10->FormValue)) {
+		if (!CheckEuroDate($this->tgl10->FormValue)) {
 			AddMessage($FormError, $this->tgl10->errorMessage());
 		}
 		if ($this->byr11->Required) {
@@ -2646,7 +2656,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 				AddMessage($FormError, str_replace("%s", $this->tgl11->caption(), $this->tgl11->RequiredErrorMessage));
 			}
 		}
-		if (!CheckDate($this->tgl11->FormValue)) {
+		if (!CheckEuroDate($this->tgl11->FormValue)) {
 			AddMessage($FormError, $this->tgl11->errorMessage());
 		}
 		if ($this->byr12->Required) {
@@ -2667,7 +2677,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 				AddMessage($FormError, str_replace("%s", $this->tgl12->caption(), $this->tgl12->RequiredErrorMessage));
 			}
 		}
-		if (!CheckDate($this->tgl12->FormValue)) {
+		if (!CheckEuroDate($this->tgl12->FormValue)) {
 			AddMessage($FormError, $this->tgl12->errorMessage());
 		}
 
@@ -2691,8 +2701,8 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 		// Check referential integrity for master table 'v102_daf_kelas_siswa'
 		$validMasterRecord = TRUE;
 		$masterFilter = $this->sqlMasterFilter_v102_daf_kelas_siswa();
-		if (strval($this->daf_kelas_siswa_id->CurrentValue) <> "") {
-			$masterFilter = str_replace("@id@", AdjustSql($this->daf_kelas_siswa_id->CurrentValue, "DB"), $masterFilter);
+		if ($this->daf_kelas_siswa_id->getSessionValue() <> "") {
+			$masterFilter = str_replace("@id@", AdjustSql($this->daf_kelas_siswa_id->getSessionValue(), "DB"), $masterFilter);
 		} else {
 			$validMasterRecord = FALSE;
 		}
@@ -2716,9 +2726,6 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 		}
 		$rsnew = [];
 
-		// daf_kelas_siswa_id
-		$this->daf_kelas_siswa_id->setDbValueDef($rsnew, $this->daf_kelas_siswa_id->CurrentValue, 0, FALSE);
-
 		// iuran_id
 		$this->iuran_id->setDbValueDef($rsnew, $this->iuran_id->CurrentValue, 0, FALSE);
 
@@ -2735,7 +2742,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 		$this->jml01->setDbValueDef($rsnew, $this->jml01->CurrentValue, 0, strval($this->jml01->CurrentValue) == "");
 
 		// tgl01
-		$this->tgl01->setDbValueDef($rsnew, UnFormatDateTime($this->tgl01->CurrentValue, 0), NULL, FALSE);
+		$this->tgl01->setDbValueDef($rsnew, UnFormatDateTime($this->tgl01->CurrentValue, 7), NULL, FALSE);
 
 		// byr02
 		$tmpBool = $this->byr02->CurrentValue;
@@ -2747,7 +2754,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 		$this->jml02->setDbValueDef($rsnew, $this->jml02->CurrentValue, 0, strval($this->jml02->CurrentValue) == "");
 
 		// tgl02
-		$this->tgl02->setDbValueDef($rsnew, UnFormatDateTime($this->tgl02->CurrentValue, 0), NULL, FALSE);
+		$this->tgl02->setDbValueDef($rsnew, UnFormatDateTime($this->tgl02->CurrentValue, 7), NULL, FALSE);
 
 		// byr03
 		$tmpBool = $this->byr03->CurrentValue;
@@ -2759,7 +2766,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 		$this->jml03->setDbValueDef($rsnew, $this->jml03->CurrentValue, 0, strval($this->jml03->CurrentValue) == "");
 
 		// tgl03
-		$this->tgl03->setDbValueDef($rsnew, UnFormatDateTime($this->tgl03->CurrentValue, 0), NULL, FALSE);
+		$this->tgl03->setDbValueDef($rsnew, UnFormatDateTime($this->tgl03->CurrentValue, 7), NULL, FALSE);
 
 		// byr04
 		$tmpBool = $this->byr04->CurrentValue;
@@ -2771,7 +2778,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 		$this->jml04->setDbValueDef($rsnew, $this->jml04->CurrentValue, 0, strval($this->jml04->CurrentValue) == "");
 
 		// tgl04
-		$this->tgl04->setDbValueDef($rsnew, UnFormatDateTime($this->tgl04->CurrentValue, 0), NULL, FALSE);
+		$this->tgl04->setDbValueDef($rsnew, UnFormatDateTime($this->tgl04->CurrentValue, 7), NULL, FALSE);
 
 		// byr05
 		$tmpBool = $this->byr05->CurrentValue;
@@ -2783,7 +2790,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 		$this->jml05->setDbValueDef($rsnew, $this->jml05->CurrentValue, 0, strval($this->jml05->CurrentValue) == "");
 
 		// tgl05
-		$this->tgl05->setDbValueDef($rsnew, UnFormatDateTime($this->tgl05->CurrentValue, 0), NULL, FALSE);
+		$this->tgl05->setDbValueDef($rsnew, UnFormatDateTime($this->tgl05->CurrentValue, 7), NULL, FALSE);
 
 		// byr06
 		$tmpBool = $this->byr06->CurrentValue;
@@ -2795,7 +2802,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 		$this->jml06->setDbValueDef($rsnew, $this->jml06->CurrentValue, 0, strval($this->jml06->CurrentValue) == "");
 
 		// tgl06
-		$this->tgl06->setDbValueDef($rsnew, UnFormatDateTime($this->tgl06->CurrentValue, 0), NULL, FALSE);
+		$this->tgl06->setDbValueDef($rsnew, UnFormatDateTime($this->tgl06->CurrentValue, 7), NULL, FALSE);
 
 		// byr07
 		$tmpBool = $this->byr07->CurrentValue;
@@ -2807,7 +2814,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 		$this->jml07->setDbValueDef($rsnew, $this->jml07->CurrentValue, 0, strval($this->jml07->CurrentValue) == "");
 
 		// tgl07
-		$this->tgl07->setDbValueDef($rsnew, UnFormatDateTime($this->tgl07->CurrentValue, 0), NULL, FALSE);
+		$this->tgl07->setDbValueDef($rsnew, UnFormatDateTime($this->tgl07->CurrentValue, 7), NULL, FALSE);
 
 		// byr08
 		$tmpBool = $this->byr08->CurrentValue;
@@ -2819,7 +2826,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 		$this->jml08->setDbValueDef($rsnew, $this->jml08->CurrentValue, 0, strval($this->jml08->CurrentValue) == "");
 
 		// tgl08
-		$this->tgl08->setDbValueDef($rsnew, UnFormatDateTime($this->tgl08->CurrentValue, 0), NULL, FALSE);
+		$this->tgl08->setDbValueDef($rsnew, UnFormatDateTime($this->tgl08->CurrentValue, 7), NULL, FALSE);
 
 		// byr09
 		$tmpBool = $this->byr09->CurrentValue;
@@ -2831,7 +2838,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 		$this->jml09->setDbValueDef($rsnew, $this->jml09->CurrentValue, 0, strval($this->jml09->CurrentValue) == "");
 
 		// tgl09
-		$this->tgl09->setDbValueDef($rsnew, UnFormatDateTime($this->tgl09->CurrentValue, 0), NULL, FALSE);
+		$this->tgl09->setDbValueDef($rsnew, UnFormatDateTime($this->tgl09->CurrentValue, 7), NULL, FALSE);
 
 		// byr10
 		$tmpBool = $this->byr10->CurrentValue;
@@ -2843,7 +2850,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 		$this->jml10->setDbValueDef($rsnew, $this->jml10->CurrentValue, 0, strval($this->jml10->CurrentValue) == "");
 
 		// tgl10
-		$this->tgl10->setDbValueDef($rsnew, UnFormatDateTime($this->tgl10->CurrentValue, 0), NULL, FALSE);
+		$this->tgl10->setDbValueDef($rsnew, UnFormatDateTime($this->tgl10->CurrentValue, 7), NULL, FALSE);
 
 		// byr11
 		$tmpBool = $this->byr11->CurrentValue;
@@ -2855,7 +2862,7 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 		$this->jml11->setDbValueDef($rsnew, $this->jml11->CurrentValue, 0, strval($this->jml11->CurrentValue) == "");
 
 		// tgl11
-		$this->tgl11->setDbValueDef($rsnew, UnFormatDateTime($this->tgl11->CurrentValue, 0), NULL, FALSE);
+		$this->tgl11->setDbValueDef($rsnew, UnFormatDateTime($this->tgl11->CurrentValue, 7), NULL, FALSE);
 
 		// byr12
 		$tmpBool = $this->byr12->CurrentValue;
@@ -2867,7 +2874,12 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 		$this->jml12->setDbValueDef($rsnew, $this->jml12->CurrentValue, 0, strval($this->jml12->CurrentValue) == "");
 
 		// tgl12
-		$this->tgl12->setDbValueDef($rsnew, UnFormatDateTime($this->tgl12->CurrentValue, 0), NULL, FALSE);
+		$this->tgl12->setDbValueDef($rsnew, UnFormatDateTime($this->tgl12->CurrentValue, 7), NULL, FALSE);
+
+		// daf_kelas_siswa_id
+		if ($this->daf_kelas_siswa_id->getSessionValue() <> "") {
+			$rsnew['daf_kelas_siswa_id'] = $this->daf_kelas_siswa_id->getSessionValue();
+		}
 
 		// Call Row Inserting event
 		$rs = ($rsold) ? $rsold->fields : NULL;
@@ -3011,6 +3023,8 @@ class t103_daf_kelas_siswa_iuran_add extends t103_daf_kelas_siswa_iuran
 
 					// Format the field values
 					switch ($fld->FieldVar) {
+						case "x_iuran_id":
+							break;
 					}
 					$ar[strval($row[0])] = $row;
 					$rs->moveNext();

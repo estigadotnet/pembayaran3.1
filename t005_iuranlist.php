@@ -57,6 +57,7 @@ ft005_iuranlist.lists["x_Jenis"].options = <?php echo JsonEncode($t005_iuran_lis
 
 // Form object for search
 </script>
+<script src="phpjs/ewscrolltable.js"></script>
 <style type="text/css">
 .ew-table-preview-row { /* main table preview row color */
 	background-color: #FFFFFF; /* preview row color */
@@ -125,15 +126,6 @@ $t005_iuran_list->renderListOptions();
 // Render list options (header, left)
 $t005_iuran_list->ListOptions->render("header", "left");
 ?>
-<?php if ($t005_iuran->id->Visible) { // id ?>
-	<?php if ($t005_iuran->sortUrl($t005_iuran->id) == "") { ?>
-		<th data-name="id" class="<?php echo $t005_iuran->id->headerCellClass() ?>"><div id="elh_t005_iuran_id" class="t005_iuran_id"><div class="ew-table-header-caption"><?php echo $t005_iuran->id->caption() ?></div></div></th>
-	<?php } else { ?>
-		<th data-name="id" class="<?php echo $t005_iuran->id->headerCellClass() ?>"><div class="ew-pointer" onclick="ew.sort(event,'<?php echo $t005_iuran->SortUrl($t005_iuran->id) ?>',2);"><div id="elh_t005_iuran_id" class="t005_iuran_id">
-			<div class="ew-table-header-btn"><span class="ew-table-header-caption"><?php echo $t005_iuran->id->caption() ?></span><span class="ew-table-header-sort"><?php if ($t005_iuran->id->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($t005_iuran->id->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span></div>
-		</div></div></th>
-	<?php } ?>
-<?php } ?>
 <?php if ($t005_iuran->Nama->Visible) { // Nama ?>
 	<?php if ($t005_iuran->sortUrl($t005_iuran->Nama) == "") { ?>
 		<th data-name="Nama" class="<?php echo $t005_iuran->Nama->headerCellClass() ?>"><div id="elh_t005_iuran_Nama" class="t005_iuran_Nama"><div class="ew-table-header-caption"><?php echo $t005_iuran->Nama->caption() ?></div></div></th>
@@ -217,14 +209,6 @@ while ($t005_iuran_list->RecCnt < $t005_iuran_list->StopRec) {
 // Render list options (body, left)
 $t005_iuran_list->ListOptions->render("body", "left", $t005_iuran_list->RowCnt);
 ?>
-	<?php if ($t005_iuran->id->Visible) { // id ?>
-		<td data-name="id"<?php echo $t005_iuran->id->cellAttributes() ?>>
-<span id="el<?php echo $t005_iuran_list->RowCnt ?>_t005_iuran_id" class="t005_iuran_id">
-<span<?php echo $t005_iuran->id->viewAttributes() ?>>
-<?php echo $t005_iuran->id->getViewValue() ?></span>
-</span>
-</td>
-	<?php } ?>
 	<?php if ($t005_iuran->Nama->Visible) { // Nama ?>
 		<td data-name="Nama"<?php echo $t005_iuran->Nama->cellAttributes() ?>>
 <span id="el<?php echo $t005_iuran_list->RowCnt ?>_t005_iuran_Nama" class="t005_iuran_Nama">
@@ -357,6 +341,11 @@ if (DEBUG_ENABLED)
 // document.write("page loaded");
 
 </script>
+<?php if (!$t005_iuran->isExport()) { ?>
+<script>
+ew.scrollableTable("gmp_t005_iuran", "100%", "100%");
+</script>
+<?php } ?>
 <?php } ?>
 <?php include_once "footer.php" ?>
 <?php

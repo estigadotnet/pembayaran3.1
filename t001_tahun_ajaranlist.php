@@ -57,6 +57,7 @@ ft001_tahun_ajaranlist.lists["x_Aktif[]"].options = <?php echo JsonEncode($t001_
 
 // Form object for search
 </script>
+<script src="phpjs/ewscrolltable.js"></script>
 <style type="text/css">
 .ew-table-preview-row { /* main table preview row color */
 	background-color: #FFFFFF; /* preview row color */
@@ -362,6 +363,11 @@ if (DEBUG_ENABLED)
 // document.write("page loaded");
 
 </script>
+<?php if (!$t001_tahun_ajaran->isExport()) { ?>
+<script>
+ew.scrollableTable("gmp_t001_tahun_ajaran", "100%", "100%");
+</script>
+<?php } ?>
 <?php } ?>
 <?php include_once "footer.php" ?>
 <?php

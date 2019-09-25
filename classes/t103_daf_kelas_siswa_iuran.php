@@ -124,10 +124,13 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 		$this->fields['daf_kelas_siswa_id'] = &$this->daf_kelas_siswa_id;
 
 		// iuran_id
-		$this->iuran_id = new DbField('t103_daf_kelas_siswa_iuran', 't103_daf_kelas_siswa_iuran', 'x_iuran_id', 'iuran_id', '`iuran_id`', '`iuran_id`', 3, -1, FALSE, '`iuran_id`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->iuran_id = new DbField('t103_daf_kelas_siswa_iuran', 't103_daf_kelas_siswa_iuran', 'x_iuran_id', 'iuran_id', '`iuran_id`', '`iuran_id`', 3, -1, FALSE, '`iuran_id`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'SELECT');
 		$this->iuran_id->Nullable = FALSE; // NOT NULL field
 		$this->iuran_id->Required = TRUE; // Required field
 		$this->iuran_id->Sortable = TRUE; // Allow sort
+		$this->iuran_id->UsePleaseSelect = TRUE; // Use PleaseSelect by default
+		$this->iuran_id->PleaseSelectText = $Language->phrase("PleaseSelect"); // PleaseSelect text
+		$this->iuran_id->Lookup = new Lookup('iuran_id', 't005_iuran', FALSE, 'id', ["Nama","","",""], [], [], [], [], [], [], '', '');
 		$this->iuran_id->DefaultErrorMessage = $Language->phrase("IncorrectInteger");
 		$this->fields['iuran_id'] = &$this->iuran_id;
 
@@ -157,9 +160,9 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 		$this->fields['jml01'] = &$this->jml01;
 
 		// tgl01
-		$this->tgl01 = new DbField('t103_daf_kelas_siswa_iuran', 't103_daf_kelas_siswa_iuran', 'x_tgl01', 'tgl01', '`tgl01`', CastDateFieldForLike('`tgl01`', 0, "DB"), 133, 0, FALSE, '`tgl01`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->tgl01 = new DbField('t103_daf_kelas_siswa_iuran', 't103_daf_kelas_siswa_iuran', 'x_tgl01', 'tgl01', '`tgl01`', CastDateFieldForLike('`tgl01`', 7, "DB"), 133, 7, FALSE, '`tgl01`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'TEXT');
 		$this->tgl01->Sortable = TRUE; // Allow sort
-		$this->tgl01->DefaultErrorMessage = str_replace("%s", $GLOBALS["DATE_FORMAT"], $Language->phrase("IncorrectDate"));
+		$this->tgl01->DefaultErrorMessage = str_replace("%s", $GLOBALS["DATE_SEPARATOR"], $Language->phrase("IncorrectDateDMY"));
 		$this->fields['tgl01'] = &$this->tgl01;
 
 		// byr02
@@ -180,9 +183,9 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 		$this->fields['jml02'] = &$this->jml02;
 
 		// tgl02
-		$this->tgl02 = new DbField('t103_daf_kelas_siswa_iuran', 't103_daf_kelas_siswa_iuran', 'x_tgl02', 'tgl02', '`tgl02`', CastDateFieldForLike('`tgl02`', 0, "DB"), 133, 0, FALSE, '`tgl02`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->tgl02 = new DbField('t103_daf_kelas_siswa_iuran', 't103_daf_kelas_siswa_iuran', 'x_tgl02', 'tgl02', '`tgl02`', CastDateFieldForLike('`tgl02`', 7, "DB"), 133, 7, FALSE, '`tgl02`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'TEXT');
 		$this->tgl02->Sortable = TRUE; // Allow sort
-		$this->tgl02->DefaultErrorMessage = str_replace("%s", $GLOBALS["DATE_FORMAT"], $Language->phrase("IncorrectDate"));
+		$this->tgl02->DefaultErrorMessage = str_replace("%s", $GLOBALS["DATE_SEPARATOR"], $Language->phrase("IncorrectDateDMY"));
 		$this->fields['tgl02'] = &$this->tgl02;
 
 		// byr03
@@ -203,9 +206,9 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 		$this->fields['jml03'] = &$this->jml03;
 
 		// tgl03
-		$this->tgl03 = new DbField('t103_daf_kelas_siswa_iuran', 't103_daf_kelas_siswa_iuran', 'x_tgl03', 'tgl03', '`tgl03`', CastDateFieldForLike('`tgl03`', 0, "DB"), 133, 0, FALSE, '`tgl03`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->tgl03 = new DbField('t103_daf_kelas_siswa_iuran', 't103_daf_kelas_siswa_iuran', 'x_tgl03', 'tgl03', '`tgl03`', CastDateFieldForLike('`tgl03`', 7, "DB"), 133, 7, FALSE, '`tgl03`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'TEXT');
 		$this->tgl03->Sortable = TRUE; // Allow sort
-		$this->tgl03->DefaultErrorMessage = str_replace("%s", $GLOBALS["DATE_FORMAT"], $Language->phrase("IncorrectDate"));
+		$this->tgl03->DefaultErrorMessage = str_replace("%s", $GLOBALS["DATE_SEPARATOR"], $Language->phrase("IncorrectDateDMY"));
 		$this->fields['tgl03'] = &$this->tgl03;
 
 		// byr04
@@ -226,9 +229,9 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 		$this->fields['jml04'] = &$this->jml04;
 
 		// tgl04
-		$this->tgl04 = new DbField('t103_daf_kelas_siswa_iuran', 't103_daf_kelas_siswa_iuran', 'x_tgl04', 'tgl04', '`tgl04`', CastDateFieldForLike('`tgl04`', 0, "DB"), 133, 0, FALSE, '`tgl04`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->tgl04 = new DbField('t103_daf_kelas_siswa_iuran', 't103_daf_kelas_siswa_iuran', 'x_tgl04', 'tgl04', '`tgl04`', CastDateFieldForLike('`tgl04`', 7, "DB"), 133, 7, FALSE, '`tgl04`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'TEXT');
 		$this->tgl04->Sortable = TRUE; // Allow sort
-		$this->tgl04->DefaultErrorMessage = str_replace("%s", $GLOBALS["DATE_FORMAT"], $Language->phrase("IncorrectDate"));
+		$this->tgl04->DefaultErrorMessage = str_replace("%s", $GLOBALS["DATE_SEPARATOR"], $Language->phrase("IncorrectDateDMY"));
 		$this->fields['tgl04'] = &$this->tgl04;
 
 		// byr05
@@ -249,9 +252,9 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 		$this->fields['jml05'] = &$this->jml05;
 
 		// tgl05
-		$this->tgl05 = new DbField('t103_daf_kelas_siswa_iuran', 't103_daf_kelas_siswa_iuran', 'x_tgl05', 'tgl05', '`tgl05`', CastDateFieldForLike('`tgl05`', 0, "DB"), 133, 0, FALSE, '`tgl05`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->tgl05 = new DbField('t103_daf_kelas_siswa_iuran', 't103_daf_kelas_siswa_iuran', 'x_tgl05', 'tgl05', '`tgl05`', CastDateFieldForLike('`tgl05`', 7, "DB"), 133, 7, FALSE, '`tgl05`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'TEXT');
 		$this->tgl05->Sortable = TRUE; // Allow sort
-		$this->tgl05->DefaultErrorMessage = str_replace("%s", $GLOBALS["DATE_FORMAT"], $Language->phrase("IncorrectDate"));
+		$this->tgl05->DefaultErrorMessage = str_replace("%s", $GLOBALS["DATE_SEPARATOR"], $Language->phrase("IncorrectDateDMY"));
 		$this->fields['tgl05'] = &$this->tgl05;
 
 		// byr06
@@ -272,9 +275,9 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 		$this->fields['jml06'] = &$this->jml06;
 
 		// tgl06
-		$this->tgl06 = new DbField('t103_daf_kelas_siswa_iuran', 't103_daf_kelas_siswa_iuran', 'x_tgl06', 'tgl06', '`tgl06`', CastDateFieldForLike('`tgl06`', 0, "DB"), 133, 0, FALSE, '`tgl06`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->tgl06 = new DbField('t103_daf_kelas_siswa_iuran', 't103_daf_kelas_siswa_iuran', 'x_tgl06', 'tgl06', '`tgl06`', CastDateFieldForLike('`tgl06`', 7, "DB"), 133, 7, FALSE, '`tgl06`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'TEXT');
 		$this->tgl06->Sortable = TRUE; // Allow sort
-		$this->tgl06->DefaultErrorMessage = str_replace("%s", $GLOBALS["DATE_FORMAT"], $Language->phrase("IncorrectDate"));
+		$this->tgl06->DefaultErrorMessage = str_replace("%s", $GLOBALS["DATE_SEPARATOR"], $Language->phrase("IncorrectDateDMY"));
 		$this->fields['tgl06'] = &$this->tgl06;
 
 		// byr07
@@ -295,9 +298,9 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 		$this->fields['jml07'] = &$this->jml07;
 
 		// tgl07
-		$this->tgl07 = new DbField('t103_daf_kelas_siswa_iuran', 't103_daf_kelas_siswa_iuran', 'x_tgl07', 'tgl07', '`tgl07`', CastDateFieldForLike('`tgl07`', 0, "DB"), 133, 0, FALSE, '`tgl07`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->tgl07 = new DbField('t103_daf_kelas_siswa_iuran', 't103_daf_kelas_siswa_iuran', 'x_tgl07', 'tgl07', '`tgl07`', CastDateFieldForLike('`tgl07`', 7, "DB"), 133, 7, FALSE, '`tgl07`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'TEXT');
 		$this->tgl07->Sortable = TRUE; // Allow sort
-		$this->tgl07->DefaultErrorMessage = str_replace("%s", $GLOBALS["DATE_FORMAT"], $Language->phrase("IncorrectDate"));
+		$this->tgl07->DefaultErrorMessage = str_replace("%s", $GLOBALS["DATE_SEPARATOR"], $Language->phrase("IncorrectDateDMY"));
 		$this->fields['tgl07'] = &$this->tgl07;
 
 		// byr08
@@ -318,9 +321,9 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 		$this->fields['jml08'] = &$this->jml08;
 
 		// tgl08
-		$this->tgl08 = new DbField('t103_daf_kelas_siswa_iuran', 't103_daf_kelas_siswa_iuran', 'x_tgl08', 'tgl08', '`tgl08`', CastDateFieldForLike('`tgl08`', 0, "DB"), 133, 0, FALSE, '`tgl08`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->tgl08 = new DbField('t103_daf_kelas_siswa_iuran', 't103_daf_kelas_siswa_iuran', 'x_tgl08', 'tgl08', '`tgl08`', CastDateFieldForLike('`tgl08`', 7, "DB"), 133, 7, FALSE, '`tgl08`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'TEXT');
 		$this->tgl08->Sortable = TRUE; // Allow sort
-		$this->tgl08->DefaultErrorMessage = str_replace("%s", $GLOBALS["DATE_FORMAT"], $Language->phrase("IncorrectDate"));
+		$this->tgl08->DefaultErrorMessage = str_replace("%s", $GLOBALS["DATE_SEPARATOR"], $Language->phrase("IncorrectDateDMY"));
 		$this->fields['tgl08'] = &$this->tgl08;
 
 		// byr09
@@ -341,9 +344,9 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 		$this->fields['jml09'] = &$this->jml09;
 
 		// tgl09
-		$this->tgl09 = new DbField('t103_daf_kelas_siswa_iuran', 't103_daf_kelas_siswa_iuran', 'x_tgl09', 'tgl09', '`tgl09`', CastDateFieldForLike('`tgl09`', 0, "DB"), 133, 0, FALSE, '`tgl09`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->tgl09 = new DbField('t103_daf_kelas_siswa_iuran', 't103_daf_kelas_siswa_iuran', 'x_tgl09', 'tgl09', '`tgl09`', CastDateFieldForLike('`tgl09`', 7, "DB"), 133, 7, FALSE, '`tgl09`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'TEXT');
 		$this->tgl09->Sortable = TRUE; // Allow sort
-		$this->tgl09->DefaultErrorMessage = str_replace("%s", $GLOBALS["DATE_FORMAT"], $Language->phrase("IncorrectDate"));
+		$this->tgl09->DefaultErrorMessage = str_replace("%s", $GLOBALS["DATE_SEPARATOR"], $Language->phrase("IncorrectDateDMY"));
 		$this->fields['tgl09'] = &$this->tgl09;
 
 		// byr10
@@ -364,9 +367,9 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 		$this->fields['jml10'] = &$this->jml10;
 
 		// tgl10
-		$this->tgl10 = new DbField('t103_daf_kelas_siswa_iuran', 't103_daf_kelas_siswa_iuran', 'x_tgl10', 'tgl10', '`tgl10`', CastDateFieldForLike('`tgl10`', 0, "DB"), 133, 0, FALSE, '`tgl10`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->tgl10 = new DbField('t103_daf_kelas_siswa_iuran', 't103_daf_kelas_siswa_iuran', 'x_tgl10', 'tgl10', '`tgl10`', CastDateFieldForLike('`tgl10`', 7, "DB"), 133, 7, FALSE, '`tgl10`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'TEXT');
 		$this->tgl10->Sortable = TRUE; // Allow sort
-		$this->tgl10->DefaultErrorMessage = str_replace("%s", $GLOBALS["DATE_FORMAT"], $Language->phrase("IncorrectDate"));
+		$this->tgl10->DefaultErrorMessage = str_replace("%s", $GLOBALS["DATE_SEPARATOR"], $Language->phrase("IncorrectDateDMY"));
 		$this->fields['tgl10'] = &$this->tgl10;
 
 		// byr11
@@ -387,9 +390,9 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 		$this->fields['jml11'] = &$this->jml11;
 
 		// tgl11
-		$this->tgl11 = new DbField('t103_daf_kelas_siswa_iuran', 't103_daf_kelas_siswa_iuran', 'x_tgl11', 'tgl11', '`tgl11`', CastDateFieldForLike('`tgl11`', 0, "DB"), 133, 0, FALSE, '`tgl11`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->tgl11 = new DbField('t103_daf_kelas_siswa_iuran', 't103_daf_kelas_siswa_iuran', 'x_tgl11', 'tgl11', '`tgl11`', CastDateFieldForLike('`tgl11`', 7, "DB"), 133, 7, FALSE, '`tgl11`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'TEXT');
 		$this->tgl11->Sortable = TRUE; // Allow sort
-		$this->tgl11->DefaultErrorMessage = str_replace("%s", $GLOBALS["DATE_FORMAT"], $Language->phrase("IncorrectDate"));
+		$this->tgl11->DefaultErrorMessage = str_replace("%s", $GLOBALS["DATE_SEPARATOR"], $Language->phrase("IncorrectDateDMY"));
 		$this->fields['tgl11'] = &$this->tgl11;
 
 		// byr12
@@ -410,9 +413,9 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 		$this->fields['jml12'] = &$this->jml12;
 
 		// tgl12
-		$this->tgl12 = new DbField('t103_daf_kelas_siswa_iuran', 't103_daf_kelas_siswa_iuran', 'x_tgl12', 'tgl12', '`tgl12`', CastDateFieldForLike('`tgl12`', 0, "DB"), 133, 0, FALSE, '`tgl12`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->tgl12 = new DbField('t103_daf_kelas_siswa_iuran', 't103_daf_kelas_siswa_iuran', 'x_tgl12', 'tgl12', '`tgl12`', CastDateFieldForLike('`tgl12`', 7, "DB"), 133, 7, FALSE, '`tgl12`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'TEXT');
 		$this->tgl12->Sortable = TRUE; // Allow sort
-		$this->tgl12->DefaultErrorMessage = str_replace("%s", $GLOBALS["DATE_FORMAT"], $Language->phrase("IncorrectDate"));
+		$this->tgl12->DefaultErrorMessage = str_replace("%s", $GLOBALS["DATE_SEPARATOR"], $Language->phrase("IncorrectDateDMY"));
 		$this->fields['tgl12'] = &$this->tgl12;
 	}
 
@@ -1203,13 +1206,31 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 		$this->daf_kelas_siswa_id->ViewCustomAttributes = "";
 
 		// iuran_id
-		$this->iuran_id->ViewValue = $this->iuran_id->CurrentValue;
-		$this->iuran_id->ViewValue = FormatNumber($this->iuran_id->ViewValue, 0, -2, -2, -2);
+		$curVal = strval($this->iuran_id->CurrentValue);
+		if ($curVal <> "") {
+			$this->iuran_id->ViewValue = $this->iuran_id->lookupCacheOption($curVal);
+			if ($this->iuran_id->ViewValue === NULL) { // Lookup from database
+				$filterWrk = "`id`" . SearchString("=", $curVal, DATATYPE_NUMBER, "");
+				$sqlWrk = $this->iuran_id->Lookup->getSql(FALSE, $filterWrk, '', $this);
+				$rswrk = Conn()->execute($sqlWrk);
+				if ($rswrk && !$rswrk->EOF) { // Lookup values found
+					$arwrk = array();
+					$arwrk[1] = $rswrk->fields('df');
+					$this->iuran_id->ViewValue = $this->iuran_id->displayValue($arwrk);
+					$rswrk->Close();
+				} else {
+					$this->iuran_id->ViewValue = $this->iuran_id->CurrentValue;
+				}
+			}
+		} else {
+			$this->iuran_id->ViewValue = NULL;
+		}
 		$this->iuran_id->ViewCustomAttributes = "";
 
 		// Jumlah
 		$this->Jumlah->ViewValue = $this->Jumlah->CurrentValue;
-		$this->Jumlah->ViewValue = FormatNumber($this->Jumlah->ViewValue, 2, -2, -2, -2);
+		$this->Jumlah->ViewValue = FormatNumber($this->Jumlah->ViewValue, 0, -2, -2, -2);
+		$this->Jumlah->CellCssStyle .= "text-align: right;";
 		$this->Jumlah->ViewCustomAttributes = "";
 
 		// byr01
@@ -1222,12 +1243,13 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 
 		// jml01
 		$this->jml01->ViewValue = $this->jml01->CurrentValue;
-		$this->jml01->ViewValue = FormatNumber($this->jml01->ViewValue, 2, -2, -2, -2);
+		$this->jml01->ViewValue = FormatNumber($this->jml01->ViewValue, 0, -2, -2, -2);
+		$this->jml01->CellCssStyle .= "text-align: right;";
 		$this->jml01->ViewCustomAttributes = "";
 
 		// tgl01
 		$this->tgl01->ViewValue = $this->tgl01->CurrentValue;
-		$this->tgl01->ViewValue = FormatDateTime($this->tgl01->ViewValue, 0);
+		$this->tgl01->ViewValue = FormatDateTime($this->tgl01->ViewValue, 7);
 		$this->tgl01->ViewCustomAttributes = "";
 
 		// byr02
@@ -1240,12 +1262,13 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 
 		// jml02
 		$this->jml02->ViewValue = $this->jml02->CurrentValue;
-		$this->jml02->ViewValue = FormatNumber($this->jml02->ViewValue, 2, -2, -2, -2);
+		$this->jml02->ViewValue = FormatNumber($this->jml02->ViewValue, 0, -2, -2, -2);
+		$this->jml02->CellCssStyle .= "text-align: right;";
 		$this->jml02->ViewCustomAttributes = "";
 
 		// tgl02
 		$this->tgl02->ViewValue = $this->tgl02->CurrentValue;
-		$this->tgl02->ViewValue = FormatDateTime($this->tgl02->ViewValue, 0);
+		$this->tgl02->ViewValue = FormatDateTime($this->tgl02->ViewValue, 7);
 		$this->tgl02->ViewCustomAttributes = "";
 
 		// byr03
@@ -1258,12 +1281,13 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 
 		// jml03
 		$this->jml03->ViewValue = $this->jml03->CurrentValue;
-		$this->jml03->ViewValue = FormatNumber($this->jml03->ViewValue, 2, -2, -2, -2);
+		$this->jml03->ViewValue = FormatNumber($this->jml03->ViewValue, 0, -2, -2, -2);
+		$this->jml03->CellCssStyle .= "text-align: right;";
 		$this->jml03->ViewCustomAttributes = "";
 
 		// tgl03
 		$this->tgl03->ViewValue = $this->tgl03->CurrentValue;
-		$this->tgl03->ViewValue = FormatDateTime($this->tgl03->ViewValue, 0);
+		$this->tgl03->ViewValue = FormatDateTime($this->tgl03->ViewValue, 7);
 		$this->tgl03->ViewCustomAttributes = "";
 
 		// byr04
@@ -1276,12 +1300,13 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 
 		// jml04
 		$this->jml04->ViewValue = $this->jml04->CurrentValue;
-		$this->jml04->ViewValue = FormatNumber($this->jml04->ViewValue, 2, -2, -2, -2);
+		$this->jml04->ViewValue = FormatNumber($this->jml04->ViewValue, 0, -2, -2, -2);
+		$this->jml04->CellCssStyle .= "text-align: right;";
 		$this->jml04->ViewCustomAttributes = "";
 
 		// tgl04
 		$this->tgl04->ViewValue = $this->tgl04->CurrentValue;
-		$this->tgl04->ViewValue = FormatDateTime($this->tgl04->ViewValue, 0);
+		$this->tgl04->ViewValue = FormatDateTime($this->tgl04->ViewValue, 7);
 		$this->tgl04->ViewCustomAttributes = "";
 
 		// byr05
@@ -1294,12 +1319,13 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 
 		// jml05
 		$this->jml05->ViewValue = $this->jml05->CurrentValue;
-		$this->jml05->ViewValue = FormatNumber($this->jml05->ViewValue, 2, -2, -2, -2);
+		$this->jml05->ViewValue = FormatNumber($this->jml05->ViewValue, 0, -2, -2, -2);
+		$this->jml05->CellCssStyle .= "text-align: right;";
 		$this->jml05->ViewCustomAttributes = "";
 
 		// tgl05
 		$this->tgl05->ViewValue = $this->tgl05->CurrentValue;
-		$this->tgl05->ViewValue = FormatDateTime($this->tgl05->ViewValue, 0);
+		$this->tgl05->ViewValue = FormatDateTime($this->tgl05->ViewValue, 7);
 		$this->tgl05->ViewCustomAttributes = "";
 
 		// byr06
@@ -1312,12 +1338,13 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 
 		// jml06
 		$this->jml06->ViewValue = $this->jml06->CurrentValue;
-		$this->jml06->ViewValue = FormatNumber($this->jml06->ViewValue, 2, -2, -2, -2);
+		$this->jml06->ViewValue = FormatNumber($this->jml06->ViewValue, 0, -2, -2, -2);
+		$this->jml06->CellCssStyle .= "text-align: right;";
 		$this->jml06->ViewCustomAttributes = "";
 
 		// tgl06
 		$this->tgl06->ViewValue = $this->tgl06->CurrentValue;
-		$this->tgl06->ViewValue = FormatDateTime($this->tgl06->ViewValue, 0);
+		$this->tgl06->ViewValue = FormatDateTime($this->tgl06->ViewValue, 7);
 		$this->tgl06->ViewCustomAttributes = "";
 
 		// byr07
@@ -1330,12 +1357,13 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 
 		// jml07
 		$this->jml07->ViewValue = $this->jml07->CurrentValue;
-		$this->jml07->ViewValue = FormatNumber($this->jml07->ViewValue, 2, -2, -2, -2);
+		$this->jml07->ViewValue = FormatNumber($this->jml07->ViewValue, 0, -2, -2, -2);
+		$this->jml07->CellCssStyle .= "text-align: right;";
 		$this->jml07->ViewCustomAttributes = "";
 
 		// tgl07
 		$this->tgl07->ViewValue = $this->tgl07->CurrentValue;
-		$this->tgl07->ViewValue = FormatDateTime($this->tgl07->ViewValue, 0);
+		$this->tgl07->ViewValue = FormatDateTime($this->tgl07->ViewValue, 7);
 		$this->tgl07->ViewCustomAttributes = "";
 
 		// byr08
@@ -1348,12 +1376,13 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 
 		// jml08
 		$this->jml08->ViewValue = $this->jml08->CurrentValue;
-		$this->jml08->ViewValue = FormatNumber($this->jml08->ViewValue, 2, -2, -2, -2);
+		$this->jml08->ViewValue = FormatNumber($this->jml08->ViewValue, 0, -2, -2, -2);
+		$this->jml08->CellCssStyle .= "text-align: right;";
 		$this->jml08->ViewCustomAttributes = "";
 
 		// tgl08
 		$this->tgl08->ViewValue = $this->tgl08->CurrentValue;
-		$this->tgl08->ViewValue = FormatDateTime($this->tgl08->ViewValue, 0);
+		$this->tgl08->ViewValue = FormatDateTime($this->tgl08->ViewValue, 7);
 		$this->tgl08->ViewCustomAttributes = "";
 
 		// byr09
@@ -1366,12 +1395,13 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 
 		// jml09
 		$this->jml09->ViewValue = $this->jml09->CurrentValue;
-		$this->jml09->ViewValue = FormatNumber($this->jml09->ViewValue, 2, -2, -2, -2);
+		$this->jml09->ViewValue = FormatNumber($this->jml09->ViewValue, 0, -2, -2, -2);
+		$this->jml09->CellCssStyle .= "text-align: right;";
 		$this->jml09->ViewCustomAttributes = "";
 
 		// tgl09
 		$this->tgl09->ViewValue = $this->tgl09->CurrentValue;
-		$this->tgl09->ViewValue = FormatDateTime($this->tgl09->ViewValue, 0);
+		$this->tgl09->ViewValue = FormatDateTime($this->tgl09->ViewValue, 7);
 		$this->tgl09->ViewCustomAttributes = "";
 
 		// byr10
@@ -1384,12 +1414,13 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 
 		// jml10
 		$this->jml10->ViewValue = $this->jml10->CurrentValue;
-		$this->jml10->ViewValue = FormatNumber($this->jml10->ViewValue, 2, -2, -2, -2);
+		$this->jml10->ViewValue = FormatNumber($this->jml10->ViewValue, 0, -2, -2, -2);
+		$this->jml10->CellCssStyle .= "text-align: right;";
 		$this->jml10->ViewCustomAttributes = "";
 
 		// tgl10
 		$this->tgl10->ViewValue = $this->tgl10->CurrentValue;
-		$this->tgl10->ViewValue = FormatDateTime($this->tgl10->ViewValue, 0);
+		$this->tgl10->ViewValue = FormatDateTime($this->tgl10->ViewValue, 7);
 		$this->tgl10->ViewCustomAttributes = "";
 
 		// byr11
@@ -1402,12 +1433,13 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 
 		// jml11
 		$this->jml11->ViewValue = $this->jml11->CurrentValue;
-		$this->jml11->ViewValue = FormatNumber($this->jml11->ViewValue, 2, -2, -2, -2);
+		$this->jml11->ViewValue = FormatNumber($this->jml11->ViewValue, 0, -2, -2, -2);
+		$this->jml11->CellCssStyle .= "text-align: right;";
 		$this->jml11->ViewCustomAttributes = "";
 
 		// tgl11
 		$this->tgl11->ViewValue = $this->tgl11->CurrentValue;
-		$this->tgl11->ViewValue = FormatDateTime($this->tgl11->ViewValue, 0);
+		$this->tgl11->ViewValue = FormatDateTime($this->tgl11->ViewValue, 7);
 		$this->tgl11->ViewCustomAttributes = "";
 
 		// byr12
@@ -1420,12 +1452,13 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 
 		// jml12
 		$this->jml12->ViewValue = $this->jml12->CurrentValue;
-		$this->jml12->ViewValue = FormatNumber($this->jml12->ViewValue, 2, -2, -2, -2);
+		$this->jml12->ViewValue = FormatNumber($this->jml12->ViewValue, 0, -2, -2, -2);
+		$this->jml12->CellCssStyle .= "text-align: right;";
 		$this->jml12->ViewCustomAttributes = "";
 
 		// tgl12
 		$this->tgl12->ViewValue = $this->tgl12->CurrentValue;
-		$this->tgl12->ViewValue = FormatDateTime($this->tgl12->ViewValue, 0);
+		$this->tgl12->ViewValue = FormatDateTime($this->tgl12->ViewValue, 7);
 		$this->tgl12->ViewCustomAttributes = "";
 
 		// id
@@ -1665,8 +1698,6 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 		// iuran_id
 		$this->iuran_id->EditAttrs["class"] = "form-control";
 		$this->iuran_id->EditCustomAttributes = "";
-		$this->iuran_id->EditValue = $this->iuran_id->CurrentValue;
-		$this->iuran_id->PlaceHolder = RemoveHtml($this->iuran_id->caption());
 
 		// Jumlah
 		$this->Jumlah->EditAttrs["class"] = "form-control";
@@ -1691,7 +1722,7 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 		// tgl01
 		$this->tgl01->EditAttrs["class"] = "form-control";
 		$this->tgl01->EditCustomAttributes = "";
-		$this->tgl01->EditValue = FormatDateTime($this->tgl01->CurrentValue, 8);
+		$this->tgl01->EditValue = FormatDateTime($this->tgl01->CurrentValue, 7);
 		$this->tgl01->PlaceHolder = RemoveHtml($this->tgl01->caption());
 
 		// byr02
@@ -1709,7 +1740,7 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 		// tgl02
 		$this->tgl02->EditAttrs["class"] = "form-control";
 		$this->tgl02->EditCustomAttributes = "";
-		$this->tgl02->EditValue = FormatDateTime($this->tgl02->CurrentValue, 8);
+		$this->tgl02->EditValue = FormatDateTime($this->tgl02->CurrentValue, 7);
 		$this->tgl02->PlaceHolder = RemoveHtml($this->tgl02->caption());
 
 		// byr03
@@ -1727,7 +1758,7 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 		// tgl03
 		$this->tgl03->EditAttrs["class"] = "form-control";
 		$this->tgl03->EditCustomAttributes = "";
-		$this->tgl03->EditValue = FormatDateTime($this->tgl03->CurrentValue, 8);
+		$this->tgl03->EditValue = FormatDateTime($this->tgl03->CurrentValue, 7);
 		$this->tgl03->PlaceHolder = RemoveHtml($this->tgl03->caption());
 
 		// byr04
@@ -1745,7 +1776,7 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 		// tgl04
 		$this->tgl04->EditAttrs["class"] = "form-control";
 		$this->tgl04->EditCustomAttributes = "";
-		$this->tgl04->EditValue = FormatDateTime($this->tgl04->CurrentValue, 8);
+		$this->tgl04->EditValue = FormatDateTime($this->tgl04->CurrentValue, 7);
 		$this->tgl04->PlaceHolder = RemoveHtml($this->tgl04->caption());
 
 		// byr05
@@ -1763,7 +1794,7 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 		// tgl05
 		$this->tgl05->EditAttrs["class"] = "form-control";
 		$this->tgl05->EditCustomAttributes = "";
-		$this->tgl05->EditValue = FormatDateTime($this->tgl05->CurrentValue, 8);
+		$this->tgl05->EditValue = FormatDateTime($this->tgl05->CurrentValue, 7);
 		$this->tgl05->PlaceHolder = RemoveHtml($this->tgl05->caption());
 
 		// byr06
@@ -1781,7 +1812,7 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 		// tgl06
 		$this->tgl06->EditAttrs["class"] = "form-control";
 		$this->tgl06->EditCustomAttributes = "";
-		$this->tgl06->EditValue = FormatDateTime($this->tgl06->CurrentValue, 8);
+		$this->tgl06->EditValue = FormatDateTime($this->tgl06->CurrentValue, 7);
 		$this->tgl06->PlaceHolder = RemoveHtml($this->tgl06->caption());
 
 		// byr07
@@ -1799,7 +1830,7 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 		// tgl07
 		$this->tgl07->EditAttrs["class"] = "form-control";
 		$this->tgl07->EditCustomAttributes = "";
-		$this->tgl07->EditValue = FormatDateTime($this->tgl07->CurrentValue, 8);
+		$this->tgl07->EditValue = FormatDateTime($this->tgl07->CurrentValue, 7);
 		$this->tgl07->PlaceHolder = RemoveHtml($this->tgl07->caption());
 
 		// byr08
@@ -1817,7 +1848,7 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 		// tgl08
 		$this->tgl08->EditAttrs["class"] = "form-control";
 		$this->tgl08->EditCustomAttributes = "";
-		$this->tgl08->EditValue = FormatDateTime($this->tgl08->CurrentValue, 8);
+		$this->tgl08->EditValue = FormatDateTime($this->tgl08->CurrentValue, 7);
 		$this->tgl08->PlaceHolder = RemoveHtml($this->tgl08->caption());
 
 		// byr09
@@ -1835,7 +1866,7 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 		// tgl09
 		$this->tgl09->EditAttrs["class"] = "form-control";
 		$this->tgl09->EditCustomAttributes = "";
-		$this->tgl09->EditValue = FormatDateTime($this->tgl09->CurrentValue, 8);
+		$this->tgl09->EditValue = FormatDateTime($this->tgl09->CurrentValue, 7);
 		$this->tgl09->PlaceHolder = RemoveHtml($this->tgl09->caption());
 
 		// byr10
@@ -1853,7 +1884,7 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 		// tgl10
 		$this->tgl10->EditAttrs["class"] = "form-control";
 		$this->tgl10->EditCustomAttributes = "";
-		$this->tgl10->EditValue = FormatDateTime($this->tgl10->CurrentValue, 8);
+		$this->tgl10->EditValue = FormatDateTime($this->tgl10->CurrentValue, 7);
 		$this->tgl10->PlaceHolder = RemoveHtml($this->tgl10->caption());
 
 		// byr11
@@ -1871,7 +1902,7 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 		// tgl11
 		$this->tgl11->EditAttrs["class"] = "form-control";
 		$this->tgl11->EditCustomAttributes = "";
-		$this->tgl11->EditValue = FormatDateTime($this->tgl11->CurrentValue, 8);
+		$this->tgl11->EditValue = FormatDateTime($this->tgl11->CurrentValue, 7);
 		$this->tgl11->PlaceHolder = RemoveHtml($this->tgl11->caption());
 
 		// byr12
@@ -1889,7 +1920,7 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 		// tgl12
 		$this->tgl12->EditAttrs["class"] = "form-control";
 		$this->tgl12->EditCustomAttributes = "";
-		$this->tgl12->EditValue = FormatDateTime($this->tgl12->CurrentValue, 8);
+		$this->tgl12->EditValue = FormatDateTime($this->tgl12->CurrentValue, 7);
 		$this->tgl12->PlaceHolder = RemoveHtml($this->tgl12->caption());
 
 		// Call Row Rendered event
@@ -1921,8 +1952,6 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 			if ($doc->Horizontal) { // Horizontal format, write header
 				$doc->beginExportRow();
 				if ($exportPageType == "view") {
-					$doc->exportCaption($this->id);
-					$doc->exportCaption($this->daf_kelas_siswa_id);
 					$doc->exportCaption($this->iuran_id);
 					$doc->exportCaption($this->Jumlah);
 					$doc->exportCaption($this->byr01);
@@ -2033,8 +2062,6 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 				if (!$doc->ExportCustom) {
 					$doc->beginExportRow($rowCnt); // Allow CSS styles if enabled
 					if ($exportPageType == "view") {
-						$doc->exportField($this->id);
-						$doc->exportField($this->daf_kelas_siswa_id);
 						$doc->exportField($this->iuran_id);
 						$doc->exportField($this->Jumlah);
 						$doc->exportField($this->byr01);

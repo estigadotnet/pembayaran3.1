@@ -79,17 +79,6 @@ $t005_iuran_view->showMessage();
 <input type="hidden" name="t" value="t005_iuran">
 <input type="hidden" name="modal" value="<?php echo (int)$t005_iuran_view->IsModal ?>">
 <table class="table table-striped table-sm ew-view-table">
-<?php if ($t005_iuran->id->Visible) { // id ?>
-	<tr id="r_id">
-		<td class="<?php echo $t005_iuran_view->TableLeftColumnClass ?>"><span id="elh_t005_iuran_id"><?php echo $t005_iuran->id->caption() ?></span></td>
-		<td data-name="id"<?php echo $t005_iuran->id->cellAttributes() ?>>
-<span id="el_t005_iuran_id">
-<span<?php echo $t005_iuran->id->viewAttributes() ?>>
-<?php echo $t005_iuran->id->getViewValue() ?></span>
-</span>
-</td>
-	</tr>
-<?php } ?>
 <?php if ($t005_iuran->Nama->Visible) { // Nama ?>
 	<tr id="r_Nama">
 		<td class="<?php echo $t005_iuran_view->TableLeftColumnClass ?>"><span id="elh_t005_iuran_Nama"><?php echo $t005_iuran->Nama->caption() ?></span></td>

@@ -55,6 +55,7 @@ ft002_sekolahlist.validateRequired = <?php echo json_encode(CLIENT_VALIDATE) ?>;
 // Form object for search
 
 </script>
+<script src="phpjs/ewscrolltable.js"></script>
 <style type="text/css">
 .ew-table-preview-row { /* main table preview row color */
 	background-color: #FFFFFF; /* preview row color */
@@ -338,6 +339,11 @@ if (DEBUG_ENABLED)
 // document.write("page loaded");
 
 </script>
+<?php if (!$t002_sekolah->isExport()) { ?>
+<script>
+ew.scrollableTable("gmp_t002_sekolah", "100%", "100%");
+</script>
+<?php } ?>
 <?php } ?>
 <?php include_once "footer.php" ?>
 <?php

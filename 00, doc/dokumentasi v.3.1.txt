@@ -1,0 +1,7 @@
+menu ::
+  - setup
+  - daftar
+  - pembayaran
+  - laporan
+  - general
+

@@ -679,8 +679,8 @@ class t103_daf_kelas_siswa_iuran_view extends t103_daf_kelas_siswa_iuran
 			}
 		}
 		$this->CurrentAction = Param("action"); // Set up current action
-		$this->id->setVisibility();
-		$this->daf_kelas_siswa_id->setVisibility();
+		$this->id->Visible = FALSE;
+		$this->daf_kelas_siswa_id->Visible = FALSE;
 		$this->iuran_id->setVisibility();
 		$this->Jumlah->setVisibility();
 		$this->byr01->setVisibility();
@@ -740,8 +740,9 @@ class t103_daf_kelas_siswa_iuran_view extends t103_daf_kelas_siswa_iuran
 		$this->createToken();
 
 		// Set up lookup cache
-		// Check modal
+		$this->setupLookupOptions($this->iuran_id);
 
+		// Check modal
 		if ($this->IsModal)
 			$SkipHeaderFooter = TRUE;
 		$returnUrl = "";
@@ -1151,13 +1152,31 @@ class t103_daf_kelas_siswa_iuran_view extends t103_daf_kelas_siswa_iuran
 			$this->daf_kelas_siswa_id->ViewCustomAttributes = "";
 
 			// iuran_id
-			$this->iuran_id->ViewValue = $this->iuran_id->CurrentValue;
-			$this->iuran_id->ViewValue = FormatNumber($this->iuran_id->ViewValue, 0, -2, -2, -2);
+			$curVal = strval($this->iuran_id->CurrentValue);
+			if ($curVal <> "") {
+				$this->iuran_id->ViewValue = $this->iuran_id->lookupCacheOption($curVal);
+				if ($this->iuran_id->ViewValue === NULL) { // Lookup from database
+					$filterWrk = "`id`" . SearchString("=", $curVal, DATATYPE_NUMBER, "");
+					$sqlWrk = $this->iuran_id->Lookup->getSql(FALSE, $filterWrk, '', $this);
+					$rswrk = Conn()->execute($sqlWrk);
+					if ($rswrk && !$rswrk->EOF) { // Lookup values found
+						$arwrk = array();
+						$arwrk[1] = $rswrk->fields('df');
+						$this->iuran_id->ViewValue = $this->iuran_id->displayValue($arwrk);
+						$rswrk->Close();
+					} else {
+						$this->iuran_id->ViewValue = $this->iuran_id->CurrentValue;
+					}
+				}
+			} else {
+				$this->iuran_id->ViewValue = NULL;
+			}
 			$this->iuran_id->ViewCustomAttributes = "";
 
 			// Jumlah
 			$this->Jumlah->ViewValue = $this->Jumlah->CurrentValue;
-			$this->Jumlah->ViewValue = FormatNumber($this->Jumlah->ViewValue, 2, -2, -2, -2);
+			$this->Jumlah->ViewValue = FormatNumber($this->Jumlah->ViewValue, 0, -2, -2, -2);
+			$this->Jumlah->CellCssStyle .= "text-align: right;";
 			$this->Jumlah->ViewCustomAttributes = "";
 
 			// byr01
@@ -1170,12 +1189,13 @@ class t103_daf_kelas_siswa_iuran_view extends t103_daf_kelas_siswa_iuran
 
 			// jml01
 			$this->jml01->ViewValue = $this->jml01->CurrentValue;
-			$this->jml01->ViewValue = FormatNumber($this->jml01->ViewValue, 2, -2, -2, -2);
+			$this->jml01->ViewValue = FormatNumber($this->jml01->ViewValue, 0, -2, -2, -2);
+			$this->jml01->CellCssStyle .= "text-align: right;";
 			$this->jml01->ViewCustomAttributes = "";
 
 			// tgl01
 			$this->tgl01->ViewValue = $this->tgl01->CurrentValue;
-			$this->tgl01->ViewValue = FormatDateTime($this->tgl01->ViewValue, 0);
+			$this->tgl01->ViewValue = FormatDateTime($this->tgl01->ViewValue, 7);
 			$this->tgl01->ViewCustomAttributes = "";
 
 			// byr02
@@ -1188,12 +1208,13 @@ class t103_daf_kelas_siswa_iuran_view extends t103_daf_kelas_siswa_iuran
 
 			// jml02
 			$this->jml02->ViewValue = $this->jml02->CurrentValue;
-			$this->jml02->ViewValue = FormatNumber($this->jml02->ViewValue, 2, -2, -2, -2);
+			$this->jml02->ViewValue = FormatNumber($this->jml02->ViewValue, 0, -2, -2, -2);
+			$this->jml02->CellCssStyle .= "text-align: right;";
 			$this->jml02->ViewCustomAttributes = "";
 
 			// tgl02
 			$this->tgl02->ViewValue = $this->tgl02->CurrentValue;
-			$this->tgl02->ViewValue = FormatDateTime($this->tgl02->ViewValue, 0);
+			$this->tgl02->ViewValue = FormatDateTime($this->tgl02->ViewValue, 7);
 			$this->tgl02->ViewCustomAttributes = "";
 
 			// byr03
@@ -1206,12 +1227,13 @@ class t103_daf_kelas_siswa_iuran_view extends t103_daf_kelas_siswa_iuran
 
 			// jml03
 			$this->jml03->ViewValue = $this->jml03->CurrentValue;
-			$this->jml03->ViewValue = FormatNumber($this->jml03->ViewValue, 2, -2, -2, -2);
+			$this->jml03->ViewValue = FormatNumber($this->jml03->ViewValue, 0, -2, -2, -2);
+			$this->jml03->CellCssStyle .= "text-align: right;";
 			$this->jml03->ViewCustomAttributes = "";
 
 			// tgl03
 			$this->tgl03->ViewValue = $this->tgl03->CurrentValue;
-			$this->tgl03->ViewValue = FormatDateTime($this->tgl03->ViewValue, 0);
+			$this->tgl03->ViewValue = FormatDateTime($this->tgl03->ViewValue, 7);
 			$this->tgl03->ViewCustomAttributes = "";
 
 			// byr04
@@ -1224,12 +1246,13 @@ class t103_daf_kelas_siswa_iuran_view extends t103_daf_kelas_siswa_iuran
 
 			// jml04
 			$this->jml04->ViewValue = $this->jml04->CurrentValue;
-			$this->jml04->ViewValue = FormatNumber($this->jml04->ViewValue, 2, -2, -2, -2);
+			$this->jml04->ViewValue = FormatNumber($this->jml04->ViewValue, 0, -2, -2, -2);
+			$this->jml04->CellCssStyle .= "text-align: right;";
 			$this->jml04->ViewCustomAttributes = "";
 
 			// tgl04
 			$this->tgl04->ViewValue = $this->tgl04->CurrentValue;
-			$this->tgl04->ViewValue = FormatDateTime($this->tgl04->ViewValue, 0);
+			$this->tgl04->ViewValue = FormatDateTime($this->tgl04->ViewValue, 7);
 			$this->tgl04->ViewCustomAttributes = "";
 
 			// byr05
@@ -1242,12 +1265,13 @@ class t103_daf_kelas_siswa_iuran_view extends t103_daf_kelas_siswa_iuran
 
 			// jml05
 			$this->jml05->ViewValue = $this->jml05->CurrentValue;
-			$this->jml05->ViewValue = FormatNumber($this->jml05->ViewValue, 2, -2, -2, -2);
+			$this->jml05->ViewValue = FormatNumber($this->jml05->ViewValue, 0, -2, -2, -2);
+			$this->jml05->CellCssStyle .= "text-align: right;";
 			$this->jml05->ViewCustomAttributes = "";
 
 			// tgl05
 			$this->tgl05->ViewValue = $this->tgl05->CurrentValue;
-			$this->tgl05->ViewValue = FormatDateTime($this->tgl05->ViewValue, 0);
+			$this->tgl05->ViewValue = FormatDateTime($this->tgl05->ViewValue, 7);
 			$this->tgl05->ViewCustomAttributes = "";
 
 			// byr06
@@ -1260,12 +1284,13 @@ class t103_daf_kelas_siswa_iuran_view extends t103_daf_kelas_siswa_iuran
 
 			// jml06
 			$this->jml06->ViewValue = $this->jml06->CurrentValue;
-			$this->jml06->ViewValue = FormatNumber($this->jml06->ViewValue, 2, -2, -2, -2);
+			$this->jml06->ViewValue = FormatNumber($this->jml06->ViewValue, 0, -2, -2, -2);
+			$this->jml06->CellCssStyle .= "text-align: right;";
 			$this->jml06->ViewCustomAttributes = "";
 
 			// tgl06
 			$this->tgl06->ViewValue = $this->tgl06->CurrentValue;
-			$this->tgl06->ViewValue = FormatDateTime($this->tgl06->ViewValue, 0);
+			$this->tgl06->ViewValue = FormatDateTime($this->tgl06->ViewValue, 7);
 			$this->tgl06->ViewCustomAttributes = "";
 
 			// byr07
@@ -1278,12 +1303,13 @@ class t103_daf_kelas_siswa_iuran_view extends t103_daf_kelas_siswa_iuran
 
 			// jml07
 			$this->jml07->ViewValue = $this->jml07->CurrentValue;
-			$this->jml07->ViewValue = FormatNumber($this->jml07->ViewValue, 2, -2, -2, -2);
+			$this->jml07->ViewValue = FormatNumber($this->jml07->ViewValue, 0, -2, -2, -2);
+			$this->jml07->CellCssStyle .= "text-align: right;";
 			$this->jml07->ViewCustomAttributes = "";
 
 			// tgl07
 			$this->tgl07->ViewValue = $this->tgl07->CurrentValue;
-			$this->tgl07->ViewValue = FormatDateTime($this->tgl07->ViewValue, 0);
+			$this->tgl07->ViewValue = FormatDateTime($this->tgl07->ViewValue, 7);
 			$this->tgl07->ViewCustomAttributes = "";
 
 			// byr08
@@ -1296,12 +1322,13 @@ class t103_daf_kelas_siswa_iuran_view extends t103_daf_kelas_siswa_iuran
 
 			// jml08
 			$this->jml08->ViewValue = $this->jml08->CurrentValue;
-			$this->jml08->ViewValue = FormatNumber($this->jml08->ViewValue, 2, -2, -2, -2);
+			$this->jml08->ViewValue = FormatNumber($this->jml08->ViewValue, 0, -2, -2, -2);
+			$this->jml08->CellCssStyle .= "text-align: right;";
 			$this->jml08->ViewCustomAttributes = "";
 
 			// tgl08
 			$this->tgl08->ViewValue = $this->tgl08->CurrentValue;
-			$this->tgl08->ViewValue = FormatDateTime($this->tgl08->ViewValue, 0);
+			$this->tgl08->ViewValue = FormatDateTime($this->tgl08->ViewValue, 7);
 			$this->tgl08->ViewCustomAttributes = "";
 
 			// byr09
@@ -1314,12 +1341,13 @@ class t103_daf_kelas_siswa_iuran_view extends t103_daf_kelas_siswa_iuran
 
 			// jml09
 			$this->jml09->ViewValue = $this->jml09->CurrentValue;
-			$this->jml09->ViewValue = FormatNumber($this->jml09->ViewValue, 2, -2, -2, -2);
+			$this->jml09->ViewValue = FormatNumber($this->jml09->ViewValue, 0, -2, -2, -2);
+			$this->jml09->CellCssStyle .= "text-align: right;";
 			$this->jml09->ViewCustomAttributes = "";
 
 			// tgl09
 			$this->tgl09->ViewValue = $this->tgl09->CurrentValue;
-			$this->tgl09->ViewValue = FormatDateTime($this->tgl09->ViewValue, 0);
+			$this->tgl09->ViewValue = FormatDateTime($this->tgl09->ViewValue, 7);
 			$this->tgl09->ViewCustomAttributes = "";
 
 			// byr10
@@ -1332,12 +1360,13 @@ class t103_daf_kelas_siswa_iuran_view extends t103_daf_kelas_siswa_iuran
 
 			// jml10
 			$this->jml10->ViewValue = $this->jml10->CurrentValue;
-			$this->jml10->ViewValue = FormatNumber($this->jml10->ViewValue, 2, -2, -2, -2);
+			$this->jml10->ViewValue = FormatNumber($this->jml10->ViewValue, 0, -2, -2, -2);
+			$this->jml10->CellCssStyle .= "text-align: right;";
 			$this->jml10->ViewCustomAttributes = "";
 
 			// tgl10
 			$this->tgl10->ViewValue = $this->tgl10->CurrentValue;
-			$this->tgl10->ViewValue = FormatDateTime($this->tgl10->ViewValue, 0);
+			$this->tgl10->ViewValue = FormatDateTime($this->tgl10->ViewValue, 7);
 			$this->tgl10->ViewCustomAttributes = "";
 
 			// byr11
@@ -1350,12 +1379,13 @@ class t103_daf_kelas_siswa_iuran_view extends t103_daf_kelas_siswa_iuran
 
 			// jml11
 			$this->jml11->ViewValue = $this->jml11->CurrentValue;
-			$this->jml11->ViewValue = FormatNumber($this->jml11->ViewValue, 2, -2, -2, -2);
+			$this->jml11->ViewValue = FormatNumber($this->jml11->ViewValue, 0, -2, -2, -2);
+			$this->jml11->CellCssStyle .= "text-align: right;";
 			$this->jml11->ViewCustomAttributes = "";
 
 			// tgl11
 			$this->tgl11->ViewValue = $this->tgl11->CurrentValue;
-			$this->tgl11->ViewValue = FormatDateTime($this->tgl11->ViewValue, 0);
+			$this->tgl11->ViewValue = FormatDateTime($this->tgl11->ViewValue, 7);
 			$this->tgl11->ViewCustomAttributes = "";
 
 			// byr12
@@ -1368,23 +1398,14 @@ class t103_daf_kelas_siswa_iuran_view extends t103_daf_kelas_siswa_iuran
 
 			// jml12
 			$this->jml12->ViewValue = $this->jml12->CurrentValue;
-			$this->jml12->ViewValue = FormatNumber($this->jml12->ViewValue, 2, -2, -2, -2);
+			$this->jml12->ViewValue = FormatNumber($this->jml12->ViewValue, 0, -2, -2, -2);
+			$this->jml12->CellCssStyle .= "text-align: right;";
 			$this->jml12->ViewCustomAttributes = "";
 
 			// tgl12
 			$this->tgl12->ViewValue = $this->tgl12->CurrentValue;
-			$this->tgl12->ViewValue = FormatDateTime($this->tgl12->ViewValue, 0);
+			$this->tgl12->ViewValue = FormatDateTime($this->tgl12->ViewValue, 7);
 			$this->tgl12->ViewCustomAttributes = "";
-
-			// id
-			$this->id->LinkCustomAttributes = "";
-			$this->id->HrefValue = "";
-			$this->id->TooltipValue = "";
-
-			// daf_kelas_siswa_id
-			$this->daf_kelas_siswa_id->LinkCustomAttributes = "";
-			$this->daf_kelas_siswa_id->HrefValue = "";
-			$this->daf_kelas_siswa_id->TooltipValue = "";
 
 			// iuran_id
 			$this->iuran_id->LinkCustomAttributes = "";
@@ -1689,6 +1710,8 @@ class t103_daf_kelas_siswa_iuran_view extends t103_daf_kelas_siswa_iuran
 
 					// Format the field values
 					switch ($fld->FieldVar) {
+						case "x_iuran_id":
+							break;
 					}
 					$ar[strval($row[0])] = $row;
 					$rs->moveNext();

@@ -803,10 +803,6 @@ class t102_daf_kelas_siswa_list extends t102_daf_kelas_siswa
 				if ($this->isGridEdit())
 					$this->gridEditMode();
 
-				// Switch to inline edit mode
-				if ($this->isEdit())
-					$this->inlineEditMode();
-
 				// Switch to inline add mode
 				if ($this->isAdd() || $this->isCopy())
 					$this->inlineAddMode();
@@ -832,10 +828,6 @@ class t102_daf_kelas_siswa_list extends t102_daf_kelas_siswa
 							$this->gridEditMode(); // Stay in Grid edit mode
 						}
 					}
-
-					// Inline Update
-					if (($this->isUpdate() || $this->isOverwrite()) && @$_SESSION[SESSION_INLINE_MODE] == "edit")
-						$this->inlineUpdate();
 
 					// Insert Inline
 					if ($this->isInsert() && @$_SESSION[SESSION_INLINE_MODE] == "add")
@@ -1014,7 +1006,6 @@ class t102_daf_kelas_siswa_list extends t102_daf_kelas_siswa
 	// Exit inline mode
 	protected function clearInlineMode()
 	{
-		$this->setKey("id", ""); // Clear inline edit key
 		$this->LastAction = $this->CurrentAction; // Save last action
 		$this->CurrentAction = ""; // Clear action
 		$_SESSION[SESSION_INLINE_MODE] = ""; // Clear inline mode
@@ -1036,86 +1027,13 @@ class t102_daf_kelas_siswa_list extends t102_daf_kelas_siswa
 		$this->hideFieldsForAddEdit();
 	}
 
-	// Switch to Inline Edit mode
-	protected function inlineEditMode()
-	{
-		global $Security, $Language;
-		if (!$Security->canEdit())
-			return FALSE; // Edit not allowed
-		$inlineEdit = TRUE;
-		if (Get("id") !== NULL) {
-			$this->id->setQueryStringValue(Get("id"));
-		} else {
-			$inlineEdit = FALSE;
-		}
-		if ($inlineEdit) {
-			if ($this->loadRow()) {
-				$this->setKey("id", $this->id->CurrentValue); // Set up inline edit key
-				$_SESSION[SESSION_INLINE_MODE] = "edit"; // Enable inline edit
-			}
-		}
-		return TRUE;
-	}
-
-	// Perform update to Inline Edit record
-	protected function inlineUpdate()
-	{
-		global $Language, $CurrentForm, $FormError;
-		$CurrentForm->Index = 1;
-		$this->loadFormValues(); // Get form values
-
-		// Validate form
-		$inlineUpdate = TRUE;
-		if (!$this->validateForm()) {
-			$inlineUpdate = FALSE; // Form error, reset action
-			$this->setFailureMessage($FormError);
-		} else {
-			$inlineUpdate = FALSE;
-			$rowkey = strval($CurrentForm->getValue($this->FormKeyName));
-			if ($this->setupKeyValues($rowkey)) { // Set up key values
-				if ($this->checkInlineEditKey()) { // Check key
-					$this->SendEmail = TRUE; // Send email on update success
-					$inlineUpdate = $this->editRow(); // Update record
-				} else {
-					$inlineUpdate = FALSE;
-				}
-			}
-		}
-		if ($inlineUpdate) { // Update success
-			if ($this->getSuccessMessage() == "")
-				$this->setSuccessMessage($Language->phrase("UpdateSuccess")); // Set up success message
-			$this->clearInlineMode(); // Clear inline edit mode
-		} else {
-			if ($this->getFailureMessage() == "")
-				$this->setFailureMessage($Language->phrase("UpdateFailed")); // Set update failed message
-			$this->EventCancelled = TRUE; // Cancel event
-			$this->CurrentAction = "edit"; // Stay in edit mode
-		}
-	}
-
-	// Check Inline Edit key
-	public function checkInlineEditKey()
-	{
-		if (strval($this->getKey("id")) <> strval($this->id->CurrentValue))
-			return FALSE;
-		return TRUE;
-	}
-
 	// Switch to Inline Add mode
 	protected function inlineAddMode()
 	{
 		global $Security, $Language;
 		if (!$Security->canAdd())
 			return FALSE; // Add not allowed
-		if ($this->isCopy()) {
-			if (Get("id") !== NULL) {
-				$this->id->setQueryStringValue(Get("id"));
-				$this->setKey("id", $this->id->CurrentValue); // Set up key
-			} else {
-				$this->setKey("id", ""); // Clear key
-				$this->CurrentAction = "add";
-			}
-		}
+		$this->CurrentAction = "add";
 		$_SESSION[SESSION_INLINE_MODE] = "add"; // Enable inline add
 		return TRUE;
 	}
@@ -1554,22 +1472,10 @@ class t102_daf_kelas_siswa_list extends t102_daf_kelas_siswa
 		$item->OnLeft = TRUE;
 		$item->Visible = FALSE;
 
-		// "view"
-		$item = &$this->ListOptions->add("view");
-		$item->CssClass = "text-nowrap";
-		$item->Visible = $Security->canView();
-		$item->OnLeft = TRUE;
-
-		// "edit"
-		$item = &$this->ListOptions->add("edit");
-		$item->CssClass = "text-nowrap";
-		$item->Visible = $Security->canEdit();
-		$item->OnLeft = TRUE;
-
 		// "copy"
 		$item = &$this->ListOptions->add("copy");
 		$item->CssClass = "text-nowrap";
-		$item->Visible = $Security->canAdd();
+		$item->Visible = $Security->canAdd() && ($this->isAdd());
 		$item->OnLeft = TRUE;
 
 		// "delete"
@@ -1674,47 +1580,6 @@ class t102_daf_kelas_siswa_list extends t102_daf_kelas_siswa
 			return;
 		}
 
-		// "edit"
-		$opt = &$this->ListOptions->Items["edit"];
-		if ($this->isInlineEditRow()) { // Inline-Edit
-			$this->ListOptions->CustomItem = "edit"; // Show edit column only
-				$opt->Body = "<div" . (($opt->OnLeft) ? " class=\"text-right\"" : "") . ">" .
-					"<a class=\"ew-grid-link ew-inline-update\" title=\"" . HtmlTitle($Language->phrase("UpdateLink")) . "\" data-caption=\"" . HtmlTitle($Language->phrase("UpdateLink")) . "\" href=\"\" onclick=\"return ew.forms(this).submit('" . UrlAddHash($this->pageName(), "r" . $this->RowCnt . "_" . $this->TableVar) . "');\">" . $Language->phrase("UpdateLink") . "</a>&nbsp;" .
-					"<a class=\"ew-grid-link ew-inline-cancel\" title=\"" . HtmlTitle($Language->phrase("CancelLink")) . "\" data-caption=\"" . HtmlTitle($Language->phrase("CancelLink")) . "\" href=\"" . $this->CancelUrl . "\">" . $Language->phrase("CancelLink") . "</a>" .
-					"<input type=\"hidden\" name=\"action\" id=\"action\" value=\"update\"></div>";
-			$opt->Body .= "<input type=\"hidden\" name=\"k" . $this->RowIndex . "_key\" id=\"k" . $this->RowIndex . "_key\" value=\"" . HtmlEncode($this->id->CurrentValue) . "\">";
-			return;
-		}
-
-		// "view"
-		$opt = &$this->ListOptions->Items["view"];
-		$viewcaption = HtmlTitle($Language->phrase("ViewLink"));
-		if ($Security->canView()) {
-			$opt->Body = "<a class=\"ew-row-link ew-view\" title=\"" . $viewcaption . "\" data-caption=\"" . $viewcaption . "\" href=\"" . HtmlEncode($this->ViewUrl) . "\">" . $Language->phrase("ViewLink") . "</a>";
-		} else {
-			$opt->Body = "";
-		}
-
-		// "edit"
-		$opt = &$this->ListOptions->Items["edit"];
-		$editcaption = HtmlTitle($Language->phrase("EditLink"));
-		if ($Security->canEdit()) {
-			$opt->Body = "<a class=\"ew-row-link ew-edit\" title=\"" . HtmlTitle($Language->phrase("EditLink")) . "\" data-caption=\"" . HtmlTitle($Language->phrase("EditLink")) . "\" href=\"" . HtmlEncode($this->EditUrl) . "\">" . $Language->phrase("EditLink") . "</a>";
-			$opt->Body .= "<a class=\"ew-row-link ew-inline-edit\" title=\"" . HtmlTitle($Language->phrase("InlineEditLink")) . "\" data-caption=\"" . HtmlTitle($Language->phrase("InlineEditLink")) . "\" href=\"" . HtmlEncode(UrlAddHash($this->InlineEditUrl, "r" . $this->RowCnt . "_" . $this->TableVar)) . "\">" . $Language->phrase("InlineEditLink") . "</a>";
-		} else {
-			$opt->Body = "";
-		}
-
-		// "copy"
-		$opt = &$this->ListOptions->Items["copy"];
-		$copycaption = HtmlTitle($Language->phrase("CopyLink"));
-		if ($Security->canAdd()) {
-			$opt->Body = "<a class=\"ew-row-link ew-copy\" title=\"" . $copycaption . "\" data-caption=\"" . $copycaption . "\" href=\"" . HtmlEncode($this->CopyUrl) . "\">" . $Language->phrase("CopyLink") . "</a>";
-			$opt->Body .= "<a class=\"ew-row-link ew-inline-copy\" title=\"" . HtmlTitle($Language->phrase("InlineCopyLink")) . "\" data-caption=\"" . HtmlTitle($Language->phrase("InlineCopyLink")) . "\" href=\"" . HtmlEncode($this->InlineCopyUrl) . "\">" . $Language->phrase("InlineCopyLink") . "</a>";
-		} else {
-			$opt->Body = "";
-		}
-
 		// "delete"
 		$opt = &$this->ListOptions->Items["delete"];
 		if ($Security->canDelete())
@@ -1769,12 +1634,6 @@ class t102_daf_kelas_siswa_list extends t102_daf_kelas_siswa
 		global $Language, $Security;
 		$options = &$this->OtherOptions;
 		$option = $options["addedit"];
-
-		// Add
-		$item = &$option->add("add");
-		$addcaption = HtmlTitle($Language->phrase("AddLink"));
-		$item->Body = "<a class=\"ew-add-edit ew-add\" title=\"" . $addcaption . "\" data-caption=\"" . $addcaption . "\" href=\"" . HtmlEncode($this->AddUrl) . "\">" . $Language->phrase("AddLink") . "</a>";
-		$item->Visible = ($this->AddUrl <> "" && $Security->canAdd());
 
 		// Inline Add
 		$item = &$option->add("inlineadd");
@@ -1862,7 +1721,7 @@ class t102_daf_kelas_siswa_list extends t102_daf_kelas_siswa
 					$option->UseDropDownButton = FALSE;
 					$item = &$option->add("addblankrow");
 					$item->Body = "<a class=\"ew-add-edit ew-add-blank-row\" title=\"" . HtmlTitle($Language->phrase("AddBlankRow")) . "\" data-caption=\"" . HtmlTitle($Language->phrase("AddBlankRow")) . "\" href=\"javascript:void(0);\" onclick=\"ew.addGridRow(this);\">" . $Language->phrase("AddBlankRow") . "</a>";
-					$item->Visible = $Security->canAdd();
+					$item->Visible = FALSE;
 				}
 				$option = &$options["action"];
 				$option->UseDropDownButton = FALSE;
@@ -1883,7 +1742,7 @@ class t102_daf_kelas_siswa_list extends t102_daf_kelas_siswa
 					$option->UseDropDownButton = FALSE;
 					$item = &$option->add("addblankrow");
 					$item->Body = "<a class=\"ew-add-edit ew-add-blank-row\" title=\"" . HtmlTitle($Language->phrase("AddBlankRow")) . "\" data-caption=\"" . HtmlTitle($Language->phrase("AddBlankRow")) . "\" href=\"javascript:void(0);\" onclick=\"ew.addGridRow(this);\">" . $Language->phrase("AddBlankRow") . "</a>";
-					$item->Visible = $Security->canAdd();
+					$item->Visible = FALSE;
 				}
 				$option = &$options["action"];
 				$option->UseDropDownButton = FALSE;

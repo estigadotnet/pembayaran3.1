@@ -54,11 +54,8 @@ ft304_audit_traillist.validateRequired = <?php echo json_encode(CLIENT_VALIDATE)
 // Dynamic selection lists
 // Form object for search
 
-var ft304_audit_traillistsrch = currentSearchForm = new ew.Form("ft304_audit_traillistsrch");
-
-// Filters
-ft304_audit_traillistsrch.filterList = <?php echo $t304_audit_trail_list->getFilterList() ?>;
 </script>
+<script src="phpjs/ewscrolltable.js"></script>
 <style type="text/css">
 .ew-table-preview-row { /* main table preview row color */
 	background-color: #FFFFFF; /* preview row color */
@@ -94,47 +91,12 @@ ew.PREVIEW_OVERLAY = false;
 <?php if ($t304_audit_trail_list->ImportOptions->visible()) { ?>
 <?php $t304_audit_trail_list->ImportOptions->render("body") ?>
 <?php } ?>
-<?php if ($t304_audit_trail_list->SearchOptions->visible()) { ?>
-<?php $t304_audit_trail_list->SearchOptions->render("body") ?>
-<?php } ?>
-<?php if ($t304_audit_trail_list->FilterOptions->visible()) { ?>
-<?php $t304_audit_trail_list->FilterOptions->render("body") ?>
-<?php } ?>
 <div class="clearfix"></div>
 </div>
 <?php } ?>
 <?php
 $t304_audit_trail_list->renderOtherOptions();
 ?>
-<?php if ($Security->CanSearch()) { ?>
-<?php if (!$t304_audit_trail->isExport() && !$t304_audit_trail->CurrentAction) { ?>
-<form name="ft304_audit_traillistsrch" id="ft304_audit_traillistsrch" class="form-inline ew-form ew-ext-search-form" action="<?php echo CurrentPageName() ?>">
-<?php $searchPanelClass = ($t304_audit_trail_list->SearchWhere <> "") ? " show" : " show"; ?>
-<div id="ft304_audit_traillistsrch-search-panel" class="ew-search-panel collapse<?php echo $searchPanelClass ?>">
-<input type="hidden" name="cmd" value="search">
-<input type="hidden" name="t" value="t304_audit_trail">
-	<div class="ew-basic-search">
-<div id="xsr_1" class="ew-row d-sm-flex">
-	<div class="ew-quick-search input-group">
-		<input type="text" name="<?php echo TABLE_BASIC_SEARCH ?>" id="<?php echo TABLE_BASIC_SEARCH ?>" class="form-control" value="<?php echo HtmlEncode($t304_audit_trail_list->BasicSearch->getKeyword()) ?>" placeholder="<?php echo HtmlEncode($Language->phrase("Search")) ?>">
-		<input type="hidden" name="<?php echo TABLE_BASIC_SEARCH_TYPE ?>" id="<?php echo TABLE_BASIC_SEARCH_TYPE ?>" value="<?php echo HtmlEncode($t304_audit_trail_list->BasicSearch->getType()) ?>">
-		<div class="input-group-append">
-			<button class="btn btn-primary" name="btn-submit" id="btn-submit" type="submit"><?php echo $Language->phrase("SearchBtn") ?></button>
-			<button type="button" data-toggle="dropdown" class="btn btn-primary dropdown-toggle dropdown-toggle-split" aria-haspopup="true" aria-expanded="false"><span id="searchtype"><?php echo $t304_audit_trail_list->BasicSearch->getTypeNameShort() ?></span></button>
-			<div class="dropdown-menu dropdown-menu-right">
-				<a class="dropdown-item<?php if ($t304_audit_trail_list->BasicSearch->getType() == "") echo " active"; ?>" href="javascript:void(0);" onclick="ew.setSearchType(this)"><?php echo $Language->phrase("QuickSearchAuto") ?></a>
-				<a class="dropdown-item<?php if ($t304_audit_trail_list->BasicSearch->getType() == "=") echo " active"; ?>" href="javascript:void(0);" onclick="ew.setSearchType(this,'=')"><?php echo $Language->phrase("QuickSearchExact") ?></a>
-				<a class="dropdown-item<?php if ($t304_audit_trail_list->BasicSearch->getType() == "AND") echo " active"; ?>" href="javascript:void(0);" onclick="ew.setSearchType(this,'AND')"><?php echo $Language->phrase("QuickSearchAll") ?></a>
-				<a class="dropdown-item<?php if ($t304_audit_trail_list->BasicSearch->getType() == "OR") echo " active"; ?>" href="javascript:void(0);" onclick="ew.setSearchType(this,'OR')"><?php echo $Language->phrase("QuickSearchAny") ?></a>
-			</div>
-		</div>
-	</div>
-</div>
-	</div>
-</div>
-</form>
-<?php } ?>
-<?php } ?>
 <?php $t304_audit_trail_list->showPageHeader(); ?>
 <?php
 $t304_audit_trail_list->showMessage();
@@ -185,7 +147,7 @@ $t304_audit_trail_list->ListOptions->render("header", "left");
 		<th data-name="script" class="<?php echo $t304_audit_trail->script->headerCellClass() ?>"><div id="elh_t304_audit_trail_script" class="t304_audit_trail_script"><div class="ew-table-header-caption"><?php echo $t304_audit_trail->script->caption() ?></div></div></th>
 	<?php } else { ?>
 		<th data-name="script" class="<?php echo $t304_audit_trail->script->headerCellClass() ?>"><div class="ew-pointer" onclick="ew.sort(event,'<?php echo $t304_audit_trail->SortUrl($t304_audit_trail->script) ?>',2);"><div id="elh_t304_audit_trail_script" class="t304_audit_trail_script">
-			<div class="ew-table-header-btn"><span class="ew-table-header-caption"><?php echo $t304_audit_trail->script->caption() ?><?php echo $Language->phrase("SrchLegend") ?></span><span class="ew-table-header-sort"><?php if ($t304_audit_trail->script->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($t304_audit_trail->script->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span></div>
+			<div class="ew-table-header-btn"><span class="ew-table-header-caption"><?php echo $t304_audit_trail->script->caption() ?></span><span class="ew-table-header-sort"><?php if ($t304_audit_trail->script->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($t304_audit_trail->script->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span></div>
 		</div></div></th>
 	<?php } ?>
 <?php } ?>
@@ -194,7 +156,7 @@ $t304_audit_trail_list->ListOptions->render("header", "left");
 		<th data-name="user" class="<?php echo $t304_audit_trail->user->headerCellClass() ?>"><div id="elh_t304_audit_trail_user" class="t304_audit_trail_user"><div class="ew-table-header-caption"><?php echo $t304_audit_trail->user->caption() ?></div></div></th>
 	<?php } else { ?>
 		<th data-name="user" class="<?php echo $t304_audit_trail->user->headerCellClass() ?>"><div class="ew-pointer" onclick="ew.sort(event,'<?php echo $t304_audit_trail->SortUrl($t304_audit_trail->user) ?>',2);"><div id="elh_t304_audit_trail_user" class="t304_audit_trail_user">
-			<div class="ew-table-header-btn"><span class="ew-table-header-caption"><?php echo $t304_audit_trail->user->caption() ?><?php echo $Language->phrase("SrchLegend") ?></span><span class="ew-table-header-sort"><?php if ($t304_audit_trail->user->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($t304_audit_trail->user->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span></div>
+			<div class="ew-table-header-btn"><span class="ew-table-header-caption"><?php echo $t304_audit_trail->user->caption() ?></span><span class="ew-table-header-sort"><?php if ($t304_audit_trail->user->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($t304_audit_trail->user->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span></div>
 		</div></div></th>
 	<?php } ?>
 <?php } ?>
@@ -203,7 +165,7 @@ $t304_audit_trail_list->ListOptions->render("header", "left");
 		<th data-name="_action" class="<?php echo $t304_audit_trail->_action->headerCellClass() ?>"><div id="elh_t304_audit_trail__action" class="t304_audit_trail__action"><div class="ew-table-header-caption"><?php echo $t304_audit_trail->_action->caption() ?></div></div></th>
 	<?php } else { ?>
 		<th data-name="_action" class="<?php echo $t304_audit_trail->_action->headerCellClass() ?>"><div class="ew-pointer" onclick="ew.sort(event,'<?php echo $t304_audit_trail->SortUrl($t304_audit_trail->_action) ?>',2);"><div id="elh_t304_audit_trail__action" class="t304_audit_trail__action">
-			<div class="ew-table-header-btn"><span class="ew-table-header-caption"><?php echo $t304_audit_trail->_action->caption() ?><?php echo $Language->phrase("SrchLegend") ?></span><span class="ew-table-header-sort"><?php if ($t304_audit_trail->_action->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($t304_audit_trail->_action->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span></div>
+			<div class="ew-table-header-btn"><span class="ew-table-header-caption"><?php echo $t304_audit_trail->_action->caption() ?></span><span class="ew-table-header-sort"><?php if ($t304_audit_trail->_action->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($t304_audit_trail->_action->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span></div>
 		</div></div></th>
 	<?php } ?>
 <?php } ?>
@@ -212,7 +174,7 @@ $t304_audit_trail_list->ListOptions->render("header", "left");
 		<th data-name="_table" class="<?php echo $t304_audit_trail->_table->headerCellClass() ?>"><div id="elh_t304_audit_trail__table" class="t304_audit_trail__table"><div class="ew-table-header-caption"><?php echo $t304_audit_trail->_table->caption() ?></div></div></th>
 	<?php } else { ?>
 		<th data-name="_table" class="<?php echo $t304_audit_trail->_table->headerCellClass() ?>"><div class="ew-pointer" onclick="ew.sort(event,'<?php echo $t304_audit_trail->SortUrl($t304_audit_trail->_table) ?>',2);"><div id="elh_t304_audit_trail__table" class="t304_audit_trail__table">
-			<div class="ew-table-header-btn"><span class="ew-table-header-caption"><?php echo $t304_audit_trail->_table->caption() ?><?php echo $Language->phrase("SrchLegend") ?></span><span class="ew-table-header-sort"><?php if ($t304_audit_trail->_table->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($t304_audit_trail->_table->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span></div>
+			<div class="ew-table-header-btn"><span class="ew-table-header-caption"><?php echo $t304_audit_trail->_table->caption() ?></span><span class="ew-table-header-sort"><?php if ($t304_audit_trail->_table->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($t304_audit_trail->_table->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span></div>
 		</div></div></th>
 	<?php } ?>
 <?php } ?>
@@ -221,7 +183,7 @@ $t304_audit_trail_list->ListOptions->render("header", "left");
 		<th data-name="field" class="<?php echo $t304_audit_trail->field->headerCellClass() ?>"><div id="elh_t304_audit_trail_field" class="t304_audit_trail_field"><div class="ew-table-header-caption"><?php echo $t304_audit_trail->field->caption() ?></div></div></th>
 	<?php } else { ?>
 		<th data-name="field" class="<?php echo $t304_audit_trail->field->headerCellClass() ?>"><div class="ew-pointer" onclick="ew.sort(event,'<?php echo $t304_audit_trail->SortUrl($t304_audit_trail->field) ?>',2);"><div id="elh_t304_audit_trail_field" class="t304_audit_trail_field">
-			<div class="ew-table-header-btn"><span class="ew-table-header-caption"><?php echo $t304_audit_trail->field->caption() ?><?php echo $Language->phrase("SrchLegend") ?></span><span class="ew-table-header-sort"><?php if ($t304_audit_trail->field->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($t304_audit_trail->field->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span></div>
+			<div class="ew-table-header-btn"><span class="ew-table-header-caption"><?php echo $t304_audit_trail->field->caption() ?></span><span class="ew-table-header-sort"><?php if ($t304_audit_trail->field->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($t304_audit_trail->field->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span></div>
 		</div></div></th>
 	<?php } ?>
 <?php } ?>
@@ -462,6 +424,11 @@ if (DEBUG_ENABLED)
 // document.write("page loaded");
 
 </script>
+<?php if (!$t304_audit_trail->isExport()) { ?>
+<script>
+ew.scrollableTable("gmp_t304_audit_trail", "100%", "100%");
+</script>
+<?php } ?>
 <?php } ?>
 <?php include_once "footer.php" ?>
 <?php

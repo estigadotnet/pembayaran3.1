@@ -41,61 +41,6 @@ currentPageID = ew.PAGE_ID = "list";
 var ft101_daf_kelaslist = currentForm = new ew.Form("ft101_daf_kelaslist", "list");
 ft101_daf_kelaslist.formKeyCountName = '<?php echo $t101_daf_kelas_list->FormKeyCountName ?>';
 
-// Validate form
-ft101_daf_kelaslist.validate = function() {
-	if (!this.validateRequired)
-		return true; // Ignore validation
-	var $ = jQuery, fobj = this.getForm(), $fobj = $(fobj);
-	if ($fobj.find("#confirm").val() == "F")
-		return true;
-	var elm, felm, uelm, addcnt = 0;
-	var $k = $fobj.find("#" + this.formKeyCountName); // Get key_count
-	var rowcnt = ($k[0]) ? parseInt($k.val(), 10) : 1;
-	var startcnt = (rowcnt == 0) ? 0 : 1; // Check rowcnt == 0 => Inline-Add
-	var gridinsert = ["insert", "gridinsert"].includes($fobj.find("#action").val()) && $k[0];
-	for (var i = startcnt; i <= rowcnt; i++) {
-		var infix = ($k[0]) ? String(i) : "";
-		$fobj.data("rowindex", infix);
-		var checkrow = (gridinsert) ? !this.emptyRow(infix) : true;
-		if (checkrow) {
-			addcnt++;
-		<?php if ($t101_daf_kelas_list->tahun_ajaran_id->Required) { ?>
-			elm = this.getElements("x" + infix + "_tahun_ajaran_id");
-			if (elm && !ew.isHidden(elm) && !ew.hasValue(elm))
-				return this.onError(elm, "<?php echo JsEncode(str_replace("%s", $t101_daf_kelas->tahun_ajaran_id->caption(), $t101_daf_kelas->tahun_ajaran_id->RequiredErrorMessage)) ?>");
-		<?php } ?>
-		<?php if ($t101_daf_kelas_list->sekolah_id->Required) { ?>
-			elm = this.getElements("x" + infix + "_sekolah_id");
-			if (elm && !ew.isHidden(elm) && !ew.hasValue(elm))
-				return this.onError(elm, "<?php echo JsEncode(str_replace("%s", $t101_daf_kelas->sekolah_id->caption(), $t101_daf_kelas->sekolah_id->RequiredErrorMessage)) ?>");
-		<?php } ?>
-		<?php if ($t101_daf_kelas_list->kelas_id->Required) { ?>
-			elm = this.getElements("x" + infix + "_kelas_id");
-			if (elm && !ew.isHidden(elm) && !ew.hasValue(elm))
-				return this.onError(elm, "<?php echo JsEncode(str_replace("%s", $t101_daf_kelas->kelas_id->caption(), $t101_daf_kelas->kelas_id->RequiredErrorMessage)) ?>");
-		<?php } ?>
-
-			// Fire Form_CustomValidate event
-			if (!this.Form_CustomValidate(fobj))
-				return false;
-		} // End Grid Add checking
-	}
-	if (gridinsert && addcnt == 0) { // No row added
-		ew.alert(ew.language.phrase("NoAddRecord"));
-		return false;
-	}
-	return true;
-}
-
-// Check empty row
-ft101_daf_kelaslist.emptyRow = function(infix) {
-	var fobj = this._form;
-	if (ew.valueChanged(fobj, infix, "tahun_ajaran_id", false)) return false;
-	if (ew.valueChanged(fobj, infix, "sekolah_id", false)) return false;
-	if (ew.valueChanged(fobj, infix, "kelas_id", false)) return false;
-	return true;
-}
-
 // Form_CustomValidate event
 ft101_daf_kelaslist.Form_CustomValidate = function(fobj) { // DO NOT CHANGE THIS LINE!
 
@@ -169,7 +114,7 @@ $t101_daf_kelas_list->showMessage();
 <?php } ?>
 <input type="hidden" name="t" value="t101_daf_kelas">
 <div id="gmp_t101_daf_kelas" class="<?php if (IsResponsiveLayout()) { ?>table-responsive <?php } ?>card-body ew-grid-middle-panel">
-<?php if ($t101_daf_kelas_list->TotalRecs > 0 || $t101_daf_kelas->isAdd() || $t101_daf_kelas->isCopy() || $t101_daf_kelas->isGridEdit()) { ?>
+<?php if ($t101_daf_kelas_list->TotalRecs > 0 || $t101_daf_kelas->isGridEdit()) { ?>
 <table id="tbl_t101_daf_kelaslist" class="table ew-table"><!-- .ew-table ##-->
 <thead>
 	<tr class="ew-table-header">
@@ -220,86 +165,6 @@ $t101_daf_kelas_list->ListOptions->render("header", "right");
 </thead>
 <tbody>
 <?php
-	if ($t101_daf_kelas->isAdd() || $t101_daf_kelas->isCopy()) {
-		$t101_daf_kelas_list->RowIndex = 0;
-		$t101_daf_kelas_list->KeyCount = $t101_daf_kelas_list->RowIndex;
-		if ($t101_daf_kelas->isCopy() && !$t101_daf_kelas_list->loadRow())
-			$t101_daf_kelas->CurrentAction = "add";
-		if ($t101_daf_kelas->isAdd())
-			$t101_daf_kelas_list->loadRowValues();
-		if ($t101_daf_kelas->EventCancelled) // Insert failed
-			$t101_daf_kelas_list->restoreFormValues(); // Restore form values
-
-		// Set row properties
-		$t101_daf_kelas->resetAttributes();
-		$t101_daf_kelas->RowAttrs = array_merge($t101_daf_kelas->RowAttrs, array('data-rowindex'=>0, 'id'=>'r0_t101_daf_kelas', 'data-rowtype'=>ROWTYPE_ADD));
-		$t101_daf_kelas->RowType = ROWTYPE_ADD;
-
-		// Render row
-		$t101_daf_kelas_list->renderRow();
-
-		// Render list options
-		$t101_daf_kelas_list->renderListOptions();
-		$t101_daf_kelas_list->StartRowCnt = 0;
-?>
-	<tr<?php echo $t101_daf_kelas->rowAttributes() ?>>
-<?php
-
-// Render list options (body, left)
-$t101_daf_kelas_list->ListOptions->render("body", "left", $t101_daf_kelas_list->RowCnt);
-?>
-	<?php if ($t101_daf_kelas->tahun_ajaran_id->Visible) { // tahun_ajaran_id ?>
-		<td data-name="tahun_ajaran_id">
-<span id="el<?php echo $t101_daf_kelas_list->RowCnt ?>_t101_daf_kelas_tahun_ajaran_id" class="form-group t101_daf_kelas_tahun_ajaran_id">
-<div class="input-group">
-	<select class="custom-select ew-custom-select" data-table="t101_daf_kelas" data-field="x_tahun_ajaran_id" data-value-separator="<?php echo $t101_daf_kelas->tahun_ajaran_id->displayValueSeparatorAttribute() ?>" id="x<?php echo $t101_daf_kelas_list->RowIndex ?>_tahun_ajaran_id" name="x<?php echo $t101_daf_kelas_list->RowIndex ?>_tahun_ajaran_id"<?php echo $t101_daf_kelas->tahun_ajaran_id->editAttributes() ?>>
-		<?php echo $t101_daf_kelas->tahun_ajaran_id->selectOptionListHtml("x<?php echo $t101_daf_kelas_list->RowIndex ?>_tahun_ajaran_id") ?>
-	</select>
-</div>
-<?php echo $t101_daf_kelas->tahun_ajaran_id->Lookup->getParamTag("p_x" . $t101_daf_kelas_list->RowIndex . "_tahun_ajaran_id") ?>
-</span>
-<input type="hidden" data-table="t101_daf_kelas" data-field="x_tahun_ajaran_id" name="o<?php echo $t101_daf_kelas_list->RowIndex ?>_tahun_ajaran_id" id="o<?php echo $t101_daf_kelas_list->RowIndex ?>_tahun_ajaran_id" value="<?php echo HtmlEncode($t101_daf_kelas->tahun_ajaran_id->OldValue) ?>">
-</td>
-	<?php } ?>
-	<?php if ($t101_daf_kelas->sekolah_id->Visible) { // sekolah_id ?>
-		<td data-name="sekolah_id">
-<span id="el<?php echo $t101_daf_kelas_list->RowCnt ?>_t101_daf_kelas_sekolah_id" class="form-group t101_daf_kelas_sekolah_id">
-<div class="input-group">
-	<select class="custom-select ew-custom-select" data-table="t101_daf_kelas" data-field="x_sekolah_id" data-value-separator="<?php echo $t101_daf_kelas->sekolah_id->displayValueSeparatorAttribute() ?>" id="x<?php echo $t101_daf_kelas_list->RowIndex ?>_sekolah_id" name="x<?php echo $t101_daf_kelas_list->RowIndex ?>_sekolah_id"<?php echo $t101_daf_kelas->sekolah_id->editAttributes() ?>>
-		<?php echo $t101_daf_kelas->sekolah_id->selectOptionListHtml("x<?php echo $t101_daf_kelas_list->RowIndex ?>_sekolah_id") ?>
-	</select>
-</div>
-<?php echo $t101_daf_kelas->sekolah_id->Lookup->getParamTag("p_x" . $t101_daf_kelas_list->RowIndex . "_sekolah_id") ?>
-</span>
-<input type="hidden" data-table="t101_daf_kelas" data-field="x_sekolah_id" name="o<?php echo $t101_daf_kelas_list->RowIndex ?>_sekolah_id" id="o<?php echo $t101_daf_kelas_list->RowIndex ?>_sekolah_id" value="<?php echo HtmlEncode($t101_daf_kelas->sekolah_id->OldValue) ?>">
-</td>
-	<?php } ?>
-	<?php if ($t101_daf_kelas->kelas_id->Visible) { // kelas_id ?>
-		<td data-name="kelas_id">
-<span id="el<?php echo $t101_daf_kelas_list->RowCnt ?>_t101_daf_kelas_kelas_id" class="form-group t101_daf_kelas_kelas_id">
-<div class="input-group">
-	<select class="custom-select ew-custom-select" data-table="t101_daf_kelas" data-field="x_kelas_id" data-value-separator="<?php echo $t101_daf_kelas->kelas_id->displayValueSeparatorAttribute() ?>" id="x<?php echo $t101_daf_kelas_list->RowIndex ?>_kelas_id" name="x<?php echo $t101_daf_kelas_list->RowIndex ?>_kelas_id"<?php echo $t101_daf_kelas->kelas_id->editAttributes() ?>>
-		<?php echo $t101_daf_kelas->kelas_id->selectOptionListHtml("x<?php echo $t101_daf_kelas_list->RowIndex ?>_kelas_id") ?>
-	</select>
-</div>
-<?php echo $t101_daf_kelas->kelas_id->Lookup->getParamTag("p_x" . $t101_daf_kelas_list->RowIndex . "_kelas_id") ?>
-</span>
-<input type="hidden" data-table="t101_daf_kelas" data-field="x_kelas_id" name="o<?php echo $t101_daf_kelas_list->RowIndex ?>_kelas_id" id="o<?php echo $t101_daf_kelas_list->RowIndex ?>_kelas_id" value="<?php echo HtmlEncode($t101_daf_kelas->kelas_id->OldValue) ?>">
-</td>
-	<?php } ?>
-<?php
-
-// Render list options (body, right)
-$t101_daf_kelas_list->ListOptions->render("body", "right", $t101_daf_kelas_list->RowCnt);
-?>
-<script>
-ft101_daf_kelaslist.updateLists(<?php echo $t101_daf_kelas_list->RowIndex ?>);
-</script>
-	</tr>
-<?php
-}
-?>
-<?php
 if ($t101_daf_kelas->ExportAll && $t101_daf_kelas->isExport()) {
 	$t101_daf_kelas_list->StopRec = $t101_daf_kelas_list->TotalRecs;
 } else {
@@ -309,15 +174,6 @@ if ($t101_daf_kelas->ExportAll && $t101_daf_kelas->isExport()) {
 		$t101_daf_kelas_list->StopRec = $t101_daf_kelas_list->StartRec + $t101_daf_kelas_list->DisplayRecs - 1;
 	else
 		$t101_daf_kelas_list->StopRec = $t101_daf_kelas_list->TotalRecs;
-}
-
-// Restore number of post back records
-if ($CurrentForm && $t101_daf_kelas_list->EventCancelled) {
-	$CurrentForm->Index = -1;
-	if ($CurrentForm->hasValue($t101_daf_kelas_list->FormKeyCountName) && ($t101_daf_kelas->isGridAdd() || $t101_daf_kelas->isGridEdit() || $t101_daf_kelas->isConfirm())) {
-		$t101_daf_kelas_list->KeyCount = $CurrentForm->getValue($t101_daf_kelas_list->FormKeyCountName);
-		$t101_daf_kelas_list->StopRec = $t101_daf_kelas_list->StartRec + $t101_daf_kelas_list->KeyCount - 1;
-	}
 }
 $t101_daf_kelas_list->RecCnt = $t101_daf_kelas_list->StartRec - 1;
 if ($t101_daf_kelas_list->Recordset && !$t101_daf_kelas_list->Recordset->EOF) {
@@ -333,27 +189,10 @@ if ($t101_daf_kelas_list->Recordset && !$t101_daf_kelas_list->Recordset->EOF) {
 $t101_daf_kelas->RowType = ROWTYPE_AGGREGATEINIT;
 $t101_daf_kelas->resetAttributes();
 $t101_daf_kelas_list->renderRow();
-$t101_daf_kelas_list->EditRowCnt = 0;
-if ($t101_daf_kelas->isEdit())
-	$t101_daf_kelas_list->RowIndex = 1;
-if ($t101_daf_kelas->isGridAdd())
-	$t101_daf_kelas_list->RowIndex = 0;
-if ($t101_daf_kelas->isGridEdit())
-	$t101_daf_kelas_list->RowIndex = 0;
 while ($t101_daf_kelas_list->RecCnt < $t101_daf_kelas_list->StopRec) {
 	$t101_daf_kelas_list->RecCnt++;
 	if ($t101_daf_kelas_list->RecCnt >= $t101_daf_kelas_list->StartRec) {
 		$t101_daf_kelas_list->RowCnt++;
-		if ($t101_daf_kelas->isGridAdd() || $t101_daf_kelas->isGridEdit() || $t101_daf_kelas->isConfirm()) {
-			$t101_daf_kelas_list->RowIndex++;
-			$CurrentForm->Index = $t101_daf_kelas_list->RowIndex;
-			if ($CurrentForm->hasValue($t101_daf_kelas_list->FormActionName) && $t101_daf_kelas_list->EventCancelled)
-				$t101_daf_kelas_list->RowAction = strval($CurrentForm->getValue($t101_daf_kelas_list->FormActionName));
-			elseif ($t101_daf_kelas->isGridAdd())
-				$t101_daf_kelas_list->RowAction = "insert";
-			else
-				$t101_daf_kelas_list->RowAction = "";
-		}
 
 		// Set up key count
 		$t101_daf_kelas_list->KeyCount = $t101_daf_kelas_list->RowIndex;
@@ -362,36 +201,10 @@ while ($t101_daf_kelas_list->RecCnt < $t101_daf_kelas_list->StopRec) {
 		$t101_daf_kelas->resetAttributes();
 		$t101_daf_kelas->CssClass = "";
 		if ($t101_daf_kelas->isGridAdd()) {
-			$t101_daf_kelas_list->loadRowValues(); // Load default values
 		} else {
 			$t101_daf_kelas_list->loadRowValues($t101_daf_kelas_list->Recordset); // Load row values
 		}
 		$t101_daf_kelas->RowType = ROWTYPE_VIEW; // Render view
-		if ($t101_daf_kelas->isGridAdd()) // Grid add
-			$t101_daf_kelas->RowType = ROWTYPE_ADD; // Render add
-		if ($t101_daf_kelas->isGridAdd() && $t101_daf_kelas->EventCancelled && !$CurrentForm->hasValue("k_blankrow")) // Insert failed
-			$t101_daf_kelas_list->restoreCurrentRowFormValues($t101_daf_kelas_list->RowIndex); // Restore form values
-		if ($t101_daf_kelas->isEdit()) {
-			if ($t101_daf_kelas_list->checkInlineEditKey() && $t101_daf_kelas_list->EditRowCnt == 0) { // Inline edit
-				$t101_daf_kelas->RowType = ROWTYPE_EDIT; // Render edit
-			}
-		}
-		if ($t101_daf_kelas->isGridEdit()) { // Grid edit
-			if ($t101_daf_kelas->EventCancelled)
-				$t101_daf_kelas_list->restoreCurrentRowFormValues($t101_daf_kelas_list->RowIndex); // Restore form values
-			if ($t101_daf_kelas_list->RowAction == "insert")
-				$t101_daf_kelas->RowType = ROWTYPE_ADD; // Render add
-			else
-				$t101_daf_kelas->RowType = ROWTYPE_EDIT; // Render edit
-		}
-		if ($t101_daf_kelas->isEdit() && $t101_daf_kelas->RowType == ROWTYPE_EDIT && $t101_daf_kelas->EventCancelled) { // Update failed
-			$CurrentForm->Index = 1;
-			$t101_daf_kelas_list->restoreFormValues(); // Restore form values
-		}
-		if ($t101_daf_kelas->isGridEdit() && ($t101_daf_kelas->RowType == ROWTYPE_EDIT || $t101_daf_kelas->RowType == ROWTYPE_ADD) && $t101_daf_kelas->EventCancelled) // Update failed
-			$t101_daf_kelas_list->restoreCurrentRowFormValues($t101_daf_kelas_list->RowIndex); // Restore form values
-		if ($t101_daf_kelas->RowType == ROWTYPE_EDIT) // Edit row
-			$t101_daf_kelas_list->EditRowCnt++;
 
 		// Set up row id / data-rowindex
 		$t101_daf_kelas->RowAttrs = array_merge($t101_daf_kelas->RowAttrs, array('data-rowindex'=>$t101_daf_kelas_list->RowCnt, 'id'=>'r' . $t101_daf_kelas_list->RowCnt . '_t101_daf_kelas', 'data-rowtype'=>$t101_daf_kelas->RowType));
@@ -401,9 +214,6 @@ while ($t101_daf_kelas_list->RecCnt < $t101_daf_kelas_list->StopRec) {
 
 		// Render list options
 		$t101_daf_kelas_list->renderListOptions();
-
-		// Skip delete row / empty row for confirm page
-		if ($t101_daf_kelas_list->RowAction <> "delete" && $t101_daf_kelas_list->RowAction <> "insertdelete" && !($t101_daf_kelas_list->RowAction == "insert" && $t101_daf_kelas->isConfirm() && $t101_daf_kelas_list->emptyRow())) {
 ?>
 	<tr<?php echo $t101_daf_kelas->rowAttributes() ?>>
 <?php
@@ -413,102 +223,26 @@ $t101_daf_kelas_list->ListOptions->render("body", "left", $t101_daf_kelas_list->
 ?>
 	<?php if ($t101_daf_kelas->tahun_ajaran_id->Visible) { // tahun_ajaran_id ?>
 		<td data-name="tahun_ajaran_id"<?php echo $t101_daf_kelas->tahun_ajaran_id->cellAttributes() ?>>
-<?php if ($t101_daf_kelas->RowType == ROWTYPE_ADD) { // Add record ?>
-<span id="el<?php echo $t101_daf_kelas_list->RowCnt ?>_t101_daf_kelas_tahun_ajaran_id" class="form-group t101_daf_kelas_tahun_ajaran_id">
-<div class="input-group">
-	<select class="custom-select ew-custom-select" data-table="t101_daf_kelas" data-field="x_tahun_ajaran_id" data-value-separator="<?php echo $t101_daf_kelas->tahun_ajaran_id->displayValueSeparatorAttribute() ?>" id="x<?php echo $t101_daf_kelas_list->RowIndex ?>_tahun_ajaran_id" name="x<?php echo $t101_daf_kelas_list->RowIndex ?>_tahun_ajaran_id"<?php echo $t101_daf_kelas->tahun_ajaran_id->editAttributes() ?>>
-		<?php echo $t101_daf_kelas->tahun_ajaran_id->selectOptionListHtml("x<?php echo $t101_daf_kelas_list->RowIndex ?>_tahun_ajaran_id") ?>
-	</select>
-</div>
-<?php echo $t101_daf_kelas->tahun_ajaran_id->Lookup->getParamTag("p_x" . $t101_daf_kelas_list->RowIndex . "_tahun_ajaran_id") ?>
-</span>
-<input type="hidden" data-table="t101_daf_kelas" data-field="x_tahun_ajaran_id" name="o<?php echo $t101_daf_kelas_list->RowIndex ?>_tahun_ajaran_id" id="o<?php echo $t101_daf_kelas_list->RowIndex ?>_tahun_ajaran_id" value="<?php echo HtmlEncode($t101_daf_kelas->tahun_ajaran_id->OldValue) ?>">
-<?php } ?>
-<?php if ($t101_daf_kelas->RowType == ROWTYPE_EDIT) { // Edit record ?>
-<span id="el<?php echo $t101_daf_kelas_list->RowCnt ?>_t101_daf_kelas_tahun_ajaran_id" class="form-group t101_daf_kelas_tahun_ajaran_id">
-<div class="input-group">
-	<select class="custom-select ew-custom-select" data-table="t101_daf_kelas" data-field="x_tahun_ajaran_id" data-value-separator="<?php echo $t101_daf_kelas->tahun_ajaran_id->displayValueSeparatorAttribute() ?>" id="x<?php echo $t101_daf_kelas_list->RowIndex ?>_tahun_ajaran_id" name="x<?php echo $t101_daf_kelas_list->RowIndex ?>_tahun_ajaran_id"<?php echo $t101_daf_kelas->tahun_ajaran_id->editAttributes() ?>>
-		<?php echo $t101_daf_kelas->tahun_ajaran_id->selectOptionListHtml("x<?php echo $t101_daf_kelas_list->RowIndex ?>_tahun_ajaran_id") ?>
-	</select>
-</div>
-<?php echo $t101_daf_kelas->tahun_ajaran_id->Lookup->getParamTag("p_x" . $t101_daf_kelas_list->RowIndex . "_tahun_ajaran_id") ?>
-</span>
-<?php } ?>
-<?php if ($t101_daf_kelas->RowType == ROWTYPE_VIEW) { // View record ?>
 <span id="el<?php echo $t101_daf_kelas_list->RowCnt ?>_t101_daf_kelas_tahun_ajaran_id" class="t101_daf_kelas_tahun_ajaran_id">
 <span<?php echo $t101_daf_kelas->tahun_ajaran_id->viewAttributes() ?>>
 <?php echo $t101_daf_kelas->tahun_ajaran_id->getViewValue() ?></span>
 </span>
-<?php } ?>
 </td>
 	<?php } ?>
-<?php if ($t101_daf_kelas->RowType == ROWTYPE_ADD) { // Add record ?>
-<input type="hidden" data-table="t101_daf_kelas" data-field="x_id" name="x<?php echo $t101_daf_kelas_list->RowIndex ?>_id" id="x<?php echo $t101_daf_kelas_list->RowIndex ?>_id" value="<?php echo HtmlEncode($t101_daf_kelas->id->CurrentValue) ?>">
-<input type="hidden" data-table="t101_daf_kelas" data-field="x_id" name="o<?php echo $t101_daf_kelas_list->RowIndex ?>_id" id="o<?php echo $t101_daf_kelas_list->RowIndex ?>_id" value="<?php echo HtmlEncode($t101_daf_kelas->id->OldValue) ?>">
-<?php } ?>
-<?php if ($t101_daf_kelas->RowType == ROWTYPE_EDIT || $t101_daf_kelas->CurrentMode == "edit") { ?>
-<input type="hidden" data-table="t101_daf_kelas" data-field="x_id" name="x<?php echo $t101_daf_kelas_list->RowIndex ?>_id" id="x<?php echo $t101_daf_kelas_list->RowIndex ?>_id" value="<?php echo HtmlEncode($t101_daf_kelas->id->CurrentValue) ?>">
-<?php } ?>
 	<?php if ($t101_daf_kelas->sekolah_id->Visible) { // sekolah_id ?>
 		<td data-name="sekolah_id"<?php echo $t101_daf_kelas->sekolah_id->cellAttributes() ?>>
-<?php if ($t101_daf_kelas->RowType == ROWTYPE_ADD) { // Add record ?>
-<span id="el<?php echo $t101_daf_kelas_list->RowCnt ?>_t101_daf_kelas_sekolah_id" class="form-group t101_daf_kelas_sekolah_id">
-<div class="input-group">
-	<select class="custom-select ew-custom-select" data-table="t101_daf_kelas" data-field="x_sekolah_id" data-value-separator="<?php echo $t101_daf_kelas->sekolah_id->displayValueSeparatorAttribute() ?>" id="x<?php echo $t101_daf_kelas_list->RowIndex ?>_sekolah_id" name="x<?php echo $t101_daf_kelas_list->RowIndex ?>_sekolah_id"<?php echo $t101_daf_kelas->sekolah_id->editAttributes() ?>>
-		<?php echo $t101_daf_kelas->sekolah_id->selectOptionListHtml("x<?php echo $t101_daf_kelas_list->RowIndex ?>_sekolah_id") ?>
-	</select>
-</div>
-<?php echo $t101_daf_kelas->sekolah_id->Lookup->getParamTag("p_x" . $t101_daf_kelas_list->RowIndex . "_sekolah_id") ?>
-</span>
-<input type="hidden" data-table="t101_daf_kelas" data-field="x_sekolah_id" name="o<?php echo $t101_daf_kelas_list->RowIndex ?>_sekolah_id" id="o<?php echo $t101_daf_kelas_list->RowIndex ?>_sekolah_id" value="<?php echo HtmlEncode($t101_daf_kelas->sekolah_id->OldValue) ?>">
-<?php } ?>
-<?php if ($t101_daf_kelas->RowType == ROWTYPE_EDIT) { // Edit record ?>
-<span id="el<?php echo $t101_daf_kelas_list->RowCnt ?>_t101_daf_kelas_sekolah_id" class="form-group t101_daf_kelas_sekolah_id">
-<div class="input-group">
-	<select class="custom-select ew-custom-select" data-table="t101_daf_kelas" data-field="x_sekolah_id" data-value-separator="<?php echo $t101_daf_kelas->sekolah_id->displayValueSeparatorAttribute() ?>" id="x<?php echo $t101_daf_kelas_list->RowIndex ?>_sekolah_id" name="x<?php echo $t101_daf_kelas_list->RowIndex ?>_sekolah_id"<?php echo $t101_daf_kelas->sekolah_id->editAttributes() ?>>
-		<?php echo $t101_daf_kelas->sekolah_id->selectOptionListHtml("x<?php echo $t101_daf_kelas_list->RowIndex ?>_sekolah_id") ?>
-	</select>
-</div>
-<?php echo $t101_daf_kelas->sekolah_id->Lookup->getParamTag("p_x" . $t101_daf_kelas_list->RowIndex . "_sekolah_id") ?>
-</span>
-<?php } ?>
-<?php if ($t101_daf_kelas->RowType == ROWTYPE_VIEW) { // View record ?>
 <span id="el<?php echo $t101_daf_kelas_list->RowCnt ?>_t101_daf_kelas_sekolah_id" class="t101_daf_kelas_sekolah_id">
 <span<?php echo $t101_daf_kelas->sekolah_id->viewAttributes() ?>>
 <?php echo $t101_daf_kelas->sekolah_id->getViewValue() ?></span>
 </span>
-<?php } ?>
 </td>
 	<?php } ?>
 	<?php if ($t101_daf_kelas->kelas_id->Visible) { // kelas_id ?>
 		<td data-name="kelas_id"<?php echo $t101_daf_kelas->kelas_id->cellAttributes() ?>>
-<?php if ($t101_daf_kelas->RowType == ROWTYPE_ADD) { // Add record ?>
-<span id="el<?php echo $t101_daf_kelas_list->RowCnt ?>_t101_daf_kelas_kelas_id" class="form-group t101_daf_kelas_kelas_id">
-<div class="input-group">
-	<select class="custom-select ew-custom-select" data-table="t101_daf_kelas" data-field="x_kelas_id" data-value-separator="<?php echo $t101_daf_kelas->kelas_id->displayValueSeparatorAttribute() ?>" id="x<?php echo $t101_daf_kelas_list->RowIndex ?>_kelas_id" name="x<?php echo $t101_daf_kelas_list->RowIndex ?>_kelas_id"<?php echo $t101_daf_kelas->kelas_id->editAttributes() ?>>
-		<?php echo $t101_daf_kelas->kelas_id->selectOptionListHtml("x<?php echo $t101_daf_kelas_list->RowIndex ?>_kelas_id") ?>
-	</select>
-</div>
-<?php echo $t101_daf_kelas->kelas_id->Lookup->getParamTag("p_x" . $t101_daf_kelas_list->RowIndex . "_kelas_id") ?>
-</span>
-<input type="hidden" data-table="t101_daf_kelas" data-field="x_kelas_id" name="o<?php echo $t101_daf_kelas_list->RowIndex ?>_kelas_id" id="o<?php echo $t101_daf_kelas_list->RowIndex ?>_kelas_id" value="<?php echo HtmlEncode($t101_daf_kelas->kelas_id->OldValue) ?>">
-<?php } ?>
-<?php if ($t101_daf_kelas->RowType == ROWTYPE_EDIT) { // Edit record ?>
-<span id="el<?php echo $t101_daf_kelas_list->RowCnt ?>_t101_daf_kelas_kelas_id" class="form-group t101_daf_kelas_kelas_id">
-<div class="input-group">
-	<select class="custom-select ew-custom-select" data-table="t101_daf_kelas" data-field="x_kelas_id" data-value-separator="<?php echo $t101_daf_kelas->kelas_id->displayValueSeparatorAttribute() ?>" id="x<?php echo $t101_daf_kelas_list->RowIndex ?>_kelas_id" name="x<?php echo $t101_daf_kelas_list->RowIndex ?>_kelas_id"<?php echo $t101_daf_kelas->kelas_id->editAttributes() ?>>
-		<?php echo $t101_daf_kelas->kelas_id->selectOptionListHtml("x<?php echo $t101_daf_kelas_list->RowIndex ?>_kelas_id") ?>
-	</select>
-</div>
-<?php echo $t101_daf_kelas->kelas_id->Lookup->getParamTag("p_x" . $t101_daf_kelas_list->RowIndex . "_kelas_id") ?>
-</span>
-<?php } ?>
-<?php if ($t101_daf_kelas->RowType == ROWTYPE_VIEW) { // View record ?>
 <span id="el<?php echo $t101_daf_kelas_list->RowCnt ?>_t101_daf_kelas_kelas_id" class="t101_daf_kelas_kelas_id">
 <span<?php echo $t101_daf_kelas->kelas_id->viewAttributes() ?>>
 <?php echo $t101_daf_kelas->kelas_id->getViewValue() ?></span>
 </span>
-<?php } ?>
 </td>
 	<?php } ?>
 <?php
@@ -517,112 +251,14 @@ $t101_daf_kelas_list->ListOptions->render("body", "left", $t101_daf_kelas_list->
 $t101_daf_kelas_list->ListOptions->render("body", "right", $t101_daf_kelas_list->RowCnt);
 ?>
 	</tr>
-<?php if ($t101_daf_kelas->RowType == ROWTYPE_ADD || $t101_daf_kelas->RowType == ROWTYPE_EDIT) { ?>
-<script>
-ft101_daf_kelaslist.updateLists(<?php echo $t101_daf_kelas_list->RowIndex ?>);
-</script>
-<?php } ?>
 <?php
 	}
-	} // End delete row checking
 	if (!$t101_daf_kelas->isGridAdd())
-		if (!$t101_daf_kelas_list->Recordset->EOF)
-			$t101_daf_kelas_list->Recordset->moveNext();
-}
-?>
-<?php
-	if ($t101_daf_kelas->isGridAdd() || $t101_daf_kelas->isGridEdit()) {
-		$t101_daf_kelas_list->RowIndex = '$rowindex$';
-		$t101_daf_kelas_list->loadRowValues();
-
-		// Set row properties
-		$t101_daf_kelas->resetAttributes();
-		$t101_daf_kelas->RowAttrs = array_merge($t101_daf_kelas->RowAttrs, array('data-rowindex'=>$t101_daf_kelas_list->RowIndex, 'id'=>'r0_t101_daf_kelas', 'data-rowtype'=>ROWTYPE_ADD));
-		AppendClass($t101_daf_kelas->RowAttrs["class"], "ew-template");
-		$t101_daf_kelas->RowType = ROWTYPE_ADD;
-
-		// Render row
-		$t101_daf_kelas_list->renderRow();
-
-		// Render list options
-		$t101_daf_kelas_list->renderListOptions();
-		$t101_daf_kelas_list->StartRowCnt = 0;
-?>
-	<tr<?php echo $t101_daf_kelas->rowAttributes() ?>>
-<?php
-
-// Render list options (body, left)
-$t101_daf_kelas_list->ListOptions->render("body", "left", $t101_daf_kelas_list->RowIndex);
-?>
-	<?php if ($t101_daf_kelas->tahun_ajaran_id->Visible) { // tahun_ajaran_id ?>
-		<td data-name="tahun_ajaran_id">
-<span id="el$rowindex$_t101_daf_kelas_tahun_ajaran_id" class="form-group t101_daf_kelas_tahun_ajaran_id">
-<div class="input-group">
-	<select class="custom-select ew-custom-select" data-table="t101_daf_kelas" data-field="x_tahun_ajaran_id" data-value-separator="<?php echo $t101_daf_kelas->tahun_ajaran_id->displayValueSeparatorAttribute() ?>" id="x<?php echo $t101_daf_kelas_list->RowIndex ?>_tahun_ajaran_id" name="x<?php echo $t101_daf_kelas_list->RowIndex ?>_tahun_ajaran_id"<?php echo $t101_daf_kelas->tahun_ajaran_id->editAttributes() ?>>
-		<?php echo $t101_daf_kelas->tahun_ajaran_id->selectOptionListHtml("x<?php echo $t101_daf_kelas_list->RowIndex ?>_tahun_ajaran_id") ?>
-	</select>
-</div>
-<?php echo $t101_daf_kelas->tahun_ajaran_id->Lookup->getParamTag("p_x" . $t101_daf_kelas_list->RowIndex . "_tahun_ajaran_id") ?>
-</span>
-<input type="hidden" data-table="t101_daf_kelas" data-field="x_tahun_ajaran_id" name="o<?php echo $t101_daf_kelas_list->RowIndex ?>_tahun_ajaran_id" id="o<?php echo $t101_daf_kelas_list->RowIndex ?>_tahun_ajaran_id" value="<?php echo HtmlEncode($t101_daf_kelas->tahun_ajaran_id->OldValue) ?>">
-</td>
-	<?php } ?>
-	<?php if ($t101_daf_kelas->sekolah_id->Visible) { // sekolah_id ?>
-		<td data-name="sekolah_id">
-<span id="el$rowindex$_t101_daf_kelas_sekolah_id" class="form-group t101_daf_kelas_sekolah_id">
-<div class="input-group">
-	<select class="custom-select ew-custom-select" data-table="t101_daf_kelas" data-field="x_sekolah_id" data-value-separator="<?php echo $t101_daf_kelas->sekolah_id->displayValueSeparatorAttribute() ?>" id="x<?php echo $t101_daf_kelas_list->RowIndex ?>_sekolah_id" name="x<?php echo $t101_daf_kelas_list->RowIndex ?>_sekolah_id"<?php echo $t101_daf_kelas->sekolah_id->editAttributes() ?>>
-		<?php echo $t101_daf_kelas->sekolah_id->selectOptionListHtml("x<?php echo $t101_daf_kelas_list->RowIndex ?>_sekolah_id") ?>
-	</select>
-</div>
-<?php echo $t101_daf_kelas->sekolah_id->Lookup->getParamTag("p_x" . $t101_daf_kelas_list->RowIndex . "_sekolah_id") ?>
-</span>
-<input type="hidden" data-table="t101_daf_kelas" data-field="x_sekolah_id" name="o<?php echo $t101_daf_kelas_list->RowIndex ?>_sekolah_id" id="o<?php echo $t101_daf_kelas_list->RowIndex ?>_sekolah_id" value="<?php echo HtmlEncode($t101_daf_kelas->sekolah_id->OldValue) ?>">
-</td>
-	<?php } ?>
-	<?php if ($t101_daf_kelas->kelas_id->Visible) { // kelas_id ?>
-		<td data-name="kelas_id">
-<span id="el$rowindex$_t101_daf_kelas_kelas_id" class="form-group t101_daf_kelas_kelas_id">
-<div class="input-group">
-	<select class="custom-select ew-custom-select" data-table="t101_daf_kelas" data-field="x_kelas_id" data-value-separator="<?php echo $t101_daf_kelas->kelas_id->displayValueSeparatorAttribute() ?>" id="x<?php echo $t101_daf_kelas_list->RowIndex ?>_kelas_id" name="x<?php echo $t101_daf_kelas_list->RowIndex ?>_kelas_id"<?php echo $t101_daf_kelas->kelas_id->editAttributes() ?>>
-		<?php echo $t101_daf_kelas->kelas_id->selectOptionListHtml("x<?php echo $t101_daf_kelas_list->RowIndex ?>_kelas_id") ?>
-	</select>
-</div>
-<?php echo $t101_daf_kelas->kelas_id->Lookup->getParamTag("p_x" . $t101_daf_kelas_list->RowIndex . "_kelas_id") ?>
-</span>
-<input type="hidden" data-table="t101_daf_kelas" data-field="x_kelas_id" name="o<?php echo $t101_daf_kelas_list->RowIndex ?>_kelas_id" id="o<?php echo $t101_daf_kelas_list->RowIndex ?>_kelas_id" value="<?php echo HtmlEncode($t101_daf_kelas->kelas_id->OldValue) ?>">
-</td>
-	<?php } ?>
-<?php
-
-// Render list options (body, right)
-$t101_daf_kelas_list->ListOptions->render("body", "right", $t101_daf_kelas_list->RowIndex);
-?>
-<script>
-ft101_daf_kelaslist.updateLists(<?php echo $t101_daf_kelas_list->RowIndex ?>);
-</script>
-	</tr>
-<?php
+		$t101_daf_kelas_list->Recordset->moveNext();
 }
 ?>
 </tbody>
 </table><!-- /.ew-table -->
-<?php } ?>
-<?php if ($t101_daf_kelas->isAdd() || $t101_daf_kelas->isCopy()) { ?>
-<input type="hidden" name="<?php echo $t101_daf_kelas_list->FormKeyCountName ?>" id="<?php echo $t101_daf_kelas_list->FormKeyCountName ?>" value="<?php echo $t101_daf_kelas_list->KeyCount ?>">
-<?php } ?>
-<?php if ($t101_daf_kelas->isGridAdd()) { ?>
-<input type="hidden" name="action" id="action" value="gridinsert">
-<input type="hidden" name="<?php echo $t101_daf_kelas_list->FormKeyCountName ?>" id="<?php echo $t101_daf_kelas_list->FormKeyCountName ?>" value="<?php echo $t101_daf_kelas_list->KeyCount ?>">
-<?php echo $t101_daf_kelas_list->MultiSelectKey ?>
-<?php } ?>
-<?php if ($t101_daf_kelas->isEdit()) { ?>
-<input type="hidden" name="<?php echo $t101_daf_kelas_list->FormKeyCountName ?>" id="<?php echo $t101_daf_kelas_list->FormKeyCountName ?>" value="<?php echo $t101_daf_kelas_list->KeyCount ?>">
-<?php } ?>
-<?php if ($t101_daf_kelas->isGridEdit()) { ?>
-<input type="hidden" name="action" id="action" value="gridupdate">
-<input type="hidden" name="<?php echo $t101_daf_kelas_list->FormKeyCountName ?>" id="<?php echo $t101_daf_kelas_list->FormKeyCountName ?>" value="<?php echo $t101_daf_kelas_list->KeyCount ?>">
-<?php echo $t101_daf_kelas_list->MultiSelectKey ?>
 <?php } ?>
 <?php if (!$t101_daf_kelas->CurrentAction) { ?>
 <input type="hidden" name="action" id="action" value="">

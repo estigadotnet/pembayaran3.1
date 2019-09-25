@@ -591,7 +591,7 @@ class t005_iuran_delete extends t005_iuran
 			}
 		}
 		$this->CurrentAction = Param("action"); // Set up current action
-		$this->id->setVisibility();
+		$this->id->Visible = FALSE;
 		$this->Nama->setVisibility();
 		$this->Jenis->setVisibility();
 		$this->hideFieldsForAddEdit();
@@ -779,11 +779,6 @@ class t005_iuran_delete extends t005_iuran
 				$this->Jenis->ViewValue = NULL;
 			}
 			$this->Jenis->ViewCustomAttributes = "";
-
-			// id
-			$this->id->LinkCustomAttributes = "";
-			$this->id->HrefValue = "";
-			$this->id->TooltipValue = "";
 
 			// Nama
 			$this->Nama->LinkCustomAttributes = "";

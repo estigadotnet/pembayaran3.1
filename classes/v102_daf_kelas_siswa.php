@@ -79,18 +79,24 @@ class v102_daf_kelas_siswa extends DbTable
 		$this->fields['id'] = &$this->id;
 
 		// daf_kelas_id
-		$this->daf_kelas_id = new DbField('v102_daf_kelas_siswa', 'v102_daf_kelas_siswa', 'x_daf_kelas_id', 'daf_kelas_id', '`daf_kelas_id`', '`daf_kelas_id`', 3, -1, FALSE, '`daf_kelas_id`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->daf_kelas_id = new DbField('v102_daf_kelas_siswa', 'v102_daf_kelas_siswa', 'x_daf_kelas_id', 'daf_kelas_id', '`daf_kelas_id`', '`daf_kelas_id`', 3, -1, FALSE, '`daf_kelas_id`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'SELECT');
 		$this->daf_kelas_id->Nullable = FALSE; // NOT NULL field
 		$this->daf_kelas_id->Required = TRUE; // Required field
 		$this->daf_kelas_id->Sortable = TRUE; // Allow sort
+		$this->daf_kelas_id->UsePleaseSelect = TRUE; // Use PleaseSelect by default
+		$this->daf_kelas_id->PleaseSelectText = $Language->phrase("PleaseSelect"); // PleaseSelect text
+		$this->daf_kelas_id->Lookup = new Lookup('daf_kelas_id', 'v101_daf_kelas', FALSE, 'id', ["tsk","","",""], [], [], [], [], [], [], '', '');
 		$this->daf_kelas_id->DefaultErrorMessage = $Language->phrase("IncorrectInteger");
 		$this->fields['daf_kelas_id'] = &$this->daf_kelas_id;
 
 		// siswa_id
-		$this->siswa_id = new DbField('v102_daf_kelas_siswa', 'v102_daf_kelas_siswa', 'x_siswa_id', 'siswa_id', '`siswa_id`', '`siswa_id`', 3, -1, FALSE, '`siswa_id`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->siswa_id = new DbField('v102_daf_kelas_siswa', 'v102_daf_kelas_siswa', 'x_siswa_id', 'siswa_id', '`siswa_id`', '`siswa_id`', 3, -1, FALSE, '`siswa_id`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'SELECT');
 		$this->siswa_id->Nullable = FALSE; // NOT NULL field
 		$this->siswa_id->Required = TRUE; // Required field
 		$this->siswa_id->Sortable = TRUE; // Allow sort
+		$this->siswa_id->UsePleaseSelect = TRUE; // Use PleaseSelect by default
+		$this->siswa_id->PleaseSelectText = $Language->phrase("PleaseSelect"); // PleaseSelect text
+		$this->siswa_id->Lookup = new Lookup('siswa_id', 't004_siswa', FALSE, 'id', ["NomorInduk","Nama","",""], [], [], [], [], [], [], '', '');
 		$this->siswa_id->DefaultErrorMessage = $Language->phrase("IncorrectInteger");
 		$this->fields['siswa_id'] = &$this->siswa_id;
 	}
@@ -798,13 +804,48 @@ class v102_daf_kelas_siswa extends DbTable
 		$this->id->ViewCustomAttributes = "";
 
 		// daf_kelas_id
-		$this->daf_kelas_id->ViewValue = $this->daf_kelas_id->CurrentValue;
-		$this->daf_kelas_id->ViewValue = FormatNumber($this->daf_kelas_id->ViewValue, 0, -2, -2, -2);
+		$curVal = strval($this->daf_kelas_id->CurrentValue);
+		if ($curVal <> "") {
+			$this->daf_kelas_id->ViewValue = $this->daf_kelas_id->lookupCacheOption($curVal);
+			if ($this->daf_kelas_id->ViewValue === NULL) { // Lookup from database
+				$filterWrk = "`id`" . SearchString("=", $curVal, DATATYPE_NUMBER, "");
+				$sqlWrk = $this->daf_kelas_id->Lookup->getSql(FALSE, $filterWrk, '', $this);
+				$rswrk = Conn()->execute($sqlWrk);
+				if ($rswrk && !$rswrk->EOF) { // Lookup values found
+					$arwrk = array();
+					$arwrk[1] = $rswrk->fields('df');
+					$this->daf_kelas_id->ViewValue = $this->daf_kelas_id->displayValue($arwrk);
+					$rswrk->Close();
+				} else {
+					$this->daf_kelas_id->ViewValue = $this->daf_kelas_id->CurrentValue;
+				}
+			}
+		} else {
+			$this->daf_kelas_id->ViewValue = NULL;
+		}
 		$this->daf_kelas_id->ViewCustomAttributes = "";
 
 		// siswa_id
-		$this->siswa_id->ViewValue = $this->siswa_id->CurrentValue;
-		$this->siswa_id->ViewValue = FormatNumber($this->siswa_id->ViewValue, 0, -2, -2, -2);
+		$curVal = strval($this->siswa_id->CurrentValue);
+		if ($curVal <> "") {
+			$this->siswa_id->ViewValue = $this->siswa_id->lookupCacheOption($curVal);
+			if ($this->siswa_id->ViewValue === NULL) { // Lookup from database
+				$filterWrk = "`id`" . SearchString("=", $curVal, DATATYPE_NUMBER, "");
+				$sqlWrk = $this->siswa_id->Lookup->getSql(FALSE, $filterWrk, '', $this);
+				$rswrk = Conn()->execute($sqlWrk);
+				if ($rswrk && !$rswrk->EOF) { // Lookup values found
+					$arwrk = array();
+					$arwrk[1] = $rswrk->fields('df');
+					$arwrk[2] = $rswrk->fields('df2');
+					$this->siswa_id->ViewValue = $this->siswa_id->displayValue($arwrk);
+					$rswrk->Close();
+				} else {
+					$this->siswa_id->ViewValue = $this->siswa_id->CurrentValue;
+				}
+			}
+		} else {
+			$this->siswa_id->ViewValue = NULL;
+		}
 		$this->siswa_id->ViewCustomAttributes = "";
 
 		// id
@@ -846,14 +887,10 @@ class v102_daf_kelas_siswa extends DbTable
 		// daf_kelas_id
 		$this->daf_kelas_id->EditAttrs["class"] = "form-control";
 		$this->daf_kelas_id->EditCustomAttributes = "";
-		$this->daf_kelas_id->EditValue = $this->daf_kelas_id->CurrentValue;
-		$this->daf_kelas_id->PlaceHolder = RemoveHtml($this->daf_kelas_id->caption());
 
 		// siswa_id
 		$this->siswa_id->EditAttrs["class"] = "form-control";
 		$this->siswa_id->EditCustomAttributes = "";
-		$this->siswa_id->EditValue = $this->siswa_id->CurrentValue;
-		$this->siswa_id->PlaceHolder = RemoveHtml($this->siswa_id->caption());
 
 		// Call Row Rendered event
 		$this->Row_Rendered();
@@ -884,7 +921,6 @@ class v102_daf_kelas_siswa extends DbTable
 			if ($doc->Horizontal) { // Horizontal format, write header
 				$doc->beginExportRow();
 				if ($exportPageType == "view") {
-					$doc->exportCaption($this->id);
 					$doc->exportCaption($this->daf_kelas_id);
 					$doc->exportCaption($this->siswa_id);
 				} else {
@@ -922,7 +958,6 @@ class v102_daf_kelas_siswa extends DbTable
 				if (!$doc->ExportCustom) {
 					$doc->beginExportRow($rowCnt); // Allow CSS styles if enabled
 					if ($exportPageType == "view") {
-						$doc->exportField($this->id);
 						$doc->exportField($this->daf_kelas_id);
 						$doc->exportField($this->siswa_id);
 					} else {

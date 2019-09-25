@@ -711,9 +711,6 @@ class t101_daf_kelas_list extends t101_daf_kelas
 				$Security->UserID_Loaded();
 			}
 		}
-
-		// Create form object
-		$CurrentForm = new HttpForm();
 		$this->CurrentAction = Param("action"); // Set up current action
 
 		// Get grid add count
@@ -787,78 +784,6 @@ class t101_daf_kelas_list extends t101_daf_kelas
 			if (!$this->isExport())
 				$this->setupBreadcrumb();
 
-			// Check QueryString parameters
-			if (Get("action") !== NULL) {
-				$this->CurrentAction = Get("action");
-
-				// Clear inline mode
-				if ($this->isCancel())
-					$this->clearInlineMode();
-
-				// Switch to grid edit mode
-				if ($this->isGridEdit())
-					$this->gridEditMode();
-
-				// Switch to inline edit mode
-				if ($this->isEdit())
-					$this->inlineEditMode();
-
-				// Switch to inline add mode
-				if ($this->isAdd() || $this->isCopy())
-					$this->inlineAddMode();
-
-				// Switch to grid add mode
-				if ($this->isGridAdd())
-					$this->gridAddMode();
-			} else {
-				if (Post("action") !== NULL) {
-					$this->CurrentAction = Post("action"); // Get action
-
-					// Grid Update
-					if (($this->isGridUpdate() || $this->isGridOverwrite()) && @$_SESSION[SESSION_INLINE_MODE] == "gridedit") {
-						if ($this->validateGridForm()) {
-							$gridUpdate = $this->gridUpdate();
-						} else {
-							$gridUpdate = FALSE;
-							$this->setFailureMessage($FormError);
-						}
-						if ($gridUpdate) {
-						} else {
-							$this->EventCancelled = TRUE;
-							$this->gridEditMode(); // Stay in Grid edit mode
-						}
-					}
-
-					// Inline Update
-					if (($this->isUpdate() || $this->isOverwrite()) && @$_SESSION[SESSION_INLINE_MODE] == "edit")
-						$this->inlineUpdate();
-
-					// Insert Inline
-					if ($this->isInsert() && @$_SESSION[SESSION_INLINE_MODE] == "add")
-						$this->inlineInsert();
-
-					// Grid Insert
-					if ($this->isGridInsert() && @$_SESSION[SESSION_INLINE_MODE] == "gridadd") {
-						if ($this->validateGridForm()) {
-							$gridInsert = $this->gridInsert();
-						} else {
-							$gridInsert = FALSE;
-							$this->setFailureMessage($FormError);
-						}
-						if ($gridInsert) {
-						} else {
-							$this->EventCancelled = TRUE;
-							$this->gridAddMode(); // Stay in Grid add mode
-						}
-					}
-				} elseif (@$_SESSION[SESSION_INLINE_MODE] == "gridedit") { // Previously in grid edit mode
-					if (Get(TABLE_START_REC) !== NULL || Get(TABLE_PAGE_NO) !== NULL) // Stay in grid edit mode if paging
-						$this->gridEditMode();
-					else // Reset grid edit
-						$this->clearInlineMode();
-				}
-			}
-
 			// Hide list options
 			if ($this->isExport()) {
 				$this->ListOptions->hideAllOptions(array("sequence"));
@@ -880,15 +805,6 @@ class t101_daf_kelas_list extends t101_daf_kelas
 			// Hide other options
 			if ($this->isExport())
 				$this->OtherOptions->hideAllOptions();
-
-			// Show grid delete link for grid add / grid edit
-			if ($this->AllowAddDeleteRow) {
-				if ($this->isGridAdd() || $this->isGridEdit()) {
-					$item = &$this->ListOptions->getItem("griddelete");
-					if ($item)
-						$item->Visible = TRUE;
-				}
-			}
 
 			// Set up sorting order
 			$this->setupSortOrder();
@@ -987,251 +903,6 @@ class t101_daf_kelas_list extends t101_daf_kelas
 		}
 	}
 
-	// Exit inline mode
-	protected function clearInlineMode()
-	{
-		$this->setKey("id", ""); // Clear inline edit key
-		$this->LastAction = $this->CurrentAction; // Save last action
-		$this->CurrentAction = ""; // Clear action
-		$_SESSION[SESSION_INLINE_MODE] = ""; // Clear inline mode
-	}
-
-	// Switch to Grid Add mode
-	protected function gridAddMode()
-	{
-		$this->CurrentAction = "gridadd";
-		$_SESSION[SESSION_INLINE_MODE] = "gridadd";
-		$this->hideFieldsForAddEdit();
-	}
-
-	// Switch to Grid Edit mode
-	protected function gridEditMode()
-	{
-		$this->CurrentAction = "gridedit";
-		$_SESSION[SESSION_INLINE_MODE] = "gridedit";
-		$this->hideFieldsForAddEdit();
-	}
-
-	// Switch to Inline Edit mode
-	protected function inlineEditMode()
-	{
-		global $Security, $Language;
-		if (!$Security->canEdit())
-			return FALSE; // Edit not allowed
-		$inlineEdit = TRUE;
-		if (Get("id") !== NULL) {
-			$this->id->setQueryStringValue(Get("id"));
-		} else {
-			$inlineEdit = FALSE;
-		}
-		if ($inlineEdit) {
-			if ($this->loadRow()) {
-				$this->setKey("id", $this->id->CurrentValue); // Set up inline edit key
-				$_SESSION[SESSION_INLINE_MODE] = "edit"; // Enable inline edit
-			}
-		}
-		return TRUE;
-	}
-
-	// Perform update to Inline Edit record
-	protected function inlineUpdate()
-	{
-		global $Language, $CurrentForm, $FormError;
-		$CurrentForm->Index = 1;
-		$this->loadFormValues(); // Get form values
-
-		// Validate form
-		$inlineUpdate = TRUE;
-		if (!$this->validateForm()) {
-			$inlineUpdate = FALSE; // Form error, reset action
-			$this->setFailureMessage($FormError);
-		} else {
-			$inlineUpdate = FALSE;
-			$rowkey = strval($CurrentForm->getValue($this->FormKeyName));
-			if ($this->setupKeyValues($rowkey)) { // Set up key values
-				if ($this->checkInlineEditKey()) { // Check key
-					$this->SendEmail = TRUE; // Send email on update success
-					$inlineUpdate = $this->editRow(); // Update record
-				} else {
-					$inlineUpdate = FALSE;
-				}
-			}
-		}
-		if ($inlineUpdate) { // Update success
-			if ($this->getSuccessMessage() == "")
-				$this->setSuccessMessage($Language->phrase("UpdateSuccess")); // Set up success message
-			$this->clearInlineMode(); // Clear inline edit mode
-		} else {
-			if ($this->getFailureMessage() == "")
-				$this->setFailureMessage($Language->phrase("UpdateFailed")); // Set update failed message
-			$this->EventCancelled = TRUE; // Cancel event
-			$this->CurrentAction = "edit"; // Stay in edit mode
-		}
-	}
-
-	// Check Inline Edit key
-	public function checkInlineEditKey()
-	{
-		if (strval($this->getKey("id")) <> strval($this->id->CurrentValue))
-			return FALSE;
-		return TRUE;
-	}
-
-	// Switch to Inline Add mode
-	protected function inlineAddMode()
-	{
-		global $Security, $Language;
-		if (!$Security->canAdd())
-			return FALSE; // Add not allowed
-		if ($this->isCopy()) {
-			if (Get("id") !== NULL) {
-				$this->id->setQueryStringValue(Get("id"));
-				$this->setKey("id", $this->id->CurrentValue); // Set up key
-			} else {
-				$this->setKey("id", ""); // Clear key
-				$this->CurrentAction = "add";
-			}
-		}
-		$_SESSION[SESSION_INLINE_MODE] = "add"; // Enable inline add
-		return TRUE;
-	}
-
-	// Perform update to Inline Add/Copy record
-	protected function inlineInsert()
-	{
-		global $Language, $CurrentForm, $FormError;
-		$this->loadOldRecord(); // Load old record
-		$CurrentForm->Index = 0;
-		$this->loadFormValues(); // Get form values
-
-		// Validate form
-		if (!$this->validateForm()) {
-			$this->setFailureMessage($FormError); // Set validation error message
-			$this->EventCancelled = TRUE; // Set event cancelled
-			$this->CurrentAction = "add"; // Stay in add mode
-			return;
-		}
-		$this->SendEmail = TRUE; // Send email on add success
-		if ($this->addRow($this->OldRecordset)) { // Add record
-			if ($this->getSuccessMessage() == "")
-				$this->setSuccessMessage($Language->phrase("AddSuccess")); // Set up add success message
-			$this->clearInlineMode(); // Clear inline add mode
-		} else { // Add failed
-			$this->EventCancelled = TRUE; // Set event cancelled
-			$this->CurrentAction = "add"; // Stay in add mode
-		}
-	}
-
-	// Perform update to grid
-	public function gridUpdate()
-	{
-		global $Language, $CurrentForm, $FormError;
-		$gridUpdate = TRUE;
-
-		// Get old recordset
-		$this->CurrentFilter = $this->buildKeyFilter();
-		if ($this->CurrentFilter == "")
-			$this->CurrentFilter = "0=1";
-		$sql = $this->getCurrentSql();
-		$conn = &$this->getConnection();
-		if ($rs = $conn->execute($sql)) {
-			$rsold = $rs->getRows();
-			$rs->close();
-		}
-
-		// Call Grid Updating event
-		if (!$this->Grid_Updating($rsold)) {
-			if ($this->getFailureMessage() == "")
-				$this->setFailureMessage($Language->phrase("GridEditCancelled")); // Set grid edit cancelled message
-			return FALSE;
-		}
-
-		// Begin transaction
-		$conn->beginTrans();
-		if ($this->AuditTrailOnEdit)
-			$this->writeAuditTrailDummy($Language->phrase("BatchUpdateBegin")); // Batch update begin
-		$key = "";
-
-		// Update row index and get row key
-		$CurrentForm->Index = -1;
-		$rowcnt = strval($CurrentForm->getValue($this->FormKeyCountName));
-		if ($rowcnt == "" || !is_numeric($rowcnt))
-			$rowcnt = 0;
-
-		// Update all rows based on key
-		for ($rowindex = 1; $rowindex <= $rowcnt; $rowindex++) {
-			$CurrentForm->Index = $rowindex;
-			$rowkey = strval($CurrentForm->getValue($this->FormKeyName));
-			$rowaction = strval($CurrentForm->getValue($this->FormActionName));
-
-			// Load all values and keys
-			if ($rowaction <> "insertdelete") { // Skip insert then deleted rows
-				$this->loadFormValues(); // Get form values
-				if ($rowaction == "" || $rowaction == "edit" || $rowaction == "delete") {
-					$gridUpdate = $this->setupKeyValues($rowkey); // Set up key values
-				} else {
-					$gridUpdate = TRUE;
-				}
-
-				// Skip empty row
-				if ($rowaction == "insert" && $this->emptyRow()) {
-
-					// No action required
-				// Validate form and insert/update/delete record
-
-				} elseif ($gridUpdate) {
-					if ($rowaction == "delete") {
-						$this->CurrentFilter = $this->getRecordFilter();
-						$gridUpdate = $this->deleteRows(); // Delete this row
-					} else if (!$this->validateForm()) {
-						$gridUpdate = FALSE; // Form error, reset action
-						$this->setFailureMessage($FormError);
-					} else {
-						if ($rowaction == "insert") {
-							$gridUpdate = $this->addRow(); // Insert this row
-						} else {
-							if ($rowkey <> "") {
-								$this->SendEmail = FALSE; // Do not send email on update success
-								$gridUpdate = $this->editRow(); // Update this row
-							}
-						} // End update
-					}
-				}
-				if ($gridUpdate) {
-					if ($key <> "")
-						$key .= ", ";
-					$key .= $rowkey;
-				} else {
-					break;
-				}
-			}
-		}
-		if ($gridUpdate) {
-			$conn->commitTrans(); // Commit transaction
-
-			// Get new recordset
-			if ($rs = $conn->execute($sql)) {
-				$rsnew = $rs->getRows();
-				$rs->close();
-			}
-
-			// Call Grid_Updated event
-			$this->Grid_Updated($rsold, $rsnew);
-			if ($this->AuditTrailOnEdit)
-				$this->writeAuditTrailDummy($Language->phrase("BatchUpdateSuccess")); // Batch update success
-			if ($this->getSuccessMessage() == "")
-				$this->setSuccessMessage($Language->phrase("UpdateSuccess")); // Set up update success message
-			$this->clearInlineMode(); // Clear inline edit mode
-		} else {
-			$conn->rollbackTrans(); // Rollback transaction
-			if ($this->AuditTrailOnEdit)
-				$this->writeAuditTrailDummy($Language->phrase("BatchUpdateRollback")); // Batch update rollback
-			if ($this->getFailureMessage() == "")
-				$this->setFailureMessage($Language->phrase("UpdateFailed")); // Set update failed message
-		}
-		return $gridUpdate;
-	}
-
 	// Build filter for all keys
 	protected function buildKeyFilter()
 	{
@@ -1271,188 +942,6 @@ class t101_daf_kelas_list extends t101_daf_kelas
 				return FALSE;
 		}
 		return TRUE;
-	}
-
-	// Perform Grid Add
-	public function gridInsert()
-	{
-		global $Language, $CurrentForm, $FormError;
-		$rowindex = 1;
-		$gridInsert = FALSE;
-		$conn = &$this->getConnection();
-
-		// Call Grid Inserting event
-		if (!$this->Grid_Inserting()) {
-			if ($this->getFailureMessage() == "")
-				$this->setFailureMessage($Language->phrase("GridAddCancelled")); // Set grid add cancelled message
-			return FALSE;
-		}
-
-		// Begin transaction
-		$conn->beginTrans();
-
-		// Init key filter
-		$wrkfilter = "";
-		$addcnt = 0;
-		if ($this->AuditTrailOnAdd)
-			$this->writeAuditTrailDummy($Language->phrase("BatchInsertBegin")); // Batch insert begin
-		$key = "";
-
-		// Get row count
-		$CurrentForm->Index = -1;
-		$rowcnt = strval($CurrentForm->getValue($this->FormKeyCountName));
-		if ($rowcnt == "" || !is_numeric($rowcnt))
-			$rowcnt = 0;
-
-		// Insert all rows
-		for ($rowindex = 1; $rowindex <= $rowcnt; $rowindex++) {
-
-			// Load current row values
-			$CurrentForm->Index = $rowindex;
-			$rowaction = strval($CurrentForm->getValue($this->FormActionName));
-			if ($rowaction <> "" && $rowaction <> "insert")
-				continue; // Skip
-			$this->loadFormValues(); // Get form values
-			if (!$this->emptyRow()) {
-				$addcnt++;
-				$this->SendEmail = FALSE; // Do not send email on insert success
-
-				// Validate form
-				if (!$this->validateForm()) {
-					$gridInsert = FALSE; // Form error, reset action
-					$this->setFailureMessage($FormError);
-				} else {
-					$gridInsert = $this->addRow($this->OldRecordset); // Insert this row
-				}
-				if ($gridInsert) {
-					if ($key <> "")
-						$key .= $GLOBALS["COMPOSITE_KEY_SEPARATOR"];
-					$key .= $this->id->CurrentValue;
-
-					// Add filter for this record
-					$filter = $this->getRecordFilter();
-					if ($wrkfilter <> "")
-						$wrkfilter .= " OR ";
-					$wrkfilter .= $filter;
-				} else {
-					break;
-				}
-			}
-		}
-		if ($addcnt == 0) { // No record inserted
-			$this->setFailureMessage($Language->phrase("NoAddRecord"));
-			$gridInsert = FALSE;
-		}
-		if ($gridInsert) {
-			$conn->commitTrans(); // Commit transaction
-
-			// Get new recordset
-			$this->CurrentFilter = $wrkfilter;
-			$sql = $this->getCurrentSql();
-			if ($rs = $conn->execute($sql)) {
-				$rsnew = $rs->getRows();
-				$rs->close();
-			}
-
-			// Call Grid_Inserted event
-			$this->Grid_Inserted($rsnew);
-			if ($this->AuditTrailOnAdd)
-				$this->writeAuditTrailDummy($Language->phrase("BatchInsertSuccess")); // Batch insert success
-			if ($this->getSuccessMessage() == "")
-				$this->setSuccessMessage($Language->phrase("InsertSuccess")); // Set up insert success message
-			$this->clearInlineMode(); // Clear grid add mode
-		} else {
-			$conn->rollbackTrans(); // Rollback transaction
-			if ($this->AuditTrailOnAdd)
-				$this->writeAuditTrailDummy($Language->phrase("BatchInsertRollback")); // Batch insert rollback
-			if ($this->getFailureMessage() == "")
-				$this->setFailureMessage($Language->phrase("InsertFailed")); // Set insert failed message
-		}
-		return $gridInsert;
-	}
-
-	// Check if empty row
-	public function emptyRow()
-	{
-		global $CurrentForm;
-		if ($CurrentForm->hasValue("x_tahun_ajaran_id") && $CurrentForm->hasValue("o_tahun_ajaran_id") && $this->tahun_ajaran_id->CurrentValue <> $this->tahun_ajaran_id->OldValue)
-			return FALSE;
-		if ($CurrentForm->hasValue("x_sekolah_id") && $CurrentForm->hasValue("o_sekolah_id") && $this->sekolah_id->CurrentValue <> $this->sekolah_id->OldValue)
-			return FALSE;
-		if ($CurrentForm->hasValue("x_kelas_id") && $CurrentForm->hasValue("o_kelas_id") && $this->kelas_id->CurrentValue <> $this->kelas_id->OldValue)
-			return FALSE;
-		return TRUE;
-	}
-
-	// Validate grid form
-	public function validateGridForm()
-	{
-		global $CurrentForm;
-
-		// Get row count
-		$CurrentForm->Index = -1;
-		$rowcnt = strval($CurrentForm->getValue($this->FormKeyCountName));
-		if ($rowcnt == "" || !is_numeric($rowcnt))
-			$rowcnt = 0;
-
-		// Validate all records
-		for ($rowindex = 1; $rowindex <= $rowcnt; $rowindex++) {
-
-			// Load current row values
-			$CurrentForm->Index = $rowindex;
-			$rowaction = strval($CurrentForm->getValue($this->FormActionName));
-			if ($rowaction <> "delete" && $rowaction <> "insertdelete") {
-				$this->loadFormValues(); // Get form values
-				if ($rowaction == "insert" && $this->emptyRow()) {
-
-					// Ignore
-				} else if (!$this->validateForm()) {
-					return FALSE;
-				}
-			}
-		}
-		return TRUE;
-	}
-
-	// Get all form values of the grid
-	public function getGridFormValues()
-	{
-		global $CurrentForm;
-
-		// Get row count
-		$CurrentForm->Index = -1;
-		$rowcnt = strval($CurrentForm->getValue($this->FormKeyCountName));
-		if ($rowcnt == "" || !is_numeric($rowcnt))
-			$rowcnt = 0;
-		$rows = array();
-
-		// Loop through all records
-		for ($rowindex = 1; $rowindex <= $rowcnt; $rowindex++) {
-
-			// Load current row values
-			$CurrentForm->Index = $rowindex;
-			$rowaction = strval($CurrentForm->getValue($this->FormActionName));
-			if ($rowaction <> "delete" && $rowaction <> "insertdelete") {
-				$this->loadFormValues(); // Get form values
-				if ($rowaction == "insert" && $this->emptyRow()) {
-
-					// Ignore
-				} else {
-					$rows[] = $this->getFieldValues("FormValue"); // Return row as array
-				}
-			}
-		}
-		return $rows; // Return as array of array
-	}
-
-	// Restore form values for current row
-	public function restoreCurrentRowFormValues($idx)
-	{
-		global $CurrentForm;
-
-		// Get row based on current index
-		$CurrentForm->Index = $idx;
-		$this->loadFormValues(); // Load form values
 	}
 
 	// Set up sort parameters
@@ -1515,14 +1004,6 @@ class t101_daf_kelas_list extends t101_daf_kelas
 	protected function setupListOptions()
 	{
 		global $Security, $Language;
-
-		// "griddelete"
-		if ($this->AllowAddDeleteRow) {
-			$item = &$this->ListOptions->add("griddelete");
-			$item->CssClass = "text-nowrap";
-			$item->OnLeft = TRUE;
-			$item->Visible = FALSE; // Default hidden
-		}
 
 		// Add group option item
 		$item = &$this->ListOptions->add($this->ListOptions->GroupOptionName);
@@ -1627,63 +1108,9 @@ class t101_daf_kelas_list extends t101_daf_kelas
 		// Call ListOptions_Rendering event
 		$this->ListOptions_Rendering();
 
-		// Set up row action and key
-		if (is_numeric($this->RowIndex) && $this->CurrentMode <> "view") {
-			$CurrentForm->Index = $this->RowIndex;
-			$actionName = str_replace("k_", "k" . $this->RowIndex . "_", $this->FormActionName);
-			$oldKeyName = str_replace("k_", "k" . $this->RowIndex . "_", $this->FormOldKeyName);
-			$keyName = str_replace("k_", "k" . $this->RowIndex . "_", $this->FormKeyName);
-			$blankRowName = str_replace("k_", "k" . $this->RowIndex . "_", $this->FormBlankRowName);
-			if ($this->RowAction <> "")
-				$this->MultiSelectKey .= "<input type=\"hidden\" name=\"" . $actionName . "\" id=\"" . $actionName . "\" value=\"" . $this->RowAction . "\">";
-			if ($this->RowAction == "delete") {
-				$rowkey = $CurrentForm->getValue($this->FormKeyName);
-				$this->setupKeyValues($rowkey);
-			}
-			if ($this->RowAction == "insert" && $this->isConfirm() && $this->emptyRow())
-				$this->MultiSelectKey .= "<input type=\"hidden\" name=\"" . $blankRowName . "\" id=\"" . $blankRowName . "\" value=\"1\">";
-		}
-
-		// "delete"
-		if ($this->AllowAddDeleteRow) {
-			if ($this->isGridAdd() || $this->isGridEdit()) {
-				$options = &$this->ListOptions;
-				$options->UseButtonGroup = TRUE; // Use button group for grid delete button
-				$opt = &$options->Items["griddelete"];
-				if (!$Security->canDelete() && is_numeric($this->RowIndex) && ($this->RowAction == "" || $this->RowAction == "edit")) { // Do not allow delete existing record
-					$opt->Body = "&nbsp;";
-				} else {
-					$opt->Body = "<a class=\"ew-grid-link ew-grid-delete\" title=\"" . HtmlTitle($Language->phrase("DeleteLink")) . "\" data-caption=\"" . HtmlTitle($Language->phrase("DeleteLink")) . "\" onclick=\"return ew.deleteGridRow(this, " . $this->RowIndex . ");\">" . $Language->phrase("DeleteLink") . "</a>";
-				}
-			}
-		}
-
 		// "sequence"
 		$opt = &$this->ListOptions->Items["sequence"];
 		$opt->Body = FormatSequenceNumber($this->RecCnt);
-
-		// "copy"
-		$opt = &$this->ListOptions->Items["copy"];
-		if ($this->isInlineAddRow() || $this->isInlineCopyRow()) { // Inline Add/Copy
-			$this->ListOptions->CustomItem = "copy"; // Show copy column only
-			$opt->Body = "<div" . (($opt->OnLeft) ? " class=\"text-right\"" : "") . ">" .
-				"<a class=\"ew-grid-link ew-inline-insert\" title=\"" . HtmlTitle($Language->phrase("InsertLink")) . "\" data-caption=\"" . HtmlTitle($Language->phrase("InsertLink")) . "\" href=\"\" onclick=\"return ew.forms(this).submit('" . $this->pageName() . "');\">" . $Language->phrase("InsertLink") . "</a>&nbsp;" .
-				"<a class=\"ew-grid-link ew-inline-cancel\" title=\"" . HtmlTitle($Language->phrase("CancelLink")) . "\" data-caption=\"" . HtmlTitle($Language->phrase("CancelLink")) . "\" href=\"" . $this->CancelUrl . "\">" . $Language->phrase("CancelLink") . "</a>" .
-				"<input type=\"hidden\" name=\"action\" id=\"action\" value=\"insert\"></div>";
-			return;
-		}
-
-		// "edit"
-		$opt = &$this->ListOptions->Items["edit"];
-		if ($this->isInlineEditRow()) { // Inline-Edit
-			$this->ListOptions->CustomItem = "edit"; // Show edit column only
-				$opt->Body = "<div" . (($opt->OnLeft) ? " class=\"text-right\"" : "") . ">" .
-					"<a class=\"ew-grid-link ew-inline-update\" title=\"" . HtmlTitle($Language->phrase("UpdateLink")) . "\" data-caption=\"" . HtmlTitle($Language->phrase("UpdateLink")) . "\" href=\"\" onclick=\"return ew.forms(this).submit('" . UrlAddHash($this->pageName(), "r" . $this->RowCnt . "_" . $this->TableVar) . "');\">" . $Language->phrase("UpdateLink") . "</a>&nbsp;" .
-					"<a class=\"ew-grid-link ew-inline-cancel\" title=\"" . HtmlTitle($Language->phrase("CancelLink")) . "\" data-caption=\"" . HtmlTitle($Language->phrase("CancelLink")) . "\" href=\"" . $this->CancelUrl . "\">" . $Language->phrase("CancelLink") . "</a>" .
-					"<input type=\"hidden\" name=\"action\" id=\"action\" value=\"update\"></div>";
-			$opt->Body .= "<input type=\"hidden\" name=\"k" . $this->RowIndex . "_key\" id=\"k" . $this->RowIndex . "_key\" value=\"" . HtmlEncode($this->id->CurrentValue) . "\">";
-			return;
-		}
 
 		// "view"
 		$opt = &$this->ListOptions->Items["view"];
@@ -1699,7 +1126,6 @@ class t101_daf_kelas_list extends t101_daf_kelas
 		$editcaption = HtmlTitle($Language->phrase("EditLink"));
 		if ($Security->canEdit()) {
 			$opt->Body = "<a class=\"ew-row-link ew-edit\" title=\"" . HtmlTitle($Language->phrase("EditLink")) . "\" data-caption=\"" . HtmlTitle($Language->phrase("EditLink")) . "\" href=\"" . HtmlEncode($this->EditUrl) . "\">" . $Language->phrase("EditLink") . "</a>";
-			$opt->Body .= "<a class=\"ew-row-link ew-inline-edit\" title=\"" . HtmlTitle($Language->phrase("InlineEditLink")) . "\" data-caption=\"" . HtmlTitle($Language->phrase("InlineEditLink")) . "\" href=\"" . HtmlEncode(UrlAddHash($this->InlineEditUrl, "r" . $this->RowCnt . "_" . $this->TableVar)) . "\">" . $Language->phrase("InlineEditLink") . "</a>";
 		} else {
 			$opt->Body = "";
 		}
@@ -1709,7 +1135,6 @@ class t101_daf_kelas_list extends t101_daf_kelas
 		$copycaption = HtmlTitle($Language->phrase("CopyLink"));
 		if ($Security->canAdd()) {
 			$opt->Body = "<a class=\"ew-row-link ew-copy\" title=\"" . $copycaption . "\" data-caption=\"" . $copycaption . "\" href=\"" . HtmlEncode($this->CopyUrl) . "\">" . $Language->phrase("CopyLink") . "</a>";
-			$opt->Body .= "<a class=\"ew-row-link ew-inline-copy\" title=\"" . HtmlTitle($Language->phrase("InlineCopyLink")) . "\" data-caption=\"" . HtmlTitle($Language->phrase("InlineCopyLink")) . "\" href=\"" . HtmlEncode($this->InlineCopyUrl) . "\">" . $Language->phrase("InlineCopyLink") . "</a>";
 		} else {
 			$opt->Body = "";
 		}
@@ -1818,9 +1243,6 @@ class t101_daf_kelas_list extends t101_daf_kelas
 		// "checkbox"
 		$opt = &$this->ListOptions->Items["checkbox"];
 		$opt->Body = "<input type=\"checkbox\" name=\"key_m[]\" class=\"ew-multi-select\" value=\"" . HtmlEncode($this->id->CurrentValue) . "\" onclick=\"ew.clickMultiCheckbox(event);\">";
-		if ($this->isGridEdit() && is_numeric($this->RowIndex)) {
-			$this->MultiSelectKey .= "<input type=\"hidden\" name=\"" . $keyName . "\" id=\"" . $keyName . "\" value=\"" . $this->id->CurrentValue . "\">";
-		}
 		$this->renderListOptionsExt();
 
 		// Call ListOptions_Rendered event
@@ -1839,14 +1261,6 @@ class t101_daf_kelas_list extends t101_daf_kelas
 		$addcaption = HtmlTitle($Language->phrase("AddLink"));
 		$item->Body = "<a class=\"ew-add-edit ew-add\" title=\"" . $addcaption . "\" data-caption=\"" . $addcaption . "\" href=\"" . HtmlEncode($this->AddUrl) . "\">" . $Language->phrase("AddLink") . "</a>";
 		$item->Visible = ($this->AddUrl <> "" && $Security->canAdd());
-
-		// Inline Add
-		$item = &$option->add("inlineadd");
-		$item->Body = "<a class=\"ew-add-edit ew-inline-add\" title=\"" . HtmlTitle($Language->phrase("InlineAddLink")) . "\" data-caption=\"" . HtmlTitle($Language->phrase("InlineAddLink")) . "\" href=\"" . HtmlEncode($this->InlineAddUrl) . "\">" .$Language->phrase("InlineAddLink") . "</a>";
-		$item->Visible = ($this->InlineAddUrl <> "" && $Security->canAdd());
-		$item = &$option->add("gridadd");
-		$item->Body = "<a class=\"ew-add-edit ew-grid-add\" title=\"" . HtmlTitle($Language->phrase("GridAddLink")) . "\" data-caption=\"" . HtmlTitle($Language->phrase("GridAddLink")) . "\" href=\"" . HtmlEncode($this->GridAddUrl) . "\">" . $Language->phrase("GridAddLink") . "</a>";
-		$item->Visible = ($this->GridAddUrl <> "" && $Security->canAdd());
 		$option = $options["detail"];
 		$detailTableLink = "";
 		$item = &$option->add("detailadd_t102_daf_kelas_siswa");
@@ -1876,12 +1290,6 @@ class t101_daf_kelas_list extends t101_daf_kelas
 					$item->Visible = FALSE;
 			}
 		}
-
-		// Add grid edit
-		$option = $options["addedit"];
-		$item = &$option->add("gridedit");
-		$item->Body = "<a class=\"ew-add-edit ew-grid-edit\" title=\"" . HtmlTitle($Language->phrase("GridEditLink")) . "\" data-caption=\"" . HtmlTitle($Language->phrase("GridEditLink")) . "\" href=\"" . HtmlEncode($this->GridEditUrl) . "\">" . $Language->phrase("GridEditLink") . "</a>";
-		$item->Visible = ($this->GridEditUrl <> "" && $Security->canEdit());
 		$option = $options["action"];
 
 		// Set up options default
@@ -1920,7 +1328,6 @@ class t101_daf_kelas_list extends t101_daf_kelas
 	{
 		global $Language, $Security;
 		$options = &$this->OtherOptions;
-		if (!$this->isGridAdd() && !$this->isGridEdit()) { // Not grid add/edit mode
 			$option = &$options["action"];
 
 			// Set up list action buttons
@@ -1942,50 +1349,6 @@ class t101_daf_kelas_list extends t101_daf_kelas
 				$option = &$options["action"];
 				$option->hideAllOptions();
 			}
-		} else { // Grid add/edit mode
-
-			// Hide all options first
-			foreach ($options as &$option)
-				$option->hideAllOptions();
-			if ($this->isGridAdd()) {
-				if ($this->AllowAddDeleteRow) {
-
-					// Add add blank row
-					$option = &$options["addedit"];
-					$option->UseDropDownButton = FALSE;
-					$item = &$option->add("addblankrow");
-					$item->Body = "<a class=\"ew-add-edit ew-add-blank-row\" title=\"" . HtmlTitle($Language->phrase("AddBlankRow")) . "\" data-caption=\"" . HtmlTitle($Language->phrase("AddBlankRow")) . "\" href=\"javascript:void(0);\" onclick=\"ew.addGridRow(this);\">" . $Language->phrase("AddBlankRow") . "</a>";
-					$item->Visible = $Security->canAdd();
-				}
-				$option = &$options["action"];
-				$option->UseDropDownButton = FALSE;
-
-				// Add grid insert
-				$item = &$option->add("gridinsert");
-				$item->Body = "<a class=\"ew-action ew-grid-insert\" title=\"" . HtmlTitle($Language->phrase("GridInsertLink")) . "\" data-caption=\"" . HtmlTitle($Language->phrase("GridInsertLink")) . "\" href=\"\" onclick=\"return ew.forms(this).submit('" . $this->pageName() . "');\">" . $Language->phrase("GridInsertLink") . "</a>";
-
-				// Add grid cancel
-				$item = &$option->add("gridcancel");
-				$item->Body = "<a class=\"ew-action ew-grid-cancel\" title=\"" . HtmlTitle($Language->phrase("GridCancelLink")) . "\" data-caption=\"" . HtmlTitle($Language->phrase("GridCancelLink")) . "\" href=\"" . $this->CancelUrl . "\">" . $Language->phrase("GridCancelLink") . "</a>";
-			}
-			if ($this->isGridEdit()) {
-				if ($this->AllowAddDeleteRow) {
-
-					// Add add blank row
-					$option = &$options["addedit"];
-					$option->UseDropDownButton = FALSE;
-					$item = &$option->add("addblankrow");
-					$item->Body = "<a class=\"ew-add-edit ew-add-blank-row\" title=\"" . HtmlTitle($Language->phrase("AddBlankRow")) . "\" data-caption=\"" . HtmlTitle($Language->phrase("AddBlankRow")) . "\" href=\"javascript:void(0);\" onclick=\"ew.addGridRow(this);\">" . $Language->phrase("AddBlankRow") . "</a>";
-					$item->Visible = $Security->canAdd();
-				}
-				$option = &$options["action"];
-				$option->UseDropDownButton = FALSE;
-					$item = &$option->add("gridsave");
-					$item->Body = "<a class=\"ew-action ew-grid-save\" title=\"" . HtmlTitle($Language->phrase("GridSaveLink")) . "\" data-caption=\"" . HtmlTitle($Language->phrase("GridSaveLink")) . "\" href=\"\" onclick=\"return ew.forms(this).submit('" . $this->pageName() . "');\">" . $Language->phrase("GridSaveLink") . "</a>";
-					$item = &$option->add("gridcancel");
-					$item->Body = "<a class=\"ew-action ew-grid-cancel\" title=\"" . HtmlTitle($Language->phrase("GridCancelLink")) . "\" data-caption=\"" . HtmlTitle($Language->phrase("GridCancelLink")) . "\" href=\"" . $this->CancelUrl . "\">" . $Language->phrase("GridCancelLink") . "</a>";
-			}
-		}
 	}
 
 	// Process list action
@@ -2135,11 +1498,6 @@ class t101_daf_kelas_list extends t101_daf_kelas
 				$url = $this->getEditUrl(TABLE_SHOW_DETAIL . "=t102_daf_kelas_siswa");
 				$btngrp .= "<a href=\"javascript:void(0);\" class=\"ew-link-separator\" title=\"" . HtmlTitle($caption) . "\" onclick=\"window.location='" . HtmlEncode($url) . "'\">" . $caption . "</a>";
 			}
-			if ($GLOBALS["t102_daf_kelas_siswa_grid"]->DetailAdd && $Security->canAdd() && $Security->allowAdd(CurrentProjectID() . 't102_daf_kelas_siswa')) {
-				$caption = $Language->Phrase("MasterDetailCopyLink");
-				$url = $this->getCopyUrl(TABLE_SHOW_DETAIL . "=t102_daf_kelas_siswa");
-				$btngrp .= "<a href=\"javascript:void(0);\" class=\"ew-link-separator\" title=\"" . HtmlTitle($caption) . "\" onclick=\"window.location='" . HtmlEncode($url) . "'\">" . $caption . "</a>";
-			}
 			$btngrp .= "</div>";
 			if ($link <> "") {
 				$btngrps .= $btngrp;
@@ -2217,73 +1575,6 @@ class t101_daf_kelas_list extends t101_daf_kelas
 		}
 	}
 
-	// Load default values
-	protected function loadDefaultValues()
-	{
-		$this->id->CurrentValue = NULL;
-		$this->id->OldValue = $this->id->CurrentValue;
-		$this->tahun_ajaran_id->CurrentValue = NULL;
-		$this->tahun_ajaran_id->OldValue = $this->tahun_ajaran_id->CurrentValue;
-		$this->sekolah_id->CurrentValue = NULL;
-		$this->sekolah_id->OldValue = $this->sekolah_id->CurrentValue;
-		$this->kelas_id->CurrentValue = NULL;
-		$this->kelas_id->OldValue = $this->kelas_id->CurrentValue;
-	}
-
-	// Load form values
-	protected function loadFormValues()
-	{
-
-		// Load from form
-		global $CurrentForm;
-
-		// Check field name 'tahun_ajaran_id' first before field var 'x_tahun_ajaran_id'
-		$val = $CurrentForm->hasValue("tahun_ajaran_id") ? $CurrentForm->getValue("tahun_ajaran_id") : $CurrentForm->getValue("x_tahun_ajaran_id");
-		if (!$this->tahun_ajaran_id->IsDetailKey) {
-			if (IsApi() && $val == NULL)
-				$this->tahun_ajaran_id->Visible = FALSE; // Disable update for API request
-			else
-				$this->tahun_ajaran_id->setFormValue($val);
-		}
-		$this->tahun_ajaran_id->setOldValue($CurrentForm->getValue("o_tahun_ajaran_id"));
-
-		// Check field name 'sekolah_id' first before field var 'x_sekolah_id'
-		$val = $CurrentForm->hasValue("sekolah_id") ? $CurrentForm->getValue("sekolah_id") : $CurrentForm->getValue("x_sekolah_id");
-		if (!$this->sekolah_id->IsDetailKey) {
-			if (IsApi() && $val == NULL)
-				$this->sekolah_id->Visible = FALSE; // Disable update for API request
-			else
-				$this->sekolah_id->setFormValue($val);
-		}
-		$this->sekolah_id->setOldValue($CurrentForm->getValue("o_sekolah_id"));
-
-		// Check field name 'kelas_id' first before field var 'x_kelas_id'
-		$val = $CurrentForm->hasValue("kelas_id") ? $CurrentForm->getValue("kelas_id") : $CurrentForm->getValue("x_kelas_id");
-		if (!$this->kelas_id->IsDetailKey) {
-			if (IsApi() && $val == NULL)
-				$this->kelas_id->Visible = FALSE; // Disable update for API request
-			else
-				$this->kelas_id->setFormValue($val);
-		}
-		$this->kelas_id->setOldValue($CurrentForm->getValue("o_kelas_id"));
-
-		// Check field name 'id' first before field var 'x_id'
-		$val = $CurrentForm->hasValue("id") ? $CurrentForm->getValue("id") : $CurrentForm->getValue("x_id");
-		if (!$this->id->IsDetailKey && !$this->isGridAdd() && !$this->isAdd())
-			$this->id->setFormValue($val);
-	}
-
-	// Restore form values
-	public function restoreFormValues()
-	{
-		global $CurrentForm;
-		if (!$this->isGridAdd() && !$this->isAdd())
-			$this->id->CurrentValue = $this->id->FormValue;
-		$this->tahun_ajaran_id->CurrentValue = $this->tahun_ajaran_id->FormValue;
-		$this->sekolah_id->CurrentValue = $this->sekolah_id->FormValue;
-		$this->kelas_id->CurrentValue = $this->kelas_id->FormValue;
-	}
-
 	// Load recordset
 	public function loadRecordset($offset = -1, $rowcnt = -1)
 	{
@@ -2329,8 +1620,6 @@ class t101_daf_kelas_list extends t101_daf_kelas
 		if ($rs && !$rs->EOF) {
 			$res = TRUE;
 			$this->loadRowValues($rs); // Load row values
-			if (!$this->EventCancelled)
-				$this->HashValue = $this->getRowHash($rs); // Get hash value for record
 			$rs->close();
 		}
 		return $res;
@@ -2357,12 +1646,11 @@ class t101_daf_kelas_list extends t101_daf_kelas
 	// Return a row with default values
 	protected function newRow()
 	{
-		$this->loadDefaultValues();
 		$row = [];
-		$row['id'] = $this->id->CurrentValue;
-		$row['tahun_ajaran_id'] = $this->tahun_ajaran_id->CurrentValue;
-		$row['sekolah_id'] = $this->sekolah_id->CurrentValue;
-		$row['kelas_id'] = $this->kelas_id->CurrentValue;
+		$row['id'] = NULL;
+		$row['tahun_ajaran_id'] = NULL;
+		$row['sekolah_id'] = NULL;
+		$row['kelas_id'] = NULL;
 		return $row;
 	}
 
@@ -2498,465 +1786,11 @@ class t101_daf_kelas_list extends t101_daf_kelas
 			$this->kelas_id->LinkCustomAttributes = "";
 			$this->kelas_id->HrefValue = "";
 			$this->kelas_id->TooltipValue = "";
-		} elseif ($this->RowType == ROWTYPE_ADD) { // Add row
-
-			// tahun_ajaran_id
-			$this->tahun_ajaran_id->EditAttrs["class"] = "form-control";
-			$this->tahun_ajaran_id->EditCustomAttributes = "";
-			$curVal = trim(strval($this->tahun_ajaran_id->CurrentValue));
-			if ($curVal <> "")
-				$this->tahun_ajaran_id->ViewValue = $this->tahun_ajaran_id->lookupCacheOption($curVal);
-			else
-				$this->tahun_ajaran_id->ViewValue = $this->tahun_ajaran_id->Lookup !== NULL && is_array($this->tahun_ajaran_id->Lookup->Options) ? $curVal : NULL;
-			if ($this->tahun_ajaran_id->ViewValue !== NULL) { // Load from cache
-				$this->tahun_ajaran_id->EditValue = array_values($this->tahun_ajaran_id->Lookup->Options);
-			} else { // Lookup from database
-				if ($curVal == "") {
-					$filterWrk = "0=1";
-				} else {
-					$filterWrk = "`id`" . SearchString("=", $this->tahun_ajaran_id->CurrentValue, DATATYPE_NUMBER, "");
-				}
-				$sqlWrk = $this->tahun_ajaran_id->Lookup->getSql(TRUE, $filterWrk, '', $this);
-				$rswrk = Conn()->execute($sqlWrk);
-				$arwrk = ($rswrk) ? $rswrk->GetRows() : array();
-				if ($rswrk) $rswrk->Close();
-				$this->tahun_ajaran_id->EditValue = $arwrk;
-			}
-
-			// sekolah_id
-			$this->sekolah_id->EditAttrs["class"] = "form-control";
-			$this->sekolah_id->EditCustomAttributes = "";
-			$curVal = trim(strval($this->sekolah_id->CurrentValue));
-			if ($curVal <> "")
-				$this->sekolah_id->ViewValue = $this->sekolah_id->lookupCacheOption($curVal);
-			else
-				$this->sekolah_id->ViewValue = $this->sekolah_id->Lookup !== NULL && is_array($this->sekolah_id->Lookup->Options) ? $curVal : NULL;
-			if ($this->sekolah_id->ViewValue !== NULL) { // Load from cache
-				$this->sekolah_id->EditValue = array_values($this->sekolah_id->Lookup->Options);
-			} else { // Lookup from database
-				if ($curVal == "") {
-					$filterWrk = "0=1";
-				} else {
-					$filterWrk = "`id`" . SearchString("=", $this->sekolah_id->CurrentValue, DATATYPE_NUMBER, "");
-				}
-				$sqlWrk = $this->sekolah_id->Lookup->getSql(TRUE, $filterWrk, '', $this);
-				$rswrk = Conn()->execute($sqlWrk);
-				$arwrk = ($rswrk) ? $rswrk->GetRows() : array();
-				if ($rswrk) $rswrk->Close();
-				$this->sekolah_id->EditValue = $arwrk;
-			}
-
-			// kelas_id
-			$this->kelas_id->EditAttrs["class"] = "form-control";
-			$this->kelas_id->EditCustomAttributes = "";
-			$curVal = trim(strval($this->kelas_id->CurrentValue));
-			if ($curVal <> "")
-				$this->kelas_id->ViewValue = $this->kelas_id->lookupCacheOption($curVal);
-			else
-				$this->kelas_id->ViewValue = $this->kelas_id->Lookup !== NULL && is_array($this->kelas_id->Lookup->Options) ? $curVal : NULL;
-			if ($this->kelas_id->ViewValue !== NULL) { // Load from cache
-				$this->kelas_id->EditValue = array_values($this->kelas_id->Lookup->Options);
-			} else { // Lookup from database
-				if ($curVal == "") {
-					$filterWrk = "0=1";
-				} else {
-					$filterWrk = "`id`" . SearchString("=", $this->kelas_id->CurrentValue, DATATYPE_NUMBER, "");
-				}
-				$sqlWrk = $this->kelas_id->Lookup->getSql(TRUE, $filterWrk, '', $this);
-				$rswrk = Conn()->execute($sqlWrk);
-				$arwrk = ($rswrk) ? $rswrk->GetRows() : array();
-				if ($rswrk) $rswrk->Close();
-				$this->kelas_id->EditValue = $arwrk;
-			}
-
-			// Add refer script
-			// tahun_ajaran_id
-
-			$this->tahun_ajaran_id->LinkCustomAttributes = "";
-			$this->tahun_ajaran_id->HrefValue = "";
-
-			// sekolah_id
-			$this->sekolah_id->LinkCustomAttributes = "";
-			$this->sekolah_id->HrefValue = "";
-
-			// kelas_id
-			$this->kelas_id->LinkCustomAttributes = "";
-			$this->kelas_id->HrefValue = "";
-		} elseif ($this->RowType == ROWTYPE_EDIT) { // Edit row
-
-			// tahun_ajaran_id
-			$this->tahun_ajaran_id->EditAttrs["class"] = "form-control";
-			$this->tahun_ajaran_id->EditCustomAttributes = "";
-			$curVal = trim(strval($this->tahun_ajaran_id->CurrentValue));
-			if ($curVal <> "")
-				$this->tahun_ajaran_id->ViewValue = $this->tahun_ajaran_id->lookupCacheOption($curVal);
-			else
-				$this->tahun_ajaran_id->ViewValue = $this->tahun_ajaran_id->Lookup !== NULL && is_array($this->tahun_ajaran_id->Lookup->Options) ? $curVal : NULL;
-			if ($this->tahun_ajaran_id->ViewValue !== NULL) { // Load from cache
-				$this->tahun_ajaran_id->EditValue = array_values($this->tahun_ajaran_id->Lookup->Options);
-			} else { // Lookup from database
-				if ($curVal == "") {
-					$filterWrk = "0=1";
-				} else {
-					$filterWrk = "`id`" . SearchString("=", $this->tahun_ajaran_id->CurrentValue, DATATYPE_NUMBER, "");
-				}
-				$sqlWrk = $this->tahun_ajaran_id->Lookup->getSql(TRUE, $filterWrk, '', $this);
-				$rswrk = Conn()->execute($sqlWrk);
-				$arwrk = ($rswrk) ? $rswrk->GetRows() : array();
-				if ($rswrk) $rswrk->Close();
-				$this->tahun_ajaran_id->EditValue = $arwrk;
-			}
-
-			// sekolah_id
-			$this->sekolah_id->EditAttrs["class"] = "form-control";
-			$this->sekolah_id->EditCustomAttributes = "";
-			$curVal = trim(strval($this->sekolah_id->CurrentValue));
-			if ($curVal <> "")
-				$this->sekolah_id->ViewValue = $this->sekolah_id->lookupCacheOption($curVal);
-			else
-				$this->sekolah_id->ViewValue = $this->sekolah_id->Lookup !== NULL && is_array($this->sekolah_id->Lookup->Options) ? $curVal : NULL;
-			if ($this->sekolah_id->ViewValue !== NULL) { // Load from cache
-				$this->sekolah_id->EditValue = array_values($this->sekolah_id->Lookup->Options);
-			} else { // Lookup from database
-				if ($curVal == "") {
-					$filterWrk = "0=1";
-				} else {
-					$filterWrk = "`id`" . SearchString("=", $this->sekolah_id->CurrentValue, DATATYPE_NUMBER, "");
-				}
-				$sqlWrk = $this->sekolah_id->Lookup->getSql(TRUE, $filterWrk, '', $this);
-				$rswrk = Conn()->execute($sqlWrk);
-				$arwrk = ($rswrk) ? $rswrk->GetRows() : array();
-				if ($rswrk) $rswrk->Close();
-				$this->sekolah_id->EditValue = $arwrk;
-			}
-
-			// kelas_id
-			$this->kelas_id->EditAttrs["class"] = "form-control";
-			$this->kelas_id->EditCustomAttributes = "";
-			$curVal = trim(strval($this->kelas_id->CurrentValue));
-			if ($curVal <> "")
-				$this->kelas_id->ViewValue = $this->kelas_id->lookupCacheOption($curVal);
-			else
-				$this->kelas_id->ViewValue = $this->kelas_id->Lookup !== NULL && is_array($this->kelas_id->Lookup->Options) ? $curVal : NULL;
-			if ($this->kelas_id->ViewValue !== NULL) { // Load from cache
-				$this->kelas_id->EditValue = array_values($this->kelas_id->Lookup->Options);
-			} else { // Lookup from database
-				if ($curVal == "") {
-					$filterWrk = "0=1";
-				} else {
-					$filterWrk = "`id`" . SearchString("=", $this->kelas_id->CurrentValue, DATATYPE_NUMBER, "");
-				}
-				$sqlWrk = $this->kelas_id->Lookup->getSql(TRUE, $filterWrk, '', $this);
-				$rswrk = Conn()->execute($sqlWrk);
-				$arwrk = ($rswrk) ? $rswrk->GetRows() : array();
-				if ($rswrk) $rswrk->Close();
-				$this->kelas_id->EditValue = $arwrk;
-			}
-
-			// Edit refer script
-			// tahun_ajaran_id
-
-			$this->tahun_ajaran_id->LinkCustomAttributes = "";
-			$this->tahun_ajaran_id->HrefValue = "";
-
-			// sekolah_id
-			$this->sekolah_id->LinkCustomAttributes = "";
-			$this->sekolah_id->HrefValue = "";
-
-			// kelas_id
-			$this->kelas_id->LinkCustomAttributes = "";
-			$this->kelas_id->HrefValue = "";
 		}
-		if ($this->RowType == ROWTYPE_ADD || $this->RowType == ROWTYPE_EDIT || $this->RowType == ROWTYPE_SEARCH) // Add/Edit/Search row
-			$this->setupFieldTitles();
 
 		// Call Row Rendered event
 		if ($this->RowType <> ROWTYPE_AGGREGATEINIT)
 			$this->Row_Rendered();
-	}
-
-	// Validate form
-	protected function validateForm()
-	{
-		global $Language, $FormError;
-
-		// Initialize form error message
-		$FormError = "";
-
-		// Check if validation required
-		if (!SERVER_VALIDATE)
-			return ($FormError == "");
-		if ($this->id->Required) {
-			if (!$this->id->IsDetailKey && $this->id->FormValue != NULL && $this->id->FormValue == "") {
-				AddMessage($FormError, str_replace("%s", $this->id->caption(), $this->id->RequiredErrorMessage));
-			}
-		}
-		if ($this->tahun_ajaran_id->Required) {
-			if (!$this->tahun_ajaran_id->IsDetailKey && $this->tahun_ajaran_id->FormValue != NULL && $this->tahun_ajaran_id->FormValue == "") {
-				AddMessage($FormError, str_replace("%s", $this->tahun_ajaran_id->caption(), $this->tahun_ajaran_id->RequiredErrorMessage));
-			}
-		}
-		if ($this->sekolah_id->Required) {
-			if (!$this->sekolah_id->IsDetailKey && $this->sekolah_id->FormValue != NULL && $this->sekolah_id->FormValue == "") {
-				AddMessage($FormError, str_replace("%s", $this->sekolah_id->caption(), $this->sekolah_id->RequiredErrorMessage));
-			}
-		}
-		if ($this->kelas_id->Required) {
-			if (!$this->kelas_id->IsDetailKey && $this->kelas_id->FormValue != NULL && $this->kelas_id->FormValue == "") {
-				AddMessage($FormError, str_replace("%s", $this->kelas_id->caption(), $this->kelas_id->RequiredErrorMessage));
-			}
-		}
-
-		// Return validate result
-		$validateForm = ($FormError == "");
-
-		// Call Form_CustomValidate event
-		$formCustomError = "";
-		$validateForm = $validateForm && $this->Form_CustomValidate($formCustomError);
-		if ($formCustomError <> "") {
-			AddMessage($FormError, $formCustomError);
-		}
-		return $validateForm;
-	}
-
-	// Delete records based on current filter
-	protected function deleteRows()
-	{
-		global $Language, $Security;
-		if (!$Security->canDelete()) {
-			$this->setFailureMessage($Language->phrase("NoDeletePermission")); // No delete permission
-			return FALSE;
-		}
-		$deleteRows = TRUE;
-		$sql = $this->getCurrentSql();
-		$conn = &$this->getConnection();
-		$conn->raiseErrorFn = $GLOBALS["ERROR_FUNC"];
-		$rs = $conn->execute($sql);
-		$conn->raiseErrorFn = '';
-		if ($rs === FALSE) {
-			return FALSE;
-		} elseif ($rs->EOF) {
-			$this->setFailureMessage($Language->phrase("NoRecord")); // No record found
-			$rs->close();
-			return FALSE;
-		}
-		$rows = ($rs) ? $rs->getRows() : [];
-		if ($this->AuditTrailOnDelete)
-			$this->writeAuditTrailDummy($Language->phrase("BatchDeleteBegin")); // Batch delete begin
-
-		// Clone old rows
-		$rsold = $rows;
-		if ($rs)
-			$rs->close();
-
-		// Call row deleting event
-		if ($deleteRows) {
-			foreach ($rsold as $row) {
-				$deleteRows = $this->Row_Deleting($row);
-				if (!$deleteRows)
-					break;
-			}
-		}
-		if ($deleteRows) {
-			$key = "";
-			foreach ($rsold as $row) {
-				$thisKey = "";
-				if ($thisKey <> "")
-					$thisKey .= $GLOBALS["COMPOSITE_KEY_SEPARATOR"];
-				$thisKey .= $row['id'];
-				if (DELETE_UPLOADED_FILES) // Delete old files
-					$this->deleteUploadedFiles($row);
-				$conn->raiseErrorFn = $GLOBALS["ERROR_FUNC"];
-				$deleteRows = $this->delete($row); // Delete
-				$conn->raiseErrorFn = '';
-				if ($deleteRows === FALSE)
-					break;
-				if ($key <> "")
-					$key .= ", ";
-				$key .= $thisKey;
-			}
-		}
-		if (!$deleteRows) {
-
-			// Set up error message
-			if ($this->getSuccessMessage() <> "" || $this->getFailureMessage() <> "") {
-
-				// Use the message, do nothing
-			} elseif ($this->CancelMessage <> "") {
-				$this->setFailureMessage($this->CancelMessage);
-				$this->CancelMessage = "";
-			} else {
-				$this->setFailureMessage($Language->phrase("DeleteCancelled"));
-			}
-		}
-
-		// Call Row Deleted event
-		if ($deleteRows) {
-			foreach ($rsold as $row) {
-				$this->Row_Deleted($row);
-			}
-		}
-
-		// Write JSON for API request (Support single row only)
-		if (IsApi() && $deleteRows) {
-			$row = $this->getRecordsFromRecordset($rsold, TRUE);
-			WriteJson(["success" => TRUE, $this->TableVar => $row]);
-		}
-		return $deleteRows;
-	}
-
-	// Update record based on key values
-	protected function editRow()
-	{
-		global $Security, $Language;
-		$filter = $this->getRecordFilter();
-		$filter = $this->applyUserIDFilters($filter);
-		$conn = &$this->getConnection();
-		$this->CurrentFilter = $filter;
-		$sql = $this->getCurrentSql();
-		$conn->raiseErrorFn = $GLOBALS["ERROR_FUNC"];
-		$rs = $conn->execute($sql);
-		$conn->raiseErrorFn = '';
-		if ($rs === FALSE)
-			return FALSE;
-		if ($rs->EOF) {
-			$this->setFailureMessage($Language->phrase("NoRecord")); // Set no record message
-			$editRow = FALSE; // Update Failed
-		} else {
-
-			// Save old values
-			$rsold = &$rs->fields;
-			$this->loadDbValues($rsold);
-			$rsnew = [];
-
-			// tahun_ajaran_id
-			$this->tahun_ajaran_id->setDbValueDef($rsnew, $this->tahun_ajaran_id->CurrentValue, 0, $this->tahun_ajaran_id->ReadOnly);
-
-			// sekolah_id
-			$this->sekolah_id->setDbValueDef($rsnew, $this->sekolah_id->CurrentValue, 0, $this->sekolah_id->ReadOnly);
-
-			// kelas_id
-			$this->kelas_id->setDbValueDef($rsnew, $this->kelas_id->CurrentValue, 0, $this->kelas_id->ReadOnly);
-
-			// Call Row Updating event
-			$updateRow = $this->Row_Updating($rsold, $rsnew);
-			if ($updateRow) {
-				$conn->raiseErrorFn = $GLOBALS["ERROR_FUNC"];
-				if (count($rsnew) > 0)
-					$editRow = $this->update($rsnew, "", $rsold);
-				else
-					$editRow = TRUE; // No field to update
-				$conn->raiseErrorFn = '';
-				if ($editRow) {
-				}
-			} else {
-				if ($this->getSuccessMessage() <> "" || $this->getFailureMessage() <> "") {
-
-					// Use the message, do nothing
-				} elseif ($this->CancelMessage <> "") {
-					$this->setFailureMessage($this->CancelMessage);
-					$this->CancelMessage = "";
-				} else {
-					$this->setFailureMessage($Language->phrase("UpdateCancelled"));
-				}
-				$editRow = FALSE;
-			}
-		}
-
-		// Call Row_Updated event
-		if ($editRow)
-			$this->Row_Updated($rsold, $rsnew);
-		$rs->close();
-
-		// Write JSON for API request
-		if (IsApi() && $editRow) {
-			$row = $this->getRecordsFromRecordset([$rsnew], TRUE);
-			WriteJson(["success" => TRUE, $this->TableVar => $row]);
-		}
-		return $editRow;
-	}
-
-	// Load row hash
-	protected function loadRowHash()
-	{
-		$filter = $this->getRecordFilter();
-
-		// Load SQL based on filter
-		$this->CurrentFilter = $filter;
-		$sql = $this->getCurrentSql();
-		$conn = &$this->getConnection();
-		$rsRow = $conn->Execute($sql);
-		$this->HashValue = ($rsRow && !$rsRow->EOF) ? $this->getRowHash($rsRow) : ""; // Get hash value for record
-		$rsRow->close();
-	}
-
-	// Get Row Hash
-	public function getRowHash(&$rs)
-	{
-		if (!$rs)
-			return "";
-		$hash = "";
-		$hash .= GetFieldHash($rs->fields('tahun_ajaran_id')); // tahun_ajaran_id
-		$hash .= GetFieldHash($rs->fields('sekolah_id')); // sekolah_id
-		$hash .= GetFieldHash($rs->fields('kelas_id')); // kelas_id
-		return md5($hash);
-	}
-
-	// Add record
-	protected function addRow($rsold = NULL)
-	{
-		global $Language, $Security;
-		$conn = &$this->getConnection();
-
-		// Load db values from rsold
-		$this->loadDbValues($rsold);
-		if ($rsold) {
-		}
-		$rsnew = [];
-
-		// tahun_ajaran_id
-		$this->tahun_ajaran_id->setDbValueDef($rsnew, $this->tahun_ajaran_id->CurrentValue, 0, FALSE);
-
-		// sekolah_id
-		$this->sekolah_id->setDbValueDef($rsnew, $this->sekolah_id->CurrentValue, 0, FALSE);
-
-		// kelas_id
-		$this->kelas_id->setDbValueDef($rsnew, $this->kelas_id->CurrentValue, 0, FALSE);
-
-		// Call Row Inserting event
-		$rs = ($rsold) ? $rsold->fields : NULL;
-		$insertRow = $this->Row_Inserting($rs, $rsnew);
-		if ($insertRow) {
-			$conn->raiseErrorFn = $GLOBALS["ERROR_FUNC"];
-			$addRow = $this->insert($rsnew);
-			$conn->raiseErrorFn = '';
-			if ($addRow) {
-			}
-		} else {
-			if ($this->getSuccessMessage() <> "" || $this->getFailureMessage() <> "") {
-
-				// Use the message, do nothing
-			} elseif ($this->CancelMessage <> "") {
-				$this->setFailureMessage($this->CancelMessage);
-				$this->CancelMessage = "";
-			} else {
-				$this->setFailureMessage($Language->phrase("InsertCancelled"));
-			}
-			$addRow = FALSE;
-		}
-		if ($addRow) {
-
-			// Call Row Inserted event
-			$rs = ($rsold) ? $rsold->fields : NULL;
-			$this->Row_Inserted($rs, $rsnew);
-		}
-
-		// Write JSON for API request
-		if (IsApi() && $addRow) {
-			$row = $this->getRecordsFromRecordset([$rsnew], TRUE);
-			WriteJson(["success" => TRUE, $this->TableVar => $row]);
-		}
-		return $addRow;
 	}
 
 	// Set up Breadcrumb

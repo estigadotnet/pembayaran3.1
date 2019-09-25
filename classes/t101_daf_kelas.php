@@ -1445,6 +1445,9 @@ class t101_daf_kelas extends DbTable
 	function Row_Rendering() {
 
 		// Enter your code here
+		// modify tanda penghubung
+
+		$this->tahun_ajaran_id->DisplayValueSeparator = "/";
 	}
 
 	// Row Rendered event

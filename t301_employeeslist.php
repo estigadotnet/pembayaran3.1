@@ -59,6 +59,7 @@ ft301_employeeslist.lists["x_Activated[]"].options = <?php echo JsonEncode($t301
 
 // Form object for search
 </script>
+<script src="phpjs/ewscrolltable.js"></script>
 <style type="text/css">
 .ew-table-preview-row { /* main table preview row color */
 	background-color: #FFFFFF; /* preview row color */
@@ -670,6 +671,11 @@ if (DEBUG_ENABLED)
 // document.write("page loaded");
 
 </script>
+<?php if (!$t301_employees->isExport()) { ?>
+<script>
+ew.scrollableTable("gmp_t301_employees", "100%", "100%");
+</script>
+<?php } ?>
 <?php } ?>
 <?php include_once "footer.php" ?>
 <?php

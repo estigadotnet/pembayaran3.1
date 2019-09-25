@@ -23,7 +23,7 @@ $topMenu->addMenuItem(14, "mi_v103_daf_kelas_siswa_iuran", $MenuLanguage->MenuPh
 $topMenu->addMenuItem(21, "mci_General", $MenuLanguage->MenuPhrase("21", "MenuText"), "", -1, "", IsLoggedIn(), FALSE, TRUE, "", "", TRUE);
 $topMenu->addMenuItem(9, "mi_t301_employees", $MenuLanguage->MenuPhrase("9", "MenuText"), "t301_employeeslist.php", 21, "", AllowListMenu('{D97AB052-DD0F-4E43-8766-C499FD89B1B8}t301_employees'), FALSE, FALSE, "", "", TRUE);
 $topMenu->addMenuItem(10, "mi_t302_userlevels", $MenuLanguage->MenuPhrase("10", "MenuText"), "t302_userlevelslist.php", 21, "", AllowListMenu('{D97AB052-DD0F-4E43-8766-C499FD89B1B8}t302_userlevels'), FALSE, FALSE, "", "", TRUE);
-$topMenu->addMenuItem(19, "mi_t304_audit_trail", $MenuLanguage->MenuPhrase("19", "MenuText"), "t304_audit_traillist.php", 21, "", AllowListMenu('{D97AB052-DD0F-4E43-8766-C499FD89B1B8}t304_audit_trail'), FALSE, FALSE, "", "", TRUE);
+$topMenu->addMenuItem(22, "mi_t304_audit_trail", $MenuLanguage->MenuPhrase("22", "MenuText"), "t304_audit_traillist.php", 21, "", AllowListMenu('{D97AB052-DD0F-4E43-8766-C499FD89B1B8}t304_audit_trail'), FALSE, FALSE, "", "", TRUE);
 echo $topMenu->toScript();
 
 // Sidebar menu
@@ -42,6 +42,6 @@ $sideMenu->addMenuItem(14, "mi_v103_daf_kelas_siswa_iuran", $MenuLanguage->MenuP
 $sideMenu->addMenuItem(21, "mci_General", $MenuLanguage->MenuPhrase("21", "MenuText"), "", -1, "", IsLoggedIn(), FALSE, TRUE, "", "", TRUE);
 $sideMenu->addMenuItem(9, "mi_t301_employees", $MenuLanguage->MenuPhrase("9", "MenuText"), "t301_employeeslist.php", 21, "", AllowListMenu('{D97AB052-DD0F-4E43-8766-C499FD89B1B8}t301_employees'), FALSE, FALSE, "", "", TRUE);
 $sideMenu->addMenuItem(10, "mi_t302_userlevels", $MenuLanguage->MenuPhrase("10", "MenuText"), "t302_userlevelslist.php", 21, "", AllowListMenu('{D97AB052-DD0F-4E43-8766-C499FD89B1B8}t302_userlevels'), FALSE, FALSE, "", "", TRUE);
-$sideMenu->addMenuItem(19, "mi_t304_audit_trail", $MenuLanguage->MenuPhrase("19", "MenuText"), "t304_audit_traillist.php", 21, "", AllowListMenu('{D97AB052-DD0F-4E43-8766-C499FD89B1B8}t304_audit_trail'), FALSE, FALSE, "", "", TRUE);
+$sideMenu->addMenuItem(22, "mi_t304_audit_trail", $MenuLanguage->MenuPhrase("22", "MenuText"), "t304_audit_traillist.php", 21, "", AllowListMenu('{D97AB052-DD0F-4E43-8766-C499FD89B1B8}t304_audit_trail'), FALSE, FALSE, "", "", TRUE);
 echo $sideMenu->toScript();
 ?>

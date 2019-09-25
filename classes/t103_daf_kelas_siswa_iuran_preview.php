@@ -609,8 +609,8 @@ class t103_daf_kelas_siswa_iuran_preview extends t103_daf_kelas_siswa_iuran
 
 		// Set up list options
 		$this->setupListOptions();
-		$this->id->setVisibility();
-		$this->daf_kelas_siswa_id->setVisibility();
+		$this->id->Visible = FALSE;
+		$this->daf_kelas_siswa_id->Visible = FALSE;
 		$this->iuran_id->setVisibility();
 		$this->Jumlah->setVisibility();
 		$this->byr01->setVisibility();
@@ -673,8 +673,9 @@ class t103_daf_kelas_siswa_iuran_preview extends t103_daf_kelas_siswa_iuran
 		$this->setupOtherOptions();
 
 		// Set up lookup cache
-		// Load filter
+		$this->setupLookupOptions($this->iuran_id);
 
+		// Load filter
 		$filter = Get("f", "");
 		$filter = Decrypt($filter);
 		if ($filter == "") $filter = "0=1";
@@ -961,6 +962,8 @@ class t103_daf_kelas_siswa_iuran_preview extends t103_daf_kelas_siswa_iuran
 
 					// Format the field values
 					switch ($fld->FieldVar) {
+						case "x_iuran_id":
+							break;
 					}
 					$ar[strval($row[0])] = $row;
 					$rs->moveNext();

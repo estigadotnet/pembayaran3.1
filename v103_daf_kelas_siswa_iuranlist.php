@@ -59,6 +59,7 @@ var fv103_daf_kelas_siswa_iuranlistsrch = currentSearchForm = new ew.Form("fv103
 // Filters
 fv103_daf_kelas_siswa_iuranlistsrch.filterList = <?php echo $v103_daf_kelas_siswa_iuran_list->getFilterList() ?>;
 </script>
+<script src="phpjs/ewscrolltable.js"></script>
 <style type="text/css">
 .ew-table-preview-row { /* main table preview row color */
 	background-color: #FFFFFF; /* preview row color */
@@ -394,6 +395,11 @@ if (DEBUG_ENABLED)
 // document.write("page loaded");
 
 </script>
+<?php if (!$v103_daf_kelas_siswa_iuran->isExport()) { ?>
+<script>
+ew.scrollableTable("gmp_v103_daf_kelas_siswa_iuran", "100%", "100%");
+</script>
+<?php } ?>
 <?php } ?>
 <?php include_once "footer.php" ?>
 <?php

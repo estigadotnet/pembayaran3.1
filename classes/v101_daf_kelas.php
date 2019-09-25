@@ -2,9 +2,9 @@
 namespace PHPMaker2019\p_pembayaran3_1;
 
 /**
- * Table class for t005_iuran
+ * Table class for v101_daf_kelas
  */
-class t005_iuran extends DbTable
+class v101_daf_kelas extends DbTable
 {
 	protected $SqlFrom = "";
 	protected $SqlSelect = "";
@@ -21,21 +21,15 @@ class t005_iuran extends DbTable
 	public $OffsetColumnClass = "col-sm-10 offset-sm-2";
 	public $TableLeftColumnClass = "w-col-2";
 
-	// Audit trail
-	public $AuditTrailOnAdd = TRUE;
-	public $AuditTrailOnEdit = TRUE;
-	public $AuditTrailOnDelete = TRUE;
-	public $AuditTrailOnView = FALSE;
-	public $AuditTrailOnViewData = FALSE;
-	public $AuditTrailOnSearch = FALSE;
-
 	// Export
 	public $ExportDoc;
 
 	// Fields
 	public $id;
-	public $Nama;
-	public $Jenis;
+	public $tahun_ajaran_id;
+	public $sekolah_id;
+	public $kelas_id;
+	public $tsk;
 
 	// Constructor
 	public function __construct()
@@ -45,12 +39,12 @@ class t005_iuran extends DbTable
 		// Language object
 		if (!isset($Language))
 			$Language = new Language();
-		$this->TableVar = 't005_iuran';
-		$this->TableName = 't005_iuran';
-		$this->TableType = 'TABLE';
+		$this->TableVar = 'v101_daf_kelas';
+		$this->TableName = 'v101_daf_kelas';
+		$this->TableType = 'VIEW';
 
 		// Update Table
-		$this->UpdateTable = "`t005_iuran`";
+		$this->UpdateTable = "`v101_daf_kelas`";
 		$this->Dbid = 'DB';
 		$this->ExportAll = TRUE;
 		$this->ExportPageBreakCount = 0; // Page break per every n record (PDF only)
@@ -70,28 +64,41 @@ class t005_iuran extends DbTable
 		$this->BasicSearch = new BasicSearch($this->TableVar);
 
 		// id
-		$this->id = new DbField('t005_iuran', 't005_iuran', 'x_id', 'id', '`id`', '`id`', 3, -1, FALSE, '`id`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'NO');
+		$this->id = new DbField('v101_daf_kelas', 'v101_daf_kelas', 'x_id', 'id', '`id`', '`id`', 3, -1, FALSE, '`id`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'NO');
 		$this->id->IsAutoIncrement = TRUE; // Autoincrement field
 		$this->id->IsPrimaryKey = TRUE; // Primary key field
 		$this->id->Sortable = TRUE; // Allow sort
 		$this->id->DefaultErrorMessage = $Language->phrase("IncorrectInteger");
 		$this->fields['id'] = &$this->id;
 
-		// Nama
-		$this->Nama = new DbField('t005_iuran', 't005_iuran', 'x_Nama', 'Nama', '`Nama`', '`Nama`', 200, -1, FALSE, '`Nama`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'TEXT');
-		$this->Nama->Nullable = FALSE; // NOT NULL field
-		$this->Nama->Required = TRUE; // Required field
-		$this->Nama->Sortable = TRUE; // Allow sort
-		$this->fields['Nama'] = &$this->Nama;
+		// tahun_ajaran_id
+		$this->tahun_ajaran_id = new DbField('v101_daf_kelas', 'v101_daf_kelas', 'x_tahun_ajaran_id', 'tahun_ajaran_id', '`tahun_ajaran_id`', '`tahun_ajaran_id`', 3, -1, FALSE, '`tahun_ajaran_id`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->tahun_ajaran_id->Nullable = FALSE; // NOT NULL field
+		$this->tahun_ajaran_id->Required = TRUE; // Required field
+		$this->tahun_ajaran_id->Sortable = TRUE; // Allow sort
+		$this->tahun_ajaran_id->DefaultErrorMessage = $Language->phrase("IncorrectInteger");
+		$this->fields['tahun_ajaran_id'] = &$this->tahun_ajaran_id;
 
-		// Jenis
-		$this->Jenis = new DbField('t005_iuran', 't005_iuran', 'x_Jenis', 'Jenis', '`Jenis`', '`Jenis`', 202, -1, FALSE, '`Jenis`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'RADIO');
-		$this->Jenis->Nullable = FALSE; // NOT NULL field
-		$this->Jenis->Required = TRUE; // Required field
-		$this->Jenis->Sortable = TRUE; // Allow sort
-		$this->Jenis->Lookup = new Lookup('Jenis', 't005_iuran', FALSE, '', ["","","",""], [], [], [], [], [], [], '', '');
-		$this->Jenis->OptionCount = 2;
-		$this->fields['Jenis'] = &$this->Jenis;
+		// sekolah_id
+		$this->sekolah_id = new DbField('v101_daf_kelas', 'v101_daf_kelas', 'x_sekolah_id', 'sekolah_id', '`sekolah_id`', '`sekolah_id`', 3, -1, FALSE, '`sekolah_id`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->sekolah_id->Nullable = FALSE; // NOT NULL field
+		$this->sekolah_id->Required = TRUE; // Required field
+		$this->sekolah_id->Sortable = TRUE; // Allow sort
+		$this->sekolah_id->DefaultErrorMessage = $Language->phrase("IncorrectInteger");
+		$this->fields['sekolah_id'] = &$this->sekolah_id;
+
+		// kelas_id
+		$this->kelas_id = new DbField('v101_daf_kelas', 'v101_daf_kelas', 'x_kelas_id', 'kelas_id', '`kelas_id`', '`kelas_id`', 3, -1, FALSE, '`kelas_id`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->kelas_id->Nullable = FALSE; // NOT NULL field
+		$this->kelas_id->Required = TRUE; // Required field
+		$this->kelas_id->Sortable = TRUE; // Allow sort
+		$this->kelas_id->DefaultErrorMessage = $Language->phrase("IncorrectInteger");
+		$this->fields['kelas_id'] = &$this->kelas_id;
+
+		// tsk
+		$this->tsk = new DbField('v101_daf_kelas', 'v101_daf_kelas', 'x_tsk', 'tsk', '`tsk`', '`tsk`', 200, -1, FALSE, '`tsk`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->tsk->Sortable = TRUE; // Allow sort
+		$this->fields['tsk'] = &$this->tsk;
 	}
 
 	// Field Visibility
@@ -146,7 +153,7 @@ class t005_iuran extends DbTable
 	// Table level SQL
 	public function getSqlFrom() // From
 	{
-		return ($this->SqlFrom <> "") ? $this->SqlFrom : "`t005_iuran`";
+		return ($this->SqlFrom <> "") ? $this->SqlFrom : "`v101_daf_kelas`";
 	}
 	public function sqlFrom() // For backward compatibility
 	{
@@ -380,8 +387,6 @@ class t005_iuran extends DbTable
 			// Get insert id if necessary
 			$this->id->setDbValue($conn->insert_ID());
 			$rs['id'] = $this->id->DbValue;
-			if ($this->AuditTrailOnAdd)
-				$this->writeAuditTrailOnAdd($rs);
 		}
 		return $success;
 	}
@@ -411,13 +416,6 @@ class t005_iuran extends DbTable
 	{
 		$conn = &$this->getConnection();
 		$success = $conn->execute($this->updateSql($rs, $where, $curfilter));
-		if ($success && $this->AuditTrailOnEdit && $rsold) {
-			$rsaudit = $rs;
-			$fldname = 'id';
-			if (!array_key_exists($fldname, $rsaudit))
-				$rsaudit[$fldname] = $rsold[$fldname];
-			$this->writeAuditTrailOnEdit($rsold, $rsaudit);
-		}
 		return $success;
 	}
 
@@ -447,8 +445,6 @@ class t005_iuran extends DbTable
 		$conn = &$this->getConnection();
 		if ($success)
 			$success = $conn->execute($this->deleteSql($rs, $where, $curfilter));
-		if ($success && $this->AuditTrailOnDelete)
-			$this->writeAuditTrailOnDelete($rs);
 		return $success;
 	}
 
@@ -459,8 +455,10 @@ class t005_iuran extends DbTable
 			return;
 		$row = is_array($rs) ? $rs : $rs->fields;
 		$this->id->DbValue = $row['id'];
-		$this->Nama->DbValue = $row['Nama'];
-		$this->Jenis->DbValue = $row['Jenis'];
+		$this->tahun_ajaran_id->DbValue = $row['tahun_ajaran_id'];
+		$this->sekolah_id->DbValue = $row['sekolah_id'];
+		$this->kelas_id->DbValue = $row['kelas_id'];
+		$this->tsk->DbValue = $row['tsk'];
 	}
 
 	// Delete uploaded files
@@ -500,7 +498,7 @@ class t005_iuran extends DbTable
 		if (@$_SESSION[$name] <> "") {
 			return $_SESSION[$name];
 		} else {
-			return "t005_iuranlist.php";
+			return "v101_daf_kelaslist.php";
 		}
 	}
 	public function setReturnUrl($v)
@@ -512,11 +510,11 @@ class t005_iuran extends DbTable
 	public function getModalCaption($pageName)
 	{
 		global $Language;
-		if ($pageName == "t005_iuranview.php")
+		if ($pageName == "v101_daf_kelasview.php")
 			return $Language->phrase("View");
-		elseif ($pageName == "t005_iuranedit.php")
+		elseif ($pageName == "v101_daf_kelasedit.php")
 			return $Language->phrase("Edit");
-		elseif ($pageName == "t005_iuranadd.php")
+		elseif ($pageName == "v101_daf_kelasadd.php")
 			return $Language->phrase("Add");
 		else
 			return "";
@@ -525,16 +523,16 @@ class t005_iuran extends DbTable
 	// List URL
 	public function getListUrl()
 	{
-		return "t005_iuranlist.php";
+		return "v101_daf_kelaslist.php";
 	}
 
 	// View URL
 	public function getViewUrl($parm = "")
 	{
 		if ($parm <> "")
-			$url = $this->keyUrl("t005_iuranview.php", $this->getUrlParm($parm));
+			$url = $this->keyUrl("v101_daf_kelasview.php", $this->getUrlParm($parm));
 		else
-			$url = $this->keyUrl("t005_iuranview.php", $this->getUrlParm(TABLE_SHOW_DETAIL . "="));
+			$url = $this->keyUrl("v101_daf_kelasview.php", $this->getUrlParm(TABLE_SHOW_DETAIL . "="));
 		return $this->addMasterUrl($url);
 	}
 
@@ -542,16 +540,16 @@ class t005_iuran extends DbTable
 	public function getAddUrl($parm = "")
 	{
 		if ($parm <> "")
-			$url = "t005_iuranadd.php?" . $this->getUrlParm($parm);
+			$url = "v101_daf_kelasadd.php?" . $this->getUrlParm($parm);
 		else
-			$url = "t005_iuranadd.php";
+			$url = "v101_daf_kelasadd.php";
 		return $this->addMasterUrl($url);
 	}
 
 	// Edit URL
 	public function getEditUrl($parm = "")
 	{
-		$url = $this->keyUrl("t005_iuranedit.php", $this->getUrlParm($parm));
+		$url = $this->keyUrl("v101_daf_kelasedit.php", $this->getUrlParm($parm));
 		return $this->addMasterUrl($url);
 	}
 
@@ -565,7 +563,7 @@ class t005_iuran extends DbTable
 	// Copy URL
 	public function getCopyUrl($parm = "")
 	{
-		$url = $this->keyUrl("t005_iuranadd.php", $this->getUrlParm($parm));
+		$url = $this->keyUrl("v101_daf_kelasadd.php", $this->getUrlParm($parm));
 		return $this->addMasterUrl($url);
 	}
 
@@ -579,7 +577,7 @@ class t005_iuran extends DbTable
 	// Delete URL
 	public function getDeleteUrl()
 	{
-		return $this->keyUrl("t005_iurandelete.php", $this->getUrlParm());
+		return $this->keyUrl("v101_daf_kelasdelete.php", $this->getUrlParm());
 	}
 
 	// Add master url
@@ -687,8 +685,10 @@ class t005_iuran extends DbTable
 	public function loadListRowValues(&$rs)
 	{
 		$this->id->setDbValue($rs->fields('id'));
-		$this->Nama->setDbValue($rs->fields('Nama'));
-		$this->Jenis->setDbValue($rs->fields('Jenis'));
+		$this->tahun_ajaran_id->setDbValue($rs->fields('tahun_ajaran_id'));
+		$this->sekolah_id->setDbValue($rs->fields('sekolah_id'));
+		$this->kelas_id->setDbValue($rs->fields('kelas_id'));
+		$this->tsk->setDbValue($rs->fields('tsk'));
 	}
 
 	// Render list row values
@@ -701,39 +701,58 @@ class t005_iuran extends DbTable
 
 		// Common render codes
 		// id
-		// Nama
-		// Jenis
+		// tahun_ajaran_id
+		// sekolah_id
+		// kelas_id
+		// tsk
 		// id
 
 		$this->id->ViewValue = $this->id->CurrentValue;
 		$this->id->ViewCustomAttributes = "";
 
-		// Nama
-		$this->Nama->ViewValue = $this->Nama->CurrentValue;
-		$this->Nama->ViewCustomAttributes = "";
+		// tahun_ajaran_id
+		$this->tahun_ajaran_id->ViewValue = $this->tahun_ajaran_id->CurrentValue;
+		$this->tahun_ajaran_id->ViewValue = FormatNumber($this->tahun_ajaran_id->ViewValue, 0, -2, -2, -2);
+		$this->tahun_ajaran_id->ViewCustomAttributes = "";
 
-		// Jenis
-		if (strval($this->Jenis->CurrentValue) <> "") {
-			$this->Jenis->ViewValue = $this->Jenis->optionCaption($this->Jenis->CurrentValue);
-		} else {
-			$this->Jenis->ViewValue = NULL;
-		}
-		$this->Jenis->ViewCustomAttributes = "";
+		// sekolah_id
+		$this->sekolah_id->ViewValue = $this->sekolah_id->CurrentValue;
+		$this->sekolah_id->ViewValue = FormatNumber($this->sekolah_id->ViewValue, 0, -2, -2, -2);
+		$this->sekolah_id->ViewCustomAttributes = "";
+
+		// kelas_id
+		$this->kelas_id->ViewValue = $this->kelas_id->CurrentValue;
+		$this->kelas_id->ViewValue = FormatNumber($this->kelas_id->ViewValue, 0, -2, -2, -2);
+		$this->kelas_id->ViewCustomAttributes = "";
+
+		// tsk
+		$this->tsk->ViewValue = $this->tsk->CurrentValue;
+		$this->tsk->ViewCustomAttributes = "";
 
 		// id
 		$this->id->LinkCustomAttributes = "";
 		$this->id->HrefValue = "";
 		$this->id->TooltipValue = "";
 
-		// Nama
-		$this->Nama->LinkCustomAttributes = "";
-		$this->Nama->HrefValue = "";
-		$this->Nama->TooltipValue = "";
+		// tahun_ajaran_id
+		$this->tahun_ajaran_id->LinkCustomAttributes = "";
+		$this->tahun_ajaran_id->HrefValue = "";
+		$this->tahun_ajaran_id->TooltipValue = "";
 
-		// Jenis
-		$this->Jenis->LinkCustomAttributes = "";
-		$this->Jenis->HrefValue = "";
-		$this->Jenis->TooltipValue = "";
+		// sekolah_id
+		$this->sekolah_id->LinkCustomAttributes = "";
+		$this->sekolah_id->HrefValue = "";
+		$this->sekolah_id->TooltipValue = "";
+
+		// kelas_id
+		$this->kelas_id->LinkCustomAttributes = "";
+		$this->kelas_id->HrefValue = "";
+		$this->kelas_id->TooltipValue = "";
+
+		// tsk
+		$this->tsk->LinkCustomAttributes = "";
+		$this->tsk->HrefValue = "";
+		$this->tsk->TooltipValue = "";
 
 		// Call Row Rendered event
 		$this->Row_Rendered();
@@ -756,17 +775,31 @@ class t005_iuran extends DbTable
 		$this->id->EditValue = $this->id->CurrentValue;
 		$this->id->ViewCustomAttributes = "";
 
-		// Nama
-		$this->Nama->EditAttrs["class"] = "form-control";
-		$this->Nama->EditCustomAttributes = "";
-		if (REMOVE_XSS)
-			$this->Nama->CurrentValue = HtmlDecode($this->Nama->CurrentValue);
-		$this->Nama->EditValue = $this->Nama->CurrentValue;
-		$this->Nama->PlaceHolder = RemoveHtml($this->Nama->caption());
+		// tahun_ajaran_id
+		$this->tahun_ajaran_id->EditAttrs["class"] = "form-control";
+		$this->tahun_ajaran_id->EditCustomAttributes = "";
+		$this->tahun_ajaran_id->EditValue = $this->tahun_ajaran_id->CurrentValue;
+		$this->tahun_ajaran_id->PlaceHolder = RemoveHtml($this->tahun_ajaran_id->caption());
 
-		// Jenis
-		$this->Jenis->EditCustomAttributes = "";
-		$this->Jenis->EditValue = $this->Jenis->options(FALSE);
+		// sekolah_id
+		$this->sekolah_id->EditAttrs["class"] = "form-control";
+		$this->sekolah_id->EditCustomAttributes = "";
+		$this->sekolah_id->EditValue = $this->sekolah_id->CurrentValue;
+		$this->sekolah_id->PlaceHolder = RemoveHtml($this->sekolah_id->caption());
+
+		// kelas_id
+		$this->kelas_id->EditAttrs["class"] = "form-control";
+		$this->kelas_id->EditCustomAttributes = "";
+		$this->kelas_id->EditValue = $this->kelas_id->CurrentValue;
+		$this->kelas_id->PlaceHolder = RemoveHtml($this->kelas_id->caption());
+
+		// tsk
+		$this->tsk->EditAttrs["class"] = "form-control";
+		$this->tsk->EditCustomAttributes = "";
+		if (REMOVE_XSS)
+			$this->tsk->CurrentValue = HtmlDecode($this->tsk->CurrentValue);
+		$this->tsk->EditValue = $this->tsk->CurrentValue;
+		$this->tsk->PlaceHolder = RemoveHtml($this->tsk->caption());
 
 		// Call Row Rendered event
 		$this->Row_Rendered();
@@ -797,12 +830,17 @@ class t005_iuran extends DbTable
 			if ($doc->Horizontal) { // Horizontal format, write header
 				$doc->beginExportRow();
 				if ($exportPageType == "view") {
-					$doc->exportCaption($this->Nama);
-					$doc->exportCaption($this->Jenis);
+					$doc->exportCaption($this->id);
+					$doc->exportCaption($this->tahun_ajaran_id);
+					$doc->exportCaption($this->sekolah_id);
+					$doc->exportCaption($this->kelas_id);
+					$doc->exportCaption($this->tsk);
 				} else {
 					$doc->exportCaption($this->id);
-					$doc->exportCaption($this->Nama);
-					$doc->exportCaption($this->Jenis);
+					$doc->exportCaption($this->tahun_ajaran_id);
+					$doc->exportCaption($this->sekolah_id);
+					$doc->exportCaption($this->kelas_id);
+					$doc->exportCaption($this->tsk);
 				}
 				$doc->endExportRow();
 			}
@@ -834,12 +872,17 @@ class t005_iuran extends DbTable
 				if (!$doc->ExportCustom) {
 					$doc->beginExportRow($rowCnt); // Allow CSS styles if enabled
 					if ($exportPageType == "view") {
-						$doc->exportField($this->Nama);
-						$doc->exportField($this->Jenis);
+						$doc->exportField($this->id);
+						$doc->exportField($this->tahun_ajaran_id);
+						$doc->exportField($this->sekolah_id);
+						$doc->exportField($this->kelas_id);
+						$doc->exportField($this->tsk);
 					} else {
 						$doc->exportField($this->id);
-						$doc->exportField($this->Nama);
-						$doc->exportField($this->Jenis);
+						$doc->exportField($this->tahun_ajaran_id);
+						$doc->exportField($this->sekolah_id);
+						$doc->exportField($this->kelas_id);
+						$doc->exportField($this->tsk);
 					}
 					$doc->endExportRow($rowCnt);
 				}
@@ -995,138 +1038,6 @@ class t005_iuran extends DbTable
 
 		// No binary fields
 		return FALSE;
-	}
-
-	// Write Audit Trail start/end for grid update
-	public function writeAuditTrailDummy($typ)
-	{
-		$table = 't005_iuran';
-		$usr = CurrentUserID();
-		WriteAuditTrail("log", DbCurrentDateTime(), ScriptName(), $usr, $typ, $table, "", "", "", "");
-	}
-
-	// Write Audit Trail (add page)
-	public function writeAuditTrailOnAdd(&$rs)
-	{
-		global $Language;
-		if (!$this->AuditTrailOnAdd)
-			return;
-		$table = 't005_iuran';
-
-		// Get key value
-		$key = "";
-		if ($key <> "")
-			$key .= $GLOBALS["COMPOSITE_KEY_SEPARATOR"];
-		$key .= $rs['id'];
-
-		// Write Audit Trail
-		$dt = DbCurrentDateTime();
-		$id = ScriptName();
-		$usr = CurrentUserID();
-		foreach (array_keys($rs) as $fldname) {
-			if (array_key_exists($fldname, $this->fields) && $this->fields[$fldname]->DataType <> DATATYPE_BLOB) { // Ignore BLOB fields
-				if ($this->fields[$fldname]->HtmlTag == "PASSWORD") {
-					$newvalue = $Language->phrase("PasswordMask"); // Password Field
-				} elseif ($this->fields[$fldname]->DataType == DATATYPE_MEMO) {
-					if (AUDIT_TRAIL_TO_DATABASE)
-						$newvalue = $rs[$fldname];
-					else
-						$newvalue = "[MEMO]"; // Memo Field
-				} elseif ($this->fields[$fldname]->DataType == DATATYPE_XML) {
-					$newvalue = "[XML]"; // XML Field
-				} else {
-					$newvalue = $rs[$fldname];
-				}
-				WriteAuditTrail("log", $dt, $id, $usr, "A", $table, $fldname, $key, "", $newvalue);
-			}
-		}
-	}
-
-	// Write Audit Trail (edit page)
-	public function writeAuditTrailOnEdit(&$rsold, &$rsnew)
-	{
-		global $Language;
-		if (!$this->AuditTrailOnEdit)
-			return;
-		$table = 't005_iuran';
-
-		// Get key value
-		$key = "";
-		if ($key <> "")
-			$key .= $GLOBALS["COMPOSITE_KEY_SEPARATOR"];
-		$key .= $rsold['id'];
-
-		// Write Audit Trail
-		$dt = DbCurrentDateTime();
-		$id = ScriptName();
-		$usr = CurrentUserID();
-		foreach (array_keys($rsnew) as $fldname) {
-			if (array_key_exists($fldname, $this->fields) && array_key_exists($fldname, $rsold) && $this->fields[$fldname]->DataType <> DATATYPE_BLOB) { // Ignore BLOB fields
-				if ($this->fields[$fldname]->DataType == DATATYPE_DATE) { // DateTime field
-					$modified = (FormatDateTime($rsold[$fldname], 0) <> FormatDateTime($rsnew[$fldname], 0));
-				} else {
-					$modified = !CompareValue($rsold[$fldname], $rsnew[$fldname]);
-				}
-				if ($modified) {
-					if ($this->fields[$fldname]->HtmlTag == "PASSWORD") { // Password Field
-						$oldvalue = $Language->phrase("PasswordMask");
-						$newvalue = $Language->phrase("PasswordMask");
-					} elseif ($this->fields[$fldname]->DataType == DATATYPE_MEMO) { // Memo field
-						if (AUDIT_TRAIL_TO_DATABASE) {
-							$oldvalue = $rsold[$fldname];
-							$newvalue = $rsnew[$fldname];
-						} else {
-							$oldvalue = "[MEMO]";
-							$newvalue = "[MEMO]";
-						}
-					} elseif ($this->fields[$fldname]->DataType == DATATYPE_XML) { // XML field
-						$oldvalue = "[XML]";
-						$newvalue = "[XML]";
-					} else {
-						$oldvalue = $rsold[$fldname];
-						$newvalue = $rsnew[$fldname];
-					}
-					WriteAuditTrail("log", $dt, $id, $usr, "U", $table, $fldname, $key, $oldvalue, $newvalue);
-				}
-			}
-		}
-	}
-
-	// Write Audit Trail (delete page)
-	public function writeAuditTrailOnDelete(&$rs)
-	{
-		global $Language;
-		if (!$this->AuditTrailOnDelete)
-			return;
-		$table = 't005_iuran';
-
-		// Get key value
-		$key = "";
-		if ($key <> "")
-			$key .= $GLOBALS["COMPOSITE_KEY_SEPARATOR"];
-		$key .= $rs['id'];
-
-		// Write Audit Trail
-		$dt = DbCurrentDateTime();
-		$id = ScriptName();
-		$curUser = CurrentUserID();
-		foreach (array_keys($rs) as $fldname) {
-			if (array_key_exists($fldname, $this->fields) && $this->fields[$fldname]->DataType <> DATATYPE_BLOB) { // Ignore BLOB fields
-				if ($this->fields[$fldname]->HtmlTag == "PASSWORD") {
-					$oldvalue = $Language->phrase("PasswordMask"); // Password Field
-				} elseif ($this->fields[$fldname]->DataType == DATATYPE_MEMO) {
-					if (AUDIT_TRAIL_TO_DATABASE)
-						$oldvalue = $rs[$fldname];
-					else
-						$oldvalue = "[MEMO]"; // Memo field
-				} elseif ($this->fields[$fldname]->DataType == DATATYPE_XML) {
-					$oldvalue = "[XML]"; // XML field
-				} else {
-					$oldvalue = $rs[$fldname];
-				}
-				WriteAuditTrail("log", $dt, $id, $curUser, "D", $table, $fldname, $key, $oldvalue, "");
-			}
-		}
 	}
 
 	// Table level events

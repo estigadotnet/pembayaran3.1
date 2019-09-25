@@ -51,6 +51,8 @@ ft103_daf_kelas_siswa_iuranview.Form_CustomValidate = function(fobj) { // DO NOT
 ft103_daf_kelas_siswa_iuranview.validateRequired = <?php echo json_encode(CLIENT_VALIDATE) ?>;
 
 // Dynamic selection lists
+ft103_daf_kelas_siswa_iuranview.lists["x_iuran_id"] = <?php echo $t103_daf_kelas_siswa_iuran_view->iuran_id->Lookup->toClientList() ?>;
+ft103_daf_kelas_siswa_iuranview.lists["x_iuran_id"].options = <?php echo JsonEncode($t103_daf_kelas_siswa_iuran_view->iuran_id->lookupOptions()) ?>;
 ft103_daf_kelas_siswa_iuranview.lists["x_byr01[]"] = <?php echo $t103_daf_kelas_siswa_iuran_view->byr01->Lookup->toClientList() ?>;
 ft103_daf_kelas_siswa_iuranview.lists["x_byr01[]"].options = <?php echo JsonEncode($t103_daf_kelas_siswa_iuran_view->byr01->options(FALSE, TRUE)) ?>;
 ft103_daf_kelas_siswa_iuranview.lists["x_byr02[]"] = <?php echo $t103_daf_kelas_siswa_iuran_view->byr02->Lookup->toClientList() ?>;
@@ -101,28 +103,6 @@ $t103_daf_kelas_siswa_iuran_view->showMessage();
 <input type="hidden" name="t" value="t103_daf_kelas_siswa_iuran">
 <input type="hidden" name="modal" value="<?php echo (int)$t103_daf_kelas_siswa_iuran_view->IsModal ?>">
 <table class="table table-striped table-sm ew-view-table">
-<?php if ($t103_daf_kelas_siswa_iuran->id->Visible) { // id ?>
-	<tr id="r_id">
-		<td class="<?php echo $t103_daf_kelas_siswa_iuran_view->TableLeftColumnClass ?>"><span id="elh_t103_daf_kelas_siswa_iuran_id"><?php echo $t103_daf_kelas_siswa_iuran->id->caption() ?></span></td>
-		<td data-name="id"<?php echo $t103_daf_kelas_siswa_iuran->id->cellAttributes() ?>>
-<span id="el_t103_daf_kelas_siswa_iuran_id">
-<span<?php echo $t103_daf_kelas_siswa_iuran->id->viewAttributes() ?>>
-<?php echo $t103_daf_kelas_siswa_iuran->id->getViewValue() ?></span>
-</span>
-</td>
-	</tr>
-<?php } ?>
-<?php if ($t103_daf_kelas_siswa_iuran->daf_kelas_siswa_id->Visible) { // daf_kelas_siswa_id ?>
-	<tr id="r_daf_kelas_siswa_id">
-		<td class="<?php echo $t103_daf_kelas_siswa_iuran_view->TableLeftColumnClass ?>"><span id="elh_t103_daf_kelas_siswa_iuran_daf_kelas_siswa_id"><?php echo $t103_daf_kelas_siswa_iuran->daf_kelas_siswa_id->caption() ?></span></td>
-		<td data-name="daf_kelas_siswa_id"<?php echo $t103_daf_kelas_siswa_iuran->daf_kelas_siswa_id->cellAttributes() ?>>
-<span id="el_t103_daf_kelas_siswa_iuran_daf_kelas_siswa_id">
-<span<?php echo $t103_daf_kelas_siswa_iuran->daf_kelas_siswa_id->viewAttributes() ?>>
-<?php echo $t103_daf_kelas_siswa_iuran->daf_kelas_siswa_id->getViewValue() ?></span>
-</span>
-</td>
-	</tr>
-<?php } ?>
 <?php if ($t103_daf_kelas_siswa_iuran->iuran_id->Visible) { // iuran_id ?>
 	<tr id="r_iuran_id">
 		<td class="<?php echo $t103_daf_kelas_siswa_iuran_view->TableLeftColumnClass ?>"><span id="elh_t103_daf_kelas_siswa_iuran_iuran_id"><?php echo $t103_daf_kelas_siswa_iuran->iuran_id->caption() ?></span></td>

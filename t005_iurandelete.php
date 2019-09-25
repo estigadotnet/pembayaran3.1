@@ -78,9 +78,6 @@ $t005_iuran_delete->showMessage();
 <table class="table ew-table">
 	<thead>
 	<tr class="ew-table-header">
-<?php if ($t005_iuran->id->Visible) { // id ?>
-		<th class="<?php echo $t005_iuran->id->headerCellClass() ?>"><span id="elh_t005_iuran_id" class="t005_iuran_id"><?php echo $t005_iuran->id->caption() ?></span></th>
-<?php } ?>
 <?php if ($t005_iuran->Nama->Visible) { // Nama ?>
 		<th class="<?php echo $t005_iuran->Nama->headerCellClass() ?>"><span id="elh_t005_iuran_Nama" class="t005_iuran_Nama"><?php echo $t005_iuran->Nama->caption() ?></span></th>
 <?php } ?>
@@ -108,14 +105,6 @@ while (!$t005_iuran_delete->Recordset->EOF) {
 	$t005_iuran_delete->renderRow();
 ?>
 	<tr<?php echo $t005_iuran->rowAttributes() ?>>
-<?php if ($t005_iuran->id->Visible) { // id ?>
-		<td<?php echo $t005_iuran->id->cellAttributes() ?>>
-<span id="el<?php echo $t005_iuran_delete->RowCnt ?>_t005_iuran_id" class="t005_iuran_id">
-<span<?php echo $t005_iuran->id->viewAttributes() ?>>
-<?php echo $t005_iuran->id->getViewValue() ?></span>
-</span>
-</td>
-<?php } ?>
 <?php if ($t005_iuran->Nama->Visible) { // Nama ?>
 		<td<?php echo $t005_iuran->Nama->cellAttributes() ?>>
 <span id="el<?php echo $t005_iuran_delete->RowCnt ?>_t005_iuran_Nama" class="t005_iuran_Nama">
