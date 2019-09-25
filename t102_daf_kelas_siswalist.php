@@ -284,6 +284,9 @@ if ($t102_daf_kelas_siswa_list->Recordset && !$t102_daf_kelas_siswa_list->Record
 $t102_daf_kelas_siswa->RowType = ROWTYPE_AGGREGATEINIT;
 $t102_daf_kelas_siswa->resetAttributes();
 $t102_daf_kelas_siswa_list->renderRow();
+$t102_daf_kelas_siswa_list->EditRowCnt = 0;
+if ($t102_daf_kelas_siswa->isEdit())
+	$t102_daf_kelas_siswa_list->RowIndex = 1;
 if ($t102_daf_kelas_siswa->isGridAdd())
 	$t102_daf_kelas_siswa_list->RowIndex = 0;
 if ($t102_daf_kelas_siswa->isGridEdit())
@@ -319,6 +322,11 @@ while ($t102_daf_kelas_siswa_list->RecCnt < $t102_daf_kelas_siswa_list->StopRec)
 			$t102_daf_kelas_siswa->RowType = ROWTYPE_ADD; // Render add
 		if ($t102_daf_kelas_siswa->isGridAdd() && $t102_daf_kelas_siswa->EventCancelled && !$CurrentForm->hasValue("k_blankrow")) // Insert failed
 			$t102_daf_kelas_siswa_list->restoreCurrentRowFormValues($t102_daf_kelas_siswa_list->RowIndex); // Restore form values
+		if ($t102_daf_kelas_siswa->isEdit()) {
+			if ($t102_daf_kelas_siswa_list->checkInlineEditKey() && $t102_daf_kelas_siswa_list->EditRowCnt == 0) { // Inline edit
+				$t102_daf_kelas_siswa->RowType = ROWTYPE_EDIT; // Render edit
+			}
+		}
 		if ($t102_daf_kelas_siswa->isGridEdit()) { // Grid edit
 			if ($t102_daf_kelas_siswa->EventCancelled)
 				$t102_daf_kelas_siswa_list->restoreCurrentRowFormValues($t102_daf_kelas_siswa_list->RowIndex); // Restore form values
@@ -326,6 +334,10 @@ while ($t102_daf_kelas_siswa_list->RecCnt < $t102_daf_kelas_siswa_list->StopRec)
 				$t102_daf_kelas_siswa->RowType = ROWTYPE_ADD; // Render add
 			else
 				$t102_daf_kelas_siswa->RowType = ROWTYPE_EDIT; // Render edit
+		}
+		if ($t102_daf_kelas_siswa->isEdit() && $t102_daf_kelas_siswa->RowType == ROWTYPE_EDIT && $t102_daf_kelas_siswa->EventCancelled) { // Update failed
+			$CurrentForm->Index = 1;
+			$t102_daf_kelas_siswa_list->restoreFormValues(); // Restore form values
 		}
 		if ($t102_daf_kelas_siswa->isGridEdit() && ($t102_daf_kelas_siswa->RowType == ROWTYPE_EDIT || $t102_daf_kelas_siswa->RowType == ROWTYPE_ADD) && $t102_daf_kelas_siswa->EventCancelled) // Update failed
 			$t102_daf_kelas_siswa_list->restoreCurrentRowFormValues($t102_daf_kelas_siswa_list->RowIndex); // Restore form values
@@ -466,6 +478,9 @@ ft102_daf_kelas_siswalist.updateLists(<?php echo $t102_daf_kelas_siswa_list->Row
 <input type="hidden" name="action" id="action" value="gridinsert">
 <input type="hidden" name="<?php echo $t102_daf_kelas_siswa_list->FormKeyCountName ?>" id="<?php echo $t102_daf_kelas_siswa_list->FormKeyCountName ?>" value="<?php echo $t102_daf_kelas_siswa_list->KeyCount ?>">
 <?php echo $t102_daf_kelas_siswa_list->MultiSelectKey ?>
+<?php } ?>
+<?php if ($t102_daf_kelas_siswa->isEdit()) { ?>
+<input type="hidden" name="<?php echo $t102_daf_kelas_siswa_list->FormKeyCountName ?>" id="<?php echo $t102_daf_kelas_siswa_list->FormKeyCountName ?>" value="<?php echo $t102_daf_kelas_siswa_list->KeyCount ?>">
 <?php } ?>
 <?php if ($t102_daf_kelas_siswa->isGridEdit()) { ?>
 <input type="hidden" name="action" id="action" value="gridupdate">

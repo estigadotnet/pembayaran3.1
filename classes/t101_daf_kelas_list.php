@@ -1011,12 +1011,6 @@ class t101_daf_kelas_list extends t101_daf_kelas
 		$item->OnLeft = TRUE;
 		$item->Visible = FALSE;
 
-		// "view"
-		$item = &$this->ListOptions->add("view");
-		$item->CssClass = "text-nowrap";
-		$item->Visible = $Security->canView();
-		$item->OnLeft = TRUE;
-
 		// "edit"
 		$item = &$this->ListOptions->add("edit");
 		$item->CssClass = "text-nowrap";
@@ -1112,15 +1106,6 @@ class t101_daf_kelas_list extends t101_daf_kelas
 		$opt = &$this->ListOptions->Items["sequence"];
 		$opt->Body = FormatSequenceNumber($this->RecCnt);
 
-		// "view"
-		$opt = &$this->ListOptions->Items["view"];
-		$viewcaption = HtmlTitle($Language->phrase("ViewLink"));
-		if ($Security->canView()) {
-			$opt->Body = "<a class=\"ew-row-link ew-view\" title=\"" . $viewcaption . "\" data-caption=\"" . $viewcaption . "\" href=\"" . HtmlEncode($this->ViewUrl) . "\">" . $Language->phrase("ViewLink") . "</a>";
-		} else {
-			$opt->Body = "";
-		}
-
 		// "edit"
 		$opt = &$this->ListOptions->Items["edit"];
 		$editcaption = HtmlTitle($Language->phrase("EditLink"));
@@ -1184,14 +1169,6 @@ class t101_daf_kelas_list extends t101_daf_kelas
 			$body = $Language->phrase("DetailLink") . $Language->TablePhrase("t102_daf_kelas_siswa", "TblCaption");
 			$body = "<a class=\"btn btn-default ew-row-link ew-detail\" data-action=\"list\" href=\"" . HtmlEncode("t102_daf_kelas_siswalist.php?" . TABLE_SHOW_MASTER . "=t101_daf_kelas&fk_id=" . urlencode(strval($this->id->CurrentValue)) . "") . "\">" . $body . "</a>";
 			$links = "";
-			if ($GLOBALS["t102_daf_kelas_siswa_grid"]->DetailView && $Security->canView() && $Security->allowView(CurrentProjectID() . 't102_daf_kelas_siswa')) {
-				$caption = $Language->phrase("MasterDetailViewLink");
-				$url = $this->getViewUrl(TABLE_SHOW_DETAIL . "=t102_daf_kelas_siswa");
-				$links .= "<li><a class=\"dropdown-item ew-row-link ew-detail-view\" data-action=\"view\" data-caption=\"" . HtmlTitle($caption) . "\" href=\"" . HtmlEncode($url) . "\">" . HtmlImageAndText($caption) . "</a></li>";
-				if ($detailViewTblVar <> "")
-					$detailViewTblVar .= ",";
-				$detailViewTblVar .= "t102_daf_kelas_siswa";
-			}
 			if ($GLOBALS["t102_daf_kelas_siswa_grid"]->DetailEdit && $Security->canEdit() && $Security->allowEdit(CurrentProjectID() . 't102_daf_kelas_siswa')) {
 				$caption = $Language->phrase("MasterDetailEditLink");
 				$url = $this->getEditUrl(TABLE_SHOW_DETAIL . "=t102_daf_kelas_siswa");
