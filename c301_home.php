@@ -28,7 +28,18 @@ SetClientVar("login", LoginStatus());
 Page_Rendering();
 ?>
 <?php include_once "header.php" ?>
-<!-- %%Custom page content begin%% --><!-- %%Custom page content end%% --><?php if (DEBUG_ENABLED) echo GetDebugMessage(); ?>
+<?php
+//echo "this is a default page";
+?>
+
+<div class="card">
+	<div class="card-header">Latest news</div>
+	<div class="card-body">
+		<!-- <p>PHPMaker 2019 is released</p> -->
+		<pre><?php $lines=file('01, log.txt');foreach ($lines as $line_num => $line){echo $line;}?></pre>
+	</div>
+</div>
+<?php if (DEBUG_ENABLED) echo GetDebugMessage(); ?>
 <?php include_once "footer.php" ?>
 <?php
 $c301_home->terminate();

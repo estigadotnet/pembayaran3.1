@@ -475,6 +475,7 @@ class logout
 		// Example:
 		//$url = "your URL";
 
+		$url = ".";
 	}
 
 	// Message Showing event

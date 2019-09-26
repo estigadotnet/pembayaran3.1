@@ -1017,12 +1017,6 @@ class t101_daf_kelas_list extends t101_daf_kelas
 		$item->Visible = $Security->canEdit();
 		$item->OnLeft = TRUE;
 
-		// "copy"
-		$item = &$this->ListOptions->add("copy");
-		$item->CssClass = "text-nowrap";
-		$item->Visible = $Security->canAdd();
-		$item->OnLeft = TRUE;
-
 		// "delete"
 		$item = &$this->ListOptions->add("delete");
 		$item->CssClass = "text-nowrap";
@@ -1115,15 +1109,6 @@ class t101_daf_kelas_list extends t101_daf_kelas
 			$opt->Body = "";
 		}
 
-		// "copy"
-		$opt = &$this->ListOptions->Items["copy"];
-		$copycaption = HtmlTitle($Language->phrase("CopyLink"));
-		if ($Security->canAdd()) {
-			$opt->Body = "<a class=\"ew-row-link ew-copy\" title=\"" . $copycaption . "\" data-caption=\"" . $copycaption . "\" href=\"" . HtmlEncode($this->CopyUrl) . "\">" . $Language->phrase("CopyLink") . "</a>";
-		} else {
-			$opt->Body = "";
-		}
-
 		// "delete"
 		$opt = &$this->ListOptions->Items["delete"];
 		if ($Security->canDelete())
@@ -1176,14 +1161,6 @@ class t101_daf_kelas_list extends t101_daf_kelas
 				if ($detailEditTblVar <> "")
 					$detailEditTblVar .= ",";
 				$detailEditTblVar .= "t102_daf_kelas_siswa";
-			}
-			if ($GLOBALS["t102_daf_kelas_siswa_grid"]->DetailAdd && $Security->canAdd() && $Security->allowAdd(CurrentProjectID() . 't102_daf_kelas_siswa')) {
-				$caption = $Language->phrase("MasterDetailCopyLink");
-				$url = $this->getCopyUrl(TABLE_SHOW_DETAIL . "=t102_daf_kelas_siswa");
-				$links .= "<li><a class=\"dropdown-item ew-row-link ew-detail-copy\" data-action=\"add\" data-caption=\"" . HtmlTitle($caption) . "\" href=\"" . HtmlEncode($url) . "\">" . HtmlImageAndText($caption) . "</a></li>";
-				if ($detailCopyTblVar <> "")
-					$detailCopyTblVar .= ",";
-				$detailCopyTblVar .= "t102_daf_kelas_siswa";
 			}
 			if ($links <> "") {
 				$body .= "<button class=\"dropdown-toggle btn btn-default ew-detail\" data-toggle=\"dropdown\"></button>";

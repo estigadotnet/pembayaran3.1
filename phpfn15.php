@@ -11110,7 +11110,9 @@ class Language
 		// Example:
 		//$this->setPhrase("MyID", "MyValue"); // Refer to language file for the actual phrase id
 		//$this->setPhraseClass("MyID", "fa fa-xxx ew-icon"); // Refer to https://fontawesome.com/v4.7.0/icons/ [^] for icon name
+		// hilangkan kata contains
 
+		$this->setPhrase("LIKE", "");
 	}
 }
 

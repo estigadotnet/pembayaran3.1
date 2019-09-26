@@ -56,10 +56,34 @@ ft004_siswalist.validateRequired = <?php echo json_encode(CLIENT_VALIDATE) ?>;
 
 var ft004_siswalistsrch = currentSearchForm = new ew.Form("ft004_siswalistsrch");
 
+// Validate function for search
+ft004_siswalistsrch.validate = function(fobj) {
+	if (!this.validateRequired)
+		return true; // Ignore validation
+	fobj = fobj || this._form;
+	var infix = "";
+
+	// Fire Form_CustomValidate event
+	if (!this.Form_CustomValidate(fobj))
+		return false;
+	return true;
+}
+
+// Form_CustomValidate event
+ft004_siswalistsrch.Form_CustomValidate = function(fobj) { // DO NOT CHANGE THIS LINE!
+
+	// Your custom validation code here, return false if invalid.
+	return true;
+}
+
+// Use JavaScript validation or not
+ft004_siswalistsrch.validateRequired = <?php echo json_encode(CLIENT_VALIDATE) ?>;
+
+// Dynamic selection lists
 // Filters
+
 ft004_siswalistsrch.filterList = <?php echo $t004_siswa_list->getFilterList() ?>;
 </script>
-<script src="phpjs/ewscrolltable.js"></script>
 <style type="text/css">
 .ew-table-preview-row { /* main table preview row color */
 	background-color: #FFFFFF; /* preview row color */
@@ -115,21 +139,41 @@ $t004_siswa_list->renderOtherOptions();
 <input type="hidden" name="cmd" value="search">
 <input type="hidden" name="t" value="t004_siswa">
 	<div class="ew-basic-search">
+<?php
+if ($SearchError == "")
+	$t004_siswa_list->LoadAdvancedSearch(); // Load advanced search
+
+// Render for search
+$t004_siswa->RowType = ROWTYPE_SEARCH;
+
+// Render row
+$t004_siswa->resetAttributes();
+$t004_siswa_list->renderRow();
+?>
 <div id="xsr_1" class="ew-row d-sm-flex">
-	<div class="ew-quick-search input-group">
-		<input type="text" name="<?php echo TABLE_BASIC_SEARCH ?>" id="<?php echo TABLE_BASIC_SEARCH ?>" class="form-control" value="<?php echo HtmlEncode($t004_siswa_list->BasicSearch->getKeyword()) ?>" placeholder="<?php echo HtmlEncode($Language->phrase("Search")) ?>">
-		<input type="hidden" name="<?php echo TABLE_BASIC_SEARCH_TYPE ?>" id="<?php echo TABLE_BASIC_SEARCH_TYPE ?>" value="<?php echo HtmlEncode($t004_siswa_list->BasicSearch->getType()) ?>">
-		<div class="input-group-append">
-			<button class="btn btn-primary" name="btn-submit" id="btn-submit" type="submit"><?php echo $Language->phrase("SearchBtn") ?></button>
-			<button type="button" data-toggle="dropdown" class="btn btn-primary dropdown-toggle dropdown-toggle-split" aria-haspopup="true" aria-expanded="false"><span id="searchtype"><?php echo $t004_siswa_list->BasicSearch->getTypeNameShort() ?></span></button>
-			<div class="dropdown-menu dropdown-menu-right">
-				<a class="dropdown-item<?php if ($t004_siswa_list->BasicSearch->getType() == "") echo " active"; ?>" href="javascript:void(0);" onclick="ew.setSearchType(this)"><?php echo $Language->phrase("QuickSearchAuto") ?></a>
-				<a class="dropdown-item<?php if ($t004_siswa_list->BasicSearch->getType() == "=") echo " active"; ?>" href="javascript:void(0);" onclick="ew.setSearchType(this,'=')"><?php echo $Language->phrase("QuickSearchExact") ?></a>
-				<a class="dropdown-item<?php if ($t004_siswa_list->BasicSearch->getType() == "AND") echo " active"; ?>" href="javascript:void(0);" onclick="ew.setSearchType(this,'AND')"><?php echo $Language->phrase("QuickSearchAll") ?></a>
-				<a class="dropdown-item<?php if ($t004_siswa_list->BasicSearch->getType() == "OR") echo " active"; ?>" href="javascript:void(0);" onclick="ew.setSearchType(this,'OR')"><?php echo $Language->phrase("QuickSearchAny") ?></a>
-			</div>
-		</div>
+<?php if ($t004_siswa->NomorInduk->Visible) { // NomorInduk ?>
+	<div id="xsc_NomorInduk" class="ew-cell form-group">
+		<label for="x_NomorInduk" class="ew-search-caption ew-label"><?php echo $t004_siswa->NomorInduk->caption() ?></label>
+		<span class="ew-search-operator"><?php echo $Language->phrase("LIKE") ?><input type="hidden" name="z_NomorInduk" id="z_NomorInduk" value="LIKE"></span>
+		<span class="ew-search-field">
+<input type="text" data-table="t004_siswa" data-field="x_NomorInduk" name="x_NomorInduk" id="x_NomorInduk" size="30" maxlength="25" placeholder="<?php echo HtmlEncode($t004_siswa->NomorInduk->getPlaceHolder()) ?>" value="<?php echo $t004_siswa->NomorInduk->EditValue ?>"<?php echo $t004_siswa->NomorInduk->editAttributes() ?>>
+</span>
 	</div>
+<?php } ?>
+</div>
+<div id="xsr_2" class="ew-row d-sm-flex">
+<?php if ($t004_siswa->Nama->Visible) { // Nama ?>
+	<div id="xsc_Nama" class="ew-cell form-group">
+		<label for="x_Nama" class="ew-search-caption ew-label"><?php echo $t004_siswa->Nama->caption() ?></label>
+		<span class="ew-search-operator"><?php echo $Language->phrase("LIKE") ?><input type="hidden" name="z_Nama" id="z_Nama" value="LIKE"></span>
+		<span class="ew-search-field">
+<input type="text" data-table="t004_siswa" data-field="x_Nama" name="x_Nama" id="x_Nama" size="30" maxlength="50" placeholder="<?php echo HtmlEncode($t004_siswa->Nama->getPlaceHolder()) ?>" value="<?php echo $t004_siswa->Nama->EditValue ?>"<?php echo $t004_siswa->Nama->editAttributes() ?>>
+</span>
+	</div>
+<?php } ?>
+</div>
+<div id="xsr_3" class="ew-row d-sm-flex">
+	<button class="btn btn-primary" name="btn-submit" id="btn-submit" type="submit"><?php echo $Language->phrase("SearchBtn") ?></button>
 </div>
 	</div>
 </div>
@@ -168,7 +212,7 @@ $t004_siswa_list->ListOptions->render("header", "left");
 		<th data-name="NomorInduk" class="<?php echo $t004_siswa->NomorInduk->headerCellClass() ?>"><div id="elh_t004_siswa_NomorInduk" class="t004_siswa_NomorInduk"><div class="ew-table-header-caption"><?php echo $t004_siswa->NomorInduk->caption() ?></div></div></th>
 	<?php } else { ?>
 		<th data-name="NomorInduk" class="<?php echo $t004_siswa->NomorInduk->headerCellClass() ?>"><div class="ew-pointer" onclick="ew.sort(event,'<?php echo $t004_siswa->SortUrl($t004_siswa->NomorInduk) ?>',2);"><div id="elh_t004_siswa_NomorInduk" class="t004_siswa_NomorInduk">
-			<div class="ew-table-header-btn"><span class="ew-table-header-caption"><?php echo $t004_siswa->NomorInduk->caption() ?><?php echo $Language->phrase("SrchLegend") ?></span><span class="ew-table-header-sort"><?php if ($t004_siswa->NomorInduk->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($t004_siswa->NomorInduk->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span></div>
+			<div class="ew-table-header-btn"><span class="ew-table-header-caption"><?php echo $t004_siswa->NomorInduk->caption() ?></span><span class="ew-table-header-sort"><?php if ($t004_siswa->NomorInduk->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($t004_siswa->NomorInduk->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span></div>
 		</div></div></th>
 	<?php } ?>
 <?php } ?>
@@ -177,7 +221,7 @@ $t004_siswa_list->ListOptions->render("header", "left");
 		<th data-name="Nama" class="<?php echo $t004_siswa->Nama->headerCellClass() ?>"><div id="elh_t004_siswa_Nama" class="t004_siswa_Nama"><div class="ew-table-header-caption"><?php echo $t004_siswa->Nama->caption() ?></div></div></th>
 	<?php } else { ?>
 		<th data-name="Nama" class="<?php echo $t004_siswa->Nama->headerCellClass() ?>"><div class="ew-pointer" onclick="ew.sort(event,'<?php echo $t004_siswa->SortUrl($t004_siswa->Nama) ?>',2);"><div id="elh_t004_siswa_Nama" class="t004_siswa_Nama">
-			<div class="ew-table-header-btn"><span class="ew-table-header-caption"><?php echo $t004_siswa->Nama->caption() ?><?php echo $Language->phrase("SrchLegend") ?></span><span class="ew-table-header-sort"><?php if ($t004_siswa->Nama->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($t004_siswa->Nama->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span></div>
+			<div class="ew-table-header-btn"><span class="ew-table-header-caption"><?php echo $t004_siswa->Nama->caption() ?></span><span class="ew-table-header-sort"><?php if ($t004_siswa->Nama->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($t004_siswa->Nama->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span></div>
 		</div></div></th>
 	<?php } ?>
 <?php } ?>
@@ -378,11 +422,6 @@ if (DEBUG_ENABLED)
 // document.write("page loaded");
 
 </script>
-<?php if (!$t004_siswa->isExport()) { ?>
-<script>
-ew.scrollableTable("gmp_t004_siswa", "100%", "100%");
-</script>
-<?php } ?>
 <?php } ?>
 <?php include_once "footer.php" ?>
 <?php

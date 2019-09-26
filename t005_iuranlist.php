@@ -57,7 +57,6 @@ ft005_iuranlist.lists["x_Jenis"].options = <?php echo JsonEncode($t005_iuran_lis
 
 // Form object for search
 </script>
-<script src="phpjs/ewscrolltable.js"></script>
 <style type="text/css">
 .ew-table-preview-row { /* main table preview row color */
 	background-color: #FFFFFF; /* preview row color */
@@ -341,11 +340,6 @@ if (DEBUG_ENABLED)
 // document.write("page loaded");
 
 </script>
-<?php if (!$t005_iuran->isExport()) { ?>
-<script>
-ew.scrollableTable("gmp_t005_iuran", "100%", "100%");
-</script>
-<?php } ?>
 <?php } ?>
 <?php include_once "footer.php" ?>
 <?php

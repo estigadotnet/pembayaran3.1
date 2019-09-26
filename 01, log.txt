@@ -1,0 +1,15 @@
+<strong>----- on progress --------------------------------------------------------------------------</strong>
+-
+
+
+<font color="red"><strong>----- to do --------------------------------------------------------------------------------</strong>
+-
+
+
+</font><strong>----- done ---------------------------------------------------------------------------------</strong>
+12:36 PM 9/26/2019
+- Setup, Tahun Ajaran -> done
+- Setup, Sekolah -> done
+- Setup, Kelas -> done
+- Setup, Siswa -> done
+- Setup, Iuran -> done 

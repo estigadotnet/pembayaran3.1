@@ -733,22 +733,10 @@ class t103_daf_kelas_siswa_iuran_preview extends t103_daf_kelas_siswa_iuran
 		$item->OnLeft = TRUE;
 		$item->Visible = FALSE;
 
-		// "view"
-		$item = &$this->ListOptions->add("view");
-		$item->CssClass = "text-nowrap";
-		$item->Visible = $Security->canView();
-		$item->OnLeft = TRUE;
-
 		// "edit"
 		$item = &$this->ListOptions->add("edit");
 		$item->CssClass = "text-nowrap";
 		$item->Visible = $Security->canEdit();
-		$item->OnLeft = TRUE;
-
-		// "copy"
-		$item = &$this->ListOptions->add("copy");
-		$item->CssClass = "text-nowrap";
-		$item->Visible = $Security->canAdd();
 		$item->OnLeft = TRUE;
 
 		// "delete"
@@ -779,20 +767,6 @@ class t103_daf_kelas_siswa_iuran_preview extends t103_daf_kelas_siswa_iuran
 		$this->ListOptions_Rendering();
 		$masterKeyUrl = $this->masterKeyUrl();
 
-		// "view"
-		$opt = &$this->ListOptions->Items["view"];
-		if ($Security->canView()) {
-			$viewCaption = $Language->phrase("ViewLink");
-			$viewTitle = HtmlTitle($viewCaption);
-			$viewUrl = $this->getViewUrl($masterKeyUrl);
-			if ($this->UseModalLinks && !IsMobile())
-				$opt->Body = "<a class=\"ew-row-link ew-view\" title=\"" . $viewTitle . "\" data-caption=\"" . $viewTitle . "\" href=\"javascript:void(0);\" onclick=\"ew.modalDialogShow({lnk:this,url:'" . HtmlEncode($viewUrl) . "',btn:null});\">" . $viewCaption . "</a>";
-			else
-				$opt->Body = "<a class=\"ew-row-link ew-view\" title=\"" . $viewTitle . "\" data-caption=\"" . $viewTitle . "\" href=\"" . HtmlEncode($viewUrl) . "\">" . $viewCaption . "</a>";
-		} else {
-			$opt->Body = "";
-		}
-
 		// "edit"
 		$opt = &$this->ListOptions->Items["edit"];
 		if ($Security->canEdit()) {
@@ -803,20 +777,6 @@ class t103_daf_kelas_siswa_iuran_preview extends t103_daf_kelas_siswa_iuran
 				$opt->Body = "<a class=\"ew-row-link ew-edit\" title=\"" . $editTitle . "\" data-caption=\"" . $editTitle . "\" href=\"javascript:void(0);\" onclick=\"ew.modalDialogShow({lnk:this,btn:'SaveBtn',url:'" . HtmlEncode($editUrl) . "'});\">" . $editCaption . "</a>";
 			else
 				$opt->Body = "<a class=\"ew-row-link ew-edit\" title=\"" . $editTitle . "\" data-caption=\"" . $editTitle . "\" href=\"" . HtmlEncode($editUrl) . "\">" . $editCaption . "</a>";
-		} else {
-			$opt->Body = "";
-		}
-
-		// "copy"
-		$opt = &$this->ListOptions->Items["copy"];
-		if ($Security->canAdd()) {
-			$copyCaption = $Language->phrase("CopyLink");
-			$copyTitle = HtmlTitle($copyCaption);
-			$copyUrl = $this->getCopyUrl($masterKeyUrl);
-			if ($this->UseModalLinks && !IsMobile())
-				$opt->Body = "<a class=\"ew-row-link ew-copy\" title=\"" . $copyTitle . "\" data-caption=\"" . $copyTitle . "\" href=\"javascript:void(0);\" onclick=\"ew.modalDialogShow({lnk:this,btn:'AddBtn',url:'" . HtmlEncode($copyUrl) . "'});\">" . $copyCaption . "</a>";
-			else
-				$opt->Body = "<a class=\"ew-row-link ew-copy\" title=\"" . $copyTitle . "\" data-caption=\"" . $copyTitle . "\" href=\"" . HtmlEncode($copyUrl) . "\">" . $copyCaption . "</a>";
 		} else {
 			$opt->Body = "";
 		}

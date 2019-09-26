@@ -1350,6 +1350,9 @@ class t102_daf_kelas_siswa extends DbTable
 	function Row_Rendering() {
 
 		// Enter your code here
+		//modifikasi tanda penghubung
+
+		$this->siswa_id->DisplayValueSeparator = "-";
 	}
 
 	// Row Rendered event
