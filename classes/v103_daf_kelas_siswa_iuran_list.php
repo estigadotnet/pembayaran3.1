@@ -60,6 +60,14 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 	public $MultiDeleteUrl;
 	public $MultiUpdateUrl;
 
+	// Audit Trail
+	public $AuditTrailOnAdd = TRUE;
+	public $AuditTrailOnEdit = TRUE;
+	public $AuditTrailOnDelete = TRUE;
+	public $AuditTrailOnView = FALSE;
+	public $AuditTrailOnViewData = FALSE;
+	public $AuditTrailOnSearch = FALSE;
+
 	// Page headings
 	public $Heading = "";
 	public $Subheading = "";
@@ -709,7 +717,7 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 
 		// Set up list options
 		$this->setupListOptions();
-		$this->siswa_id->setVisibility();
+		$this->siswa_id->Visible = FALSE;
 		$this->NomorInduk->setVisibility();
 		$this->Nama->setVisibility();
 		$this->hideFieldsForAddEdit();
@@ -792,14 +800,16 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 				$this->OtherOptions->hideAllOptions();
 
 			// Get default search criteria
-			AddFilter($this->DefaultSearchWhere, $this->basicSearchWhere(TRUE));
+			AddFilter($this->DefaultSearchWhere, $this->advancedSearchWhere(TRUE));
 
-			// Get basic search values
-			$this->loadBasicSearchValues();
+			// Get and validate search values for advanced search
+			$this->loadSearchValues(); // Get search values
 
 			// Process filter list
 			if ($this->processFilterList())
 				$this->terminate();
+			if (!$this->validateSearch())
+				$this->setFailureMessage($SearchError);
 
 			// Restore search parms from Session if not searching / reset / export
 			if (($this->isExport() || $this->Command <> "search" && $this->Command <> "reset" && $this->Command <> "resetall") && $this->Command <> "json" && $this->checkSearchParms())
@@ -811,9 +821,9 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 			// Set up sorting order
 			$this->setupSortOrder();
 
-			// Get basic search criteria
+			// Get search criteria for advanced search
 			if ($SearchError == "")
-				$srchBasic = $this->basicSearchWhere();
+				$srchAdvanced = $this->advancedSearchWhere();
 		}
 
 		// Restore display records
@@ -830,10 +840,10 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 		// Load search default if no existing search criteria
 		if (!$this->checkSearchParms()) {
 
-			// Load basic search from default
-			$this->BasicSearch->loadDefault();
-			if ($this->BasicSearch->Keyword != "")
-				$srchBasic = $this->basicSearchWhere();
+			// Load advanced search from default
+			if ($this->loadAdvancedSearchDefault()) {
+				$srchAdvanced = $this->advancedSearchWhere();
+			}
 		}
 
 		// Build search criteria
@@ -858,6 +868,10 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 			$filter = "(0=1)"; // Filter all records
 		AddFilter($filter, $this->DbDetailFilter);
 		AddFilter($filter, $this->SearchWhere);
+		if ($filter == "") {
+			$filter = "0=101";
+			$this->SearchWhere = $filter;
+		}
 
 		// Set up filter
 		if ($this->Command == "json") {
@@ -897,6 +911,13 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 					$this->setWarningMessage($Language->phrase("EnterSearchCriteria"));
 				else
 					$this->setWarningMessage($Language->phrase("NoRecord"));
+			}
+
+			// Audit trail on search
+			if ($this->AuditTrailOnSearch && $this->Command == "search" && !$this->RestoreSearch) {
+				$searchParm = ServerVar("QUERY_STRING");
+				$searchSql = $this->getSessionWhere();
+				$this->writeAuditTrailOnSearch($searchParm, $searchSql);
 			}
 		}
 
@@ -983,10 +1004,6 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 		$filterList = Concat($filterList, $this->siswa_id->AdvancedSearch->toJson(), ","); // Field siswa_id
 		$filterList = Concat($filterList, $this->NomorInduk->AdvancedSearch->toJson(), ","); // Field NomorInduk
 		$filterList = Concat($filterList, $this->Nama->AdvancedSearch->toJson(), ","); // Field Nama
-		if ($this->BasicSearch->Keyword <> "") {
-			$wrk = "\"" . TABLE_BASIC_SEARCH . "\":\"" . JsEncode($this->BasicSearch->Keyword) . "\",\"" . TABLE_BASIC_SEARCH_TYPE . "\":\"" . JsEncode($this->BasicSearch->Type) . "\"";
-			$filterList = Concat($filterList, $wrk, ",");
-		}
 
 		// Return filter list in JSON
 		if ($filterList <> "")
@@ -1044,130 +1061,91 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 		$this->Nama->AdvancedSearch->SearchValue2 = @$filter["y_Nama"];
 		$this->Nama->AdvancedSearch->SearchOperator2 = @$filter["w_Nama"];
 		$this->Nama->AdvancedSearch->save();
-		$this->BasicSearch->setKeyword(@$filter[TABLE_BASIC_SEARCH]);
-		$this->BasicSearch->setType(@$filter[TABLE_BASIC_SEARCH_TYPE]);
 	}
 
-	// Return basic search SQL
-	protected function basicSearchSql($arKeywords, $type)
+	// Advanced search WHERE clause based on QueryString
+	protected function advancedSearchWhere($default = FALSE)
 	{
+		global $Security;
 		$where = "";
-		$this->buildBasicSearchSql($where, $this->NomorInduk, $arKeywords, $type);
-		$this->buildBasicSearchSql($where, $this->Nama, $arKeywords, $type);
+		if (!$Security->canSearch())
+			return "";
+		$this->buildSearchSql($where, $this->siswa_id, $default, FALSE); // siswa_id
+		$this->buildSearchSql($where, $this->NomorInduk, $default, FALSE); // NomorInduk
+		$this->buildSearchSql($where, $this->Nama, $default, FALSE); // Nama
+
+		// Set up search parm
+		if (!$default && $where <> "" && in_array($this->Command, array("", "reset", "resetall"))) {
+			$this->Command = "search";
+		}
+		if (!$default && $this->Command == "search") {
+			$this->siswa_id->AdvancedSearch->save(); // siswa_id
+			$this->NomorInduk->AdvancedSearch->save(); // NomorInduk
+			$this->Nama->AdvancedSearch->save(); // Nama
+		}
 		return $where;
 	}
 
-	// Build basic search SQL
-	protected function buildBasicSearchSql(&$where, &$fld, $arKeywords, $type)
+	// Build search SQL
+	protected function buildSearchSql(&$where, &$fld, $default, $multiValue)
 	{
-		global $BASIC_SEARCH_IGNORE_PATTERN;
-		$defCond = ($type == "OR") ? "OR" : "AND";
-		$arSql = array(); // Array for SQL parts
-		$arCond = array(); // Array for search conditions
-		$cnt = count($arKeywords);
-		$j = 0; // Number of SQL parts
-		for ($i = 0; $i < $cnt; $i++) {
-			$keyword = $arKeywords[$i];
-			$keyword = trim($keyword);
-			if ($BASIC_SEARCH_IGNORE_PATTERN <> "") {
-				$keyword = preg_replace($BASIC_SEARCH_IGNORE_PATTERN, "\\", $keyword);
-				$ar = explode("\\", $keyword);
-			} else {
-				$ar = array($keyword);
-			}
-			foreach ($ar as $keyword) {
-				if ($keyword <> "") {
-					$wrk = "";
-					if ($keyword == "OR" && $type == "") {
-						if ($j > 0)
-							$arCond[$j - 1] = "OR";
-					} elseif ($keyword == NULL_VALUE) {
-						$wrk = $fld->Expression . " IS NULL";
-					} elseif ($keyword == NOT_NULL_VALUE) {
-						$wrk = $fld->Expression . " IS NOT NULL";
-					} elseif ($fld->IsVirtual) {
-						$wrk = $fld->VirtualExpression . Like(QuotedValue("%" . $keyword . "%", DATATYPE_STRING, $this->Dbid), $this->Dbid);
-					} elseif ($fld->DataType != DATATYPE_NUMBER || is_numeric($keyword)) {
-						$wrk = $fld->BasicSearchExpression . Like(QuotedValue("%" . $keyword . "%", DATATYPE_STRING, $this->Dbid), $this->Dbid);
-					}
-					if ($wrk <> "") {
-						$arSql[$j] = $wrk;
-						$arCond[$j] = $defCond;
-						$j += 1;
-					}
-				}
-			}
+		$fldParm = $fld->Param;
+		$fldVal = ($default) ? $fld->AdvancedSearch->SearchValueDefault : $fld->AdvancedSearch->SearchValue;
+		$fldOpr = ($default) ? $fld->AdvancedSearch->SearchOperatorDefault : $fld->AdvancedSearch->SearchOperator;
+		$fldCond = ($default) ? $fld->AdvancedSearch->SearchConditionDefault : $fld->AdvancedSearch->SearchCondition;
+		$fldVal2 = ($default) ? $fld->AdvancedSearch->SearchValue2Default : $fld->AdvancedSearch->SearchValue2;
+		$fldOpr2 = ($default) ? $fld->AdvancedSearch->SearchOperator2Default : $fld->AdvancedSearch->SearchOperator2;
+		$wrk = "";
+		if (is_array($fldVal))
+			$fldVal = implode(",", $fldVal);
+		if (is_array($fldVal2))
+			$fldVal2 = implode(",", $fldVal2);
+		$fldOpr = strtoupper(trim($fldOpr));
+		if ($fldOpr == "")
+			$fldOpr = "=";
+		$fldOpr2 = strtoupper(trim($fldOpr2));
+		if ($fldOpr2 == "")
+			$fldOpr2 = "=";
+		if (SEARCH_MULTI_VALUE_OPTION == 1)
+			$multiValue = FALSE;
+		if ($multiValue) {
+			$wrk1 = ($fldVal <> "") ? GetMultiSearchSql($fld, $fldOpr, $fldVal, $this->Dbid) : ""; // Field value 1
+			$wrk2 = ($fldVal2 <> "") ? GetMultiSearchSql($fld, $fldOpr2, $fldVal2, $this->Dbid) : ""; // Field value 2
+			$wrk = $wrk1; // Build final SQL
+			if ($wrk2 <> "")
+				$wrk = ($wrk <> "") ? "($wrk) $fldCond ($wrk2)" : $wrk2;
+		} else {
+			$fldVal = $this->convertSearchValue($fld, $fldVal);
+			$fldVal2 = $this->convertSearchValue($fld, $fldVal2);
+			$wrk = GetSearchSql($fld, $fldVal, $fldOpr, $fldCond, $fldVal2, $fldOpr2, $this->Dbid);
 		}
-		$cnt = count($arSql);
-		$quoted = FALSE;
-		$sql = "";
-		if ($cnt > 0) {
-			for ($i = 0; $i < $cnt - 1; $i++) {
-				if ($arCond[$i] == "OR") {
-					if (!$quoted)
-						$sql .= "(";
-					$quoted = TRUE;
-				}
-				$sql .= $arSql[$i];
-				if ($quoted && $arCond[$i] <> "OR") {
-					$sql .= ")";
-					$quoted = FALSE;
-				}
-				$sql .= " " . $arCond[$i] . " ";
-			}
-			$sql .= $arSql[$cnt - 1];
-			if ($quoted)
-				$sql .= ")";
-		}
-		if ($sql <> "") {
-			if ($where <> "")
-				$where .= " OR ";
-			$where .= "(" . $sql . ")";
-		}
+		AddFilter($where, $wrk);
 	}
 
-	// Return basic search WHERE clause based on search keyword and type
-	protected function basicSearchWhere($default = FALSE)
+	// Convert search value
+	protected function convertSearchValue(&$fld, $fldVal)
 	{
-		global $Security;
-		$searchStr = "";
-		if (!$Security->canSearch())
-			return "";
-		$searchKeyword = ($default) ? $this->BasicSearch->KeywordDefault : $this->BasicSearch->Keyword;
-		$searchType = ($default) ? $this->BasicSearch->TypeDefault : $this->BasicSearch->Type;
-
-		// Get search SQL
-		if ($searchKeyword <> "") {
-			$ar = $this->BasicSearch->keywordList($default);
-
-			// Search keyword in any fields
-			if (($searchType == "OR" || $searchType == "AND") && $this->BasicSearch->BasicSearchAnyFields) {
-				foreach ($ar as $keyword) {
-					if ($keyword <> "") {
-						if ($searchStr <> "")
-							$searchStr .= " " . $searchType . " ";
-						$searchStr .= "(" . $this->basicSearchSql(array($keyword), $searchType) . ")";
-					}
-				}
-			} else {
-				$searchStr = $this->basicSearchSql($ar, $searchType);
-			}
-			if (!$default && in_array($this->Command, array("", "reset", "resetall")))
-				$this->Command = "search";
+		if ($fldVal == NULL_VALUE || $fldVal == NOT_NULL_VALUE)
+			return $fldVal;
+		$value = $fldVal;
+		if ($fld->DataType == DATATYPE_BOOLEAN) {
+			if ($fldVal <> "")
+				$value = (SameText($fldVal, "1") || SameText($fldVal, "y") || SameText($fldVal, "t")) ? $fld->TrueValue : $fld->FalseValue;
+		} elseif ($fld->DataType == DATATYPE_DATE || $fld->DataType == DATATYPE_TIME) {
+			if ($fldVal <> "")
+				$value = UnFormatDateTime($fldVal, $fld->DateTimeFormat);
 		}
-		if (!$default && $this->Command == "search") {
-			$this->BasicSearch->setKeyword($searchKeyword);
-			$this->BasicSearch->setType($searchType);
-		}
-		return $searchStr;
+		return $value;
 	}
 
 	// Check if search parm exists
 	protected function checkSearchParms()
 	{
-
-		// Check basic search
-		if ($this->BasicSearch->issetSession())
+		if ($this->siswa_id->AdvancedSearch->issetSession())
+			return TRUE;
+		if ($this->NomorInduk->AdvancedSearch->issetSession())
+			return TRUE;
+		if ($this->Nama->AdvancedSearch->issetSession())
 			return TRUE;
 		return FALSE;
 	}
@@ -1180,8 +1158,8 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 		$this->SearchWhere = "";
 		$this->setSearchWhere($this->SearchWhere);
 
-		// Clear basic search parameters
-		$this->resetBasicSearchParms();
+		// Clear advanced search parameters
+		$this->resetAdvancedSearchParms();
 	}
 
 	// Load advanced search default values
@@ -1190,10 +1168,12 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 		return FALSE;
 	}
 
-	// Clear all basic search parameters
-	protected function resetBasicSearchParms()
+	// Clear all advanced search parameters
+	protected function resetAdvancedSearchParms()
 	{
-		$this->BasicSearch->unsetSession();
+		$this->siswa_id->AdvancedSearch->unsetSession();
+		$this->NomorInduk->AdvancedSearch->unsetSession();
+		$this->Nama->AdvancedSearch->unsetSession();
 	}
 
 	// Restore all search parameters
@@ -1201,8 +1181,10 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 	{
 		$this->RestoreSearch = TRUE;
 
-		// Restore basic search values
-		$this->BasicSearch->load();
+		// Restore advanced search values
+		$this->siswa_id->AdvancedSearch->load();
+		$this->NomorInduk->AdvancedSearch->load();
+		$this->Nama->AdvancedSearch->load();
 	}
 
 	// Set up sort parameters
@@ -1216,7 +1198,6 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 		if (Get("order") !== NULL) {
 			$this->CurrentOrder = Get("order");
 			$this->CurrentOrderType = Get("ordertype", "");
-			$this->updateSort($this->siswa_id, $ctrl); // siswa_id
 			$this->updateSort($this->NomorInduk, $ctrl); // NomorInduk
 			$this->updateSort($this->Nama, $ctrl); // Nama
 			$this->setStartRecordNumber(1); // Reset start position
@@ -1254,7 +1235,6 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 			if ($this->Command == "resetsort") {
 				$orderBy = "";
 				$this->setSessionOrderBy($orderBy);
-				$this->siswa_id->setSort("");
 				$this->NomorInduk->setSort("");
 				$this->Nama->setSort("");
 			}
@@ -1518,7 +1498,7 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 
 		// Show all button
 		$item = &$this->SearchOptions->add("showall");
-		$item->Body = "<a class=\"btn btn-default ew-show-all\" title=\"" . $Language->phrase("ShowAll") . "\" data-caption=\"" . $Language->phrase("ShowAll") . "\" href=\"" . $this->pageUrl() . "cmd=reset\">" . $Language->phrase("ShowAllBtn") . "</a>";
+		$item->Body = "<a class=\"btn btn-default ew-show-all\" title=\"" . $Language->phrase("ResetSearch") . "\" data-caption=\"" . $Language->phrase("ResetSearch") . "\" href=\"" . $this->pageUrl() . "cmd=reset\">" . $Language->phrase("ResetSearchBtn") . "</a>";
 		$item->Visible = ($this->SearchWhere <> $this->DefaultSearchWhere && $this->SearchWhere <> "0=101");
 
 		// Button group for search
@@ -1589,13 +1569,33 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 		}
 	}
 
-	// Load basic search values
-	protected function loadBasicSearchValues()
+	// Load search values for validation
+	protected function loadSearchValues()
 	{
-		$this->BasicSearch->setKeyword(Get(TABLE_BASIC_SEARCH, ""), FALSE);
-		if ($this->BasicSearch->Keyword <> "" && $this->Command == "")
+		global $CurrentForm;
+
+		// Load search values
+		// siswa_id
+
+		if (!$this->isAddOrEdit())
+			$this->siswa_id->AdvancedSearch->setSearchValue(Get("x_siswa_id", Get("siswa_id", "")));
+		if ($this->siswa_id->AdvancedSearch->SearchValue <> "" && $this->Command == "")
 			$this->Command = "search";
-		$this->BasicSearch->setType(Get(TABLE_BASIC_SEARCH_TYPE, ""), FALSE);
+		$this->siswa_id->AdvancedSearch->setSearchOperator(Get("z_siswa_id", ""));
+
+		// NomorInduk
+		if (!$this->isAddOrEdit())
+			$this->NomorInduk->AdvancedSearch->setSearchValue(Get("x_NomorInduk", Get("NomorInduk", "")));
+		if ($this->NomorInduk->AdvancedSearch->SearchValue <> "" && $this->Command == "")
+			$this->Command = "search";
+		$this->NomorInduk->AdvancedSearch->setSearchOperator(Get("z_NomorInduk", ""));
+
+		// Nama
+		if (!$this->isAddOrEdit())
+			$this->Nama->AdvancedSearch->setSearchValue(Get("x_Nama", Get("Nama", "")));
+		if ($this->Nama->AdvancedSearch->SearchValue <> "" && $this->Command == "")
+			$this->Command = "search";
+		$this->Nama->AdvancedSearch->setSearchOperator(Get("z_Nama", ""));
 	}
 
 	// Load recordset
@@ -1717,11 +1717,6 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 			$this->Nama->ViewValue = $this->Nama->CurrentValue;
 			$this->Nama->ViewCustomAttributes = "";
 
-			// siswa_id
-			$this->siswa_id->LinkCustomAttributes = "";
-			$this->siswa_id->HrefValue = "";
-			$this->siswa_id->TooltipValue = "";
-
 			// NomorInduk
 			$this->NomorInduk->LinkCustomAttributes = "";
 			$this->NomorInduk->HrefValue = "";
@@ -1731,11 +1726,62 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 			$this->Nama->LinkCustomAttributes = "";
 			$this->Nama->HrefValue = "";
 			$this->Nama->TooltipValue = "";
+		} elseif ($this->RowType == ROWTYPE_SEARCH) { // Search row
+
+			// NomorInduk
+			$this->NomorInduk->EditAttrs["class"] = "form-control";
+			$this->NomorInduk->EditCustomAttributes = "";
+			if (REMOVE_XSS)
+				$this->NomorInduk->AdvancedSearch->SearchValue = HtmlDecode($this->NomorInduk->AdvancedSearch->SearchValue);
+			$this->NomorInduk->EditValue = HtmlEncode($this->NomorInduk->AdvancedSearch->SearchValue);
+			$this->NomorInduk->PlaceHolder = RemoveHtml($this->NomorInduk->caption());
+
+			// Nama
+			$this->Nama->EditAttrs["class"] = "form-control";
+			$this->Nama->EditCustomAttributes = "";
+			if (REMOVE_XSS)
+				$this->Nama->AdvancedSearch->SearchValue = HtmlDecode($this->Nama->AdvancedSearch->SearchValue);
+			$this->Nama->EditValue = HtmlEncode($this->Nama->AdvancedSearch->SearchValue);
+			$this->Nama->PlaceHolder = RemoveHtml($this->Nama->caption());
 		}
+		if ($this->RowType == ROWTYPE_ADD || $this->RowType == ROWTYPE_EDIT || $this->RowType == ROWTYPE_SEARCH) // Add/Edit/Search row
+			$this->setupFieldTitles();
 
 		// Call Row Rendered event
 		if ($this->RowType <> ROWTYPE_AGGREGATEINIT)
 			$this->Row_Rendered();
+	}
+
+	// Validate search
+	protected function validateSearch()
+	{
+		global $SearchError;
+
+		// Initialize
+		$SearchError = "";
+
+		// Check if validation required
+		if (!SERVER_VALIDATE)
+			return TRUE;
+
+		// Return validate result
+		$validateSearch = ($SearchError == "");
+
+		// Call Form_CustomValidate event
+		$formCustomError = "";
+		$validateSearch = $validateSearch && $this->Form_CustomValidate($formCustomError);
+		if ($formCustomError <> "") {
+			AddMessage($SearchError, $formCustomError);
+		}
+		return $validateSearch;
+	}
+
+	// Load advanced search
+	public function loadAdvancedSearch()
+	{
+		$this->siswa_id->AdvancedSearch->load();
+		$this->NomorInduk->AdvancedSearch->load();
+		$this->Nama->AdvancedSearch->load();
 	}
 
 	// Set up Breadcrumb
@@ -1865,7 +1911,12 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 		//$opt->Header = "xxx";
 		//$opt->OnLeft = TRUE; // Link on left
 		//$opt->MoveTo(0); // Move to first column
+		// tambah link PROSES
 
+		$opt = &$this->ListOptions->Add("bayar");
+		$opt->Header = "";
+		$opt->OnLeft = TRUE; // Link on left
+		$opt->MoveTo(0); // Move to first column
 	}
 
 	// ListOptions Rendering event
@@ -1882,7 +1933,9 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 
 		// Example:
 		//$this->ListOptions->Items["new"]->Body = "xxx";
+		// link PROSES BAYAR
 
+		$this->ListOptions->Items["bayar"]->Body = "<a href='t103_daf_kelas_siswa_iuranlist.php?action=gridedit&showmaster=v102_daf_kelas_siswa&fk_id=".$this->siswa_id->CurrentValue."'>Proses</a>";
 	}
 
 	// Row Custom Action event

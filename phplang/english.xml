@@ -741,6 +741,12 @@
     <menu id="14">
       <phrase id="menutext" value="Pembayaran" />
     </menu>
+    <menu id="10019">
+      <phrase id="menutext" value="Laporan" />
+    </menu>
+    <menu id="10018">
+      <phrase id="menutext" value="Pembayaran" />
+    </menu>
     <menu id="21">
       <phrase id="menutext" value="General" />
     </menu>
@@ -760,6 +766,57 @@
       <phrase id="menutext" value="v 104 pembayaran" />
     </menu>
     <menu id="16">
+      <phrase id="menutext" value="v 105 lap bayar" />
+    </menu>
+    <menu id="10001">
+      <phrase id="menutext" value="t 001 tahun ajaran" />
+    </menu>
+    <menu id="10002">
+      <phrase id="menutext" value="t 002 sekolah" />
+    </menu>
+    <menu id="10003">
+      <phrase id="menutext" value="t 003 kelas" />
+    </menu>
+    <menu id="10004">
+      <phrase id="menutext" value="t 004 siswa" />
+    </menu>
+    <menu id="10005">
+      <phrase id="menutext" value="t 005 iuran" />
+    </menu>
+    <menu id="10006">
+      <phrase id="menutext" value="t 101 daf kelas" />
+    </menu>
+    <menu id="10007">
+      <phrase id="menutext" value="t 102 daf kelas siswa" />
+    </menu>
+    <menu id="10008">
+      <phrase id="menutext" value="t 103 daf kelas siswa iuran" />
+    </menu>
+    <menu id="10009">
+      <phrase id="menutext" value="t 301 employees" />
+    </menu>
+    <menu id="10010">
+      <phrase id="menutext" value="t 302 userlevels" />
+    </menu>
+    <menu id="10011">
+      <phrase id="menutext" value="t 303 userlevelpermissions" />
+    </menu>
+    <menu id="10012">
+      <phrase id="menutext" value="t 304 audit trail" />
+    </menu>
+    <menu id="10013">
+      <phrase id="menutext" value="v 101 daf kelas" />
+    </menu>
+    <menu id="10014">
+      <phrase id="menutext" value="v 102 daf kelas siswa" />
+    </menu>
+    <menu id="10015">
+      <phrase id="menutext" value="v 103 daf kelas siswa iuran" />
+    </menu>
+    <menu id="10016">
+      <phrase id="menutext" value="v 104 pembayaran" />
+    </menu>
+    <menu id="10017">
       <phrase id="menutext" value="v 105 lap bayar" />
     </menu>
     <table id="c301_home">

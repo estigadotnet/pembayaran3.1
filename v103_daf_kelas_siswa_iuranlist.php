@@ -56,10 +56,34 @@ fv103_daf_kelas_siswa_iuranlist.validateRequired = <?php echo json_encode(CLIENT
 
 var fv103_daf_kelas_siswa_iuranlistsrch = currentSearchForm = new ew.Form("fv103_daf_kelas_siswa_iuranlistsrch");
 
+// Validate function for search
+fv103_daf_kelas_siswa_iuranlistsrch.validate = function(fobj) {
+	if (!this.validateRequired)
+		return true; // Ignore validation
+	fobj = fobj || this._form;
+	var infix = "";
+
+	// Fire Form_CustomValidate event
+	if (!this.Form_CustomValidate(fobj))
+		return false;
+	return true;
+}
+
+// Form_CustomValidate event
+fv103_daf_kelas_siswa_iuranlistsrch.Form_CustomValidate = function(fobj) { // DO NOT CHANGE THIS LINE!
+
+	// Your custom validation code here, return false if invalid.
+	return true;
+}
+
+// Use JavaScript validation or not
+fv103_daf_kelas_siswa_iuranlistsrch.validateRequired = <?php echo json_encode(CLIENT_VALIDATE) ?>;
+
+// Dynamic selection lists
 // Filters
+
 fv103_daf_kelas_siswa_iuranlistsrch.filterList = <?php echo $v103_daf_kelas_siswa_iuran_list->getFilterList() ?>;
 </script>
-<script src="phpjs/ewscrolltable.js"></script>
 <style type="text/css">
 .ew-table-preview-row { /* main table preview row color */
 	background-color: #FFFFFF; /* preview row color */
@@ -115,21 +139,41 @@ $v103_daf_kelas_siswa_iuran_list->renderOtherOptions();
 <input type="hidden" name="cmd" value="search">
 <input type="hidden" name="t" value="v103_daf_kelas_siswa_iuran">
 	<div class="ew-basic-search">
+<?php
+if ($SearchError == "")
+	$v103_daf_kelas_siswa_iuran_list->LoadAdvancedSearch(); // Load advanced search
+
+// Render for search
+$v103_daf_kelas_siswa_iuran->RowType = ROWTYPE_SEARCH;
+
+// Render row
+$v103_daf_kelas_siswa_iuran->resetAttributes();
+$v103_daf_kelas_siswa_iuran_list->renderRow();
+?>
 <div id="xsr_1" class="ew-row d-sm-flex">
-	<div class="ew-quick-search input-group">
-		<input type="text" name="<?php echo TABLE_BASIC_SEARCH ?>" id="<?php echo TABLE_BASIC_SEARCH ?>" class="form-control" value="<?php echo HtmlEncode($v103_daf_kelas_siswa_iuran_list->BasicSearch->getKeyword()) ?>" placeholder="<?php echo HtmlEncode($Language->phrase("Search")) ?>">
-		<input type="hidden" name="<?php echo TABLE_BASIC_SEARCH_TYPE ?>" id="<?php echo TABLE_BASIC_SEARCH_TYPE ?>" value="<?php echo HtmlEncode($v103_daf_kelas_siswa_iuran_list->BasicSearch->getType()) ?>">
-		<div class="input-group-append">
-			<button class="btn btn-primary" name="btn-submit" id="btn-submit" type="submit"><?php echo $Language->phrase("SearchBtn") ?></button>
-			<button type="button" data-toggle="dropdown" class="btn btn-primary dropdown-toggle dropdown-toggle-split" aria-haspopup="true" aria-expanded="false"><span id="searchtype"><?php echo $v103_daf_kelas_siswa_iuran_list->BasicSearch->getTypeNameShort() ?></span></button>
-			<div class="dropdown-menu dropdown-menu-right">
-				<a class="dropdown-item<?php if ($v103_daf_kelas_siswa_iuran_list->BasicSearch->getType() == "") echo " active"; ?>" href="javascript:void(0);" onclick="ew.setSearchType(this)"><?php echo $Language->phrase("QuickSearchAuto") ?></a>
-				<a class="dropdown-item<?php if ($v103_daf_kelas_siswa_iuran_list->BasicSearch->getType() == "=") echo " active"; ?>" href="javascript:void(0);" onclick="ew.setSearchType(this,'=')"><?php echo $Language->phrase("QuickSearchExact") ?></a>
-				<a class="dropdown-item<?php if ($v103_daf_kelas_siswa_iuran_list->BasicSearch->getType() == "AND") echo " active"; ?>" href="javascript:void(0);" onclick="ew.setSearchType(this,'AND')"><?php echo $Language->phrase("QuickSearchAll") ?></a>
-				<a class="dropdown-item<?php if ($v103_daf_kelas_siswa_iuran_list->BasicSearch->getType() == "OR") echo " active"; ?>" href="javascript:void(0);" onclick="ew.setSearchType(this,'OR')"><?php echo $Language->phrase("QuickSearchAny") ?></a>
-			</div>
-		</div>
+<?php if ($v103_daf_kelas_siswa_iuran->NomorInduk->Visible) { // NomorInduk ?>
+	<div id="xsc_NomorInduk" class="ew-cell form-group">
+		<label for="x_NomorInduk" class="ew-search-caption ew-label"><?php echo $v103_daf_kelas_siswa_iuran->NomorInduk->caption() ?></label>
+		<span class="ew-search-operator"><?php echo $Language->phrase("LIKE") ?><input type="hidden" name="z_NomorInduk" id="z_NomorInduk" value="LIKE"></span>
+		<span class="ew-search-field">
+<input type="text" data-table="v103_daf_kelas_siswa_iuran" data-field="x_NomorInduk" name="x_NomorInduk" id="x_NomorInduk" size="30" maxlength="25" placeholder="<?php echo HtmlEncode($v103_daf_kelas_siswa_iuran->NomorInduk->getPlaceHolder()) ?>" value="<?php echo $v103_daf_kelas_siswa_iuran->NomorInduk->EditValue ?>"<?php echo $v103_daf_kelas_siswa_iuran->NomorInduk->editAttributes() ?>>
+</span>
 	</div>
+<?php } ?>
+</div>
+<div id="xsr_2" class="ew-row d-sm-flex">
+<?php if ($v103_daf_kelas_siswa_iuran->Nama->Visible) { // Nama ?>
+	<div id="xsc_Nama" class="ew-cell form-group">
+		<label for="x_Nama" class="ew-search-caption ew-label"><?php echo $v103_daf_kelas_siswa_iuran->Nama->caption() ?></label>
+		<span class="ew-search-operator"><?php echo $Language->phrase("LIKE") ?><input type="hidden" name="z_Nama" id="z_Nama" value="LIKE"></span>
+		<span class="ew-search-field">
+<input type="text" data-table="v103_daf_kelas_siswa_iuran" data-field="x_Nama" name="x_Nama" id="x_Nama" size="30" maxlength="50" placeholder="<?php echo HtmlEncode($v103_daf_kelas_siswa_iuran->Nama->getPlaceHolder()) ?>" value="<?php echo $v103_daf_kelas_siswa_iuran->Nama->EditValue ?>"<?php echo $v103_daf_kelas_siswa_iuran->Nama->editAttributes() ?>>
+</span>
+	</div>
+<?php } ?>
+</div>
+<div id="xsr_3" class="ew-row d-sm-flex">
+	<button class="btn btn-primary" name="btn-submit" id="btn-submit" type="submit"><?php echo $Language->phrase("SearchBtn") ?></button>
 </div>
 	</div>
 </div>
@@ -163,21 +207,12 @@ $v103_daf_kelas_siswa_iuran_list->renderListOptions();
 // Render list options (header, left)
 $v103_daf_kelas_siswa_iuran_list->ListOptions->render("header", "left");
 ?>
-<?php if ($v103_daf_kelas_siswa_iuran->siswa_id->Visible) { // siswa_id ?>
-	<?php if ($v103_daf_kelas_siswa_iuran->sortUrl($v103_daf_kelas_siswa_iuran->siswa_id) == "") { ?>
-		<th data-name="siswa_id" class="<?php echo $v103_daf_kelas_siswa_iuran->siswa_id->headerCellClass() ?>"><div id="elh_v103_daf_kelas_siswa_iuran_siswa_id" class="v103_daf_kelas_siswa_iuran_siswa_id"><div class="ew-table-header-caption"><?php echo $v103_daf_kelas_siswa_iuran->siswa_id->caption() ?></div></div></th>
-	<?php } else { ?>
-		<th data-name="siswa_id" class="<?php echo $v103_daf_kelas_siswa_iuran->siswa_id->headerCellClass() ?>"><div class="ew-pointer" onclick="ew.sort(event,'<?php echo $v103_daf_kelas_siswa_iuran->SortUrl($v103_daf_kelas_siswa_iuran->siswa_id) ?>',2);"><div id="elh_v103_daf_kelas_siswa_iuran_siswa_id" class="v103_daf_kelas_siswa_iuran_siswa_id">
-			<div class="ew-table-header-btn"><span class="ew-table-header-caption"><?php echo $v103_daf_kelas_siswa_iuran->siswa_id->caption() ?></span><span class="ew-table-header-sort"><?php if ($v103_daf_kelas_siswa_iuran->siswa_id->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($v103_daf_kelas_siswa_iuran->siswa_id->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span></div>
-		</div></div></th>
-	<?php } ?>
-<?php } ?>
 <?php if ($v103_daf_kelas_siswa_iuran->NomorInduk->Visible) { // NomorInduk ?>
 	<?php if ($v103_daf_kelas_siswa_iuran->sortUrl($v103_daf_kelas_siswa_iuran->NomorInduk) == "") { ?>
 		<th data-name="NomorInduk" class="<?php echo $v103_daf_kelas_siswa_iuran->NomorInduk->headerCellClass() ?>"><div id="elh_v103_daf_kelas_siswa_iuran_NomorInduk" class="v103_daf_kelas_siswa_iuran_NomorInduk"><div class="ew-table-header-caption"><?php echo $v103_daf_kelas_siswa_iuran->NomorInduk->caption() ?></div></div></th>
 	<?php } else { ?>
 		<th data-name="NomorInduk" class="<?php echo $v103_daf_kelas_siswa_iuran->NomorInduk->headerCellClass() ?>"><div class="ew-pointer" onclick="ew.sort(event,'<?php echo $v103_daf_kelas_siswa_iuran->SortUrl($v103_daf_kelas_siswa_iuran->NomorInduk) ?>',2);"><div id="elh_v103_daf_kelas_siswa_iuran_NomorInduk" class="v103_daf_kelas_siswa_iuran_NomorInduk">
-			<div class="ew-table-header-btn"><span class="ew-table-header-caption"><?php echo $v103_daf_kelas_siswa_iuran->NomorInduk->caption() ?><?php echo $Language->phrase("SrchLegend") ?></span><span class="ew-table-header-sort"><?php if ($v103_daf_kelas_siswa_iuran->NomorInduk->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($v103_daf_kelas_siswa_iuran->NomorInduk->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span></div>
+			<div class="ew-table-header-btn"><span class="ew-table-header-caption"><?php echo $v103_daf_kelas_siswa_iuran->NomorInduk->caption() ?></span><span class="ew-table-header-sort"><?php if ($v103_daf_kelas_siswa_iuran->NomorInduk->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($v103_daf_kelas_siswa_iuran->NomorInduk->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span></div>
 		</div></div></th>
 	<?php } ?>
 <?php } ?>
@@ -186,7 +221,7 @@ $v103_daf_kelas_siswa_iuran_list->ListOptions->render("header", "left");
 		<th data-name="Nama" class="<?php echo $v103_daf_kelas_siswa_iuran->Nama->headerCellClass() ?>"><div id="elh_v103_daf_kelas_siswa_iuran_Nama" class="v103_daf_kelas_siswa_iuran_Nama"><div class="ew-table-header-caption"><?php echo $v103_daf_kelas_siswa_iuran->Nama->caption() ?></div></div></th>
 	<?php } else { ?>
 		<th data-name="Nama" class="<?php echo $v103_daf_kelas_siswa_iuran->Nama->headerCellClass() ?>"><div class="ew-pointer" onclick="ew.sort(event,'<?php echo $v103_daf_kelas_siswa_iuran->SortUrl($v103_daf_kelas_siswa_iuran->Nama) ?>',2);"><div id="elh_v103_daf_kelas_siswa_iuran_Nama" class="v103_daf_kelas_siswa_iuran_Nama">
-			<div class="ew-table-header-btn"><span class="ew-table-header-caption"><?php echo $v103_daf_kelas_siswa_iuran->Nama->caption() ?><?php echo $Language->phrase("SrchLegend") ?></span><span class="ew-table-header-sort"><?php if ($v103_daf_kelas_siswa_iuran->Nama->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($v103_daf_kelas_siswa_iuran->Nama->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span></div>
+			<div class="ew-table-header-btn"><span class="ew-table-header-caption"><?php echo $v103_daf_kelas_siswa_iuran->Nama->caption() ?></span><span class="ew-table-header-sort"><?php if ($v103_daf_kelas_siswa_iuran->Nama->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($v103_daf_kelas_siswa_iuran->Nama->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span></div>
 		</div></div></th>
 	<?php } ?>
 <?php } ?>
@@ -255,14 +290,6 @@ while ($v103_daf_kelas_siswa_iuran_list->RecCnt < $v103_daf_kelas_siswa_iuran_li
 // Render list options (body, left)
 $v103_daf_kelas_siswa_iuran_list->ListOptions->render("body", "left", $v103_daf_kelas_siswa_iuran_list->RowCnt);
 ?>
-	<?php if ($v103_daf_kelas_siswa_iuran->siswa_id->Visible) { // siswa_id ?>
-		<td data-name="siswa_id"<?php echo $v103_daf_kelas_siswa_iuran->siswa_id->cellAttributes() ?>>
-<span id="el<?php echo $v103_daf_kelas_siswa_iuran_list->RowCnt ?>_v103_daf_kelas_siswa_iuran_siswa_id" class="v103_daf_kelas_siswa_iuran_siswa_id">
-<span<?php echo $v103_daf_kelas_siswa_iuran->siswa_id->viewAttributes() ?>>
-<?php echo $v103_daf_kelas_siswa_iuran->siswa_id->getViewValue() ?></span>
-</span>
-</td>
-	<?php } ?>
 	<?php if ($v103_daf_kelas_siswa_iuran->NomorInduk->Visible) { // NomorInduk ?>
 		<td data-name="NomorInduk"<?php echo $v103_daf_kelas_siswa_iuran->NomorInduk->cellAttributes() ?>>
 <span id="el<?php echo $v103_daf_kelas_siswa_iuran_list->RowCnt ?>_v103_daf_kelas_siswa_iuran_NomorInduk" class="v103_daf_kelas_siswa_iuran_NomorInduk">
@@ -395,11 +422,6 @@ if (DEBUG_ENABLED)
 // document.write("page loaded");
 
 </script>
-<?php if (!$v103_daf_kelas_siswa_iuran->isExport()) { ?>
-<script>
-ew.scrollableTable("gmp_v103_daf_kelas_siswa_iuran", "100%", "100%");
-</script>
-<?php } ?>
 <?php } ?>
 <?php include_once "footer.php" ?>
 <?php

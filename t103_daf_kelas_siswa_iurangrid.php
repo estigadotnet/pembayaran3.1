@@ -1445,7 +1445,7 @@ $selwrk = (ConvertToBool($t103_daf_kelas_siswa_iuran->byr05->CurrentValue)) ? " 
 		<td data-name="tgl05"<?php echo $t103_daf_kelas_siswa_iuran->tgl05->cellAttributes() ?>>
 <?php if ($t103_daf_kelas_siswa_iuran->RowType == ROWTYPE_ADD) { // Add record ?>
 <span id="el<?php echo $t103_daf_kelas_siswa_iuran_grid->RowCnt ?>_t103_daf_kelas_siswa_iuran_tgl05" class="form-group t103_daf_kelas_siswa_iuran_tgl05">
-<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl05" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl05" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl05" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl05->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl05->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl05->editAttributes() ?>>
+<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl05" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl05" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl05" size="10" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl05->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl05->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl05->editAttributes() ?>>
 <?php if (!$t103_daf_kelas_siswa_iuran->tgl05->ReadOnly && !$t103_daf_kelas_siswa_iuran->tgl05->Disabled && !isset($t103_daf_kelas_siswa_iuran->tgl05->EditAttrs["readonly"]) && !isset($t103_daf_kelas_siswa_iuran->tgl05->EditAttrs["disabled"])) { ?>
 <script>
 ew.createDateTimePicker("ft103_daf_kelas_siswa_iurangrid", "x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl05", {"ignoreReadonly":true,"useCurrent":false,"format":7});
@@ -1456,7 +1456,7 @@ ew.createDateTimePicker("ft103_daf_kelas_siswa_iurangrid", "x<?php echo $t103_da
 <?php } ?>
 <?php if ($t103_daf_kelas_siswa_iuran->RowType == ROWTYPE_EDIT) { // Edit record ?>
 <span id="el<?php echo $t103_daf_kelas_siswa_iuran_grid->RowCnt ?>_t103_daf_kelas_siswa_iuran_tgl05" class="form-group t103_daf_kelas_siswa_iuran_tgl05">
-<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl05" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl05" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl05" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl05->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl05->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl05->editAttributes() ?>>
+<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl05" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl05" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl05" size="10" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl05->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl05->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl05->editAttributes() ?>>
 <?php if (!$t103_daf_kelas_siswa_iuran->tgl05->ReadOnly && !$t103_daf_kelas_siswa_iuran->tgl05->Disabled && !isset($t103_daf_kelas_siswa_iuran->tgl05->EditAttrs["readonly"]) && !isset($t103_daf_kelas_siswa_iuran->tgl05->EditAttrs["disabled"])) { ?>
 <script>
 ew.createDateTimePicker("ft103_daf_kelas_siswa_iurangrid", "x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl05", {"ignoreReadonly":true,"useCurrent":false,"format":7});
@@ -1550,7 +1550,7 @@ $selwrk = (ConvertToBool($t103_daf_kelas_siswa_iuran->byr06->CurrentValue)) ? " 
 		<td data-name="tgl06"<?php echo $t103_daf_kelas_siswa_iuran->tgl06->cellAttributes() ?>>
 <?php if ($t103_daf_kelas_siswa_iuran->RowType == ROWTYPE_ADD) { // Add record ?>
 <span id="el<?php echo $t103_daf_kelas_siswa_iuran_grid->RowCnt ?>_t103_daf_kelas_siswa_iuran_tgl06" class="form-group t103_daf_kelas_siswa_iuran_tgl06">
-<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl06" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl06" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl06" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl06->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl06->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl06->editAttributes() ?>>
+<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl06" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl06" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl06" size="10" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl06->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl06->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl06->editAttributes() ?>>
 <?php if (!$t103_daf_kelas_siswa_iuran->tgl06->ReadOnly && !$t103_daf_kelas_siswa_iuran->tgl06->Disabled && !isset($t103_daf_kelas_siswa_iuran->tgl06->EditAttrs["readonly"]) && !isset($t103_daf_kelas_siswa_iuran->tgl06->EditAttrs["disabled"])) { ?>
 <script>
 ew.createDateTimePicker("ft103_daf_kelas_siswa_iurangrid", "x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl06", {"ignoreReadonly":true,"useCurrent":false,"format":7});
@@ -1561,7 +1561,7 @@ ew.createDateTimePicker("ft103_daf_kelas_siswa_iurangrid", "x<?php echo $t103_da
 <?php } ?>
 <?php if ($t103_daf_kelas_siswa_iuran->RowType == ROWTYPE_EDIT) { // Edit record ?>
 <span id="el<?php echo $t103_daf_kelas_siswa_iuran_grid->RowCnt ?>_t103_daf_kelas_siswa_iuran_tgl06" class="form-group t103_daf_kelas_siswa_iuran_tgl06">
-<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl06" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl06" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl06" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl06->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl06->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl06->editAttributes() ?>>
+<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl06" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl06" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl06" size="10" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl06->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl06->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl06->editAttributes() ?>>
 <?php if (!$t103_daf_kelas_siswa_iuran->tgl06->ReadOnly && !$t103_daf_kelas_siswa_iuran->tgl06->Disabled && !isset($t103_daf_kelas_siswa_iuran->tgl06->EditAttrs["readonly"]) && !isset($t103_daf_kelas_siswa_iuran->tgl06->EditAttrs["disabled"])) { ?>
 <script>
 ew.createDateTimePicker("ft103_daf_kelas_siswa_iurangrid", "x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl06", {"ignoreReadonly":true,"useCurrent":false,"format":7});
@@ -1655,7 +1655,7 @@ $selwrk = (ConvertToBool($t103_daf_kelas_siswa_iuran->byr07->CurrentValue)) ? " 
 		<td data-name="tgl07"<?php echo $t103_daf_kelas_siswa_iuran->tgl07->cellAttributes() ?>>
 <?php if ($t103_daf_kelas_siswa_iuran->RowType == ROWTYPE_ADD) { // Add record ?>
 <span id="el<?php echo $t103_daf_kelas_siswa_iuran_grid->RowCnt ?>_t103_daf_kelas_siswa_iuran_tgl07" class="form-group t103_daf_kelas_siswa_iuran_tgl07">
-<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl07" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl07" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl07" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl07->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl07->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl07->editAttributes() ?>>
+<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl07" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl07" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl07" size="10" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl07->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl07->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl07->editAttributes() ?>>
 <?php if (!$t103_daf_kelas_siswa_iuran->tgl07->ReadOnly && !$t103_daf_kelas_siswa_iuran->tgl07->Disabled && !isset($t103_daf_kelas_siswa_iuran->tgl07->EditAttrs["readonly"]) && !isset($t103_daf_kelas_siswa_iuran->tgl07->EditAttrs["disabled"])) { ?>
 <script>
 ew.createDateTimePicker("ft103_daf_kelas_siswa_iurangrid", "x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl07", {"ignoreReadonly":true,"useCurrent":false,"format":7});
@@ -1666,7 +1666,7 @@ ew.createDateTimePicker("ft103_daf_kelas_siswa_iurangrid", "x<?php echo $t103_da
 <?php } ?>
 <?php if ($t103_daf_kelas_siswa_iuran->RowType == ROWTYPE_EDIT) { // Edit record ?>
 <span id="el<?php echo $t103_daf_kelas_siswa_iuran_grid->RowCnt ?>_t103_daf_kelas_siswa_iuran_tgl07" class="form-group t103_daf_kelas_siswa_iuran_tgl07">
-<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl07" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl07" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl07" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl07->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl07->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl07->editAttributes() ?>>
+<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl07" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl07" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl07" size="10" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl07->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl07->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl07->editAttributes() ?>>
 <?php if (!$t103_daf_kelas_siswa_iuran->tgl07->ReadOnly && !$t103_daf_kelas_siswa_iuran->tgl07->Disabled && !isset($t103_daf_kelas_siswa_iuran->tgl07->EditAttrs["readonly"]) && !isset($t103_daf_kelas_siswa_iuran->tgl07->EditAttrs["disabled"])) { ?>
 <script>
 ew.createDateTimePicker("ft103_daf_kelas_siswa_iurangrid", "x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl07", {"ignoreReadonly":true,"useCurrent":false,"format":7});
@@ -1760,7 +1760,7 @@ $selwrk = (ConvertToBool($t103_daf_kelas_siswa_iuran->byr08->CurrentValue)) ? " 
 		<td data-name="tgl08"<?php echo $t103_daf_kelas_siswa_iuran->tgl08->cellAttributes() ?>>
 <?php if ($t103_daf_kelas_siswa_iuran->RowType == ROWTYPE_ADD) { // Add record ?>
 <span id="el<?php echo $t103_daf_kelas_siswa_iuran_grid->RowCnt ?>_t103_daf_kelas_siswa_iuran_tgl08" class="form-group t103_daf_kelas_siswa_iuran_tgl08">
-<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl08" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl08" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl08" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl08->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl08->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl08->editAttributes() ?>>
+<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl08" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl08" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl08" size="10" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl08->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl08->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl08->editAttributes() ?>>
 <?php if (!$t103_daf_kelas_siswa_iuran->tgl08->ReadOnly && !$t103_daf_kelas_siswa_iuran->tgl08->Disabled && !isset($t103_daf_kelas_siswa_iuran->tgl08->EditAttrs["readonly"]) && !isset($t103_daf_kelas_siswa_iuran->tgl08->EditAttrs["disabled"])) { ?>
 <script>
 ew.createDateTimePicker("ft103_daf_kelas_siswa_iurangrid", "x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl08", {"ignoreReadonly":true,"useCurrent":false,"format":7});
@@ -1771,7 +1771,7 @@ ew.createDateTimePicker("ft103_daf_kelas_siswa_iurangrid", "x<?php echo $t103_da
 <?php } ?>
 <?php if ($t103_daf_kelas_siswa_iuran->RowType == ROWTYPE_EDIT) { // Edit record ?>
 <span id="el<?php echo $t103_daf_kelas_siswa_iuran_grid->RowCnt ?>_t103_daf_kelas_siswa_iuran_tgl08" class="form-group t103_daf_kelas_siswa_iuran_tgl08">
-<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl08" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl08" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl08" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl08->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl08->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl08->editAttributes() ?>>
+<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl08" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl08" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl08" size="10" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl08->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl08->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl08->editAttributes() ?>>
 <?php if (!$t103_daf_kelas_siswa_iuran->tgl08->ReadOnly && !$t103_daf_kelas_siswa_iuran->tgl08->Disabled && !isset($t103_daf_kelas_siswa_iuran->tgl08->EditAttrs["readonly"]) && !isset($t103_daf_kelas_siswa_iuran->tgl08->EditAttrs["disabled"])) { ?>
 <script>
 ew.createDateTimePicker("ft103_daf_kelas_siswa_iurangrid", "x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl08", {"ignoreReadonly":true,"useCurrent":false,"format":7});
@@ -1865,7 +1865,7 @@ $selwrk = (ConvertToBool($t103_daf_kelas_siswa_iuran->byr09->CurrentValue)) ? " 
 		<td data-name="tgl09"<?php echo $t103_daf_kelas_siswa_iuran->tgl09->cellAttributes() ?>>
 <?php if ($t103_daf_kelas_siswa_iuran->RowType == ROWTYPE_ADD) { // Add record ?>
 <span id="el<?php echo $t103_daf_kelas_siswa_iuran_grid->RowCnt ?>_t103_daf_kelas_siswa_iuran_tgl09" class="form-group t103_daf_kelas_siswa_iuran_tgl09">
-<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl09" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl09" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl09" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl09->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl09->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl09->editAttributes() ?>>
+<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl09" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl09" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl09" size="10" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl09->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl09->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl09->editAttributes() ?>>
 <?php if (!$t103_daf_kelas_siswa_iuran->tgl09->ReadOnly && !$t103_daf_kelas_siswa_iuran->tgl09->Disabled && !isset($t103_daf_kelas_siswa_iuran->tgl09->EditAttrs["readonly"]) && !isset($t103_daf_kelas_siswa_iuran->tgl09->EditAttrs["disabled"])) { ?>
 <script>
 ew.createDateTimePicker("ft103_daf_kelas_siswa_iurangrid", "x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl09", {"ignoreReadonly":true,"useCurrent":false,"format":7});
@@ -1876,7 +1876,7 @@ ew.createDateTimePicker("ft103_daf_kelas_siswa_iurangrid", "x<?php echo $t103_da
 <?php } ?>
 <?php if ($t103_daf_kelas_siswa_iuran->RowType == ROWTYPE_EDIT) { // Edit record ?>
 <span id="el<?php echo $t103_daf_kelas_siswa_iuran_grid->RowCnt ?>_t103_daf_kelas_siswa_iuran_tgl09" class="form-group t103_daf_kelas_siswa_iuran_tgl09">
-<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl09" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl09" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl09" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl09->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl09->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl09->editAttributes() ?>>
+<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl09" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl09" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl09" size="10" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl09->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl09->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl09->editAttributes() ?>>
 <?php if (!$t103_daf_kelas_siswa_iuran->tgl09->ReadOnly && !$t103_daf_kelas_siswa_iuran->tgl09->Disabled && !isset($t103_daf_kelas_siswa_iuran->tgl09->EditAttrs["readonly"]) && !isset($t103_daf_kelas_siswa_iuran->tgl09->EditAttrs["disabled"])) { ?>
 <script>
 ew.createDateTimePicker("ft103_daf_kelas_siswa_iurangrid", "x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl09", {"ignoreReadonly":true,"useCurrent":false,"format":7});
@@ -1970,7 +1970,7 @@ $selwrk = (ConvertToBool($t103_daf_kelas_siswa_iuran->byr10->CurrentValue)) ? " 
 		<td data-name="tgl10"<?php echo $t103_daf_kelas_siswa_iuran->tgl10->cellAttributes() ?>>
 <?php if ($t103_daf_kelas_siswa_iuran->RowType == ROWTYPE_ADD) { // Add record ?>
 <span id="el<?php echo $t103_daf_kelas_siswa_iuran_grid->RowCnt ?>_t103_daf_kelas_siswa_iuran_tgl10" class="form-group t103_daf_kelas_siswa_iuran_tgl10">
-<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl10" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl10" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl10" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl10->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl10->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl10->editAttributes() ?>>
+<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl10" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl10" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl10" size="10" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl10->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl10->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl10->editAttributes() ?>>
 <?php if (!$t103_daf_kelas_siswa_iuran->tgl10->ReadOnly && !$t103_daf_kelas_siswa_iuran->tgl10->Disabled && !isset($t103_daf_kelas_siswa_iuran->tgl10->EditAttrs["readonly"]) && !isset($t103_daf_kelas_siswa_iuran->tgl10->EditAttrs["disabled"])) { ?>
 <script>
 ew.createDateTimePicker("ft103_daf_kelas_siswa_iurangrid", "x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl10", {"ignoreReadonly":true,"useCurrent":false,"format":7});
@@ -1981,7 +1981,7 @@ ew.createDateTimePicker("ft103_daf_kelas_siswa_iurangrid", "x<?php echo $t103_da
 <?php } ?>
 <?php if ($t103_daf_kelas_siswa_iuran->RowType == ROWTYPE_EDIT) { // Edit record ?>
 <span id="el<?php echo $t103_daf_kelas_siswa_iuran_grid->RowCnt ?>_t103_daf_kelas_siswa_iuran_tgl10" class="form-group t103_daf_kelas_siswa_iuran_tgl10">
-<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl10" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl10" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl10" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl10->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl10->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl10->editAttributes() ?>>
+<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl10" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl10" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl10" size="10" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl10->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl10->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl10->editAttributes() ?>>
 <?php if (!$t103_daf_kelas_siswa_iuran->tgl10->ReadOnly && !$t103_daf_kelas_siswa_iuran->tgl10->Disabled && !isset($t103_daf_kelas_siswa_iuran->tgl10->EditAttrs["readonly"]) && !isset($t103_daf_kelas_siswa_iuran->tgl10->EditAttrs["disabled"])) { ?>
 <script>
 ew.createDateTimePicker("ft103_daf_kelas_siswa_iurangrid", "x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl10", {"ignoreReadonly":true,"useCurrent":false,"format":7});
@@ -2075,7 +2075,7 @@ $selwrk = (ConvertToBool($t103_daf_kelas_siswa_iuran->byr11->CurrentValue)) ? " 
 		<td data-name="tgl11"<?php echo $t103_daf_kelas_siswa_iuran->tgl11->cellAttributes() ?>>
 <?php if ($t103_daf_kelas_siswa_iuran->RowType == ROWTYPE_ADD) { // Add record ?>
 <span id="el<?php echo $t103_daf_kelas_siswa_iuran_grid->RowCnt ?>_t103_daf_kelas_siswa_iuran_tgl11" class="form-group t103_daf_kelas_siswa_iuran_tgl11">
-<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl11" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl11" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl11" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl11->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl11->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl11->editAttributes() ?>>
+<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl11" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl11" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl11" size="10" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl11->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl11->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl11->editAttributes() ?>>
 <?php if (!$t103_daf_kelas_siswa_iuran->tgl11->ReadOnly && !$t103_daf_kelas_siswa_iuran->tgl11->Disabled && !isset($t103_daf_kelas_siswa_iuran->tgl11->EditAttrs["readonly"]) && !isset($t103_daf_kelas_siswa_iuran->tgl11->EditAttrs["disabled"])) { ?>
 <script>
 ew.createDateTimePicker("ft103_daf_kelas_siswa_iurangrid", "x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl11", {"ignoreReadonly":true,"useCurrent":false,"format":7});
@@ -2086,7 +2086,7 @@ ew.createDateTimePicker("ft103_daf_kelas_siswa_iurangrid", "x<?php echo $t103_da
 <?php } ?>
 <?php if ($t103_daf_kelas_siswa_iuran->RowType == ROWTYPE_EDIT) { // Edit record ?>
 <span id="el<?php echo $t103_daf_kelas_siswa_iuran_grid->RowCnt ?>_t103_daf_kelas_siswa_iuran_tgl11" class="form-group t103_daf_kelas_siswa_iuran_tgl11">
-<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl11" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl11" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl11" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl11->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl11->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl11->editAttributes() ?>>
+<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl11" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl11" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl11" size="10" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl11->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl11->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl11->editAttributes() ?>>
 <?php if (!$t103_daf_kelas_siswa_iuran->tgl11->ReadOnly && !$t103_daf_kelas_siswa_iuran->tgl11->Disabled && !isset($t103_daf_kelas_siswa_iuran->tgl11->EditAttrs["readonly"]) && !isset($t103_daf_kelas_siswa_iuran->tgl11->EditAttrs["disabled"])) { ?>
 <script>
 ew.createDateTimePicker("ft103_daf_kelas_siswa_iurangrid", "x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl11", {"ignoreReadonly":true,"useCurrent":false,"format":7});
@@ -2180,7 +2180,7 @@ $selwrk = (ConvertToBool($t103_daf_kelas_siswa_iuran->byr12->CurrentValue)) ? " 
 		<td data-name="tgl12"<?php echo $t103_daf_kelas_siswa_iuran->tgl12->cellAttributes() ?>>
 <?php if ($t103_daf_kelas_siswa_iuran->RowType == ROWTYPE_ADD) { // Add record ?>
 <span id="el<?php echo $t103_daf_kelas_siswa_iuran_grid->RowCnt ?>_t103_daf_kelas_siswa_iuran_tgl12" class="form-group t103_daf_kelas_siswa_iuran_tgl12">
-<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl12" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl12" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl12" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl12->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl12->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl12->editAttributes() ?>>
+<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl12" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl12" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl12" size="10" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl12->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl12->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl12->editAttributes() ?>>
 <?php if (!$t103_daf_kelas_siswa_iuran->tgl12->ReadOnly && !$t103_daf_kelas_siswa_iuran->tgl12->Disabled && !isset($t103_daf_kelas_siswa_iuran->tgl12->EditAttrs["readonly"]) && !isset($t103_daf_kelas_siswa_iuran->tgl12->EditAttrs["disabled"])) { ?>
 <script>
 ew.createDateTimePicker("ft103_daf_kelas_siswa_iurangrid", "x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl12", {"ignoreReadonly":true,"useCurrent":false,"format":7});
@@ -2191,7 +2191,7 @@ ew.createDateTimePicker("ft103_daf_kelas_siswa_iurangrid", "x<?php echo $t103_da
 <?php } ?>
 <?php if ($t103_daf_kelas_siswa_iuran->RowType == ROWTYPE_EDIT) { // Edit record ?>
 <span id="el<?php echo $t103_daf_kelas_siswa_iuran_grid->RowCnt ?>_t103_daf_kelas_siswa_iuran_tgl12" class="form-group t103_daf_kelas_siswa_iuran_tgl12">
-<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl12" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl12" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl12" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl12->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl12->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl12->editAttributes() ?>>
+<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl12" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl12" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl12" size="10" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl12->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl12->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl12->editAttributes() ?>>
 <?php if (!$t103_daf_kelas_siswa_iuran->tgl12->ReadOnly && !$t103_daf_kelas_siswa_iuran->tgl12->Disabled && !isset($t103_daf_kelas_siswa_iuran->tgl12->EditAttrs["readonly"]) && !isset($t103_daf_kelas_siswa_iuran->tgl12->EditAttrs["disabled"])) { ?>
 <script>
 ew.createDateTimePicker("ft103_daf_kelas_siswa_iurangrid", "x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl12", {"ignoreReadonly":true,"useCurrent":false,"format":7});
@@ -2582,7 +2582,7 @@ $selwrk = (ConvertToBool($t103_daf_kelas_siswa_iuran->byr05->CurrentValue)) ? " 
 		<td data-name="tgl05">
 <?php if (!$t103_daf_kelas_siswa_iuran->isConfirm()) { ?>
 <span id="el$rowindex$_t103_daf_kelas_siswa_iuran_tgl05" class="form-group t103_daf_kelas_siswa_iuran_tgl05">
-<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl05" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl05" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl05" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl05->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl05->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl05->editAttributes() ?>>
+<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl05" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl05" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl05" size="10" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl05->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl05->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl05->editAttributes() ?>>
 <?php if (!$t103_daf_kelas_siswa_iuran->tgl05->ReadOnly && !$t103_daf_kelas_siswa_iuran->tgl05->Disabled && !isset($t103_daf_kelas_siswa_iuran->tgl05->EditAttrs["readonly"]) && !isset($t103_daf_kelas_siswa_iuran->tgl05->EditAttrs["disabled"])) { ?>
 <script>
 ew.createDateTimePicker("ft103_daf_kelas_siswa_iurangrid", "x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl05", {"ignoreReadonly":true,"useCurrent":false,"format":7});
@@ -2643,7 +2643,7 @@ $selwrk = (ConvertToBool($t103_daf_kelas_siswa_iuran->byr06->CurrentValue)) ? " 
 		<td data-name="tgl06">
 <?php if (!$t103_daf_kelas_siswa_iuran->isConfirm()) { ?>
 <span id="el$rowindex$_t103_daf_kelas_siswa_iuran_tgl06" class="form-group t103_daf_kelas_siswa_iuran_tgl06">
-<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl06" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl06" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl06" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl06->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl06->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl06->editAttributes() ?>>
+<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl06" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl06" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl06" size="10" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl06->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl06->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl06->editAttributes() ?>>
 <?php if (!$t103_daf_kelas_siswa_iuran->tgl06->ReadOnly && !$t103_daf_kelas_siswa_iuran->tgl06->Disabled && !isset($t103_daf_kelas_siswa_iuran->tgl06->EditAttrs["readonly"]) && !isset($t103_daf_kelas_siswa_iuran->tgl06->EditAttrs["disabled"])) { ?>
 <script>
 ew.createDateTimePicker("ft103_daf_kelas_siswa_iurangrid", "x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl06", {"ignoreReadonly":true,"useCurrent":false,"format":7});
@@ -2704,7 +2704,7 @@ $selwrk = (ConvertToBool($t103_daf_kelas_siswa_iuran->byr07->CurrentValue)) ? " 
 		<td data-name="tgl07">
 <?php if (!$t103_daf_kelas_siswa_iuran->isConfirm()) { ?>
 <span id="el$rowindex$_t103_daf_kelas_siswa_iuran_tgl07" class="form-group t103_daf_kelas_siswa_iuran_tgl07">
-<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl07" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl07" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl07" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl07->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl07->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl07->editAttributes() ?>>
+<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl07" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl07" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl07" size="10" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl07->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl07->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl07->editAttributes() ?>>
 <?php if (!$t103_daf_kelas_siswa_iuran->tgl07->ReadOnly && !$t103_daf_kelas_siswa_iuran->tgl07->Disabled && !isset($t103_daf_kelas_siswa_iuran->tgl07->EditAttrs["readonly"]) && !isset($t103_daf_kelas_siswa_iuran->tgl07->EditAttrs["disabled"])) { ?>
 <script>
 ew.createDateTimePicker("ft103_daf_kelas_siswa_iurangrid", "x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl07", {"ignoreReadonly":true,"useCurrent":false,"format":7});
@@ -2765,7 +2765,7 @@ $selwrk = (ConvertToBool($t103_daf_kelas_siswa_iuran->byr08->CurrentValue)) ? " 
 		<td data-name="tgl08">
 <?php if (!$t103_daf_kelas_siswa_iuran->isConfirm()) { ?>
 <span id="el$rowindex$_t103_daf_kelas_siswa_iuran_tgl08" class="form-group t103_daf_kelas_siswa_iuran_tgl08">
-<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl08" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl08" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl08" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl08->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl08->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl08->editAttributes() ?>>
+<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl08" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl08" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl08" size="10" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl08->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl08->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl08->editAttributes() ?>>
 <?php if (!$t103_daf_kelas_siswa_iuran->tgl08->ReadOnly && !$t103_daf_kelas_siswa_iuran->tgl08->Disabled && !isset($t103_daf_kelas_siswa_iuran->tgl08->EditAttrs["readonly"]) && !isset($t103_daf_kelas_siswa_iuran->tgl08->EditAttrs["disabled"])) { ?>
 <script>
 ew.createDateTimePicker("ft103_daf_kelas_siswa_iurangrid", "x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl08", {"ignoreReadonly":true,"useCurrent":false,"format":7});
@@ -2826,7 +2826,7 @@ $selwrk = (ConvertToBool($t103_daf_kelas_siswa_iuran->byr09->CurrentValue)) ? " 
 		<td data-name="tgl09">
 <?php if (!$t103_daf_kelas_siswa_iuran->isConfirm()) { ?>
 <span id="el$rowindex$_t103_daf_kelas_siswa_iuran_tgl09" class="form-group t103_daf_kelas_siswa_iuran_tgl09">
-<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl09" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl09" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl09" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl09->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl09->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl09->editAttributes() ?>>
+<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl09" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl09" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl09" size="10" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl09->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl09->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl09->editAttributes() ?>>
 <?php if (!$t103_daf_kelas_siswa_iuran->tgl09->ReadOnly && !$t103_daf_kelas_siswa_iuran->tgl09->Disabled && !isset($t103_daf_kelas_siswa_iuran->tgl09->EditAttrs["readonly"]) && !isset($t103_daf_kelas_siswa_iuran->tgl09->EditAttrs["disabled"])) { ?>
 <script>
 ew.createDateTimePicker("ft103_daf_kelas_siswa_iurangrid", "x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl09", {"ignoreReadonly":true,"useCurrent":false,"format":7});
@@ -2887,7 +2887,7 @@ $selwrk = (ConvertToBool($t103_daf_kelas_siswa_iuran->byr10->CurrentValue)) ? " 
 		<td data-name="tgl10">
 <?php if (!$t103_daf_kelas_siswa_iuran->isConfirm()) { ?>
 <span id="el$rowindex$_t103_daf_kelas_siswa_iuran_tgl10" class="form-group t103_daf_kelas_siswa_iuran_tgl10">
-<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl10" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl10" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl10" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl10->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl10->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl10->editAttributes() ?>>
+<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl10" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl10" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl10" size="10" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl10->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl10->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl10->editAttributes() ?>>
 <?php if (!$t103_daf_kelas_siswa_iuran->tgl10->ReadOnly && !$t103_daf_kelas_siswa_iuran->tgl10->Disabled && !isset($t103_daf_kelas_siswa_iuran->tgl10->EditAttrs["readonly"]) && !isset($t103_daf_kelas_siswa_iuran->tgl10->EditAttrs["disabled"])) { ?>
 <script>
 ew.createDateTimePicker("ft103_daf_kelas_siswa_iurangrid", "x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl10", {"ignoreReadonly":true,"useCurrent":false,"format":7});
@@ -2948,7 +2948,7 @@ $selwrk = (ConvertToBool($t103_daf_kelas_siswa_iuran->byr11->CurrentValue)) ? " 
 		<td data-name="tgl11">
 <?php if (!$t103_daf_kelas_siswa_iuran->isConfirm()) { ?>
 <span id="el$rowindex$_t103_daf_kelas_siswa_iuran_tgl11" class="form-group t103_daf_kelas_siswa_iuran_tgl11">
-<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl11" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl11" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl11" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl11->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl11->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl11->editAttributes() ?>>
+<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl11" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl11" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl11" size="10" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl11->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl11->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl11->editAttributes() ?>>
 <?php if (!$t103_daf_kelas_siswa_iuran->tgl11->ReadOnly && !$t103_daf_kelas_siswa_iuran->tgl11->Disabled && !isset($t103_daf_kelas_siswa_iuran->tgl11->EditAttrs["readonly"]) && !isset($t103_daf_kelas_siswa_iuran->tgl11->EditAttrs["disabled"])) { ?>
 <script>
 ew.createDateTimePicker("ft103_daf_kelas_siswa_iurangrid", "x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl11", {"ignoreReadonly":true,"useCurrent":false,"format":7});
@@ -3009,7 +3009,7 @@ $selwrk = (ConvertToBool($t103_daf_kelas_siswa_iuran->byr12->CurrentValue)) ? " 
 		<td data-name="tgl12">
 <?php if (!$t103_daf_kelas_siswa_iuran->isConfirm()) { ?>
 <span id="el$rowindex$_t103_daf_kelas_siswa_iuran_tgl12" class="form-group t103_daf_kelas_siswa_iuran_tgl12">
-<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl12" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl12" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl12" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl12->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl12->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl12->editAttributes() ?>>
+<input type="text" data-table="t103_daf_kelas_siswa_iuran" data-field="x_tgl12" data-format="7" name="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl12" id="x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl12" size="10" placeholder="<?php echo HtmlEncode($t103_daf_kelas_siswa_iuran->tgl12->getPlaceHolder()) ?>" value="<?php echo $t103_daf_kelas_siswa_iuran->tgl12->EditValue ?>"<?php echo $t103_daf_kelas_siswa_iuran->tgl12->editAttributes() ?>>
 <?php if (!$t103_daf_kelas_siswa_iuran->tgl12->ReadOnly && !$t103_daf_kelas_siswa_iuran->tgl12->Disabled && !isset($t103_daf_kelas_siswa_iuran->tgl12->EditAttrs["readonly"]) && !isset($t103_daf_kelas_siswa_iuran->tgl12->EditAttrs["disabled"])) { ?>
 <script>
 ew.createDateTimePicker("ft103_daf_kelas_siswa_iurangrid", "x<?php echo $t103_daf_kelas_siswa_iuran_grid->RowIndex ?>_tgl12", {"ignoreReadonly":true,"useCurrent":false,"format":7});

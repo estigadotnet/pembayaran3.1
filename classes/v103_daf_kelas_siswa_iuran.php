@@ -21,6 +21,14 @@ class v103_daf_kelas_siswa_iuran extends DbTable
 	public $OffsetColumnClass = "col-sm-10 offset-sm-2";
 	public $TableLeftColumnClass = "w-col-2";
 
+	// Audit trail
+	public $AuditTrailOnAdd = TRUE;
+	public $AuditTrailOnEdit = TRUE;
+	public $AuditTrailOnDelete = TRUE;
+	public $AuditTrailOnView = FALSE;
+	public $AuditTrailOnViewData = FALSE;
+	public $AuditTrailOnSearch = FALSE;
+
 	// Export
 	public $ExportDoc;
 
@@ -362,6 +370,8 @@ class v103_daf_kelas_siswa_iuran extends DbTable
 		$conn = &$this->getConnection();
 		$success = $conn->execute($this->insertSql($rs));
 		if ($success) {
+			if ($this->AuditTrailOnAdd)
+				$this->writeAuditTrailOnAdd($rs);
 		}
 		return $success;
 	}
@@ -391,6 +401,10 @@ class v103_daf_kelas_siswa_iuran extends DbTable
 	{
 		$conn = &$this->getConnection();
 		$success = $conn->execute($this->updateSql($rs, $where, $curfilter));
+		if ($success && $this->AuditTrailOnEdit && $rsold) {
+			$rsaudit = $rs;
+			$this->writeAuditTrailOnEdit($rsold, $rsaudit);
+		}
 		return $success;
 	}
 
@@ -418,6 +432,8 @@ class v103_daf_kelas_siswa_iuran extends DbTable
 		$conn = &$this->getConnection();
 		if ($success)
 			$success = $conn->execute($this->deleteSql($rs, $where, $curfilter));
+		if ($success && $this->AuditTrailOnDelete)
+			$this->writeAuditTrailOnDelete($rs);
 		return $success;
 	}
 
@@ -743,7 +759,6 @@ class v103_daf_kelas_siswa_iuran extends DbTable
 			if ($doc->Horizontal) { // Horizontal format, write header
 				$doc->beginExportRow();
 				if ($exportPageType == "view") {
-					$doc->exportCaption($this->siswa_id);
 					$doc->exportCaption($this->NomorInduk);
 					$doc->exportCaption($this->Nama);
 				} else {
@@ -781,7 +796,6 @@ class v103_daf_kelas_siswa_iuran extends DbTable
 				if (!$doc->ExportCustom) {
 					$doc->beginExportRow($rowCnt); // Allow CSS styles if enabled
 					if ($exportPageType == "view") {
-						$doc->exportField($this->siswa_id);
 						$doc->exportField($this->NomorInduk);
 						$doc->exportField($this->Nama);
 					} else {
@@ -943,6 +957,129 @@ class v103_daf_kelas_siswa_iuran extends DbTable
 
 		// No binary fields
 		return FALSE;
+	}
+
+	// Write Audit Trail start/end for grid update
+	public function writeAuditTrailDummy($typ)
+	{
+		$table = 'v103_daf_kelas_siswa_iuran';
+		$usr = CurrentUserID();
+		WriteAuditTrail("log", DbCurrentDateTime(), ScriptName(), $usr, $typ, $table, "", "", "", "");
+	}
+
+	// Write Audit Trail (add page)
+	public function writeAuditTrailOnAdd(&$rs)
+	{
+		global $Language;
+		if (!$this->AuditTrailOnAdd)
+			return;
+		$table = 'v103_daf_kelas_siswa_iuran';
+
+		// Get key value
+		$key = "";
+
+		// Write Audit Trail
+		$dt = DbCurrentDateTime();
+		$id = ScriptName();
+		$usr = CurrentUserID();
+		foreach (array_keys($rs) as $fldname) {
+			if (array_key_exists($fldname, $this->fields) && $this->fields[$fldname]->DataType <> DATATYPE_BLOB) { // Ignore BLOB fields
+				if ($this->fields[$fldname]->HtmlTag == "PASSWORD") {
+					$newvalue = $Language->phrase("PasswordMask"); // Password Field
+				} elseif ($this->fields[$fldname]->DataType == DATATYPE_MEMO) {
+					if (AUDIT_TRAIL_TO_DATABASE)
+						$newvalue = $rs[$fldname];
+					else
+						$newvalue = "[MEMO]"; // Memo Field
+				} elseif ($this->fields[$fldname]->DataType == DATATYPE_XML) {
+					$newvalue = "[XML]"; // XML Field
+				} else {
+					$newvalue = $rs[$fldname];
+				}
+				WriteAuditTrail("log", $dt, $id, $usr, "A", $table, $fldname, $key, "", $newvalue);
+			}
+		}
+	}
+
+	// Write Audit Trail (edit page)
+	public function writeAuditTrailOnEdit(&$rsold, &$rsnew)
+	{
+		global $Language;
+		if (!$this->AuditTrailOnEdit)
+			return;
+		$table = 'v103_daf_kelas_siswa_iuran';
+
+		// Get key value
+		$key = "";
+
+		// Write Audit Trail
+		$dt = DbCurrentDateTime();
+		$id = ScriptName();
+		$usr = CurrentUserID();
+		foreach (array_keys($rsnew) as $fldname) {
+			if (array_key_exists($fldname, $this->fields) && array_key_exists($fldname, $rsold) && $this->fields[$fldname]->DataType <> DATATYPE_BLOB) { // Ignore BLOB fields
+				if ($this->fields[$fldname]->DataType == DATATYPE_DATE) { // DateTime field
+					$modified = (FormatDateTime($rsold[$fldname], 0) <> FormatDateTime($rsnew[$fldname], 0));
+				} else {
+					$modified = !CompareValue($rsold[$fldname], $rsnew[$fldname]);
+				}
+				if ($modified) {
+					if ($this->fields[$fldname]->HtmlTag == "PASSWORD") { // Password Field
+						$oldvalue = $Language->phrase("PasswordMask");
+						$newvalue = $Language->phrase("PasswordMask");
+					} elseif ($this->fields[$fldname]->DataType == DATATYPE_MEMO) { // Memo field
+						if (AUDIT_TRAIL_TO_DATABASE) {
+							$oldvalue = $rsold[$fldname];
+							$newvalue = $rsnew[$fldname];
+						} else {
+							$oldvalue = "[MEMO]";
+							$newvalue = "[MEMO]";
+						}
+					} elseif ($this->fields[$fldname]->DataType == DATATYPE_XML) { // XML field
+						$oldvalue = "[XML]";
+						$newvalue = "[XML]";
+					} else {
+						$oldvalue = $rsold[$fldname];
+						$newvalue = $rsnew[$fldname];
+					}
+					WriteAuditTrail("log", $dt, $id, $usr, "U", $table, $fldname, $key, $oldvalue, $newvalue);
+				}
+			}
+		}
+	}
+
+	// Write Audit Trail (delete page)
+	public function writeAuditTrailOnDelete(&$rs)
+	{
+		global $Language;
+		if (!$this->AuditTrailOnDelete)
+			return;
+		$table = 'v103_daf_kelas_siswa_iuran';
+
+		// Get key value
+		$key = "";
+
+		// Write Audit Trail
+		$dt = DbCurrentDateTime();
+		$id = ScriptName();
+		$curUser = CurrentUserID();
+		foreach (array_keys($rs) as $fldname) {
+			if (array_key_exists($fldname, $this->fields) && $this->fields[$fldname]->DataType <> DATATYPE_BLOB) { // Ignore BLOB fields
+				if ($this->fields[$fldname]->HtmlTag == "PASSWORD") {
+					$oldvalue = $Language->phrase("PasswordMask"); // Password Field
+				} elseif ($this->fields[$fldname]->DataType == DATATYPE_MEMO) {
+					if (AUDIT_TRAIL_TO_DATABASE)
+						$oldvalue = $rs[$fldname];
+					else
+						$oldvalue = "[MEMO]"; // Memo field
+				} elseif ($this->fields[$fldname]->DataType == DATATYPE_XML) {
+					$oldvalue = "[XML]"; // XML field
+				} else {
+					$oldvalue = $rs[$fldname];
+				}
+				WriteAuditTrail("log", $dt, $id, $curUser, "D", $table, $fldname, $key, $oldvalue, "");
+			}
+		}
 	}
 
 	// Table level events
