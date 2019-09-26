@@ -1,5 +1,6 @@
 <strong>----- on progress --------------------------------------------------------------------------</strong>
--
+2:24 PM 9/26/2019
+- Daftar, Daftar Siswa & Iuran
 
 
 <font color="red"><strong>----- to do --------------------------------------------------------------------------------</strong>
@@ -7,9 +8,13 @@
 
 
 </font><strong>----- done ---------------------------------------------------------------------------------</strong>
+2:23 PM 9/26/2019
+- Daftar, Daftar Kelas & Siswa
+
+
 12:36 PM 9/26/2019
-- Setup, Tahun Ajaran -> done
-- Setup, Sekolah -> done
-- Setup, Kelas -> done
-- Setup, Siswa -> done
-- Setup, Iuran -> done 
+- Setup, Tahun Ajaran
+- Setup, Sekolah
+- Setup, Kelas
+- Setup, Siswa
+- Setup, Iuran 

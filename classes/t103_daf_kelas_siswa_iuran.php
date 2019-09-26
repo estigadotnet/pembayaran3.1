@@ -98,8 +98,8 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 		$this->ExportWordPageOrientation = "portrait"; // Page orientation (PHPWord only)
 		$this->ExportWordColumnWidth = NULL; // Cell width (PHPWord only)
 		$this->DetailAdd = TRUE; // Allow detail add
-		$this->DetailEdit = TRUE; // Allow detail edit
-		$this->DetailView = TRUE; // Allow detail view
+		$this->DetailEdit = FALSE; // Allow detail edit
+		$this->DetailView = FALSE; // Allow detail view
 		$this->ShowMultipleDetails = FALSE; // Show multiple details
 		$this->GridAddRowCount = 1;
 		$this->AllowAddDeleteRow = TRUE; // Allow add/delete row
@@ -2474,7 +2474,20 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 
 		// Enter your code here
 		// To cancel, set return value to FALSE
+		// isi secara ostosmastis => field jml01 hingga jml12, dengan nilai Jumlah Iuran
 
+		$rsnew["jml01"] = $rsnew["Jumlah"];
+		$rsnew["jml02"] = $rsnew["Jumlah"];
+		$rsnew["jml03"] = $rsnew["Jumlah"];
+		$rsnew["jml04"] = $rsnew["Jumlah"];
+		$rsnew["jml05"] = $rsnew["Jumlah"];
+		$rsnew["jml06"] = $rsnew["Jumlah"];
+		$rsnew["jml07"] = $rsnew["Jumlah"];
+		$rsnew["jml08"] = $rsnew["Jumlah"];
+		$rsnew["jml09"] = $rsnew["Jumlah"];
+		$rsnew["jml10"] = $rsnew["Jumlah"];
+		$rsnew["jml11"] = $rsnew["Jumlah"];
+		$rsnew["jml12"] = $rsnew["Jumlah"];
 		return TRUE;
 	}
 

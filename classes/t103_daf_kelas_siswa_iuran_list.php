@@ -1157,15 +1157,7 @@ class t103_daf_kelas_siswa_iuran_list extends t103_daf_kelas_siswa_iuran
 		global $Security, $Language;
 		if (!$Security->canAdd())
 			return FALSE; // Add not allowed
-		if ($this->isCopy()) {
-			if (Get("id") !== NULL) {
-				$this->id->setQueryStringValue(Get("id"));
-				$this->setKey("id", $this->id->CurrentValue); // Set up key
-			} else {
-				$this->setKey("id", ""); // Clear key
-				$this->CurrentAction = "add";
-			}
-		}
+		$this->CurrentAction = "add";
 		$_SESSION[SESSION_INLINE_MODE] = "add"; // Enable inline add
 		return TRUE;
 	}
@@ -1761,7 +1753,7 @@ class t103_daf_kelas_siswa_iuran_list extends t103_daf_kelas_siswa_iuran
 		// "copy"
 		$item = &$this->ListOptions->add("copy");
 		$item->CssClass = "text-nowrap";
-		$item->Visible = $Security->canAdd();
+		$item->Visible = $Security->canAdd() && ($this->isAdd());
 		$item->OnLeft = TRUE;
 
 		// "delete"
@@ -1882,17 +1874,7 @@ class t103_daf_kelas_siswa_iuran_list extends t103_daf_kelas_siswa_iuran
 		$opt = &$this->ListOptions->Items["edit"];
 		$editcaption = HtmlTitle($Language->phrase("EditLink"));
 		if ($Security->canEdit()) {
-			$opt->Body = "<a class=\"ew-row-link ew-edit\" title=\"" . HtmlTitle($Language->phrase("EditLink")) . "\" data-caption=\"" . HtmlTitle($Language->phrase("EditLink")) . "\" href=\"" . HtmlEncode($this->EditUrl) . "\">" . $Language->phrase("EditLink") . "</a>";
 			$opt->Body .= "<a class=\"ew-row-link ew-inline-edit\" title=\"" . HtmlTitle($Language->phrase("InlineEditLink")) . "\" data-caption=\"" . HtmlTitle($Language->phrase("InlineEditLink")) . "\" href=\"" . HtmlEncode(UrlAddHash($this->InlineEditUrl, "r" . $this->RowCnt . "_" . $this->TableVar)) . "\">" . $Language->phrase("InlineEditLink") . "</a>";
-		} else {
-			$opt->Body = "";
-		}
-
-		// "copy"
-		$opt = &$this->ListOptions->Items["copy"];
-		$copycaption = HtmlTitle($Language->phrase("CopyLink"));
-		if ($Security->canAdd()) {
-			$opt->Body .= "<a class=\"ew-row-link ew-inline-copy\" title=\"" . HtmlTitle($Language->phrase("InlineCopyLink")) . "\" data-caption=\"" . HtmlTitle($Language->phrase("InlineCopyLink")) . "\" href=\"" . HtmlEncode($this->InlineCopyUrl) . "\">" . $Language->phrase("InlineCopyLink") . "</a>";
 		} else {
 			$opt->Body = "";
 		}
@@ -1951,12 +1933,6 @@ class t103_daf_kelas_siswa_iuran_list extends t103_daf_kelas_siswa_iuran
 		global $Language, $Security;
 		$options = &$this->OtherOptions;
 		$option = $options["addedit"];
-
-		// Add
-		$item = &$option->add("add");
-		$addcaption = HtmlTitle($Language->phrase("AddLink"));
-		$item->Body = "<a class=\"ew-add-edit ew-add\" title=\"" . $addcaption . "\" data-caption=\"" . $addcaption . "\" href=\"" . HtmlEncode($this->AddUrl) . "\">" . $Language->phrase("AddLink") . "</a>";
-		$item->Visible = ($this->AddUrl <> "" && $Security->canAdd());
 
 		// Inline Add
 		$item = &$option->add("inlineadd");
@@ -2044,7 +2020,7 @@ class t103_daf_kelas_siswa_iuran_list extends t103_daf_kelas_siswa_iuran
 					$option->UseDropDownButton = FALSE;
 					$item = &$option->add("addblankrow");
 					$item->Body = "<a class=\"ew-add-edit ew-add-blank-row\" title=\"" . HtmlTitle($Language->phrase("AddBlankRow")) . "\" data-caption=\"" . HtmlTitle($Language->phrase("AddBlankRow")) . "\" href=\"javascript:void(0);\" onclick=\"ew.addGridRow(this);\">" . $Language->phrase("AddBlankRow") . "</a>";
-					$item->Visible = $Security->canAdd();
+					$item->Visible = FALSE;
 				}
 				$option = &$options["action"];
 				$option->UseDropDownButton = FALSE;
@@ -2065,7 +2041,7 @@ class t103_daf_kelas_siswa_iuran_list extends t103_daf_kelas_siswa_iuran
 					$option->UseDropDownButton = FALSE;
 					$item = &$option->add("addblankrow");
 					$item->Body = "<a class=\"ew-add-edit ew-add-blank-row\" title=\"" . HtmlTitle($Language->phrase("AddBlankRow")) . "\" data-caption=\"" . HtmlTitle($Language->phrase("AddBlankRow")) . "\" href=\"javascript:void(0);\" onclick=\"ew.addGridRow(this);\">" . $Language->phrase("AddBlankRow") . "</a>";
-					$item->Visible = $Security->canAdd();
+					$item->Visible = FALSE;
 				}
 				$option = &$options["action"];
 				$option->UseDropDownButton = FALSE;

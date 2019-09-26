@@ -1352,7 +1352,7 @@ class t102_daf_kelas_siswa extends DbTable
 		// Enter your code here
 		//modifikasi tanda penghubung
 
-		$this->siswa_id->DisplayValueSeparator = "-";
+		$this->siswa_id->DisplayValueSeparator = " - ";
 	}
 
 	// Row Rendered event

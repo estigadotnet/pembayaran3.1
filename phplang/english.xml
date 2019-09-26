@@ -724,13 +724,16 @@
       <phrase id="menutext" value="Daftar" />
     </menu>
     <menu id="6">
-      <phrase id="menutext" value="Daftar Kelas" />
+      <phrase id="menutext" value="Kelas &amp; Siswa" />
     </menu>
     <menu id="7">
       <phrase id="menutext" value="Siswa" />
     </menu>
     <menu id="13">
-      <phrase id="menutext" value="Daftar Iuran Siswa" />
+      <phrase id="menutext" value="Siswa &amp; Iuran" />
+    </menu>
+    <menu id="12">
+      <phrase id="menutext" value="Kelas (View)" />
     </menu>
     <menu id="8">
       <phrase id="menutext" value="Iuran" />
@@ -752,9 +755,6 @@
     </menu>
     <menu id="22">
       <phrase id="menutext" value="Log Aktifitas" />
-    </menu>
-    <menu id="12">
-      <phrase id="menutext" value="v 101 daf kelas" />
     </menu>
     <menu id="15">
       <phrase id="menutext" value="v 104 pembayaran" />
@@ -834,7 +834,7 @@
       </field>
     </table>
     <table id="t101_daf_kelas">
-      <phrase id="tblcaption" value="Daftar Kelas" />
+      <phrase id="tblcaption" value="Kelas &amp; Siswa" />
       <field id="id">
         <phrase id="fldcaption" value="id" />
       </field>
@@ -1081,7 +1081,7 @@
       </field>
     </table>
     <table id="v101_daf_kelas">
-      <phrase id="tblcaption" value="v 101 daf kelas" />
+      <phrase id="tblcaption" value="Kelas (View)" />
       <field id="id">
         <phrase id="fldcaption" value="id" />
       </field>
@@ -1099,7 +1099,7 @@
       </field>
     </table>
     <table id="v102_daf_kelas_siswa">
-      <phrase id="tblcaption" value="Daftar Iuran Siswa" />
+      <phrase id="tblcaption" value="Siswa &amp; Iuran" />
       <field id="id">
         <phrase id="fldcaption" value="id" />
       </field>

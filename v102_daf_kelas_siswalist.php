@@ -92,7 +92,6 @@ fv102_daf_kelas_siswalistsrch.lists["x_siswa_id"].options = <?php echo JsonEncod
 // Filters
 fv102_daf_kelas_siswalistsrch.filterList = <?php echo $v102_daf_kelas_siswa_list->getFilterList() ?>;
 </script>
-<script src="phpjs/ewscrolltable.js"></script>
 <style type="text/css">
 .ew-table-preview-row { /* main table preview row color */
 	background-color: #FFFFFF; /* preview row color */
@@ -441,11 +440,6 @@ if (DEBUG_ENABLED)
 // document.write("page loaded");
 
 </script>
-<?php if (!$v102_daf_kelas_siswa->isExport()) { ?>
-<script>
-ew.scrollableTable("gmp_v102_daf_kelas_siswa", "100%", "100%");
-</script>
-<?php } ?>
 <?php } ?>
 <?php include_once "footer.php" ?>
 <?php

@@ -857,8 +857,6 @@ $t103_daf_kelas_siswa_iuran_list->ListOptions->render("header", "right");
 	if ($t103_daf_kelas_siswa_iuran->isAdd() || $t103_daf_kelas_siswa_iuran->isCopy()) {
 		$t103_daf_kelas_siswa_iuran_list->RowIndex = 0;
 		$t103_daf_kelas_siswa_iuran_list->KeyCount = $t103_daf_kelas_siswa_iuran_list->RowIndex;
-		if ($t103_daf_kelas_siswa_iuran->isCopy() && !$t103_daf_kelas_siswa_iuran_list->loadRow())
-			$t103_daf_kelas_siswa_iuran->CurrentAction = "add";
 		if ($t103_daf_kelas_siswa_iuran->isAdd())
 			$t103_daf_kelas_siswa_iuran_list->loadRowValues();
 		if ($t103_daf_kelas_siswa_iuran->EventCancelled) // Insert failed

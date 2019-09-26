@@ -1392,12 +1392,6 @@ class t103_daf_kelas_siswa_iuran_grid extends t103_daf_kelas_siswa_iuran
 		$item->OnLeft = TRUE;
 		$item->Visible = FALSE;
 
-		// "edit"
-		$item = &$this->ListOptions->add("edit");
-		$item->CssClass = "text-nowrap";
-		$item->Visible = $Security->canEdit();
-		$item->OnLeft = TRUE;
-
 		// "delete"
 		$item = &$this->ListOptions->add("delete");
 		$item->CssClass = "text-nowrap";
@@ -1476,15 +1470,6 @@ class t103_daf_kelas_siswa_iuran_grid extends t103_daf_kelas_siswa_iuran
 		$opt->Body = FormatSequenceNumber($this->RecCnt);
 		if ($this->CurrentMode == "view") { // View mode
 
-		// "edit"
-		$opt = &$this->ListOptions->Items["edit"];
-		$editcaption = HtmlTitle($Language->phrase("EditLink"));
-		if ($Security->canEdit()) {
-			$opt->Body = "<a class=\"ew-row-link ew-edit\" title=\"" . HtmlTitle($Language->phrase("EditLink")) . "\" data-caption=\"" . HtmlTitle($Language->phrase("EditLink")) . "\" href=\"" . HtmlEncode($this->EditUrl) . "\">" . $Language->phrase("EditLink") . "</a>";
-		} else {
-			$opt->Body = "";
-		}
-
 		// "delete"
 		$opt = &$this->ListOptions->Items["delete"];
 		if ($Security->canDelete())
@@ -1523,15 +1508,6 @@ class t103_daf_kelas_siswa_iuran_grid extends t103_daf_kelas_siswa_iuran
 		$item = &$option->add($option->GroupOptionName);
 		$item->Body = "";
 		$item->Visible = FALSE;
-
-		// Add
-		if ($this->CurrentMode == "view") { // Check view mode
-			$item = &$option->add("add");
-			$addcaption = HtmlTitle($Language->phrase("AddLink"));
-			$this->AddUrl = $this->getAddUrl();
-			$item->Body = "<a class=\"ew-add-edit ew-add\" title=\"" . $addcaption . "\" data-caption=\"" . $addcaption . "\" href=\"" . HtmlEncode($this->AddUrl) . "\">" . $Language->phrase("AddLink") . "</a>";
-			$item->Visible = ($this->AddUrl <> "" && $Security->canAdd());
-		}
 	}
 
 	// Render other options
@@ -1545,7 +1521,7 @@ class t103_daf_kelas_siswa_iuran_grid extends t103_daf_kelas_siswa_iuran
 				$option->UseDropDownButton = FALSE;
 				$item = &$option->add("addblankrow");
 				$item->Body = "<a class=\"ew-add-edit ew-add-blank-row\" title=\"" . HtmlTitle($Language->phrase("AddBlankRow")) . "\" data-caption=\"" . HtmlTitle($Language->phrase("AddBlankRow")) . "\" href=\"javascript:void(0);\" onclick=\"ew.addGridRow(this);\">" . $Language->phrase("AddBlankRow") . "</a>";
-				$item->Visible = $Security->canAdd();
+				$item->Visible = FALSE;
 				$this->ShowOtherOptions = $item->Visible;
 			}
 		}

@@ -733,12 +733,6 @@ class t103_daf_kelas_siswa_iuran_preview extends t103_daf_kelas_siswa_iuran
 		$item->OnLeft = TRUE;
 		$item->Visible = FALSE;
 
-		// "edit"
-		$item = &$this->ListOptions->add("edit");
-		$item->CssClass = "text-nowrap";
-		$item->Visible = $Security->canEdit();
-		$item->OnLeft = TRUE;
-
 		// "delete"
 		$item = &$this->ListOptions->add("delete");
 		$item->CssClass = "text-nowrap";
@@ -767,20 +761,6 @@ class t103_daf_kelas_siswa_iuran_preview extends t103_daf_kelas_siswa_iuran
 		$this->ListOptions_Rendering();
 		$masterKeyUrl = $this->masterKeyUrl();
 
-		// "edit"
-		$opt = &$this->ListOptions->Items["edit"];
-		if ($Security->canEdit()) {
-			$editCaption = $Language->phrase("EditLink");
-			$editTitle = HtmlTitle($editCaption);
-			$editUrl = $this->getEditUrl($masterKeyUrl);
-			if ($this->UseModalLinks && !IsMobile())
-				$opt->Body = "<a class=\"ew-row-link ew-edit\" title=\"" . $editTitle . "\" data-caption=\"" . $editTitle . "\" href=\"javascript:void(0);\" onclick=\"ew.modalDialogShow({lnk:this,btn:'SaveBtn',url:'" . HtmlEncode($editUrl) . "'});\">" . $editCaption . "</a>";
-			else
-				$opt->Body = "<a class=\"ew-row-link ew-edit\" title=\"" . $editTitle . "\" data-caption=\"" . $editTitle . "\" href=\"" . HtmlEncode($editUrl) . "\">" . $editCaption . "</a>";
-		} else {
-			$opt->Body = "";
-		}
-
 		// "delete"
 		$opt = &$this->ListOptions->Items["delete"];
 		if ($Security->canDelete()) {
@@ -804,18 +784,6 @@ class t103_daf_kelas_siswa_iuran_preview extends t103_daf_kelas_siswa_iuran
 	{
 		global $Language, $Security;
 		$options = &$this->OtherOptions;
-		$option = $options["addedit"];
-		$option->UseButtonGroup = FALSE;
-
-		// Add group option item
-		$item = &$option->add($option->GroupOptionName);
-		$item->Body = "";
-		$item->OnLeft = TRUE;
-		$item->Visible = FALSE;
-
-		// Add
-		$item = &$option->add("add");
-		$item->Visible = $Security->canAdd();
 	}
 
 	// Render other options
@@ -823,21 +791,6 @@ class t103_daf_kelas_siswa_iuran_preview extends t103_daf_kelas_siswa_iuran
 	{
 		global $Language, $Security;
 		$options = &$this->OtherOptions;
-		$option = $options["addedit"];
-
-		// Add
-		$item = &$option->getItem("add");
-		if ($Security->canAdd()) {
-			$addCaption = $Language->Phrase("AddLink");
-			$addTitle = HtmlTitle($addCaption);
-			$addUrl = $this->getAddUrl($this->masterKeyUrl());
-			if ($this->UseModalLinks && !IsMobile())
-				$item->Body = "<a class=\"btn btn-default ew-add-edit ew-add\" title=\"" . $addTitle . "\" data-caption=\"" . $addTitle . "\" href=\"javascript:void(0);\" onclick=\"ew.modalDialogShow({lnk:this,btn:'AddBtn',url:'" . HtmlEncode($addUrl) . "'});\">" . $addCaption . "</a>";
-			else
-				$item->Body = "<a class=\"btn btn-default ew-add-edit ew-add\" title=\"" . $addTitle . "\" data-caption=\"" . $addTitle . "\" href=\"" . HtmlEncode($addUrl) . "\">" . $addCaption . "</a>";
-		} else {
-			$item->Body = "";
-		}
 	}
 
 	// Get master foreign key url
