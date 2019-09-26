@@ -5634,23 +5634,23 @@ class HttpUpload
 	 * @param boolean $path Return file name with or without full path
 	 * @return string
 	 */
-	public function getUploadedFileName($token, $path = FALSE)
+	public function getUploadedFileName($token, $fullPath = FALSE)
 	{
 		if (EmptyValue($token)) { // Remove
 			return "";
 		} else { // Load file name from token
 			$path = UploadTempPath($token, $this->Index);
 			try {
-				if (@is_dir($path)) {
+				if (@is_dir($path) && ($dh = opendir($path))) {
 
 					// Get all files in the folder
-					if ($ar = glob($path . '*.*')) {
-						$fileName = "";
-						foreach ($ar as $v) {
-							if ($fileName <> "")
-								$fileName .= MULTIPLE_UPLOAD_SEPARATOR;
-							$fileName .= $path ? $v : basename($v);
-						}
+					$fileName = "";
+					while (($file = readdir($dh)) !== FALSE) {
+						if ($file == "." || $file == ".." || !is_file($path . $file))
+							continue;
+						if ($fileName <> "")
+							$fileName .= MULTIPLE_UPLOAD_SEPARATOR;
+						$fileName .= $fullPath ? $path . $file : $file;
 					}
 					return $fileName;
 				}
@@ -6500,8 +6500,8 @@ class AdvancedSecurity
 		$sql = "SELECT COUNT(*) FROM " . USER_LEVEL_PRIV_TABLE . " WHERE EXISTS(SELECT * FROM " .
 				USER_LEVEL_PRIV_TABLE . " WHERE " . USER_LEVEL_PRIV_TABLE_NAME_FIELD . " NOT LIKE '{%')";
 		if (ExecuteScalar($sql, $conn) > 0) {
-			$ar = array_map(function ($t) {
-				return "'" . AdjustSql($t, USER_LEVEL_PRIV_DBID) . "'";
+			$ar = array_map(function($t) {
+				return "'" . AdjustSql($t[0], USER_LEVEL_PRIV_DBID) . "'";
 			}, $arTable);
 			$sql = "UPDATE " . USER_LEVEL_PRIV_TABLE . " SET " .
 				USER_LEVEL_PRIV_TABLE_NAME_FIELD . " = " . $conn->concat("'" . AdjustSql($projectID, USER_LEVEL_PRIV_DBID) . "'", USER_LEVEL_PRIV_TABLE_NAME_FIELD) . " WHERE " .
@@ -6516,8 +6516,8 @@ class AdvancedSecurity
 				USER_LEVEL_PRIV_TABLE . " WHERE " . USER_LEVEL_PRIV_TABLE_NAME_FIELD . " LIKE '" .
 				AdjustSql(TABLE_PREFIX, USER_LEVEL_PRIV_DBID) . "%')";
 			if (ExecuteScalar($sql, $conn) > 0) {
-				$ar = array_map(function ($t) {
-					return "'" . AdjustSql(TABLE_PREFIX . $t, USER_LEVEL_PRIV_DBID) . "'";
+				$ar = array_map(function($t) {
+					return "'" . AdjustSql(TABLE_PREFIX . $t[0], USER_LEVEL_PRIV_DBID) . "'";
 				}, $arTable);
 				$sql = "UPDATE " . USER_LEVEL_PRIV_TABLE . " SET " .
 					USER_LEVEL_PRIV_TABLE_NAME_FIELD . " = REPLACE(" . USER_LEVEL_PRIV_TABLE_NAME_FIELD . "," .
@@ -8525,10 +8525,7 @@ function FormatNumber($amount, $numDigitsAfterDecimal, $includeLeadingDigit = -2
 	}
 
 	// Start by formatting the unsigned number
-	$number = number_format(abs($amount),
-		$frac_digits,
-		$decimal_point,
-		$thousands_sep);
+	$number = number_format(abs($amount), $frac_digits, $decimal_point, $thousands_sep);
 
 	// Check $includeLeadingDigit
 	if ($includeLeadingDigit == 0 && StartsString("0.", $number))
@@ -8588,10 +8585,7 @@ function FormatPercent($amount, $numDigitsAfterDecimal, $includeLeadingDigit = -
 	}
 
 	// Start by formatting the unsigned number
-	$number = number_format(abs($amount)*100,
-							$frac_digits,
-							$decimal_point,
-							$thousands_sep);
+	$number = number_format(abs($amount)*100, $frac_digits, $decimal_point, $thousands_sep);
 
 	// Check $includeLeadingDigit
 	if ($includeLeadingDigit == 0 && StartsString("0.", $number))
@@ -8775,32 +8769,36 @@ function CreateImageFromText($txt, $file, $width = UPLOAD_THUMBNAIL_WIDTH, $heig
 // Clean temp upload folders
 function CleanUploadTempPaths($sessionid = "") {
 	$folder = (UPLOAD_TEMP_PATH) ? IncludeTrailingDelimiter(UPLOAD_TEMP_PATH, TRUE) : UploadPath(TRUE);
-	if (@is_dir($folder)) {
+	if (@is_dir($folder) && ($dh = opendir($folder))) {
 
 		// Load temp folders
-		foreach (glob($folder . UPLOAD_TEMP_FOLDER_PREFIX . "*", GLOB_ONLYDIR) as $tempfolder) {
-			$subfolder = basename($tempfolder);
-			if (UPLOAD_TEMP_FOLDER_PREFIX . $sessionid == $subfolder) { // Clean session folder
-				CleanPath($tempfolder, TRUE);
-			} else {
-				if (UPLOAD_TEMP_FOLDER_PREFIX . session_id() <> $subfolder) {
-					if (IsEmptyPath($tempfolder)) { // Empty folder
-						CleanPath($tempfolder, TRUE);
-					} else { // Old folder
-						$lastmdtime = filemtime($tempfolder);
-						if ((time() - $lastmdtime) / 60 > UPLOAD_TEMP_FOLDER_TIME_LIMIT || count(@scandir($tempfolder)) == 2)
-							CleanPath($tempfolder, TRUE);
+		while (($entry = readdir($dh)) !== FALSE) {
+			if ($entry == "." || $entry == "..")
+				continue;
+			$temp = $folder . $entry;
+			if (@is_dir($temp) && StartsString(UPLOAD_TEMP_FOLDER_PREFIX, $entry)) { // Upload temp folder
+				if (UPLOAD_TEMP_FOLDER_PREFIX . $sessionid == $entry) { // Clean session folder
+					CleanPath($temp, TRUE);
+				} else {
+					if (UPLOAD_TEMP_FOLDER_PREFIX . session_id() <> $entry) {
+						if (IsEmptyPath($temp)) { // Empty folder
+							CleanPath($temp, TRUE);
+						} else { // Old folder
+							$lastmdtime = filemtime($temp);
+							if ((time() - $lastmdtime) / 60 > UPLOAD_TEMP_FOLDER_TIME_LIMIT || count(@scandir($temp)) == 2)
+								CleanPath($temp, TRUE);
+						}
 					}
+				}
+			} elseif (@is_file($temp) && EndsString(".tmp.png", $entry)) { // Temp images
+				$lastmdtime = filemtime($temp);
+				if ((time() - $lastmdtime) / 60 > UPLOAD_TEMP_FOLDER_TIME_LIMIT) {
+					@gc_collect_cycles();
+					@unlink($temp);
 				}
 			}
 		}
-
-		// Temp images
-		foreach (glob($folder . "*.tmp.png") as $filename) {
-			$lastmdtime = filemtime($tempfolder);
-			if ((time() - $lastmdtime) / 60 > UPLOAD_TEMP_FOLDER_TIME_LIMIT)
-				@unlink($filename);
-		}
+		closedir($dh);
 	}
 }
 
@@ -8821,27 +8819,21 @@ function CleanPath($folder, $delete = FALSE) {
 	$folder = IncludeTrailingDelimiter($folder, TRUE);
 	try {
 		if (@is_dir($folder)) {
-
-			// Delete files in the folder
-			if ($ar = glob($folder . '*.*')) {
-				foreach ($ar as $v) {
-					@unlink($v);
-				}
-			}
-
-			// Clear sub folders
 			if ($dir_handle = @opendir($folder)) {
-				while (FALSE !== ($subfolder = readdir($dir_handle))) {
-					$tempfolder = PathCombine($folder, $subfolder, TRUE);
-					if ($subfolder == "." || $subfolder == ".." || !@is_dir($tempfolder))
+				while (($entry = readdir($dir_handle)) !== FALSE) {
+					if ($entry == "." || $entry == "..")
 						continue;
-					CleanPath($tempfolder, $delete);
+					if (@is_file($folder . $entry)) { // File
+						@gc_collect_cycles(); // Forces garbase collection (for S3)
+						@unlink($folder . $entry);
+					} elseif (@is_dir($folder . $entry)) { // Folder
+						CleanPath($folder . $entry, $delete);
+					}
 				}
-			}
-			if ($delete) {
 				@closedir($dir_handle);
-				@rmdir($folder);
 			}
+			if ($delete)
+				@rmdir($folder);
 		}
 	} catch (\Exception $e) {
 		if (DEBUG_ENABLED)
@@ -9232,12 +9224,20 @@ function TempFolder() {
 	return NULL;
 }
 
-// Create folder
-function CreateFolder($dir, $mode = 0777) {
-	if (IsRemote($dir)) // Support S3 only
-		return (is_dir($dir) || @mkdir($dir, $mode, STREAM_MKDIR_RECURSIVE));
-	else
-		return (is_dir($dir) || @mkdir($dir, $mode, TRUE));
+/**
+ * Create folder
+ * 
+ * AWS SDK maps mode 7xx to ACL_PUBLIC, 6xx to ACL_AUTH_READ and others to ACL_PRIVATE.
+ * mkdir() does not use the 3rd argument.
+ * If bucket key not found, createBucket(), otherwise createSubfolder().
+ * See https://github.com/aws/aws-sdk-php/blob/master/src/S3/StreamWrapper.php
+ *
+ * @param string $dir Directory
+ * @param integer $mode Permissions
+ * @return bool
+ */
+function CreateFolder($dir, $mode = 0) {
+	return is_dir($dir) || ($mode ? @mkdir($dir, $mode, TRUE) : (@mkdir($dir, 0777, TRUE) || @mkdir($dir, 0666, TRUE) || @mkdir($dir, 0444, TRUE)));
 }
 
 // Save file
@@ -9340,12 +9340,17 @@ function StringToBytes($str) {
 	return $bytes;
 }
 
+// Create file with unique file name
+function TempFileName($folder, $prefix) {
+	return IsRemote($folder) ? $prefix . dechex(mt_rand(0, 65535)) . ".tmp" : tempnam($folder, $prefix);
+}
+
 // Create temp image file from binary data
 function TempImage(&$filedata) {
 	global $TempImages;
 	$export = Param("export") ?: Post("exporttype");
 	$folder = UploadTempPath();
-	$f = tempnam($folder, "tmp");
+	$f = TempFileName($folder, "tmp");
 	$handle = fopen($f, 'w');
 	fwrite($handle, $filedata);
 	fclose($handle);
@@ -9388,8 +9393,10 @@ function TempImageLink($file, $lnktype = "") {
 // Delete temp images
 function DeleteTempImages() {
 	global $TempImages;
-	foreach ($TempImages as $tmpimage)
+	foreach ($TempImages as $tmpimage) {
+		@gc_collect_cycles();
 		@unlink(UploadTempPath() . $tmpimage);
+	}
 }
 
 // Add query string to URL
@@ -9474,6 +9481,7 @@ function ResizeBinary(&$filedata, &$width, &$height, $quality = THUMBNAIL_DEFAUL
 	$format = "";
 	if (file_exists($f) && filesize($f) > 0) { // Temp file created
 		$info = @getimagesize($f);
+		@gc_collect_cycles();
 		@unlink($f);
 		if (!$info || !in_array($info[2], [1, 2, 3])) { // Not gif/jpg/png
 			return FALSE;
@@ -10495,8 +10503,9 @@ function CheckInteger($value) {
 function CheckNumber($value) {
 	global $THOUSANDS_SEP, $DECIMAL_POINT;
 	if (strval($value) == "") return TRUE;
-	$pat = '/^[+-]?(\d{1,3}(' . (($THOUSANDS_SEP) ? '\\' . $THOUSANDS_SEP . '?' : '') . '\d{3})*(\\' .
-		$DECIMAL_POINT . '\d+)?|\\' . $DECIMAL_POINT . '\d+)$/';
+	$ts = preg_quote($THOUSANDS_SEP);
+	$dp = preg_quote($DECIMAL_POINT);
+	$pat = '/^[+-]?(\d{1,3}(' . ($ts ? $ts . '?' : '') . '\d{3})*(' . $dp . '\d+)?|' . $dp . '\d+)$/';
 	return preg_match($pat, $value);
 }
 
