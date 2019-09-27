@@ -1,6 +1,9 @@
 <strong>----- on progress --------------------------------------------------------------------------</strong>
-4:30 PM 9/26/2019
-- Laporan, Pembayaran
+9:36 AM 9/27/2019
+- Laporan, Tunggakan
+  - gimana caranya membangkitkan combobox periode ? sedangkan di database tidak ada field yang bisa
+    dijadikan acuan untuk membangkitkan combobox periode ... sekaligus sebagai filtering data
+    ? ? ? ?
 
 
 <font color="red"><strong>----- to do --------------------------------------------------------------------------------</strong>
@@ -8,6 +11,10 @@
 
 
 </font><strong>----- start - finish -----------------------------------------------------------------------</strong>
+4:30 PM 9/26/2019 - ?
+- Laporan, Pembayaran
+
+
 ? - 4:29 PM 9/26/2019
 - Pembayaran
 

@@ -14,11 +14,11 @@ include_once "rautoload.php";
 <?php
 
 // Create page object
-if (!isset($r101_lap_bayar_summary))
-	$r101_lap_bayar_summary = new r101_lap_bayar_summary();
+if (!isset($r102_lap_tunggak_summary))
+	$r102_lap_tunggak_summary = new r102_lap_tunggak_summary();
 if (isset($Page))
 	$OldPage = $Page;
-$Page = &$r101_lap_bayar_summary;
+$Page = &$r102_lap_tunggak_summary;
 
 // Run the page
 $Page->run();
@@ -48,23 +48,13 @@ currentPageID = ew.PAGE_ID = "summary"; // Page ID
 <script>
 
 // Form object
-var fr101_lap_bayarsummary = currentForm = new ew.Form("fr101_lap_bayarsummary");
+var fr102_lap_tunggaksummary = currentForm = new ew.Form("fr102_lap_tunggaksummary");
 
 // Validate method
-fr101_lap_bayarsummary.validate = function() {
+fr102_lap_tunggaksummary.validate = function() {
 	if (!this.validateRequired)
 		return true; // Ignore validation
 	var $ = jQuery, fobj = this.getForm(), $fobj = $(fobj), elm;
-		elm = this.getElements("x_TglBayar");
-		if (elm && !ew.checkEuroDate(elm.value)) {
-			if (!this.onError(elm, "<?php echo JsEncode($Page->TglBayar->errorMessage()) ?>"))
-				return false;
-		}
-		elm = this.getElements("y_TglBayar");
-		if (elm && !ew.checkEuroDate(elm.value)) {
-			if (!this.onError(elm, "<?php echo JsEncode($Page->TglBayar->errorMessage()) ?>"))
-				return false;
-		}
 
 	// Call Form Custom Validate event
 	if (!this.Form_CustomValidate(fobj))
@@ -73,24 +63,20 @@ fr101_lap_bayarsummary.validate = function() {
 }
 
 // Form_CustomValidate method
-fr101_lap_bayarsummary.Form_CustomValidate = function(fobj) { // DO NOT CHANGE THIS LINE!
+fr102_lap_tunggaksummary.Form_CustomValidate = function(fobj) { // DO NOT CHANGE THIS LINE!
 
 	// Your custom validation code here, return false if invalid.
 	return true;
 }
 <?php if (CLIENT_VALIDATE) { ?>
-fr101_lap_bayarsummary.validateRequired = true; // Uses JavaScript validation
+fr102_lap_tunggaksummary.validateRequired = true; // Uses JavaScript validation
 <?php } else { ?>
-fr101_lap_bayarsummary.validateRequired = false; // No JavaScript validation
+fr102_lap_tunggaksummary.validateRequired = false; // No JavaScript validation
 <?php } ?>
 
 // Use Ajax
-fr101_lap_bayarsummary.lists["x_TahunAjaran"] = <?php echo $r101_lap_bayar_summary->TahunAjaran->Lookup->toClientList() ?>;
-fr101_lap_bayarsummary.lists["x_TahunAjaran"].options = <?php echo JsonEncode($r101_lap_bayar_summary->TahunAjaran->lookupOptions()) ?>;
-fr101_lap_bayarsummary.lists["x_SekolahNama"] = <?php echo $r101_lap_bayar_summary->SekolahNama->Lookup->toClientList() ?>;
-fr101_lap_bayarsummary.lists["x_SekolahNama"].options = <?php echo JsonEncode($r101_lap_bayar_summary->SekolahNama->lookupOptions()) ?>;
-fr101_lap_bayarsummary.lists["x_KelasNama"] = <?php echo $r101_lap_bayar_summary->KelasNama->Lookup->toClientList() ?>;
-fr101_lap_bayarsummary.lists["x_KelasNama"].options = <?php echo JsonEncode($r101_lap_bayar_summary->KelasNama->lookupOptions()) ?>;
+fr102_lap_tunggaksummary.lists["x_Periode[]"] = <?php echo $r102_lap_tunggak_summary->Periode->Lookup->toClientList() ?>;
+fr102_lap_tunggaksummary.lists["x_Periode[]"].options = <?php echo JsonEncode($r102_lap_tunggak_summary->Periode->lookupOptions()) ?>;
 </script>
 <?php } ?>
 <?php if ($Page->Export == "" && !$Page->DrillDown && !$DashboardReport) { ?>
@@ -124,7 +110,7 @@ if (!$Page->DrillDownInPanel) {
 <?php } ?>
 <?php if ($Page->Export == "" && !$DashboardReport) { ?>
 <!-- Center Container - Report -->
-<div id="ew-center" class="<?php echo $r101_lap_bayar_summary->CenterContentClass ?>">
+<div id="ew-center" class="<?php echo $r102_lap_tunggak_summary->CenterContentClass ?>">
 <?php } ?>
 <!-- Summary Report begins -->
 <?php if ($Page->Export <> "pdf") { ?>
@@ -139,71 +125,20 @@ if (!$Page->DrillDownInPanel) {
 	$Page->RowType = ROWTYPE_SEARCH;
 	$Page->renderRow();
 ?>
-<form name="fr101_lap_bayarsummary" id="fr101_lap_bayarsummary" class="form-inline ew-form ew-ext-filter-form" action="<?php echo CurrentPageName() ?>">
+<form name="fr102_lap_tunggaksummary" id="fr102_lap_tunggaksummary" class="form-inline ew-form ew-ext-filter-form" action="<?php echo CurrentPageName() ?>">
 <?php $searchPanelClass = ($Page->Filter <> "") ? " show" : " show"; ?>
-<div id="fr101_lap_bayarsummary-search-panel" class="ew-search-panel collapse<?php echo $searchPanelClass ?>">
+<div id="fr102_lap_tunggaksummary-search-panel" class="ew-search-panel collapse<?php echo $searchPanelClass ?>">
 <input type="hidden" name="cmd" value="search">
 <div id="r_1" class="ew-row d-sm-flex">
-<div id="c_TahunAjaran" class="ew-cell form-group">
-	<label for="x_TahunAjaran" class="ew-search-caption ew-label"><?php echo $Page->TahunAjaran->caption() ?></label>
+<div id="c_Periode" class="ew-cell form-group">
+	<label for="x_Periode" class="ew-search-caption ew-label"><?php echo $Page->Periode->caption() ?></label>
 	<span class="ew-search-field">
 <div class="input-group">
-	<select class="custom-select ew-custom-select" data-table="r101_lap_bayar" data-field="x_TahunAjaran" data-value-separator="<?php echo $Page->TahunAjaran->displayValueSeparatorAttribute() ?>" id="x_TahunAjaran" name="x_TahunAjaran"<?php echo $Page->TahunAjaran->editAttributes() ?>>
-		<?php echo $Page->TahunAjaran->selectOptionListHtml("x_TahunAjaran") ?>
+	<select class="custom-select ew-custom-select" data-table="r102_lap_tunggak" data-field="x_Periode" data-value-separator="<?php echo $Page->Periode->displayValueSeparatorAttribute() ?>" id="x_Periode[]" name="x_Periode[]" multiple="multiple"<?php echo $Page->Periode->editAttributes() ?>>
+		<?php echo $Page->Periode->selectOptionListHtml("x_Periode[]") ?>
 	</select>
 </div>
-<?php echo $Page->TahunAjaran->Lookup->getParamTag("p_x_TahunAjaran") ?>
-</span>
-</div>
-</div>
-<div id="r_2" class="ew-row d-sm-flex">
-<div id="c_SekolahNama" class="ew-cell form-group">
-	<label for="x_SekolahNama" class="ew-search-caption ew-label"><?php echo $Page->SekolahNama->caption() ?></label>
-	<span class="ew-search-field">
-<div class="input-group">
-	<select class="custom-select ew-custom-select" data-table="r101_lap_bayar" data-field="x_SekolahNama" data-value-separator="<?php echo $Page->SekolahNama->displayValueSeparatorAttribute() ?>" id="x_SekolahNama" name="x_SekolahNama"<?php echo $Page->SekolahNama->editAttributes() ?>>
-		<?php echo $Page->SekolahNama->selectOptionListHtml("x_SekolahNama") ?>
-	</select>
-</div>
-<?php echo $Page->SekolahNama->Lookup->getParamTag("p_x_SekolahNama") ?>
-</span>
-</div>
-</div>
-<div id="r_3" class="ew-row d-sm-flex">
-<div id="c_KelasNama" class="ew-cell form-group">
-	<label for="x_KelasNama" class="ew-search-caption ew-label"><?php echo $Page->KelasNama->caption() ?></label>
-	<span class="ew-search-field">
-<div class="input-group">
-	<select class="custom-select ew-custom-select" data-table="r101_lap_bayar" data-field="x_KelasNama" data-value-separator="<?php echo $Page->KelasNama->displayValueSeparatorAttribute() ?>" id="x_KelasNama" name="x_KelasNama"<?php echo $Page->KelasNama->editAttributes() ?>>
-		<?php echo $Page->KelasNama->selectOptionListHtml("x_KelasNama") ?>
-	</select>
-</div>
-<?php echo $Page->KelasNama->Lookup->getParamTag("p_x_KelasNama") ?>
-</span>
-</div>
-</div>
-<div id="r_4" class="ew-row d-sm-flex">
-<div id="c_TglBayar" class="ew-cell form-group">
-	<label for="x_TglBayar" class="ew-search-caption ew-label"><?php echo $Page->TglBayar->caption() ?></label>
-	<span class="ew-search-operator"><?php echo $ReportLanguage->phrase("BETWEEN"); ?><input type="hidden" name="z_TglBayar" id="z_TglBayar" value="BETWEEN"></span>
-	<span class="control-group ew-search-field">
-<?php PrependClass($Page->TglBayar->EditAttrs["class"], "form-control"); // PR8 ?>
-<input type="text" data-table="r101_lap_bayar" data-field="x_TglBayar" id="x_TglBayar" name="x_TglBayar" size="10" maxlength="10" placeholder="<?php echo HtmlEncode($Page->TglBayar->getPlaceHolder()) ?>" value="<?php echo HtmlEncode($Page->TglBayar->AdvancedSearch->SearchValue) ?>"<?php echo $Page->TglBayar->editAttributes() ?>>
-<?php if (!$r101_lap_bayar->TglBayar->ReadOnly && !$r101_lap_bayar->TglBayar->Disabled && !isset($r101_lap_bayar->TglBayar->EditAttrs["readonly"]) && !isset($r101_lap_bayar->TglBayar->EditAttrs["disabled"])) { ?>
-<script>
-ew.createDateTimePicker("fr101_lap_bayarsummary", "x_TglBayar", {"ignoreReadonly":true,"useCurrent":false,"format":7});
-</script>
-<?php } ?>
-</span>
-	<span class="ew-search-cond btw1_TglBayar"><label><?php echo $ReportLanguage->Phrase("AND") ?></label></span>
-	<span class="ew-search-field btw1_TglBayar">
-<?php PrependClass($Page->TglBayar->EditAttrs["class"], "form-control"); // PR8 ?>
-<input type="text" data-table="r101_lap_bayar" data-field="x_TglBayar" id="y_TglBayar" name="y_TglBayar" size="10" maxlength="10" placeholder="<?php echo HtmlEncode($Page->TglBayar->getPlaceHolder()) ?>" value="<?php echo HtmlEncode($Page->TglBayar->AdvancedSearch->SearchValue2) ?>"<?php echo $Page->TglBayar->editAttributes() ?>>
-<?php if (!$r101_lap_bayar->TglBayar->ReadOnly && !$r101_lap_bayar->TglBayar->Disabled && !isset($r101_lap_bayar->TglBayar->EditAttrs["readonly"]) && !isset($r101_lap_bayar->TglBayar->EditAttrs["disabled"])) { ?>
-<script>
-ew.createDateTimePicker("fr101_lap_bayarsummary", "y_TglBayar", {"ignoreReadonly":true,"useCurrent":false,"format":7});
-</script>
-<?php } ?>
+<?php echo $Page->Periode->Lookup->getParamTag("p_x_Periode") ?>
 </span>
 </div>
 </div>
@@ -214,7 +149,7 @@ ew.createDateTimePicker("fr101_lap_bayarsummary", "y_TglBayar", {"ignoreReadonly
 </div>
 </form>
 <script>
-fr101_lap_bayarsummary.filterList = <?php echo $Page->getFilterList() ?>;
+fr102_lap_tunggaksummary.filterList = <?php echo $Page->getFilterList() ?>;
 </script>
 <!-- Search form (end) -->
 <?php } ?>
@@ -260,7 +195,7 @@ while ($Page->Recordset && !$Page->Recordset->EOF && $Page->GroupCount <= $Page-
 <?php } ?>
 <!-- Report grid (begin) -->
 <?php if ($Page->Export <> "pdf") { ?>
-<div id="gmp_r101_lap_bayar" class="<?php if (IsResponsiveLayout()) { echo "table-responsive "; } ?>ew-grid-middle-panel">
+<div id="gmp_r102_lap_tunggak" class="<?php if (IsResponsiveLayout()) { echo "table-responsive "; } ?>ew-grid-middle-panel">
 <?php } ?>
 <table class="<?php echo $Page->ReportTableClass ?>">
 <thead>
@@ -268,15 +203,15 @@ while ($Page->Recordset && !$Page->Recordset->EOF && $Page->GroupCount <= $Page-
 	<tr class="ew-table-header">
 <?php if ($Page->TahunAjaran->Visible) { ?>
 <?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
-	<td data-field="TahunAjaran"><div class="r101_lap_bayar_TahunAjaran"><span class="ew-table-header-caption"><?php echo $Page->TahunAjaran->caption() ?></span></div></td>
+	<td data-field="TahunAjaran"><div class="r102_lap_tunggak_TahunAjaran"><span class="ew-table-header-caption"><?php echo $Page->TahunAjaran->caption() ?></span></div></td>
 <?php } else { ?>
 	<td data-field="TahunAjaran">
 <?php if ($Page->sortUrl($Page->TahunAjaran) == "") { ?>
-		<div class="ew-table-header-btn r101_lap_bayar_TahunAjaran">
+		<div class="ew-table-header-btn r102_lap_tunggak_TahunAjaran">
 			<span class="ew-table-header-caption"><?php echo $Page->TahunAjaran->caption() ?></span>
 		</div>
 <?php } else { ?>
-		<div class="ew-table-header-btn ew-pointer r101_lap_bayar_TahunAjaran" onclick="ew.sort(event,'<?php echo $Page->sortUrl($Page->TahunAjaran) ?>',2);">
+		<div class="ew-table-header-btn ew-pointer r102_lap_tunggak_TahunAjaran" onclick="ew.sort(event,'<?php echo $Page->sortUrl($Page->TahunAjaran) ?>',2);">
 			<span class="ew-table-header-caption"><?php echo $Page->TahunAjaran->caption() ?></span>
 			<span class="ew-table-header-sort"><?php if ($Page->TahunAjaran->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($Page->TahunAjaran->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span>
 		</div>
@@ -286,15 +221,15 @@ while ($Page->Recordset && !$Page->Recordset->EOF && $Page->GroupCount <= $Page-
 <?php } ?>
 <?php if ($Page->SekolahNama->Visible) { ?>
 <?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
-	<td data-field="SekolahNama"><div class="r101_lap_bayar_SekolahNama"><span class="ew-table-header-caption"><?php echo $Page->SekolahNama->caption() ?></span></div></td>
+	<td data-field="SekolahNama"><div class="r102_lap_tunggak_SekolahNama"><span class="ew-table-header-caption"><?php echo $Page->SekolahNama->caption() ?></span></div></td>
 <?php } else { ?>
 	<td data-field="SekolahNama">
 <?php if ($Page->sortUrl($Page->SekolahNama) == "") { ?>
-		<div class="ew-table-header-btn r101_lap_bayar_SekolahNama">
+		<div class="ew-table-header-btn r102_lap_tunggak_SekolahNama">
 			<span class="ew-table-header-caption"><?php echo $Page->SekolahNama->caption() ?></span>
 		</div>
 <?php } else { ?>
-		<div class="ew-table-header-btn ew-pointer r101_lap_bayar_SekolahNama" onclick="ew.sort(event,'<?php echo $Page->sortUrl($Page->SekolahNama) ?>',2);">
+		<div class="ew-table-header-btn ew-pointer r102_lap_tunggak_SekolahNama" onclick="ew.sort(event,'<?php echo $Page->sortUrl($Page->SekolahNama) ?>',2);">
 			<span class="ew-table-header-caption"><?php echo $Page->SekolahNama->caption() ?></span>
 			<span class="ew-table-header-sort"><?php if ($Page->SekolahNama->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($Page->SekolahNama->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span>
 		</div>
@@ -304,15 +239,15 @@ while ($Page->Recordset && !$Page->Recordset->EOF && $Page->GroupCount <= $Page-
 <?php } ?>
 <?php if ($Page->KelasNama->Visible) { ?>
 <?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
-	<td data-field="KelasNama"><div class="r101_lap_bayar_KelasNama"><span class="ew-table-header-caption"><?php echo $Page->KelasNama->caption() ?></span></div></td>
+	<td data-field="KelasNama"><div class="r102_lap_tunggak_KelasNama"><span class="ew-table-header-caption"><?php echo $Page->KelasNama->caption() ?></span></div></td>
 <?php } else { ?>
 	<td data-field="KelasNama">
 <?php if ($Page->sortUrl($Page->KelasNama) == "") { ?>
-		<div class="ew-table-header-btn r101_lap_bayar_KelasNama">
+		<div class="ew-table-header-btn r102_lap_tunggak_KelasNama">
 			<span class="ew-table-header-caption"><?php echo $Page->KelasNama->caption() ?></span>
 		</div>
 <?php } else { ?>
-		<div class="ew-table-header-btn ew-pointer r101_lap_bayar_KelasNama" onclick="ew.sort(event,'<?php echo $Page->sortUrl($Page->KelasNama) ?>',2);">
+		<div class="ew-table-header-btn ew-pointer r102_lap_tunggak_KelasNama" onclick="ew.sort(event,'<?php echo $Page->sortUrl($Page->KelasNama) ?>',2);">
 			<span class="ew-table-header-caption"><?php echo $Page->KelasNama->caption() ?></span>
 			<span class="ew-table-header-sort"><?php if ($Page->KelasNama->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($Page->KelasNama->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span>
 		</div>
@@ -322,15 +257,15 @@ while ($Page->Recordset && !$Page->Recordset->EOF && $Page->GroupCount <= $Page-
 <?php } ?>
 <?php if ($Page->NomorInduk->Visible) { ?>
 <?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
-	<td data-field="NomorInduk"><div class="r101_lap_bayar_NomorInduk"><span class="ew-table-header-caption"><?php echo $Page->NomorInduk->caption() ?></span></div></td>
+	<td data-field="NomorInduk"><div class="r102_lap_tunggak_NomorInduk"><span class="ew-table-header-caption"><?php echo $Page->NomorInduk->caption() ?></span></div></td>
 <?php } else { ?>
 	<td data-field="NomorInduk">
 <?php if ($Page->sortUrl($Page->NomorInduk) == "") { ?>
-		<div class="ew-table-header-btn r101_lap_bayar_NomorInduk">
+		<div class="ew-table-header-btn r102_lap_tunggak_NomorInduk">
 			<span class="ew-table-header-caption"><?php echo $Page->NomorInduk->caption() ?></span>
 		</div>
 <?php } else { ?>
-		<div class="ew-table-header-btn ew-pointer r101_lap_bayar_NomorInduk" onclick="ew.sort(event,'<?php echo $Page->sortUrl($Page->NomorInduk) ?>',2);">
+		<div class="ew-table-header-btn ew-pointer r102_lap_tunggak_NomorInduk" onclick="ew.sort(event,'<?php echo $Page->sortUrl($Page->NomorInduk) ?>',2);">
 			<span class="ew-table-header-caption"><?php echo $Page->NomorInduk->caption() ?></span>
 			<span class="ew-table-header-sort"><?php if ($Page->NomorInduk->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($Page->NomorInduk->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span>
 		</div>
@@ -340,15 +275,15 @@ while ($Page->Recordset && !$Page->Recordset->EOF && $Page->GroupCount <= $Page-
 <?php } ?>
 <?php if ($Page->SiswaNama->Visible) { ?>
 <?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
-	<td data-field="SiswaNama"><div class="r101_lap_bayar_SiswaNama"><span class="ew-table-header-caption"><?php echo $Page->SiswaNama->caption() ?></span></div></td>
+	<td data-field="SiswaNama"><div class="r102_lap_tunggak_SiswaNama"><span class="ew-table-header-caption"><?php echo $Page->SiswaNama->caption() ?></span></div></td>
 <?php } else { ?>
 	<td data-field="SiswaNama">
 <?php if ($Page->sortUrl($Page->SiswaNama) == "") { ?>
-		<div class="ew-table-header-btn r101_lap_bayar_SiswaNama">
+		<div class="ew-table-header-btn r102_lap_tunggak_SiswaNama">
 			<span class="ew-table-header-caption"><?php echo $Page->SiswaNama->caption() ?></span>
 		</div>
 <?php } else { ?>
-		<div class="ew-table-header-btn ew-pointer r101_lap_bayar_SiswaNama" onclick="ew.sort(event,'<?php echo $Page->sortUrl($Page->SiswaNama) ?>',2);">
+		<div class="ew-table-header-btn ew-pointer r102_lap_tunggak_SiswaNama" onclick="ew.sort(event,'<?php echo $Page->sortUrl($Page->SiswaNama) ?>',2);">
 			<span class="ew-table-header-caption"><?php echo $Page->SiswaNama->caption() ?></span>
 			<span class="ew-table-header-sort"><?php if ($Page->SiswaNama->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($Page->SiswaNama->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span>
 		</div>
@@ -358,15 +293,15 @@ while ($Page->Recordset && !$Page->Recordset->EOF && $Page->GroupCount <= $Page-
 <?php } ?>
 <?php if ($Page->IuranNama->Visible) { ?>
 <?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
-	<td data-field="IuranNama"><div class="r101_lap_bayar_IuranNama"><span class="ew-table-header-caption"><?php echo $Page->IuranNama->caption() ?></span></div></td>
+	<td data-field="IuranNama"><div class="r102_lap_tunggak_IuranNama"><span class="ew-table-header-caption"><?php echo $Page->IuranNama->caption() ?></span></div></td>
 <?php } else { ?>
 	<td data-field="IuranNama">
 <?php if ($Page->sortUrl($Page->IuranNama) == "") { ?>
-		<div class="ew-table-header-btn r101_lap_bayar_IuranNama">
+		<div class="ew-table-header-btn r102_lap_tunggak_IuranNama">
 			<span class="ew-table-header-caption"><?php echo $Page->IuranNama->caption() ?></span>
 		</div>
 <?php } else { ?>
-		<div class="ew-table-header-btn ew-pointer r101_lap_bayar_IuranNama" onclick="ew.sort(event,'<?php echo $Page->sortUrl($Page->IuranNama) ?>',2);">
+		<div class="ew-table-header-btn ew-pointer r102_lap_tunggak_IuranNama" onclick="ew.sort(event,'<?php echo $Page->sortUrl($Page->IuranNama) ?>',2);">
 			<span class="ew-table-header-caption"><?php echo $Page->IuranNama->caption() ?></span>
 			<span class="ew-table-header-sort"><?php if ($Page->IuranNama->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($Page->IuranNama->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span>
 		</div>
@@ -376,15 +311,15 @@ while ($Page->Recordset && !$Page->Recordset->EOF && $Page->GroupCount <= $Page-
 <?php } ?>
 <?php if ($Page->Jumlah->Visible) { ?>
 <?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
-	<td data-field="Jumlah"><div class="r101_lap_bayar_Jumlah" style="text-align: right;"><span class="ew-table-header-caption"><?php echo $Page->Jumlah->caption() ?></span></div></td>
+	<td data-field="Jumlah"><div class="r102_lap_tunggak_Jumlah" style="text-align: right;"><span class="ew-table-header-caption"><?php echo $Page->Jumlah->caption() ?></span></div></td>
 <?php } else { ?>
 	<td data-field="Jumlah">
 <?php if ($Page->sortUrl($Page->Jumlah) == "") { ?>
-		<div class="ew-table-header-btn r101_lap_bayar_Jumlah" style="text-align: right;">
+		<div class="ew-table-header-btn r102_lap_tunggak_Jumlah" style="text-align: right;">
 			<span class="ew-table-header-caption"><?php echo $Page->Jumlah->caption() ?></span>
 		</div>
 <?php } else { ?>
-		<div class="ew-table-header-btn ew-pointer r101_lap_bayar_Jumlah" onclick="ew.sort(event,'<?php echo $Page->sortUrl($Page->Jumlah) ?>',2);" style="text-align: right;">
+		<div class="ew-table-header-btn ew-pointer r102_lap_tunggak_Jumlah" onclick="ew.sort(event,'<?php echo $Page->sortUrl($Page->Jumlah) ?>',2);" style="text-align: right;">
 			<span class="ew-table-header-caption"><?php echo $Page->Jumlah->caption() ?></span>
 			<span class="ew-table-header-sort"><?php if ($Page->Jumlah->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($Page->Jumlah->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span>
 		</div>
@@ -394,15 +329,15 @@ while ($Page->Recordset && !$Page->Recordset->EOF && $Page->GroupCount <= $Page-
 <?php } ?>
 <?php if ($Page->PeriodeBulan->Visible) { ?>
 <?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
-	<td data-field="PeriodeBulan"><div class="r101_lap_bayar_PeriodeBulan"><span class="ew-table-header-caption"><?php echo $Page->PeriodeBulan->caption() ?></span></div></td>
+	<td data-field="PeriodeBulan"><div class="r102_lap_tunggak_PeriodeBulan"><span class="ew-table-header-caption"><?php echo $Page->PeriodeBulan->caption() ?></span></div></td>
 <?php } else { ?>
 	<td data-field="PeriodeBulan">
 <?php if ($Page->sortUrl($Page->PeriodeBulan) == "") { ?>
-		<div class="ew-table-header-btn r101_lap_bayar_PeriodeBulan">
+		<div class="ew-table-header-btn r102_lap_tunggak_PeriodeBulan">
 			<span class="ew-table-header-caption"><?php echo $Page->PeriodeBulan->caption() ?></span>
 		</div>
 <?php } else { ?>
-		<div class="ew-table-header-btn ew-pointer r101_lap_bayar_PeriodeBulan" onclick="ew.sort(event,'<?php echo $Page->sortUrl($Page->PeriodeBulan) ?>',2);">
+		<div class="ew-table-header-btn ew-pointer r102_lap_tunggak_PeriodeBulan" onclick="ew.sort(event,'<?php echo $Page->sortUrl($Page->PeriodeBulan) ?>',2);">
 			<span class="ew-table-header-caption"><?php echo $Page->PeriodeBulan->caption() ?></span>
 			<span class="ew-table-header-sort"><?php if ($Page->PeriodeBulan->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($Page->PeriodeBulan->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span>
 		</div>
@@ -410,35 +345,17 @@ while ($Page->Recordset && !$Page->Recordset->EOF && $Page->GroupCount <= $Page-
 	</td>
 <?php } ?>
 <?php } ?>
-<?php if ($Page->TglBayar->Visible) { ?>
-<?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
-	<td data-field="TglBayar"><div class="r101_lap_bayar_TglBayar"><span class="ew-table-header-caption"><?php echo $Page->TglBayar->caption() ?></span></div></td>
-<?php } else { ?>
-	<td data-field="TglBayar">
-<?php if ($Page->sortUrl($Page->TglBayar) == "") { ?>
-		<div class="ew-table-header-btn r101_lap_bayar_TglBayar">
-			<span class="ew-table-header-caption"><?php echo $Page->TglBayar->caption() ?></span>
-		</div>
-<?php } else { ?>
-		<div class="ew-table-header-btn ew-pointer r101_lap_bayar_TglBayar" onclick="ew.sort(event,'<?php echo $Page->sortUrl($Page->TglBayar) ?>',2);">
-			<span class="ew-table-header-caption"><?php echo $Page->TglBayar->caption() ?></span>
-			<span class="ew-table-header-sort"><?php if ($Page->TglBayar->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($Page->TglBayar->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span>
-		</div>
-<?php } ?>
-	</td>
-<?php } ?>
-<?php } ?>
 <?php if ($Page->JumlahBayar->Visible) { ?>
 <?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
-	<td data-field="JumlahBayar"><div class="r101_lap_bayar_JumlahBayar" style="text-align: right;"><span class="ew-table-header-caption"><?php echo $Page->JumlahBayar->caption() ?></span></div></td>
+	<td data-field="JumlahBayar"><div class="r102_lap_tunggak_JumlahBayar" style="text-align: right;"><span class="ew-table-header-caption"><?php echo $Page->JumlahBayar->caption() ?></span></div></td>
 <?php } else { ?>
 	<td data-field="JumlahBayar">
 <?php if ($Page->sortUrl($Page->JumlahBayar) == "") { ?>
-		<div class="ew-table-header-btn r101_lap_bayar_JumlahBayar" style="text-align: right;">
+		<div class="ew-table-header-btn r102_lap_tunggak_JumlahBayar" style="text-align: right;">
 			<span class="ew-table-header-caption"><?php echo $Page->JumlahBayar->caption() ?></span>
 		</div>
 <?php } else { ?>
-		<div class="ew-table-header-btn ew-pointer r101_lap_bayar_JumlahBayar" onclick="ew.sort(event,'<?php echo $Page->sortUrl($Page->JumlahBayar) ?>',2);" style="text-align: right;">
+		<div class="ew-table-header-btn ew-pointer r102_lap_tunggak_JumlahBayar" onclick="ew.sort(event,'<?php echo $Page->sortUrl($Page->JumlahBayar) ?>',2);" style="text-align: right;">
 			<span class="ew-table-header-caption"><?php echo $Page->JumlahBayar->caption() ?></span>
 			<span class="ew-table-header-sort"><?php if ($Page->JumlahBayar->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($Page->JumlahBayar->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span>
 		</div>
@@ -448,15 +365,15 @@ while ($Page->Recordset && !$Page->Recordset->EOF && $Page->GroupCount <= $Page-
 <?php } ?>
 <?php if ($Page->iuran_id->Visible) { ?>
 <?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
-	<td data-field="iuran_id"><div class="r101_lap_bayar_iuran_id"><span class="ew-table-header-caption"><?php echo $Page->iuran_id->caption() ?></span></div></td>
+	<td data-field="iuran_id"><div class="r102_lap_tunggak_iuran_id"><span class="ew-table-header-caption"><?php echo $Page->iuran_id->caption() ?></span></div></td>
 <?php } else { ?>
 	<td data-field="iuran_id">
 <?php if ($Page->sortUrl($Page->iuran_id) == "") { ?>
-		<div class="ew-table-header-btn r101_lap_bayar_iuran_id">
+		<div class="ew-table-header-btn r102_lap_tunggak_iuran_id">
 			<span class="ew-table-header-caption"><?php echo $Page->iuran_id->caption() ?></span>
 		</div>
 <?php } else { ?>
-		<div class="ew-table-header-btn ew-pointer r101_lap_bayar_iuran_id" onclick="ew.sort(event,'<?php echo $Page->sortUrl($Page->iuran_id) ?>',2);">
+		<div class="ew-table-header-btn ew-pointer r102_lap_tunggak_iuran_id" onclick="ew.sort(event,'<?php echo $Page->sortUrl($Page->iuran_id) ?>',2);">
 			<span class="ew-table-header-caption"><?php echo $Page->iuran_id->caption() ?></span>
 			<span class="ew-table-header-sort"><?php if ($Page->iuran_id->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($Page->iuran_id->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span>
 		</div>
@@ -466,15 +383,15 @@ while ($Page->Recordset && !$Page->Recordset->EOF && $Page->GroupCount <= $Page-
 <?php } ?>
 <?php if ($Page->Periode->Visible) { ?>
 <?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
-	<td data-field="Periode"><div class="r101_lap_bayar_Periode"><span class="ew-table-header-caption"><?php echo $Page->Periode->caption() ?></span></div></td>
+	<td data-field="Periode"><div class="r102_lap_tunggak_Periode"><span class="ew-table-header-caption"><?php echo $Page->Periode->caption() ?></span></div></td>
 <?php } else { ?>
 	<td data-field="Periode">
 <?php if ($Page->sortUrl($Page->Periode) == "") { ?>
-		<div class="ew-table-header-btn r101_lap_bayar_Periode">
+		<div class="ew-table-header-btn r102_lap_tunggak_Periode">
 			<span class="ew-table-header-caption"><?php echo $Page->Periode->caption() ?></span>
 		</div>
 <?php } else { ?>
-		<div class="ew-table-header-btn ew-pointer r101_lap_bayar_Periode" onclick="ew.sort(event,'<?php echo $Page->sortUrl($Page->Periode) ?>',2);">
+		<div class="ew-table-header-btn ew-pointer r102_lap_tunggak_Periode" onclick="ew.sort(event,'<?php echo $Page->sortUrl($Page->Periode) ?>',2);">
 			<span class="ew-table-header-caption"><?php echo $Page->Periode->caption() ?></span>
 			<span class="ew-table-header-sort"><?php if ($Page->Periode->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($Page->Periode->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span>
 		</div>
@@ -532,10 +449,6 @@ while ($Page->Recordset && !$Page->Recordset->EOF && $Page->GroupCount <= $Page-
 		<td data-field="PeriodeBulan"<?php echo $Page->PeriodeBulan->cellAttributes() ?>>
 <span<?php echo $Page->PeriodeBulan->viewAttributes() ?>><?php echo $Page->PeriodeBulan->getViewValue() ?></span></td>
 <?php } ?>
-<?php if ($Page->TglBayar->Visible) { ?>
-		<td data-field="TglBayar"<?php echo $Page->TglBayar->cellAttributes() ?>>
-<span<?php echo $Page->TglBayar->viewAttributes() ?>><?php echo $Page->TglBayar->getViewValue() ?></span></td>
-<?php } ?>
 <?php if ($Page->JumlahBayar->Visible) { ?>
 		<td data-field="JumlahBayar"<?php echo $Page->JumlahBayar->cellAttributes() ?>>
 <span<?php echo $Page->JumlahBayar->viewAttributes() ?>><?php echo $Page->JumlahBayar->getViewValue() ?></span></td>
@@ -586,7 +499,7 @@ while ($Page->Recordset && !$Page->Recordset->EOF && $Page->GroupCount <= $Page-
 <?php } ?>
 <!-- Report grid (begin) -->
 <?php if ($Page->Export <> "pdf") { ?>
-<div id="gmp_r101_lap_bayar" class="<?php if (IsResponsiveLayout()) { echo "table-responsive "; } ?>ew-grid-middle-panel">
+<div id="gmp_r102_lap_tunggak" class="<?php if (IsResponsiveLayout()) { echo "table-responsive "; } ?>ew-grid-middle-panel">
 <?php } ?>
 <table class="<?php echo $Page->ReportTableClass ?>">
 <?php } ?>
@@ -597,7 +510,7 @@ while ($Page->Recordset && !$Page->Recordset->EOF && $Page->GroupCount <= $Page-
 <?php } ?>
 <?php if ($Page->Export == "" && !($Page->DrillDown && $Page->TotalGroups > 0)) { ?>
 <div class="card-footer ew-grid-lower-panel">
-<?php include "r101_lap_bayar_pager.php" ?>
+<?php include "r102_lap_tunggak_pager.php" ?>
 <div class="clearfix"></div>
 </div>
 <?php } ?>

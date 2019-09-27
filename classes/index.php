@@ -438,12 +438,12 @@ class index
 			$this->terminate("t302_userlevelslist.php");
 		if ($Security->allowList(CurrentProjectID() . 't303_userlevelpermissions'))
 			$this->terminate("t303_userlevelpermissionslist.php");
+		if ($Security->allowList(CurrentProjectID() . 't304_audit_trail'))
+			$this->terminate("t304_audit_traillist.php");
 		if ($Security->allowList(CurrentProjectID() . 'v102_daf_kelas_siswa'))
 			$this->terminate("v102_daf_kelas_siswalist.php");
 		if ($Security->allowList(CurrentProjectID() . 'v103_daf_kelas_siswa_iuran'))
 			$this->terminate("v103_daf_kelas_siswa_iuranlist.php");
-		if ($Security->allowList(CurrentProjectID() . 't304_audit_trail'))
-			$this->terminate("t304_audit_traillist.php");
 		if ($Security->isLoggedIn()) {
 			$this->setFailureMessage(DeniedMessage() . "<br><br><a href=\"logout.php\">" . $Language->phrase("BackToLogin") . "</a>");
 		} else {

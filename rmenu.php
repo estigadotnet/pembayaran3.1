@@ -17,5 +17,6 @@ echo $topMenu->toScript();
 // Sidebar menu
 $sideMenu = new Menu("menu", TRUE, FALSE);
 $sideMenu->addMenuItem(18, "mi_r101_lap_bayar", $ReportLanguage->phrase("DetailSummaryReportMenuItemPrefix") . $ReportLanguage->menuPhrase("18", "MenuText") . $ReportLanguage->phrase("DetailSummaryReportMenuItemSuffix"), "r101_lap_bayarsmry.php", -1, "", AllowListMenu('{5ED375BE-ECE4-4069-8E33-06727256BDB4}r101_lap_bayar'), FALSE, FALSE, "", "", FALSE);
+$sideMenu->addMenuItem(21, "mi_r102_lap_tunggak", $ReportLanguage->phrase("DetailSummaryReportMenuItemPrefix") . $ReportLanguage->menuPhrase("21", "MenuText") . $ReportLanguage->phrase("DetailSummaryReportMenuItemSuffix"), "r102_lap_tunggaksmry.php", -1, "", AllowListMenu('{5ED375BE-ECE4-4069-8E33-06727256BDB4}r102_lap_tunggak'), FALSE, FALSE, "", "", FALSE);
 echo $sideMenu->toScript();
 ?>

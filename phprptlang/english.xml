@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<ew-language date="2019/9/26" version="12.0.1" id="en" name="English" desc="English" author="e.World Technology Ltd.">
+<ew-language date="2019/9/27" version="12.0.1" id="en" name="English" desc="English" author="e.World Technology Ltd.">
   <!-- 
 	*** Important Notes:
 	1. Language ID should follow: https://developers.google.com/recaptcha/docs/language,
@@ -403,6 +403,12 @@
   <project>
     <phrase id="bodytitle" value="Pembayaran v.3.1" />
     <phrase id="footertext" value="&amp;copy;2019 ESTIGA[dot]NET. All rights reserved." />
+    <menu id="18">
+      <phrase id="menutext" value="Pembayaran" />
+    </menu>
+    <menu id="21">
+      <phrase id="menutext" value="Tunggakan" />
+    </menu>
     <menu id="1">
       <phrase id="menutext" value="t 001 tahun ajaran" />
     </menu>
@@ -454,9 +460,135 @@
     <menu id="17">
       <phrase id="menutext" value="v 105 lap bayar" />
     </menu>
-    <menu id="18">
-      <phrase id="menutext" value="Pembayaran" />
+    <menu id="19">
+      <phrase id="menutext" value="v 106 tunggakan" />
     </menu>
+    <menu id="20">
+      <phrase id="menutext" value="v 107 lap tunggak" />
+    </menu>
+    <table id="r101_lap_bayar">
+      <phrase id="tblcaption" value="Pembayaran" />
+      <field id="tahunajaran">
+        <phrase id="fldcaption" value="Tahun Ajaran" />
+      </field>
+      <field id="sekolahnama">
+        <phrase id="fldcaption" value="Sekolah" />
+      </field>
+      <field id="kelasnama">
+        <phrase id="fldcaption" value="Kelas" />
+      </field>
+      <field id="nomorinduk">
+        <phrase id="fldcaption" value="Nomor Induk" />
+      </field>
+      <field id="siswanama">
+        <phrase id="fldcaption" value="Siswa" />
+      </field>
+      <field id="iurannama">
+        <phrase id="fldcaption" value="Iuran" />
+      </field>
+      <field id="jumlah">
+        <phrase id="fldcaption" value="Jumlah" />
+      </field>
+      <field id="periodebulan">
+        <phrase id="fldcaption" value="Periode" />
+      </field>
+      <field id="tglbayar">
+        <phrase id="fldcaption" value="Tgl. Bayar" />
+      </field>
+      <field id="jumlahbayar">
+        <phrase id="fldcaption" value="Jml. Bayar" />
+      </field>
+      <field id="iuran_id">
+        <phrase id="fldcaption" value="iuran id" />
+      </field>
+      <field id="periode">
+        <phrase id="fldcaption" value="Periode" />
+      </field>
+      <field id="dk_id">
+        <phrase id="fldcaption" value="dk id" />
+      </field>
+      <field id="daf_kelas_siswa_id">
+        <phrase id="fldcaption" value="daf kelas siswa id" />
+      </field>
+      <field id="tahun_ajaran_id">
+        <phrase id="fldcaption" value="tahun ajaran id" />
+      </field>
+      <field id="sekolah_id">
+        <phrase id="fldcaption" value="sekolah id" />
+      </field>
+      <field id="kelas_id">
+        <phrase id="fldcaption" value="kelas id" />
+      </field>
+      <field id="siswa_id">
+        <phrase id="fldcaption" value="siswa id" />
+      </field>
+      <field id="statusbayar">
+        <phrase id="fldcaption" value="Status Bayar" />
+      </field>
+    </table>
+    <table id="r102_lap_tunggak">
+      <phrase id="tblcaption" value="Tunggakan" />
+      <field id="tahunajaran">
+        <phrase id="fldcaption" value="Tahun Ajaran" />
+      </field>
+      <field id="sekolahnama">
+        <phrase id="fldcaption" value="Sekolah" />
+      </field>
+      <field id="kelasnama">
+        <phrase id="fldcaption" value="Kelas" />
+      </field>
+      <field id="nomorinduk">
+        <phrase id="fldcaption" value="Nomor Induk" />
+      </field>
+      <field id="siswanama">
+        <phrase id="fldcaption" value="Siswa" />
+      </field>
+      <field id="iurannama">
+        <phrase id="fldcaption" value="Iuran" />
+      </field>
+      <field id="jumlah">
+        <phrase id="fldcaption" value="Jumlah" />
+      </field>
+      <field id="periodebulan">
+        <phrase id="fldcaption" value="Periode" />
+      </field>
+      <field id="jumlahbayar">
+        <phrase id="fldcaption" value="Jumlah Tunggakan" />
+      </field>
+      <field id="iuran_id">
+        <phrase id="fldcaption" value="iuran id" />
+      </field>
+      <field id="periode">
+        <phrase id="fldcaption" value="Periode" />
+      </field>
+      <field id="dk_id">
+        <phrase id="fldcaption" value="dk id" />
+      </field>
+      <field id="daf_kelas_siswa_id">
+        <phrase id="fldcaption" value="daf kelas siswa id" />
+      </field>
+      <field id="tahun_ajaran_id">
+        <phrase id="fldcaption" value="tahun ajaran id" />
+      </field>
+      <field id="sekolah_id">
+        <phrase id="fldcaption" value="sekolah id" />
+      </field>
+      <field id="kelas_id">
+        <phrase id="fldcaption" value="kelas id" />
+      </field>
+      <field id="siswa_id">
+        <phrase id="fldcaption" value="siswa id" />
+      </field>
+      <field id="tglbayar">
+        <phrase id="fldcaption" value="Tgl Bayar" />
+      </field>
+      <field id="statusbayar">
+        <phrase id="fldcaption" value="Status Bayar" />
+      </field>
+      <field id="periodenow">
+        <phrase id="fldcaption" value="Periode" />
+      </field>
+    </table>
     <table id="t001_tahun_ajaran_base">
       <phrase id="tblcaption" value="t 001 tahun ajaran" />
       <field id="id">
@@ -925,25 +1057,16 @@
         <phrase id="fldcaption" value="Iuran Nama" />
       </field>
     </table>
-    <table id="r101_lap_bayar">
-      <phrase id="tblcaption" value="Pembayaran" />
-      <field id="tahunajaran">
-        <phrase id="fldcaption" value="Tahun Ajaran" />
+    <table id="v106_tunggakan_base">
+      <phrase id="tblcaption" value="v 106 tunggakan" />
+      <field id="id">
+        <phrase id="fldcaption" value="id" />
       </field>
-      <field id="sekolahnama">
-        <phrase id="fldcaption" value="Sekolah" />
+      <field id="daf_kelas_siswa_id">
+        <phrase id="fldcaption" value="daf kelas siswa id" />
       </field>
-      <field id="kelasnama">
-        <phrase id="fldcaption" value="Kelas" />
-      </field>
-      <field id="nomorinduk">
-        <phrase id="fldcaption" value="Nomor Induk" />
-      </field>
-      <field id="siswanama">
-        <phrase id="fldcaption" value="Siswa" />
-      </field>
-      <field id="iurannama">
-        <phrase id="fldcaption" value="Iuran" />
+      <field id="iuran_id">
+        <phrase id="fldcaption" value="iuran id" />
       </field>
       <field id="jumlah">
         <phrase id="fldcaption" value="Jumlah" />
@@ -952,37 +1075,79 @@
         <phrase id="fldcaption" value="Periode" />
       </field>
       <field id="periodebulan">
-        <phrase id="fldcaption" value="Bulan" />
+        <phrase id="fldcaption" value="Periode Bulan" />
       </field>
-      <field id="tglbayar">
-        <phrase id="fldcaption" value="Tgl. Bayar" />
+      <field id="statusbayar">
+        <phrase id="fldcaption" value="Status Bayar" />
       </field>
       <field id="jumlahbayar">
-        <phrase id="fldcaption" value="Jml. Bayar" />
+        <phrase id="fldcaption" value="Jumlah Bayar" />
       </field>
-      <field id="dk_id">
-        <phrase id="fldcaption" value="dk id" />
+      <field id="tglbayar">
+        <phrase id="fldcaption" value="Tgl Bayar" />
       </field>
+    </table>
+    <table id="v107_lap_tunggak_base">
+      <phrase id="tblcaption" value="v 107 lap tunggak" />
       <field id="daf_kelas_siswa_id">
         <phrase id="fldcaption" value="daf kelas siswa id" />
-      </field>
-      <field id="tahun_ajaran_id">
-        <phrase id="fldcaption" value="tahun ajaran id" />
-      </field>
-      <field id="sekolah_id">
-        <phrase id="fldcaption" value="sekolah id" />
-      </field>
-      <field id="kelas_id">
-        <phrase id="fldcaption" value="kelas id" />
-      </field>
-      <field id="siswa_id">
-        <phrase id="fldcaption" value="siswa id" />
       </field>
       <field id="iuran_id">
         <phrase id="fldcaption" value="iuran id" />
       </field>
+      <field id="jumlah">
+        <phrase id="fldcaption" value="Jumlah" />
+      </field>
+      <field id="periode">
+        <phrase id="fldcaption" value="Periode" />
+      </field>
+      <field id="periodebulan">
+        <phrase id="fldcaption" value="Periode Bulan" />
+      </field>
       <field id="statusbayar">
         <phrase id="fldcaption" value="Status Bayar" />
+      </field>
+      <field id="jumlahbayar">
+        <phrase id="fldcaption" value="Jumlah Bayar" />
+      </field>
+      <field id="tglbayar">
+        <phrase id="fldcaption" value="Tgl Bayar" />
+      </field>
+      <field id="siswa_id">
+        <phrase id="fldcaption" value="siswa id" />
+      </field>
+      <field id="nomorinduk">
+        <phrase id="fldcaption" value="Nomor Induk" />
+      </field>
+      <field id="siswanama">
+        <phrase id="fldcaption" value="Siswa Nama" />
+      </field>
+      <field id="dk_id">
+        <phrase id="fldcaption" value="dk id" />
+      </field>
+      <field id="kelas_id">
+        <phrase id="fldcaption" value="kelas id" />
+      </field>
+      <field id="kelasnama">
+        <phrase id="fldcaption" value="Kelas Nama" />
+      </field>
+      <field id="sekolah_id">
+        <phrase id="fldcaption" value="sekolah id" />
+      </field>
+      <field id="sekolahnama">
+        <phrase id="fldcaption" value="Sekolah Nama" />
+      </field>
+      <field id="tahun_ajaran_id">
+        <phrase id="fldcaption" value="tahun ajaran id" />
+      </field>
+      <field id="tahunajaran">
+        <phrase id="fldcaption" value="Tahun Ajaran" />
+      </field>
+      <field id="iurannama">
+        <phrase id="fldcaption" value="Iuran Nama" />
+      </field>
+      <field id="periodenow">
+        <phrase id="fldcaption" value="Periode Now" />
       </field>
     </table>
   </project>
