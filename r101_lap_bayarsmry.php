@@ -91,6 +91,10 @@ fr101_lap_bayarsummary.lists["x_SekolahNama"] = <?php echo $r101_lap_bayar_summa
 fr101_lap_bayarsummary.lists["x_SekolahNama"].options = <?php echo JsonEncode($r101_lap_bayar_summary->SekolahNama->lookupOptions()) ?>;
 fr101_lap_bayarsummary.lists["x_KelasNama"] = <?php echo $r101_lap_bayar_summary->KelasNama->Lookup->toClientList() ?>;
 fr101_lap_bayarsummary.lists["x_KelasNama"].options = <?php echo JsonEncode($r101_lap_bayar_summary->KelasNama->lookupOptions()) ?>;
+fr101_lap_bayarsummary.lists["x_NomorInduk"] = <?php echo $r101_lap_bayar_summary->NomorInduk->Lookup->toClientList() ?>;
+fr101_lap_bayarsummary.lists["x_NomorInduk"].options = <?php echo JsonEncode($r101_lap_bayar_summary->NomorInduk->lookupOptions()) ?>;
+fr101_lap_bayarsummary.lists["x_SiswaNama"] = <?php echo $r101_lap_bayar_summary->SiswaNama->Lookup->toClientList() ?>;
+fr101_lap_bayarsummary.lists["x_SiswaNama"].options = <?php echo JsonEncode($r101_lap_bayar_summary->SiswaNama->lookupOptions()) ?>;
 </script>
 <?php } ?>
 <?php if ($Page->Export == "" && !$Page->DrillDown && !$DashboardReport) { ?>
@@ -183,6 +187,32 @@ if (!$Page->DrillDownInPanel) {
 </div>
 </div>
 <div id="r_4" class="ew-row d-sm-flex">
+<div id="c_NomorInduk" class="ew-cell form-group">
+	<label for="x_NomorInduk" class="ew-search-caption ew-label"><?php echo $Page->NomorInduk->caption() ?></label>
+	<span class="ew-search-field">
+<div class="input-group">
+	<select class="custom-select ew-custom-select" data-table="r101_lap_bayar" data-field="x_NomorInduk" data-value-separator="<?php echo $Page->NomorInduk->displayValueSeparatorAttribute() ?>" id="x_NomorInduk" name="x_NomorInduk"<?php echo $Page->NomorInduk->editAttributes() ?>>
+		<?php echo $Page->NomorInduk->selectOptionListHtml("x_NomorInduk") ?>
+	</select>
+</div>
+<?php echo $Page->NomorInduk->Lookup->getParamTag("p_x_NomorInduk") ?>
+</span>
+</div>
+</div>
+<div id="r_5" class="ew-row d-sm-flex">
+<div id="c_SiswaNama" class="ew-cell form-group">
+	<label for="x_SiswaNama" class="ew-search-caption ew-label"><?php echo $Page->SiswaNama->caption() ?></label>
+	<span class="ew-search-field">
+<div class="input-group">
+	<select class="custom-select ew-custom-select" data-table="r101_lap_bayar" data-field="x_SiswaNama" data-value-separator="<?php echo $Page->SiswaNama->displayValueSeparatorAttribute() ?>" id="x_SiswaNama" name="x_SiswaNama"<?php echo $Page->SiswaNama->editAttributes() ?>>
+		<?php echo $Page->SiswaNama->selectOptionListHtml("x_SiswaNama") ?>
+	</select>
+</div>
+<?php echo $Page->SiswaNama->Lookup->getParamTag("p_x_SiswaNama") ?>
+</span>
+</div>
+</div>
+<div id="r_6" class="ew-row d-sm-flex">
 <div id="c_TglBayar" class="ew-cell form-group">
 	<label for="x_TglBayar" class="ew-search-caption ew-label"><?php echo $Page->TglBayar->caption() ?></label>
 	<span class="ew-search-operator"><?php echo $ReportLanguage->phrase("BETWEEN"); ?><input type="hidden" name="z_TglBayar" id="z_TglBayar" value="BETWEEN"></span>

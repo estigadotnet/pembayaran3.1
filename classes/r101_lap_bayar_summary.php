@@ -652,6 +652,8 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 		$this->setupLookupOptions($this->TahunAjaran);
 		$this->setupLookupOptions($this->SekolahNama);
 		$this->setupLookupOptions($this->KelasNama);
+		$this->setupLookupOptions($this->NomorInduk);
+		$this->setupLookupOptions($this->SiswaNama);
 
 		// Set field visibility for detail fields
 		$this->TahunAjaran->setVisibility();
@@ -1003,6 +1005,30 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 			}
 			$this->KelasNama->EditValue = $ar;
 			$this->KelasNama->AdvancedSearch->SearchValue = is_array($this->KelasNama->DropDownValue) ? implode(",", $this->KelasNama->DropDownValue) : $this->KelasNama->DropDownValue;
+			$ar = [];
+			if (is_array($this->NomorInduk->AdvancedFilters)) {
+				foreach ($this->NomorInduk->AdvancedFilters as $filter)
+					if ($filter->Enabled)
+						$ar[] = [$filter->ID, $filter->Name];
+			}
+			if (is_array($this->NomorInduk->DropDownList)) {
+				foreach ($this->NomorInduk->DropDownList as $val)
+					$ar[] = [$val, GetDropDownDisplayValue($val, "", 0)];
+			}
+			$this->NomorInduk->EditValue = $ar;
+			$this->NomorInduk->AdvancedSearch->SearchValue = is_array($this->NomorInduk->DropDownValue) ? implode(",", $this->NomorInduk->DropDownValue) : $this->NomorInduk->DropDownValue;
+			$ar = [];
+			if (is_array($this->SiswaNama->AdvancedFilters)) {
+				foreach ($this->SiswaNama->AdvancedFilters as $filter)
+					if ($filter->Enabled)
+						$ar[] = [$filter->ID, $filter->Name];
+			}
+			if (is_array($this->SiswaNama->DropDownList)) {
+				foreach ($this->SiswaNama->DropDownList as $val)
+					$ar[] = [$val, GetDropDownDisplayValue($val, "", 0)];
+			}
+			$this->SiswaNama->EditValue = $ar;
+			$this->SiswaNama->AdvancedSearch->SearchValue = is_array($this->SiswaNama->DropDownValue) ? implode(",", $this->SiswaNama->DropDownValue) : $this->SiswaNama->DropDownValue;
 		} elseif ($this->RowType == ROWTYPE_TOTAL && !($this->RowTotalType == ROWTOTAL_GROUP && $this->RowTotalSubType == ROWTOTAL_HEADER)) { // Summary row
 			PrependClass($this->RowAttrs["class"], ($this->RowTotalType == ROWTOTAL_PAGE || $this->RowTotalType == ROWTOTAL_GRAND) ? "ew-rpt-grp-aggregate" : ""); // Set up row class
 
@@ -1664,6 +1690,8 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 			$this->setSessionDropDownValue($this->TahunAjaran->DropDownValue, $this->TahunAjaran->AdvancedSearch->SearchOperator, "TahunAjaran"); // Field TahunAjaran
 			$this->setSessionDropDownValue($this->SekolahNama->DropDownValue, $this->SekolahNama->AdvancedSearch->SearchOperator, "SekolahNama"); // Field SekolahNama
 			$this->setSessionDropDownValue($this->KelasNama->DropDownValue, $this->KelasNama->AdvancedSearch->SearchOperator, "KelasNama"); // Field KelasNama
+			$this->setSessionDropDownValue($this->NomorInduk->DropDownValue, $this->NomorInduk->AdvancedSearch->SearchOperator, "NomorInduk"); // Field NomorInduk
+			$this->setSessionDropDownValue($this->SiswaNama->DropDownValue, $this->SiswaNama->AdvancedSearch->SearchOperator, "SiswaNama"); // Field SiswaNama
 			$this->setSessionFilterValues($this->TglBayar->AdvancedSearch->SearchValue, $this->TglBayar->AdvancedSearch->SearchOperator, $this->TglBayar->AdvancedSearch->SearchCondition, $this->TglBayar->AdvancedSearch->SearchValue2, $this->TglBayar->AdvancedSearch->SearchOperator2, "TglBayar"); // Field TglBayar
 
 			//$setupFilter = TRUE; // No need to set up, just use default
@@ -1691,6 +1719,20 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 				$setupFilter = TRUE;
 			}
 
+			// Field NomorInduk
+			if ($this->getDropDownValue($this->NomorInduk)) {
+				$setupFilter = TRUE;
+			} elseif ($this->NomorInduk->DropDownValue <> INIT_VALUE && !isset($_SESSION["x_r101_lap_bayar_NomorInduk"])) {
+				$setupFilter = TRUE;
+			}
+
+			// Field SiswaNama
+			if ($this->getDropDownValue($this->SiswaNama)) {
+				$setupFilter = TRUE;
+			} elseif ($this->SiswaNama->DropDownValue <> INIT_VALUE && !isset($_SESSION["x_r101_lap_bayar_SiswaNama"])) {
+				$setupFilter = TRUE;
+			}
+
 			// Field TglBayar
 			if ($this->getFilterValues($this->TglBayar)) {
 				$setupFilter = TRUE;
@@ -1706,6 +1748,8 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 			$this->getSessionDropDownValue($this->TahunAjaran); // Field TahunAjaran
 			$this->getSessionDropDownValue($this->SekolahNama); // Field SekolahNama
 			$this->getSessionDropDownValue($this->KelasNama); // Field KelasNama
+			$this->getSessionDropDownValue($this->NomorInduk); // Field NomorInduk
+			$this->getSessionDropDownValue($this->SiswaNama); // Field SiswaNama
 			$this->getSessionFilterValues($this->TglBayar); // Field TglBayar
 		}
 
@@ -1716,12 +1760,16 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 		$this->buildDropDownFilter($this->TahunAjaran, $filter, $this->TahunAjaran->AdvancedSearch->SearchOperator, FALSE, TRUE); // Field TahunAjaran
 		$this->buildDropDownFilter($this->SekolahNama, $filter, $this->SekolahNama->AdvancedSearch->SearchOperator, FALSE, TRUE); // Field SekolahNama
 		$this->buildDropDownFilter($this->KelasNama, $filter, $this->KelasNama->AdvancedSearch->SearchOperator, FALSE, TRUE); // Field KelasNama
+		$this->buildDropDownFilter($this->NomorInduk, $filter, $this->NomorInduk->AdvancedSearch->SearchOperator, FALSE, TRUE); // Field NomorInduk
+		$this->buildDropDownFilter($this->SiswaNama, $filter, $this->SiswaNama->AdvancedSearch->SearchOperator, FALSE, TRUE); // Field SiswaNama
 		$this->buildExtendedFilter($this->TglBayar, $filter, FALSE, TRUE); // Field TglBayar
 
 		// Save parms to session
 		$this->setSessionDropDownValue($this->TahunAjaran->DropDownValue, $this->TahunAjaran->AdvancedSearch->SearchOperator, "TahunAjaran"); // Field TahunAjaran
 		$this->setSessionDropDownValue($this->SekolahNama->DropDownValue, $this->SekolahNama->AdvancedSearch->SearchOperator, "SekolahNama"); // Field SekolahNama
 		$this->setSessionDropDownValue($this->KelasNama->DropDownValue, $this->KelasNama->AdvancedSearch->SearchOperator, "KelasNama"); // Field KelasNama
+		$this->setSessionDropDownValue($this->NomorInduk->DropDownValue, $this->NomorInduk->AdvancedSearch->SearchOperator, "NomorInduk"); // Field NomorInduk
+		$this->setSessionDropDownValue($this->SiswaNama->DropDownValue, $this->SiswaNama->AdvancedSearch->SearchOperator, "SiswaNama"); // Field SiswaNama
 		$this->setSessionFilterValues($this->TglBayar->AdvancedSearch->SearchValue, $this->TglBayar->AdvancedSearch->SearchOperator, $this->TglBayar->AdvancedSearch->SearchCondition, $this->TglBayar->AdvancedSearch->SearchValue2, $this->TglBayar->AdvancedSearch->SearchOperator2, "TglBayar"); // Field TglBayar
 
 		// Setup filter
@@ -1736,6 +1784,12 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 
 		// Field KelasNama
 		LoadDropDownList($this->KelasNama->DropDownList, $this->KelasNama->DropDownValue);
+
+		// Field NomorInduk
+		LoadDropDownList($this->NomorInduk->DropDownList, $this->NomorInduk->DropDownValue);
+
+		// Field SiswaNama
+		LoadDropDownList($this->SiswaNama->DropDownList, $this->SiswaNama->DropDownValue);
 		return $filter;
 	}
 
@@ -2093,6 +2147,16 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 		if (!$this->SearchCommand)
 			$this->KelasNama->DropDownValue = $this->KelasNama->DefaultDropDownValue;
 
+		// Field NomorInduk
+		$this->NomorInduk->DefaultDropDownValue = INIT_VALUE;
+		if (!$this->SearchCommand)
+			$this->NomorInduk->DropDownValue = $this->NomorInduk->DefaultDropDownValue;
+
+		// Field SiswaNama
+		$this->SiswaNama->DefaultDropDownValue = INIT_VALUE;
+		if (!$this->SearchCommand)
+			$this->SiswaNama->DropDownValue = $this->SiswaNama->DefaultDropDownValue;
+
 		/**
 		* Set up default values for extended filters
 		* function setDefaultExtFilter(&$fld, $so1, $sv1, $sc, $so2, $sv2)
@@ -2129,6 +2193,14 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 
 		// Check KelasNama extended filter
 		if ($this->nonTextFilterApplied($this->KelasNama))
+			return TRUE;
+
+		// Check NomorInduk extended filter
+		if ($this->nonTextFilterApplied($this->NomorInduk))
+			return TRUE;
+
+		// Check SiswaNama extended filter
+		if ($this->nonTextFilterApplied($this->SiswaNama))
 			return TRUE;
 
 		// Check TglBayar text filter
@@ -2182,6 +2254,30 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 			$filter .= "<span class=\"ew-filter-value\">$wrk</span>";
 		if ($filter <> "")
 			$filterList .= "<div><span class=\"" . $captionClass . "\">" . $this->KelasNama->caption() . "</span>" . $captionSuffix . $filter . "</div>";
+
+		// Field NomorInduk
+		$extWrk = "";
+		$wrk = "";
+		$this->buildDropDownFilter($this->NomorInduk, $extWrk, $this->NomorInduk->AdvancedSearch->SearchOperator);
+		$filter = "";
+		if ($extWrk <> "")
+			$filter .= "<span class=\"ew-filter-value\">$extWrk</span>";
+		elseif ($wrk <> "")
+			$filter .= "<span class=\"ew-filter-value\">$wrk</span>";
+		if ($filter <> "")
+			$filterList .= "<div><span class=\"" . $captionClass . "\">" . $this->NomorInduk->caption() . "</span>" . $captionSuffix . $filter . "</div>";
+
+		// Field SiswaNama
+		$extWrk = "";
+		$wrk = "";
+		$this->buildDropDownFilter($this->SiswaNama, $extWrk, $this->SiswaNama->AdvancedSearch->SearchOperator);
+		$filter = "";
+		if ($extWrk <> "")
+			$filter .= "<span class=\"ew-filter-value\">$extWrk</span>";
+		elseif ($wrk <> "")
+			$filter .= "<span class=\"ew-filter-value\">$wrk</span>";
+		if ($filter <> "")
+			$filterList .= "<div><span class=\"" . $captionClass . "\">" . $this->SiswaNama->caption() . "</span>" . $captionSuffix . $filter . "</div>";
 
 		// Field TglBayar
 		$extWrk = "";
@@ -2247,6 +2343,30 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 			$wrk = implode("||", $wrk);
 		if ($wrk <> "")
 			$wrk = "\"x_KelasNama\":\"" . JsEncode($wrk) . "\"";
+		if ($wrk <> "") {
+			if ($filterList <> "") $filterList .= ",";
+			$filterList .= $wrk;
+		}
+
+		// Field NomorInduk
+		$wrk = "";
+		$wrk = ($this->NomorInduk->DropDownValue <> INIT_VALUE) ? $this->NomorInduk->DropDownValue : "";
+		if (is_array($wrk))
+			$wrk = implode("||", $wrk);
+		if ($wrk <> "")
+			$wrk = "\"x_NomorInduk\":\"" . JsEncode($wrk) . "\"";
+		if ($wrk <> "") {
+			if ($filterList <> "") $filterList .= ",";
+			$filterList .= $wrk;
+		}
+
+		// Field SiswaNama
+		$wrk = "";
+		$wrk = ($this->SiswaNama->DropDownValue <> INIT_VALUE) ? $this->SiswaNama->DropDownValue : "";
+		if (is_array($wrk))
+			$wrk = implode("||", $wrk);
+		if ($wrk <> "")
+			$wrk = "\"x_SiswaNama\":\"" . JsEncode($wrk) . "\"";
 		if ($wrk <> "") {
 			if ($filterList <> "") $filterList .= ",";
 			$filterList .= $wrk;
@@ -2327,6 +2447,32 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 		}
 		if (!$restoreFilter) { // Clear filter
 			$this->setSessionDropDownValue(INIT_VALUE, "", "KelasNama");
+		}
+
+		// Field NomorInduk
+		$restoreFilter = FALSE;
+		if (array_key_exists("x_NomorInduk", $filter)) {
+			$wrk = $filter["x_NomorInduk"];
+			if (strpos($wrk, "||") !== FALSE)
+				$wrk = explode("||", $wrk);
+			$this->setSessionDropDownValue($wrk, @$filter["z_NomorInduk"], "NomorInduk");
+			$restoreFilter = TRUE;
+		}
+		if (!$restoreFilter) { // Clear filter
+			$this->setSessionDropDownValue(INIT_VALUE, "", "NomorInduk");
+		}
+
+		// Field SiswaNama
+		$restoreFilter = FALSE;
+		if (array_key_exists("x_SiswaNama", $filter)) {
+			$wrk = $filter["x_SiswaNama"];
+			if (strpos($wrk, "||") !== FALSE)
+				$wrk = explode("||", $wrk);
+			$this->setSessionDropDownValue($wrk, @$filter["z_SiswaNama"], "SiswaNama");
+			$restoreFilter = TRUE;
+		}
+		if (!$restoreFilter) { // Clear filter
+			$this->setSessionDropDownValue(INIT_VALUE, "", "SiswaNama");
 		}
 
 		// Field TglBayar
@@ -2450,6 +2596,9 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 
 		$this->iuran_id->Visible = false;
 		$this->Periode->Visible = false;
+
+		// header
+		$header = "Laporan Pembayaran";
 	}
 
 	// Page Data Rendered event

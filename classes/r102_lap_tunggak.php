@@ -65,15 +65,23 @@ class r102_lap_tunggak extends ReportTable
 		$this->fields['KelasNama'] = &$this->KelasNama;
 
 		// NomorInduk
-		$this->NomorInduk = new ReportField('r102_lap_tunggak', 'r102_lap_tunggak', 'x_NomorInduk', 'NomorInduk', '`NomorInduk`', 200, -1, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->NomorInduk = new ReportField('r102_lap_tunggak', 'r102_lap_tunggak', 'x_NomorInduk', 'NomorInduk', '`NomorInduk`', 200, -1, FALSE, 'FORMATTED TEXT', 'SELECT');
 		$this->NomorInduk->Sortable = TRUE; // Allow sort
+		$this->NomorInduk->UsePleaseSelect = TRUE; // Use PleaseSelect by default
+		$this->NomorInduk->PleaseSelectText = $ReportLanguage->phrase("PleaseSelect"); // PleaseSelect text
 		$this->NomorInduk->DateFilter = "";
+		$this->NomorInduk->Lookup = new ReportLookup('NomorInduk', 'r102_lap_tunggak', TRUE, 'NomorInduk', ["NomorInduk","","",""], [], [], [], [], [], [], '`NomorInduk` ASC', '');
+		$this->NomorInduk->Lookup->RenderViewFunc = "renderLookup";
 		$this->fields['NomorInduk'] = &$this->NomorInduk;
 
 		// SiswaNama
-		$this->SiswaNama = new ReportField('r102_lap_tunggak', 'r102_lap_tunggak', 'x_SiswaNama', 'SiswaNama', '`SiswaNama`', 200, -1, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->SiswaNama = new ReportField('r102_lap_tunggak', 'r102_lap_tunggak', 'x_SiswaNama', 'SiswaNama', '`SiswaNama`', 200, -1, FALSE, 'FORMATTED TEXT', 'SELECT');
 		$this->SiswaNama->Sortable = TRUE; // Allow sort
+		$this->SiswaNama->UsePleaseSelect = TRUE; // Use PleaseSelect by default
+		$this->SiswaNama->PleaseSelectText = $ReportLanguage->phrase("PleaseSelect"); // PleaseSelect text
 		$this->SiswaNama->DateFilter = "";
+		$this->SiswaNama->Lookup = new ReportLookup('SiswaNama', 'r102_lap_tunggak', TRUE, 'SiswaNama', ["SiswaNama","","",""], [], [], [], [], [], [], '`SiswaNama` ASC', '');
+		$this->SiswaNama->Lookup->RenderViewFunc = "renderLookup";
 		$this->fields['SiswaNama'] = &$this->SiswaNama;
 
 		// IuranNama
@@ -193,6 +201,8 @@ class r102_lap_tunggak extends ReportTable
 	// Render for lookup
 	public function renderLookup()
 	{
+		$this->NomorInduk->ViewValue = GetDropDownDisplayValue($this->NomorInduk->CurrentValue, "", 0);
+		$this->SiswaNama->ViewValue = GetDropDownDisplayValue($this->SiswaNama->CurrentValue, "", 0);
 		$this->Periode->ViewValue = GetDropDownDisplayValue($this->Periode->CurrentValue, "", 0);
 	}
 

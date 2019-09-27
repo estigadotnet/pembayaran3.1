@@ -750,6 +750,12 @@
     <menu id="10021">
       <phrase id="menutext" value="Tunggakan" />
     </menu>
+    <menu id="10023">
+      <phrase id="menutext" value="Uang Masuk" />
+    </menu>
+    <menu id="10024">
+      <phrase id="menutext" value="Potensi Uang Masuk" />
+    </menu>
     <menu id="15">
       <phrase id="menutext" value="v 104 pembayaran" />
     </menu>
@@ -771,11 +777,8 @@
     <menu id="16">
       <phrase id="menutext" value="v 105 lap bayar" />
     </menu>
-    <menu id="10022">
+    <menu id="10025">
       <phrase id="menutext" value="v 106 tunggakan" />
-    </menu>
-    <menu id="10020">
-      <phrase id="menutext" value="v 107 lap tunggak" />
     </menu>
     <menu id="10001">
       <phrase id="menutext" value="t 001 tahun ajaran" />
@@ -827,6 +830,9 @@
     </menu>
     <menu id="10017">
       <phrase id="menutext" value="v 105 lap bayar" />
+    </menu>
+    <menu id="10020">
+      <phrase id="menutext" value="v 107 lap tunggak" />
     </menu>
     <table id="c301_home">
       <phrase id="tblcaption" value="Home" />

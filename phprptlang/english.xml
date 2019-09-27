@@ -403,6 +403,18 @@
   <project>
     <phrase id="bodytitle" value="Pembayaran v.3.1" />
     <phrase id="footertext" value="&amp;copy;2019 ESTIGA[dot]NET. All rights reserved." />
+    <menu id="24">
+      <phrase id="menutext" value="v 108 lap um" />
+    </menu>
+    <menu id="25">
+      <phrase id="menutext" value="Potensi Uang Masuk" />
+    </menu>
+    <menu id="26">
+      <phrase id="menutext" value="Uang Masuk" />
+    </menu>
+    <menu id="27">
+      <phrase id="menutext" value="Potensi Uang Masuk" />
+    </menu>
     <menu id="18">
       <phrase id="menutext" value="Pembayaran" />
     </menu>
@@ -1148,6 +1160,90 @@
       </field>
       <field id="periodenow">
         <phrase id="fldcaption" value="Periode Now" />
+      </field>
+    </table>
+    <table id="v108_lap_um_base">
+      <phrase id="tblcaption" value="v 108 lap um" />
+      <field id="tahunajaran">
+        <phrase id="fldcaption" value="tahunajaran" />
+      </field>
+      <field id="sekolahnama">
+        <phrase id="fldcaption" value="sekolahnama" />
+      </field>
+      <field id="kelasnama">
+        <phrase id="fldcaption" value="kelasnama" />
+      </field>
+      <field id="iurannama">
+        <phrase id="fldcaption" value="iurannama" />
+      </field>
+      <field id="jumlah_total">
+        <phrase id="fldcaption" value="jumlah total" />
+      </field>
+      <field id="iuran_id">
+        <phrase id="fldcaption" value="iuran id" />
+      </field>
+    </table>
+    <table id="v109_lap_pum_base">
+      <phrase id="tblcaption" value="Potensi Uang Masuk" />
+      <field id="iurannama">
+        <phrase id="fldcaption" value="Iuran" />
+      </field>
+      <field id="tahunajaran">
+        <phrase id="fldcaption" value="Tahun Ajaran" />
+      </field>
+      <field id="sekolahnama">
+        <phrase id="fldcaption" value="Sekolah" />
+      </field>
+      <field id="kelasnama">
+        <phrase id="fldcaption" value="Kelas" />
+      </field>
+      <field id="jumlah_total">
+        <phrase id="fldcaption" value="Jumlah" />
+      </field>
+      <field id="iuran_id">
+        <phrase id="fldcaption" value="iuran id" />
+      </field>
+    </table>
+    <table id="r103_lap_um">
+      <phrase id="tblcaption" value="Uang Masuk" />
+      <field id="iurannama">
+        <phrase id="fldcaption" value="Iuran" />
+      </field>
+      <field id="tahunajaran">
+        <phrase id="fldcaption" value="Tahun Ajaran" />
+      </field>
+      <field id="sekolahnama">
+        <phrase id="fldcaption" value="Sekolah" />
+      </field>
+      <field id="kelasnama">
+        <phrase id="fldcaption" value="Kelas" />
+      </field>
+      <field id="jumlah_total">
+        <phrase id="fldcaption" value="Jumlah" />
+      </field>
+      <field id="iuran_id">
+        <phrase id="fldcaption" value="iuran id" />
+      </field>
+    </table>
+    <table id="r104_lap_pum">
+      <phrase id="tblcaption" value="Potensi Uang Masuk" />
+      <field id="iurannama">
+        <phrase id="fldcaption" value="Iuran" />
+      </field>
+      <field id="tahunajaran">
+        <phrase id="fldcaption" value="Tahun Ajaran" />
+      </field>
+      <field id="sekolahnama">
+        <phrase id="fldcaption" value="Sekolah" />
+      </field>
+      <field id="kelasnama">
+        <phrase id="fldcaption" value="Kelas" />
+      </field>
+      <field id="jumlah_total">
+        <phrase id="fldcaption" value="Jumlah" />
+      </field>
+      <field id="iuran_id">
+        <phrase id="fldcaption" value="iuran id" />
       </field>
     </table>
   </project>

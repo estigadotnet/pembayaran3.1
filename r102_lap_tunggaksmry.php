@@ -75,6 +75,10 @@ fr102_lap_tunggaksummary.validateRequired = false; // No JavaScript validation
 <?php } ?>
 
 // Use Ajax
+fr102_lap_tunggaksummary.lists["x_NomorInduk"] = <?php echo $r102_lap_tunggak_summary->NomorInduk->Lookup->toClientList() ?>;
+fr102_lap_tunggaksummary.lists["x_NomorInduk"].options = <?php echo JsonEncode($r102_lap_tunggak_summary->NomorInduk->lookupOptions()) ?>;
+fr102_lap_tunggaksummary.lists["x_SiswaNama"] = <?php echo $r102_lap_tunggak_summary->SiswaNama->Lookup->toClientList() ?>;
+fr102_lap_tunggaksummary.lists["x_SiswaNama"].options = <?php echo JsonEncode($r102_lap_tunggak_summary->SiswaNama->lookupOptions()) ?>;
 fr102_lap_tunggaksummary.lists["x_Periode[]"] = <?php echo $r102_lap_tunggak_summary->Periode->Lookup->toClientList() ?>;
 fr102_lap_tunggaksummary.lists["x_Periode[]"].options = <?php echo JsonEncode($r102_lap_tunggak_summary->Periode->lookupOptions()) ?>;
 </script>
@@ -130,6 +134,32 @@ if (!$Page->DrillDownInPanel) {
 <div id="fr102_lap_tunggaksummary-search-panel" class="ew-search-panel collapse<?php echo $searchPanelClass ?>">
 <input type="hidden" name="cmd" value="search">
 <div id="r_1" class="ew-row d-sm-flex">
+<div id="c_NomorInduk" class="ew-cell form-group">
+	<label for="x_NomorInduk" class="ew-search-caption ew-label"><?php echo $Page->NomorInduk->caption() ?></label>
+	<span class="ew-search-field">
+<div class="input-group">
+	<select class="custom-select ew-custom-select" data-table="r102_lap_tunggak" data-field="x_NomorInduk" data-value-separator="<?php echo $Page->NomorInduk->displayValueSeparatorAttribute() ?>" id="x_NomorInduk" name="x_NomorInduk"<?php echo $Page->NomorInduk->editAttributes() ?>>
+		<?php echo $Page->NomorInduk->selectOptionListHtml("x_NomorInduk") ?>
+	</select>
+</div>
+<?php echo $Page->NomorInduk->Lookup->getParamTag("p_x_NomorInduk") ?>
+</span>
+</div>
+</div>
+<div id="r_2" class="ew-row d-sm-flex">
+<div id="c_SiswaNama" class="ew-cell form-group">
+	<label for="x_SiswaNama" class="ew-search-caption ew-label"><?php echo $Page->SiswaNama->caption() ?></label>
+	<span class="ew-search-field">
+<div class="input-group">
+	<select class="custom-select ew-custom-select" data-table="r102_lap_tunggak" data-field="x_SiswaNama" data-value-separator="<?php echo $Page->SiswaNama->displayValueSeparatorAttribute() ?>" id="x_SiswaNama" name="x_SiswaNama"<?php echo $Page->SiswaNama->editAttributes() ?>>
+		<?php echo $Page->SiswaNama->selectOptionListHtml("x_SiswaNama") ?>
+	</select>
+</div>
+<?php echo $Page->SiswaNama->Lookup->getParamTag("p_x_SiswaNama") ?>
+</span>
+</div>
+</div>
+<div id="r_3" class="ew-row d-sm-flex">
 <div id="c_Periode" class="ew-cell form-group">
 	<label for="x_Periode" class="ew-search-caption ew-label"><?php echo $Page->Periode->caption() ?></label>
 	<span class="ew-search-field">

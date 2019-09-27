@@ -2,31 +2,18 @@
 namespace PHPMaker2019\p_pembayaran3_1;
 
 /**
- * Table class for r101_lap_bayar
+ * Table class for r103_lap_um
  */
-class r101_lap_bayar extends ReportTable
+class r103_lap_um extends ReportTable
 {
 	public $ShowGroupHeaderAsRow = FALSE;
 	public $ShowCompactSummaryFooter = TRUE;
-	public $TahunAjaran;
-	public $SekolahNama;
-	public $KelasNama;
-	public $NomorInduk;
-	public $SiswaNama;
-	public $IuranNama;
-	public $Jumlah;
-	public $PeriodeBulan;
-	public $TglBayar;
-	public $JumlahBayar;
+	public $iurannama;
+	public $tahunajaran;
+	public $sekolahnama;
+	public $kelasnama;
+	public $jumlah_total;
 	public $iuran_id;
-	public $Periode;
-	public $dk_id;
-	public $daf_kelas_siswa_id;
-	public $tahun_ajaran_id;
-	public $sekolah_id;
-	public $kelas_id;
-	public $siswa_id;
-	public $StatusBayar;
 
 	// Constructor
 	public function __construct()
@@ -36,8 +23,8 @@ class r101_lap_bayar extends ReportTable
 		// Language object
 		if (!isset($ReportLanguage))
 			$ReportLanguage = new ReportLanguage();
-		$this->TableVar = 'r101_lap_bayar';
-		$this->TableName = 'r101_lap_bayar';
+		$this->TableVar = 'r103_lap_um';
+		$this->TableName = 'r103_lap_um';
 		$this->TableType = 'REPORT';
 		$this->TableReportType = 'summary';
 		$this->SourceTableIsCustomView = FALSE;
@@ -45,150 +32,58 @@ class r101_lap_bayar extends ReportTable
 		$this->ExportAll = FALSE;
 		$this->ExportPageBreakCount = 0;
 
-		// TahunAjaran
-		$this->TahunAjaran = new ReportField('r101_lap_bayar', 'r101_lap_bayar', 'x_TahunAjaran', 'TahunAjaran', '`TahunAjaran`', 200, -1, FALSE, 'FORMATTED TEXT', 'SELECT');
-		$this->TahunAjaran->Sortable = TRUE; // Allow sort
-		$this->TahunAjaran->UsePleaseSelect = TRUE; // Use PleaseSelect by default
-		$this->TahunAjaran->PleaseSelectText = $ReportLanguage->phrase("PleaseSelect"); // PleaseSelect text
-		$this->TahunAjaran->DateFilter = "";
-		$this->TahunAjaran->Lookup = new ReportLookup('TahunAjaran', 'r101_lap_bayar', TRUE, 'TahunAjaran', ["TahunAjaran","","",""], [], [], [], [], [], [], '`TahunAjaran` ASC', '');
-		$this->TahunAjaran->Lookup->RenderViewFunc = "renderLookup";
-		$this->fields['TahunAjaran'] = &$this->TahunAjaran;
+		// iurannama
+		$this->iurannama = new ReportField('r103_lap_um', 'r103_lap_um', 'x_iurannama', 'iurannama', '`iurannama`', 200, -1, FALSE, 'FORMATTED TEXT', 'SELECT');
+		$this->iurannama->Sortable = TRUE; // Allow sort
+		$this->iurannama->SelectMultiple = TRUE; // Multiple select
+		$this->iurannama->DateFilter = "";
+		$this->iurannama->Lookup = new ReportLookup('iurannama', 'r103_lap_um', TRUE, 'iurannama', ["iurannama","","",""], [], [], [], [], [], [], '`iurannama` ASC', '');
+		$this->iurannama->Lookup->RenderViewFunc = "renderLookup";
+		$this->fields['iurannama'] = &$this->iurannama;
 
-		// SekolahNama
-		$this->SekolahNama = new ReportField('r101_lap_bayar', 'r101_lap_bayar', 'x_SekolahNama', 'SekolahNama', '`SekolahNama`', 200, -1, FALSE, 'FORMATTED TEXT', 'SELECT');
-		$this->SekolahNama->Sortable = TRUE; // Allow sort
-		$this->SekolahNama->UsePleaseSelect = TRUE; // Use PleaseSelect by default
-		$this->SekolahNama->PleaseSelectText = $ReportLanguage->phrase("PleaseSelect"); // PleaseSelect text
-		$this->SekolahNama->DateFilter = "";
-		$this->SekolahNama->Lookup = new ReportLookup('SekolahNama', 'r101_lap_bayar', TRUE, 'SekolahNama', ["SekolahNama","","",""], [], [], [], [], [], [], '`SekolahNama` ASC', '');
-		$this->SekolahNama->Lookup->RenderViewFunc = "renderLookup";
-		$this->fields['SekolahNama'] = &$this->SekolahNama;
+		// tahunajaran
+		$this->tahunajaran = new ReportField('r103_lap_um', 'r103_lap_um', 'x_tahunajaran', 'tahunajaran', '`tahunajaran`', 200, -1, FALSE, 'FORMATTED TEXT', 'SELECT');
+		$this->tahunajaran->Sortable = TRUE; // Allow sort
+		$this->tahunajaran->UsePleaseSelect = TRUE; // Use PleaseSelect by default
+		$this->tahunajaran->PleaseSelectText = $ReportLanguage->phrase("PleaseSelect"); // PleaseSelect text
+		$this->tahunajaran->DateFilter = "";
+		$this->tahunajaran->Lookup = new ReportLookup('tahunajaran', 'r103_lap_um', TRUE, 'tahunajaran', ["tahunajaran","","",""], [], [], [], [], [], [], '`tahunajaran` ASC', '');
+		$this->tahunajaran->Lookup->RenderViewFunc = "renderLookup";
+		$this->fields['tahunajaran'] = &$this->tahunajaran;
 
-		// KelasNama
-		$this->KelasNama = new ReportField('r101_lap_bayar', 'r101_lap_bayar', 'x_KelasNama', 'KelasNama', '`KelasNama`', 200, -1, FALSE, 'FORMATTED TEXT', 'SELECT');
-		$this->KelasNama->Sortable = TRUE; // Allow sort
-		$this->KelasNama->UsePleaseSelect = TRUE; // Use PleaseSelect by default
-		$this->KelasNama->PleaseSelectText = $ReportLanguage->phrase("PleaseSelect"); // PleaseSelect text
-		$this->KelasNama->DateFilter = "";
-		$this->KelasNama->Lookup = new ReportLookup('KelasNama', 'r101_lap_bayar', TRUE, 'KelasNama', ["KelasNama","","",""], [], [], [], [], [], [], '`KelasNama` ASC', '');
-		$this->KelasNama->Lookup->RenderViewFunc = "renderLookup";
-		$this->fields['KelasNama'] = &$this->KelasNama;
+		// sekolahnama
+		$this->sekolahnama = new ReportField('r103_lap_um', 'r103_lap_um', 'x_sekolahnama', 'sekolahnama', '`sekolahnama`', 200, -1, FALSE, 'FORMATTED TEXT', 'SELECT');
+		$this->sekolahnama->Sortable = TRUE; // Allow sort
+		$this->sekolahnama->UsePleaseSelect = TRUE; // Use PleaseSelect by default
+		$this->sekolahnama->PleaseSelectText = $ReportLanguage->phrase("PleaseSelect"); // PleaseSelect text
+		$this->sekolahnama->DateFilter = "";
+		$this->sekolahnama->Lookup = new ReportLookup('sekolahnama', 'r103_lap_um', TRUE, 'sekolahnama', ["sekolahnama","","",""], [], [], [], [], [], [], '`sekolahnama` ASC', '');
+		$this->sekolahnama->Lookup->RenderViewFunc = "renderLookup";
+		$this->fields['sekolahnama'] = &$this->sekolahnama;
 
-		// NomorInduk
-		$this->NomorInduk = new ReportField('r101_lap_bayar', 'r101_lap_bayar', 'x_NomorInduk', 'NomorInduk', '`NomorInduk`', 200, -1, FALSE, 'FORMATTED TEXT', 'SELECT');
-		$this->NomorInduk->Sortable = TRUE; // Allow sort
-		$this->NomorInduk->UsePleaseSelect = TRUE; // Use PleaseSelect by default
-		$this->NomorInduk->PleaseSelectText = $ReportLanguage->phrase("PleaseSelect"); // PleaseSelect text
-		$this->NomorInduk->DateFilter = "";
-		$this->NomorInduk->Lookup = new ReportLookup('NomorInduk', 'r101_lap_bayar', TRUE, 'NomorInduk', ["NomorInduk","","",""], [], [], [], [], [], [], '`NomorInduk` ASC', '');
-		$this->NomorInduk->Lookup->RenderViewFunc = "renderLookup";
-		$this->fields['NomorInduk'] = &$this->NomorInduk;
+		// kelasnama
+		$this->kelasnama = new ReportField('r103_lap_um', 'r103_lap_um', 'x_kelasnama', 'kelasnama', '`kelasnama`', 200, -1, FALSE, 'FORMATTED TEXT', 'SELECT');
+		$this->kelasnama->Sortable = TRUE; // Allow sort
+		$this->kelasnama->UsePleaseSelect = TRUE; // Use PleaseSelect by default
+		$this->kelasnama->PleaseSelectText = $ReportLanguage->phrase("PleaseSelect"); // PleaseSelect text
+		$this->kelasnama->DateFilter = "";
+		$this->kelasnama->Lookup = new ReportLookup('kelasnama', 'r103_lap_um', TRUE, 'kelasnama', ["kelasnama","","",""], [], [], [], [], [], [], '`kelasnama` ASC', '');
+		$this->kelasnama->Lookup->RenderViewFunc = "renderLookup";
+		$this->fields['kelasnama'] = &$this->kelasnama;
 
-		// SiswaNama
-		$this->SiswaNama = new ReportField('r101_lap_bayar', 'r101_lap_bayar', 'x_SiswaNama', 'SiswaNama', '`SiswaNama`', 200, -1, FALSE, 'FORMATTED TEXT', 'SELECT');
-		$this->SiswaNama->Sortable = TRUE; // Allow sort
-		$this->SiswaNama->UsePleaseSelect = TRUE; // Use PleaseSelect by default
-		$this->SiswaNama->PleaseSelectText = $ReportLanguage->phrase("PleaseSelect"); // PleaseSelect text
-		$this->SiswaNama->DateFilter = "";
-		$this->SiswaNama->Lookup = new ReportLookup('SiswaNama', 'r101_lap_bayar', TRUE, 'SiswaNama', ["SiswaNama","","",""], [], [], [], [], [], [], '`SiswaNama` ASC', '');
-		$this->SiswaNama->Lookup->RenderViewFunc = "renderLookup";
-		$this->fields['SiswaNama'] = &$this->SiswaNama;
-
-		// IuranNama
-		$this->IuranNama = new ReportField('r101_lap_bayar', 'r101_lap_bayar', 'x_IuranNama', 'IuranNama', '`IuranNama`', 200, -1, FALSE, 'FORMATTED TEXT', 'TEXT');
-		$this->IuranNama->Sortable = TRUE; // Allow sort
-		$this->IuranNama->DateFilter = "";
-		$this->fields['IuranNama'] = &$this->IuranNama;
-
-		// Jumlah
-		$this->Jumlah = new ReportField('r101_lap_bayar', 'r101_lap_bayar', 'x_Jumlah', 'Jumlah', '`Jumlah`', 4, -1, FALSE, 'FORMATTED TEXT', 'TEXT');
-		$this->Jumlah->Sortable = TRUE; // Allow sort
-		$this->Jumlah->DefaultErrorMessage = $ReportLanguage->phrase("IncorrectFloat");
-		$this->Jumlah->DateFilter = "";
-		$this->fields['Jumlah'] = &$this->Jumlah;
-
-		// PeriodeBulan
-		$this->PeriodeBulan = new ReportField('r101_lap_bayar', 'r101_lap_bayar', 'x_PeriodeBulan', 'PeriodeBulan', '`PeriodeBulan`', 200, -1, FALSE, 'FORMATTED TEXT', 'TEXT');
-		$this->PeriodeBulan->Sortable = TRUE; // Allow sort
-		$this->PeriodeBulan->DateFilter = "";
-		$this->fields['PeriodeBulan'] = &$this->PeriodeBulan;
-
-		// TglBayar
-		$this->TglBayar = new ReportField('r101_lap_bayar', 'r101_lap_bayar', 'x_TglBayar', 'TglBayar', '`TglBayar`', 133, 7, FALSE, 'FORMATTED TEXT', 'TEXT');
-		$this->TglBayar->Sortable = TRUE; // Allow sort
-		$this->TglBayar->DefaultErrorMessage = str_replace("%s", $GLOBALS["DATE_SEPARATOR"], $ReportLanguage->phrase("IncorrectDateDMY"));
-		$this->TglBayar->DateFilter = "";
-		$this->fields['TglBayar'] = &$this->TglBayar;
-
-		// JumlahBayar
-		$this->JumlahBayar = new ReportField('r101_lap_bayar', 'r101_lap_bayar', 'x_JumlahBayar', 'JumlahBayar', '`JumlahBayar`', 4, -1, FALSE, 'FORMATTED TEXT', 'TEXT');
-		$this->JumlahBayar->Sortable = TRUE; // Allow sort
-		$this->JumlahBayar->DefaultErrorMessage = $ReportLanguage->phrase("IncorrectFloat");
-		$this->JumlahBayar->DateFilter = "";
-		$this->fields['JumlahBayar'] = &$this->JumlahBayar;
+		// jumlah_total
+		$this->jumlah_total = new ReportField('r103_lap_um', 'r103_lap_um', 'x_jumlah_total', 'jumlah_total', '`jumlah_total`', 5, -1, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->jumlah_total->Sortable = TRUE; // Allow sort
+		$this->jumlah_total->DefaultErrorMessage = $ReportLanguage->phrase("IncorrectFloat");
+		$this->jumlah_total->DateFilter = "";
+		$this->fields['jumlah_total'] = &$this->jumlah_total;
 
 		// iuran_id
-		$this->iuran_id = new ReportField('r101_lap_bayar', 'r101_lap_bayar', 'x_iuran_id', 'iuran_id', '`iuran_id`', 3, -1, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->iuran_id = new ReportField('r103_lap_um', 'r103_lap_um', 'x_iuran_id', 'iuran_id', '`iuran_id`', 3, -1, FALSE, 'FORMATTED TEXT', 'TEXT');
 		$this->iuran_id->Sortable = TRUE; // Allow sort
 		$this->iuran_id->DefaultErrorMessage = $ReportLanguage->phrase("IncorrectInteger");
 		$this->iuran_id->DateFilter = "";
 		$this->fields['iuran_id'] = &$this->iuran_id;
-
-		// Periode
-		$this->Periode = new ReportField('r101_lap_bayar', 'r101_lap_bayar', 'x_Periode', 'Periode', '`Periode`', 3, -1, FALSE, 'FORMATTED TEXT', 'TEXT');
-		$this->Periode->Sortable = TRUE; // Allow sort
-		$this->Periode->DefaultErrorMessage = $ReportLanguage->phrase("IncorrectInteger");
-		$this->Periode->DateFilter = "";
-		$this->fields['Periode'] = &$this->Periode;
-
-		// dk_id
-		$this->dk_id = new ReportField('r101_lap_bayar', 'r101_lap_bayar', 'x_dk_id', 'dk_id', '`dk_id`', 3, -1, FALSE, 'FORMATTED TEXT', 'NO');
-		$this->dk_id->Sortable = TRUE; // Allow sort
-		$this->dk_id->DefaultErrorMessage = $ReportLanguage->phrase("IncorrectInteger");
-		$this->dk_id->DateFilter = "";
-		$this->fields['dk_id'] = &$this->dk_id;
-
-		// daf_kelas_siswa_id
-		$this->daf_kelas_siswa_id = new ReportField('r101_lap_bayar', 'r101_lap_bayar', 'x_daf_kelas_siswa_id', 'daf_kelas_siswa_id', '`daf_kelas_siswa_id`', 3, -1, FALSE, 'FORMATTED TEXT', 'TEXT');
-		$this->daf_kelas_siswa_id->Sortable = TRUE; // Allow sort
-		$this->daf_kelas_siswa_id->DefaultErrorMessage = $ReportLanguage->phrase("IncorrectInteger");
-		$this->daf_kelas_siswa_id->DateFilter = "";
-		$this->fields['daf_kelas_siswa_id'] = &$this->daf_kelas_siswa_id;
-
-		// tahun_ajaran_id
-		$this->tahun_ajaran_id = new ReportField('r101_lap_bayar', 'r101_lap_bayar', 'x_tahun_ajaran_id', 'tahun_ajaran_id', '`tahun_ajaran_id`', 3, -1, FALSE, 'FORMATTED TEXT', 'TEXT');
-		$this->tahun_ajaran_id->Sortable = TRUE; // Allow sort
-		$this->tahun_ajaran_id->DefaultErrorMessage = $ReportLanguage->phrase("IncorrectInteger");
-		$this->tahun_ajaran_id->DateFilter = "";
-		$this->fields['tahun_ajaran_id'] = &$this->tahun_ajaran_id;
-
-		// sekolah_id
-		$this->sekolah_id = new ReportField('r101_lap_bayar', 'r101_lap_bayar', 'x_sekolah_id', 'sekolah_id', '`sekolah_id`', 3, -1, FALSE, 'FORMATTED TEXT', 'TEXT');
-		$this->sekolah_id->Sortable = TRUE; // Allow sort
-		$this->sekolah_id->DefaultErrorMessage = $ReportLanguage->phrase("IncorrectInteger");
-		$this->sekolah_id->DateFilter = "";
-		$this->fields['sekolah_id'] = &$this->sekolah_id;
-
-		// kelas_id
-		$this->kelas_id = new ReportField('r101_lap_bayar', 'r101_lap_bayar', 'x_kelas_id', 'kelas_id', '`kelas_id`', 3, -1, FALSE, 'FORMATTED TEXT', 'TEXT');
-		$this->kelas_id->Sortable = TRUE; // Allow sort
-		$this->kelas_id->DefaultErrorMessage = $ReportLanguage->phrase("IncorrectInteger");
-		$this->kelas_id->DateFilter = "";
-		$this->fields['kelas_id'] = &$this->kelas_id;
-
-		// siswa_id
-		$this->siswa_id = new ReportField('r101_lap_bayar', 'r101_lap_bayar', 'x_siswa_id', 'siswa_id', '`siswa_id`', 3, -1, FALSE, 'FORMATTED TEXT', 'TEXT');
-		$this->siswa_id->Sortable = TRUE; // Allow sort
-		$this->siswa_id->DefaultErrorMessage = $ReportLanguage->phrase("IncorrectInteger");
-		$this->siswa_id->DateFilter = "";
-		$this->fields['siswa_id'] = &$this->siswa_id;
-
-		// StatusBayar
-		$this->StatusBayar = new ReportField('r101_lap_bayar', 'r101_lap_bayar', 'x_StatusBayar', 'StatusBayar', '`StatusBayar`', 200, -1, FALSE, 'FORMATTED TEXT', 'TEXT');
-		$this->StatusBayar->Sortable = TRUE; // Allow sort
-		$this->StatusBayar->DateFilter = "";
-		$this->fields['StatusBayar'] = &$this->StatusBayar;
 	}
 
 	// Render for popup
@@ -200,12 +95,11 @@ class r101_lap_bayar extends ReportTable
 	// Render for lookup
 	public function renderLookup()
 	{
-		$this->TahunAjaran->ViewValue = GetDropDownDisplayValue($this->TahunAjaran->CurrentValue, "", 0);
-		$this->SekolahNama->ViewValue = GetDropDownDisplayValue($this->SekolahNama->CurrentValue, "", 0);
-		$this->KelasNama->ViewValue = GetDropDownDisplayValue($this->KelasNama->CurrentValue, "", 0);
-		$this->NomorInduk->ViewValue = GetDropDownDisplayValue($this->NomorInduk->CurrentValue, "", 0);
-		$this->SiswaNama->ViewValue = GetDropDownDisplayValue($this->SiswaNama->CurrentValue, "", 0);
-		$this->TglBayar->ViewValue = $this->TglBayar->CurrentValue;
+		$this->iurannama->ViewValue = GetDropDownDisplayValue($this->iurannama->CurrentValue, "", 0);
+		$this->tahunajaran->ViewValue = GetDropDownDisplayValue($this->tahunajaran->CurrentValue, "", 0);
+		$this->sekolahnama->ViewValue = GetDropDownDisplayValue($this->sekolahnama->CurrentValue, "", 0);
+		$this->kelasnama->ViewValue = GetDropDownDisplayValue($this->kelasnama->CurrentValue, "", 0);
+		$this->jumlah_total->ViewValue = $this->jumlah_total->CurrentValue;
 	}
 
 	// Get Field Visibility
@@ -285,7 +179,7 @@ class r101_lap_bayar extends ReportTable
 	// From
 	public function getSqlFrom()
 	{
-		return ($this->_sqlFrom <> "") ? $this->_sqlFrom : "`v105_lap_bayar`";
+		return ($this->_sqlFrom <> "") ? $this->_sqlFrom : "`v108_lap_um`";
 	}
 	public function setSqlFrom($v)
 	{
@@ -397,7 +291,7 @@ class r101_lap_bayar extends ReportTable
 	// Select Aggregate
 	public function getSqlSelectAggregate()
 	{
-		return ($this->_sqlSelectAggregate <> "") ? $this->_sqlSelectAggregate : "SELECT * FROM " . $this->getSqlFrom();
+		return ($this->_sqlSelectAggregate <> "") ? $this->_sqlSelectAggregate : "SELECT SUM(`jumlah_total`) AS `sum_jumlah_total` FROM " . $this->getSqlFrom();
 	}
 	public function setSqlSelectAggregate($v)
 	{
