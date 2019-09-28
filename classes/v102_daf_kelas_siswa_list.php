@@ -655,6 +655,7 @@ class v102_daf_kelas_siswa_list extends v102_daf_kelas_siswa
 	public $MultiSelectKey;
 	public $Command;
 	public $RestoreSearch = FALSE;
+	public $t103_daf_kelas_siswa_iuran_Count;
 	public $DetailPages;
 	public $OldRecordset;
 
@@ -1377,6 +1378,7 @@ class v102_daf_kelas_siswa_list extends v102_daf_kelas_siswa
 		$opt = &$this->ListOptions->Items["detail_t103_daf_kelas_siswa_iuran"];
 		if ($Security->allowList(CurrentProjectID() . 't103_daf_kelas_siswa_iuran')) {
 			$body = $Language->phrase("DetailLink") . $Language->TablePhrase("t103_daf_kelas_siswa_iuran", "TblCaption");
+			$body .= "&nbsp;" . str_replace("%c", $this->t103_daf_kelas_siswa_iuran_Count, $Language->phrase("DetailCount"));
 			$body = "<a class=\"btn btn-default ew-row-link ew-detail\" data-action=\"list\" href=\"" . HtmlEncode("t103_daf_kelas_siswa_iuranlist.php?" . TABLE_SHOW_MASTER . "=v102_daf_kelas_siswa&fk_id=" . urlencode(strval($this->id->CurrentValue)) . "") . "\">" . $body . "</a>";
 			$links = "";
 			if ($links <> "") {
@@ -1627,6 +1629,7 @@ class v102_daf_kelas_siswa_list extends v102_daf_kelas_siswa
 			$btngrp = "<div data-table=\"t103_daf_kelas_siswa_iuran\" data-url=\"" . $url . "\">";
 			if ($Security->allowList(CurrentProjectID() . 't103_daf_kelas_siswa_iuran')) {
 				$label = $Language->TablePhrase("t103_daf_kelas_siswa_iuran", "TblCaption");
+				$label .= "&nbsp;" . JsEncode(str_replace("%c", $this->t103_daf_kelas_siswa_iuran_Count, $Language->Phrase("DetailCount")));
 				$link = "<li class=\"nav-item\"><a href=\"#\" class=\"nav-link\" data-toggle=\"tab\" data-table=\"t103_daf_kelas_siswa_iuran\" data-url=\"" . $url . "\">" . $label . "</a></li>";
 				$links .= $link;
 				$detaillnk = JsEncodeAttribute("t103_daf_kelas_siswa_iuranlist.php?" . TABLE_SHOW_MASTER . "=v102_daf_kelas_siswa&fk_id=" . urlencode(strval($this->id->CurrentValue)) . "");
@@ -1810,6 +1813,13 @@ class v102_daf_kelas_siswa_list extends v102_daf_kelas_siswa
 		$this->id->setDbValue($row['id']);
 		$this->daf_kelas_id->setDbValue($row['daf_kelas_id']);
 		$this->siswa_id->setDbValue($row['siswa_id']);
+		if (!isset($GLOBALS["t103_daf_kelas_siswa_iuran_grid"]))
+			$GLOBALS["t103_daf_kelas_siswa_iuran_grid"] = new t103_daf_kelas_siswa_iuran_grid();
+		$detailFilter = $GLOBALS["t103_daf_kelas_siswa_iuran"]->sqlDetailFilter_v102_daf_kelas_siswa();
+		$detailFilter = str_replace("@daf_kelas_siswa_id@", AdjustSql($this->id->DbValue, "DB"), $detailFilter);
+		$GLOBALS["t103_daf_kelas_siswa_iuran"]->setCurrentMasterTable("v102_daf_kelas_siswa");
+		$detailFilter = $GLOBALS["t103_daf_kelas_siswa_iuran"]->applyUserIDFilters($detailFilter);
+		$this->t103_daf_kelas_siswa_iuran_Count = $GLOBALS["t103_daf_kelas_siswa_iuran"]->loadRecordCount($detailFilter);
 	}
 
 	// Return a row with default values
@@ -1929,7 +1939,6 @@ class v102_daf_kelas_siswa_list extends v102_daf_kelas_siswa
 		} elseif ($this->RowType == ROWTYPE_SEARCH) { // Search row
 
 			// daf_kelas_id
-			$this->daf_kelas_id->EditAttrs["class"] = "form-control";
 			$this->daf_kelas_id->EditCustomAttributes = "";
 			$curVal = trim(strval($this->daf_kelas_id->AdvancedSearch->SearchValue));
 			if ($curVal <> "")
@@ -1938,6 +1947,8 @@ class v102_daf_kelas_siswa_list extends v102_daf_kelas_siswa
 				$this->daf_kelas_id->AdvancedSearch->ViewValue = $this->daf_kelas_id->Lookup !== NULL && is_array($this->daf_kelas_id->Lookup->Options) ? $curVal : NULL;
 			if ($this->daf_kelas_id->AdvancedSearch->ViewValue !== NULL) { // Load from cache
 				$this->daf_kelas_id->EditValue = array_values($this->daf_kelas_id->Lookup->Options);
+				if ($this->daf_kelas_id->AdvancedSearch->ViewValue == "")
+					$this->daf_kelas_id->AdvancedSearch->ViewValue = $Language->phrase("PleaseSelect");
 			} else { // Lookup from database
 				if ($curVal == "") {
 					$filterWrk = "0=1";
@@ -1946,13 +1957,19 @@ class v102_daf_kelas_siswa_list extends v102_daf_kelas_siswa
 				}
 				$sqlWrk = $this->daf_kelas_id->Lookup->getSql(TRUE, $filterWrk, '', $this);
 				$rswrk = Conn()->execute($sqlWrk);
+				if ($rswrk && !$rswrk->EOF) { // Lookup values found
+					$arwrk = array();
+					$arwrk[1] = HtmlEncode($rswrk->fields('df'));
+					$this->daf_kelas_id->AdvancedSearch->ViewValue = $this->daf_kelas_id->displayValue($arwrk);
+				} else {
+					$this->daf_kelas_id->AdvancedSearch->ViewValue = $Language->phrase("PleaseSelect");
+				}
 				$arwrk = ($rswrk) ? $rswrk->GetRows() : array();
 				if ($rswrk) $rswrk->Close();
 				$this->daf_kelas_id->EditValue = $arwrk;
 			}
 
 			// siswa_id
-			$this->siswa_id->EditAttrs["class"] = "form-control";
 			$this->siswa_id->EditCustomAttributes = "";
 			$curVal = trim(strval($this->siswa_id->AdvancedSearch->SearchValue));
 			if ($curVal <> "")
@@ -1961,6 +1978,8 @@ class v102_daf_kelas_siswa_list extends v102_daf_kelas_siswa
 				$this->siswa_id->AdvancedSearch->ViewValue = $this->siswa_id->Lookup !== NULL && is_array($this->siswa_id->Lookup->Options) ? $curVal : NULL;
 			if ($this->siswa_id->AdvancedSearch->ViewValue !== NULL) { // Load from cache
 				$this->siswa_id->EditValue = array_values($this->siswa_id->Lookup->Options);
+				if ($this->siswa_id->AdvancedSearch->ViewValue == "")
+					$this->siswa_id->AdvancedSearch->ViewValue = $Language->phrase("PleaseSelect");
 			} else { // Lookup from database
 				if ($curVal == "") {
 					$filterWrk = "0=1";
@@ -1969,6 +1988,14 @@ class v102_daf_kelas_siswa_list extends v102_daf_kelas_siswa
 				}
 				$sqlWrk = $this->siswa_id->Lookup->getSql(TRUE, $filterWrk, '', $this);
 				$rswrk = Conn()->execute($sqlWrk);
+				if ($rswrk && !$rswrk->EOF) { // Lookup values found
+					$arwrk = array();
+					$arwrk[1] = HtmlEncode($rswrk->fields('df'));
+					$arwrk[2] = HtmlEncode($rswrk->fields('df2'));
+					$this->siswa_id->AdvancedSearch->ViewValue = $this->siswa_id->displayValue($arwrk);
+				} else {
+					$this->siswa_id->AdvancedSearch->ViewValue = $Language->phrase("PleaseSelect");
+				}
 				$arwrk = ($rswrk) ? $rswrk->GetRows() : array();
 				if ($rswrk) $rswrk->Close();
 				$this->siswa_id->EditValue = $arwrk;

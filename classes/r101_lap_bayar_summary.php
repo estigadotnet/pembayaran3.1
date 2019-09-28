@@ -686,7 +686,7 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 		$this->GrandMaximums = &InitArray($fieldCount, NULL);
 
 		// Set up array if accumulation required: [Accum, SkipNullOrZero]
-		$this->Columns = [[FALSE, FALSE], [FALSE,FALSE], [FALSE,FALSE], [FALSE,FALSE], [FALSE,FALSE], [FALSE,FALSE], [FALSE,FALSE], [FALSE,FALSE], [FALSE,FALSE], [FALSE,FALSE], [FALSE,FALSE], [FALSE,FALSE], [FALSE,FALSE]];
+		$this->Columns = [[FALSE, FALSE], [FALSE,FALSE], [FALSE,FALSE], [FALSE,FALSE], [FALSE,FALSE], [FALSE,FALSE], [FALSE,FALSE], [FALSE,FALSE], [FALSE,FALSE], [FALSE,FALSE], [FALSE,FALSE], [FALSE,FALSE], [TRUE,FALSE]];
 
 		// Set up groups per page dynamically
 		$this->setupDisplayGroups();
@@ -948,7 +948,28 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 			} else {
 				$this->TotalCount = 0;
 			}
-			$hasSummary = TRUE;
+
+			// Get total from SQL directly
+			$sql = BuildReportSql($this->getSqlSelectAggregate(), $this->getSqlWhere(), $this->getSqlGroupBy(), $this->getSqlHaving(), "", $this->Filter, "");
+			$sql = $this->getSqlAggregatePrefix() . $sql . $this->getSqlAggregateSuffix();
+			$rsagg = $conn->execute($sql);
+			if ($rsagg) {
+				$this->GrandCounts[1] = $this->TotalCount;
+				$this->GrandCounts[2] = $this->TotalCount;
+				$this->GrandCounts[3] = $this->TotalCount;
+				$this->GrandCounts[4] = $this->TotalCount;
+				$this->GrandCounts[5] = $this->TotalCount;
+				$this->GrandCounts[6] = $this->TotalCount;
+				$this->GrandCounts[7] = $this->TotalCount;
+				$this->GrandCounts[8] = $this->TotalCount;
+				$this->GrandCounts[9] = $this->TotalCount;
+				$this->GrandCounts[10] = $this->TotalCount;
+				$this->GrandCounts[11] = $this->TotalCount;
+				$this->GrandCounts[12] = $this->TotalCount;
+				$this->GrandSummaries[12] = $rsagg->fields("sum_jumlahbayar");
+				$rsagg->close();
+				$hasSummary = TRUE;
+			}
 
 			// Accumulate grand summary from detail records
 			if (!$hasCount || !$hasSummary) {
@@ -1007,6 +1028,12 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 			$this->KelasNama->AdvancedSearch->SearchValue = is_array($this->KelasNama->DropDownValue) ? implode(",", $this->KelasNama->DropDownValue) : $this->KelasNama->DropDownValue;
 		} elseif ($this->RowType == ROWTYPE_TOTAL && !($this->RowTotalType == ROWTOTAL_GROUP && $this->RowTotalSubType == ROWTOTAL_HEADER)) { // Summary row
 			PrependClass($this->RowAttrs["class"], ($this->RowTotalType == ROWTOTAL_PAGE || $this->RowTotalType == ROWTOTAL_GRAND) ? "ew-rpt-grp-aggregate" : ""); // Set up row class
+
+			// JumlahBayar
+			$this->JumlahBayar->SumViewValue = $this->JumlahBayar->SumValue;
+			$this->JumlahBayar->SumViewValue = FormatNumber($this->JumlahBayar->SumViewValue, 0, -2, -2, -2);
+			$this->JumlahBayar->CellAttrs["class"] = "text-right";
+			$this->JumlahBayar->CellAttrs["class"] = ($this->RowTotalType == ROWTOTAL_PAGE || $this->RowTotalType == ROWTOTAL_GRAND) ? "ew-rpt-grp-aggregate" : "ew-rpt-grp-summary-" . $this->RowGroupLevel;
 
 			// TahunAjaran
 			$this->TahunAjaran->HrefValue = "";
@@ -1140,6 +1167,15 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 
 		// Call Cell_Rendered event
 		if ($this->RowType == ROWTYPE_TOTAL) { // Summary row
+
+			// JumlahBayar
+			$currentValue = $this->JumlahBayar->SumValue;
+			$viewValue = &$this->JumlahBayar->SumViewValue;
+			$viewAttrs = &$this->JumlahBayar->ViewAttrs;
+			$cellAttrs = &$this->JumlahBayar->CellAttrs;
+			$hrefValue = &$this->JumlahBayar->HrefValue;
+			$linkAttrs = &$this->JumlahBayar->LinkAttrs;
+			$this->Cell_Rendered($this->JumlahBayar, $currentValue, $viewValue, $viewAttrs, $cellAttrs, $hrefValue, $linkAttrs);
 		} else {
 
 			// TahunAjaran

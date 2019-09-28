@@ -496,6 +496,8 @@ while ($Page->Recordset && !$Page->Recordset->EOF && $Page->GroupCount <= $Page-
 </tbody>
 <tfoot>
 <?php
+	$Page->JumlahBayar->Count = $Page->GrandCounts[11];
+	$Page->JumlahBayar->SumValue = $Page->GrandSummaries[11]; // Load SUM
 	$Page->resetAttributes();
 	$Page->RowType = ROWTYPE_TOTAL;
 	$Page->RowTotalType = ROWTOTAL_GRAND;
@@ -505,8 +507,82 @@ while ($Page->Recordset && !$Page->Recordset->EOF && $Page->GroupCount <= $Page-
 ?>
 <?php if ($Page->ShowCompactSummaryFooter) { ?>
 	<tr<?php echo $Page->rowAttributes() ?>><td colspan="<?php echo ($Page->GroupColumnCount + $Page->DetailColumnCount) ?>"><?php echo $ReportLanguage->Phrase("RptGrandSummary") ?> <span class="ew-summary-count">(<span class="ew-aggregate-caption"><?php echo $ReportLanguage->phrase("RptCnt") ?></span><?php echo $ReportLanguage->phrase("AggregateEqual") ?><span class="ew-aggregate-value"><?php echo FormatNumber($Page->TotalCount,0,-2,-2,-2) ?></span>)</span></td></tr>
+	<tr<?php echo $Page->rowAttributes() ?>>
+<?php if ($Page->GroupColumnCount > 0) { ?>
+		<td colspan="<?php echo $Page->GroupColumnCount ?>" class="ew-rpt-grp-aggregate">&nbsp;</td>
+<?php } ?>
+<?php if ($Page->TahunAjaran->Visible) { ?>
+		<td data-field="TahunAjaran"<?php echo $Page->TahunAjaran->cellAttributes() ?>></td>
+<?php } ?>
+<?php if ($Page->SekolahNama->Visible) { ?>
+		<td data-field="SekolahNama"<?php echo $Page->SekolahNama->cellAttributes() ?>></td>
+<?php } ?>
+<?php if ($Page->KelasNama->Visible) { ?>
+		<td data-field="KelasNama"<?php echo $Page->KelasNama->cellAttributes() ?>></td>
+<?php } ?>
+<?php if ($Page->NomorInduk->Visible) { ?>
+		<td data-field="NomorInduk"<?php echo $Page->NomorInduk->cellAttributes() ?>></td>
+<?php } ?>
+<?php if ($Page->SiswaNama->Visible) { ?>
+		<td data-field="SiswaNama"<?php echo $Page->SiswaNama->cellAttributes() ?>></td>
+<?php } ?>
+<?php if ($Page->iuran_id->Visible) { ?>
+		<td data-field="iuran_id"<?php echo $Page->iuran_id->cellAttributes() ?>></td>
+<?php } ?>
+<?php if ($Page->IuranNama->Visible) { ?>
+		<td data-field="IuranNama"<?php echo $Page->IuranNama->cellAttributes() ?>></td>
+<?php } ?>
+<?php if ($Page->Jumlah->Visible) { ?>
+		<td data-field="Jumlah"<?php echo $Page->Jumlah->cellAttributes() ?>></td>
+<?php } ?>
+<?php if ($Page->Periode->Visible) { ?>
+		<td data-field="Periode"<?php echo $Page->Periode->cellAttributes() ?>></td>
+<?php } ?>
+<?php if ($Page->PeriodeBulan->Visible) { ?>
+		<td data-field="PeriodeBulan"<?php echo $Page->PeriodeBulan->cellAttributes() ?>></td>
+<?php } ?>
+<?php if ($Page->JumlahBayar->Visible) { ?>
+		<td data-field="JumlahBayar"<?php echo $Page->JumlahBayar->cellAttributes() ?>><?php echo $ReportLanguage->phrase("RptSum") ?><?php echo $ReportLanguage->phrase("AggregateEqual") ?><span<?php echo $Page->JumlahBayar->viewAttributes() ?>><?php echo $Page->JumlahBayar->SumViewValue ?></span></td>
+<?php } ?>
+	</tr>
 <?php } else { ?>
 	<tr<?php echo $Page->rowAttributes() ?>><td colspan="<?php echo ($Page->GroupColumnCount + $Page->DetailColumnCount) ?>"><?php echo $ReportLanguage->Phrase("RptGrandSummary") ?> <span class="ew-summary-count">(<?php echo FormatNumber($Page->TotalCount,0,-2,-2,-2); ?><?php echo $ReportLanguage->Phrase("RptDtlRec") ?>)</span></td></tr>
+	<tr<?php echo $Page->rowAttributes() ?>>
+<?php if ($Page->TahunAjaran->Visible) { ?>
+		<td data-field="TahunAjaran"<?php echo $Page->TahunAjaran->cellAttributes() ?>>&nbsp;</td>
+<?php } ?>
+<?php if ($Page->SekolahNama->Visible) { ?>
+		<td data-field="SekolahNama"<?php echo $Page->SekolahNama->cellAttributes() ?>>&nbsp;</td>
+<?php } ?>
+<?php if ($Page->KelasNama->Visible) { ?>
+		<td data-field="KelasNama"<?php echo $Page->KelasNama->cellAttributes() ?>>&nbsp;</td>
+<?php } ?>
+<?php if ($Page->NomorInduk->Visible) { ?>
+		<td data-field="NomorInduk"<?php echo $Page->NomorInduk->cellAttributes() ?>>&nbsp;</td>
+<?php } ?>
+<?php if ($Page->SiswaNama->Visible) { ?>
+		<td data-field="SiswaNama"<?php echo $Page->SiswaNama->cellAttributes() ?>>&nbsp;</td>
+<?php } ?>
+<?php if ($Page->iuran_id->Visible) { ?>
+		<td data-field="iuran_id"<?php echo $Page->iuran_id->cellAttributes() ?>>&nbsp;</td>
+<?php } ?>
+<?php if ($Page->IuranNama->Visible) { ?>
+		<td data-field="IuranNama"<?php echo $Page->IuranNama->cellAttributes() ?>>&nbsp;</td>
+<?php } ?>
+<?php if ($Page->Jumlah->Visible) { ?>
+		<td data-field="Jumlah"<?php echo $Page->Jumlah->cellAttributes() ?>>&nbsp;</td>
+<?php } ?>
+<?php if ($Page->Periode->Visible) { ?>
+		<td data-field="Periode"<?php echo $Page->Periode->cellAttributes() ?>>&nbsp;</td>
+<?php } ?>
+<?php if ($Page->PeriodeBulan->Visible) { ?>
+		<td data-field="PeriodeBulan"<?php echo $Page->PeriodeBulan->cellAttributes() ?>>&nbsp;</td>
+<?php } ?>
+<?php if ($Page->JumlahBayar->Visible) { ?>
+		<td data-field="JumlahBayar"<?php echo $Page->JumlahBayar->cellAttributes() ?>><span class="ew-aggregate"><?php echo $ReportLanguage->phrase("RptSum") ?></span><?php echo $ReportLanguage->phrase("AggregateColon") ?>
+<span<?php echo $Page->JumlahBayar->viewAttributes() ?>><?php echo $Page->JumlahBayar->SumViewValue ?></span></td>
+<?php } ?>
+	</tr>
 <?php } ?>
 	</tfoot>
 <?php } elseif (!$Page->ShowHeader && FALSE) { // No header displayed ?>

@@ -387,7 +387,7 @@ class r102_lap_tunggak extends ReportTable
 	// Select Aggregate
 	public function getSqlSelectAggregate()
 	{
-		return ($this->_sqlSelectAggregate <> "") ? $this->_sqlSelectAggregate : "SELECT * FROM " . $this->getSqlFrom();
+		return ($this->_sqlSelectAggregate <> "") ? $this->_sqlSelectAggregate : "SELECT SUM(`JumlahBayar`) AS `sum_jumlahbayar` FROM " . $this->getSqlFrom();
 	}
 	public function setSqlSelectAggregate($v)
 	{

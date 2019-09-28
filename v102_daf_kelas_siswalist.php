@@ -164,12 +164,14 @@ $v102_daf_kelas_siswa_list->renderRow();
 		<label for="x_daf_kelas_id" class="ew-search-caption ew-label"><?php echo $v102_daf_kelas_siswa->daf_kelas_id->caption() ?></label>
 		<span class="ew-search-operator"><?php echo $Language->phrase("=") ?><input type="hidden" name="z_daf_kelas_id" id="z_daf_kelas_id" value="="></span>
 		<span class="ew-search-field">
-<div class="input-group">
-	<select class="custom-select ew-custom-select" data-table="v102_daf_kelas_siswa" data-field="x_daf_kelas_id" data-value-separator="<?php echo $v102_daf_kelas_siswa->daf_kelas_id->displayValueSeparatorAttribute() ?>" id="x_daf_kelas_id" name="x_daf_kelas_id"<?php echo $v102_daf_kelas_siswa->daf_kelas_id->editAttributes() ?>>
-		<?php echo $v102_daf_kelas_siswa->daf_kelas_id->selectOptionListHtml("x_daf_kelas_id") ?>
-	</select>
+<div class="input-group ew-lookup-list">
+	<div class="form-control ew-lookup-text" tabindex="-1" id="lu_x_daf_kelas_id"><?php echo strval($v102_daf_kelas_siswa->daf_kelas_id->AdvancedSearch->ViewValue) == "" ? $Language->phrase("PleaseSelect") : (REMOVE_XSS ? HtmlDecode($v102_daf_kelas_siswa->daf_kelas_id->AdvancedSearch->ViewValue) : $v102_daf_kelas_siswa->daf_kelas_id->AdvancedSearch->ViewValue) ?></div>
+	<div class="input-group-append">
+		<button type="button" title="<?php echo HtmlEncode(str_replace("%s", RemoveHtml($v102_daf_kelas_siswa->daf_kelas_id->caption()), $Language->phrase("LookupLink", TRUE))) ?>" class="ew-lookup-btn btn btn-default"<?php echo (($v102_daf_kelas_siswa->daf_kelas_id->ReadOnly || $v102_daf_kelas_siswa->daf_kelas_id->Disabled) ? " disabled" : "")?> onclick="ew.modalLookupShow({lnk:this,el:'x_daf_kelas_id',m:0,n:10});"><i class="fa fa-search ew-icon"></i></button>
+	</div>
 </div>
 <?php echo $v102_daf_kelas_siswa->daf_kelas_id->Lookup->getParamTag("p_x_daf_kelas_id") ?>
+<input type="hidden" data-table="v102_daf_kelas_siswa" data-field="x_daf_kelas_id" data-multiple="0" data-lookup="1" data-value-separator="<?php echo $v102_daf_kelas_siswa->daf_kelas_id->displayValueSeparatorAttribute() ?>" name="x_daf_kelas_id" id="x_daf_kelas_id" value="<?php echo $v102_daf_kelas_siswa->daf_kelas_id->AdvancedSearch->SearchValue ?>"<?php echo $v102_daf_kelas_siswa->daf_kelas_id->editAttributes() ?>>
 </span>
 	</div>
 <?php } ?>
@@ -180,12 +182,14 @@ $v102_daf_kelas_siswa_list->renderRow();
 		<label for="x_siswa_id" class="ew-search-caption ew-label"><?php echo $v102_daf_kelas_siswa->siswa_id->caption() ?></label>
 		<span class="ew-search-operator"><?php echo $Language->phrase("=") ?><input type="hidden" name="z_siswa_id" id="z_siswa_id" value="="></span>
 		<span class="ew-search-field">
-<div class="input-group">
-	<select class="custom-select ew-custom-select" data-table="v102_daf_kelas_siswa" data-field="x_siswa_id" data-value-separator="<?php echo $v102_daf_kelas_siswa->siswa_id->displayValueSeparatorAttribute() ?>" id="x_siswa_id" name="x_siswa_id"<?php echo $v102_daf_kelas_siswa->siswa_id->editAttributes() ?>>
-		<?php echo $v102_daf_kelas_siswa->siswa_id->selectOptionListHtml("x_siswa_id") ?>
-	</select>
+<div class="input-group ew-lookup-list">
+	<div class="form-control ew-lookup-text" tabindex="-1" id="lu_x_siswa_id"><?php echo strval($v102_daf_kelas_siswa->siswa_id->AdvancedSearch->ViewValue) == "" ? $Language->phrase("PleaseSelect") : (REMOVE_XSS ? HtmlDecode($v102_daf_kelas_siswa->siswa_id->AdvancedSearch->ViewValue) : $v102_daf_kelas_siswa->siswa_id->AdvancedSearch->ViewValue) ?></div>
+	<div class="input-group-append">
+		<button type="button" title="<?php echo HtmlEncode(str_replace("%s", RemoveHtml($v102_daf_kelas_siswa->siswa_id->caption()), $Language->phrase("LookupLink", TRUE))) ?>" class="ew-lookup-btn btn btn-default"<?php echo (($v102_daf_kelas_siswa->siswa_id->ReadOnly || $v102_daf_kelas_siswa->siswa_id->Disabled) ? " disabled" : "")?> onclick="ew.modalLookupShow({lnk:this,el:'x_siswa_id',m:0,n:10});"><i class="fa fa-search ew-icon"></i></button>
+	</div>
 </div>
 <?php echo $v102_daf_kelas_siswa->siswa_id->Lookup->getParamTag("p_x_siswa_id") ?>
+<input type="hidden" data-table="v102_daf_kelas_siswa" data-field="x_siswa_id" data-multiple="0" data-lookup="1" data-value-separator="<?php echo $v102_daf_kelas_siswa->siswa_id->displayValueSeparatorAttribute() ?>" name="x_siswa_id" id="x_siswa_id" value="<?php echo $v102_daf_kelas_siswa->siswa_id->AdvancedSearch->SearchValue ?>"<?php echo $v102_daf_kelas_siswa->siswa_id->editAttributes() ?>>
 </span>
 	</div>
 <?php } ?>

@@ -655,6 +655,7 @@ class t101_daf_kelas_list extends t101_daf_kelas
 	public $MultiSelectKey;
 	public $Command;
 	public $RestoreSearch = FALSE;
+	public $t102_daf_kelas_siswa_Count;
 	public $DetailPages;
 	public $OldRecordset;
 
@@ -1152,6 +1153,7 @@ class t101_daf_kelas_list extends t101_daf_kelas
 		$opt = &$this->ListOptions->Items["detail_t102_daf_kelas_siswa"];
 		if ($Security->allowList(CurrentProjectID() . 't102_daf_kelas_siswa')) {
 			$body = $Language->phrase("DetailLink") . $Language->TablePhrase("t102_daf_kelas_siswa", "TblCaption");
+			$body .= "&nbsp;" . str_replace("%c", $this->t102_daf_kelas_siswa_Count, $Language->phrase("DetailCount"));
 			$body = "<a class=\"btn btn-default ew-row-link ew-detail\" data-action=\"list\" href=\"" . HtmlEncode("t102_daf_kelas_siswalist.php?" . TABLE_SHOW_MASTER . "=t101_daf_kelas&fk_id=" . urlencode(strval($this->id->CurrentValue)) . "") . "\">" . $body . "</a>";
 			$links = "";
 			if ($GLOBALS["t102_daf_kelas_siswa_grid"]->DetailEdit && $Security->canEdit() && $Security->allowEdit(CurrentProjectID() . 't102_daf_kelas_siswa')) {
@@ -1435,6 +1437,7 @@ class t101_daf_kelas_list extends t101_daf_kelas
 			$btngrp = "<div data-table=\"t102_daf_kelas_siswa\" data-url=\"" . $url . "\">";
 			if ($Security->allowList(CurrentProjectID() . 't102_daf_kelas_siswa')) {
 				$label = $Language->TablePhrase("t102_daf_kelas_siswa", "TblCaption");
+				$label .= "&nbsp;" . JsEncode(str_replace("%c", $this->t102_daf_kelas_siswa_Count, $Language->Phrase("DetailCount")));
 				$link = "<li class=\"nav-item\"><a href=\"#\" class=\"nav-link\" data-toggle=\"tab\" data-table=\"t102_daf_kelas_siswa\" data-url=\"" . $url . "\">" . $label . "</a></li>";
 				$links .= $link;
 				$detaillnk = JsEncodeAttribute("t102_daf_kelas_siswalist.php?" . TABLE_SHOW_MASTER . "=t101_daf_kelas&fk_id=" . urlencode(strval($this->id->CurrentValue)) . "");
@@ -1595,6 +1598,13 @@ class t101_daf_kelas_list extends t101_daf_kelas
 		$this->tahun_ajaran_id->setDbValue($row['tahun_ajaran_id']);
 		$this->sekolah_id->setDbValue($row['sekolah_id']);
 		$this->kelas_id->setDbValue($row['kelas_id']);
+		if (!isset($GLOBALS["t102_daf_kelas_siswa_grid"]))
+			$GLOBALS["t102_daf_kelas_siswa_grid"] = new t102_daf_kelas_siswa_grid();
+		$detailFilter = $GLOBALS["t102_daf_kelas_siswa"]->sqlDetailFilter_t101_daf_kelas();
+		$detailFilter = str_replace("@daf_kelas_id@", AdjustSql($this->id->DbValue, "DB"), $detailFilter);
+		$GLOBALS["t102_daf_kelas_siswa"]->setCurrentMasterTable("t101_daf_kelas");
+		$detailFilter = $GLOBALS["t102_daf_kelas_siswa"]->applyUserIDFilters($detailFilter);
+		$this->t102_daf_kelas_siswa_Count = $GLOBALS["t102_daf_kelas_siswa"]->loadRecordCount($detailFilter);
 	}
 
 	// Return a row with default values

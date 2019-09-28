@@ -70,9 +70,9 @@ class v103_daf_kelas_siswa_iuran extends DbTable
 		$this->BasicSearch = new BasicSearch($this->TableVar);
 
 		// siswa_id
-		$this->siswa_id = new DbField('v103_daf_kelas_siswa_iuran', 'v103_daf_kelas_siswa_iuran', 'x_siswa_id', 'siswa_id', '`siswa_id`', '`siswa_id`', 3, -1, FALSE, '`siswa_id`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'TEXT');
-		$this->siswa_id->Nullable = FALSE; // NOT NULL field
-		$this->siswa_id->Required = TRUE; // Required field
+		$this->siswa_id = new DbField('v103_daf_kelas_siswa_iuran', 'v103_daf_kelas_siswa_iuran', 'x_siswa_id', 'siswa_id', '`siswa_id`', '`siswa_id`', 3, -1, FALSE, '`siswa_id`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'NO');
+		$this->siswa_id->IsAutoIncrement = TRUE; // Autoincrement field
+		$this->siswa_id->IsPrimaryKey = TRUE; // Primary key field
 		$this->siswa_id->Sortable = TRUE; // Allow sort
 		$this->siswa_id->DefaultErrorMessage = $Language->phrase("IncorrectInteger");
 		$this->fields['siswa_id'] = &$this->siswa_id;
@@ -370,6 +370,10 @@ class v103_daf_kelas_siswa_iuran extends DbTable
 		$conn = &$this->getConnection();
 		$success = $conn->execute($this->insertSql($rs));
 		if ($success) {
+
+			// Get insert id if necessary
+			$this->siswa_id->setDbValue($conn->insert_ID());
+			$rs['siswa_id'] = $this->siswa_id->DbValue;
 			if ($this->AuditTrailOnAdd)
 				$this->writeAuditTrailOnAdd($rs);
 		}
@@ -403,6 +407,9 @@ class v103_daf_kelas_siswa_iuran extends DbTable
 		$success = $conn->execute($this->updateSql($rs, $where, $curfilter));
 		if ($success && $this->AuditTrailOnEdit && $rsold) {
 			$rsaudit = $rs;
+			$fldname = 'siswa_id';
+			if (!array_key_exists($fldname, $rsaudit))
+				$rsaudit[$fldname] = $rsold[$fldname];
 			$this->writeAuditTrailOnEdit($rsold, $rsaudit);
 		}
 		return $success;
@@ -415,6 +422,8 @@ class v103_daf_kelas_siswa_iuran extends DbTable
 		if (is_array($where))
 			$where = $this->arrayToFilter($where);
 		if ($rs) {
+			if (array_key_exists('siswa_id', $rs))
+				AddFilter($where, QuotedName('siswa_id', $this->Dbid) . '=' . QuotedValue($rs['siswa_id'], $this->siswa_id->DataType, $this->Dbid));
 		}
 		$filter = ($curfilter) ? $this->CurrentFilter : "";
 		AddFilter($filter, $where);
@@ -457,13 +466,20 @@ class v103_daf_kelas_siswa_iuran extends DbTable
 	// Record filter WHERE clause
 	protected function sqlKeyFilter()
 	{
-		return "";
+		return "`siswa_id` = @siswa_id@";
 	}
 
 	// Get record filter
 	public function getRecordFilter($row = NULL)
 	{
 		$keyFilter = $this->sqlKeyFilter();
+		$val = is_array($row) ? (array_key_exists('siswa_id', $row) ? $row['siswa_id'] : NULL) : $this->siswa_id->CurrentValue;
+		if (!is_numeric($val))
+			return "0=1"; // Invalid key
+		if ($val == NULL)
+			return "0=1"; // Invalid key
+		else
+			$keyFilter = str_replace("@siswa_id@", AdjustSql($val, $this->Dbid), $keyFilter); // Replace key value
 		return $keyFilter;
 	}
 
@@ -568,6 +584,7 @@ class v103_daf_kelas_siswa_iuran extends DbTable
 	public function keyToJson($htmlEncode = FALSE)
 	{
 		$json = "";
+		$json .= "siswa_id:" . JsonEncode($this->siswa_id->CurrentValue, "number");
 		$json = "{" . $json . "}";
 		if ($htmlEncode)
 			$json = HtmlEncode($json);
@@ -580,6 +597,11 @@ class v103_daf_kelas_siswa_iuran extends DbTable
 		$url = $url . "?";
 		if ($parm <> "")
 			$url .= $parm . "&";
+		if ($this->siswa_id->CurrentValue != NULL) {
+			$url .= "siswa_id=" . urlencode($this->siswa_id->CurrentValue);
+		} else {
+			return "javascript:ew.alert(ew.language.phrase('InvalidRecord'));";
+		}
 		return $url;
 	}
 
@@ -607,6 +629,14 @@ class v103_daf_kelas_siswa_iuran extends DbTable
 			$arKeys = Param("key_m");
 			$cnt = count($arKeys);
 		} else {
+			if (Param("siswa_id") !== NULL)
+				$arKeys[] = Param("siswa_id");
+			elseif (IsApi() && Key(0) !== NULL)
+				$arKeys[] = Key(0);
+			elseif (IsApi() && Route(2) !== NULL)
+				$arKeys[] = Route(2);
+			else
+				$arKeys = NULL; // Do not setup
 
 			//return $arKeys; // Do not return yet, so the values will also be checked by the following code
 		}
@@ -615,6 +645,8 @@ class v103_daf_kelas_siswa_iuran extends DbTable
 		$ar = array();
 		if (is_array($arKeys)) {
 			foreach ($arKeys as $key) {
+				if (!is_numeric($key))
+					continue;
 				$ar[] = $key;
 			}
 		}
@@ -628,6 +660,7 @@ class v103_daf_kelas_siswa_iuran extends DbTable
 		$keyFilter = "";
 		foreach ($arKeys as $key) {
 			if ($keyFilter <> "") $keyFilter .= " OR ";
+			$this->siswa_id->CurrentValue = $key;
 			$keyFilter .= "(" . $this->getRecordFilter() . ")";
 		}
 		return $keyFilter;
@@ -712,7 +745,8 @@ class v103_daf_kelas_siswa_iuran extends DbTable
 		$this->siswa_id->EditAttrs["class"] = "form-control";
 		$this->siswa_id->EditCustomAttributes = "";
 		$this->siswa_id->EditValue = $this->siswa_id->CurrentValue;
-		$this->siswa_id->PlaceHolder = RemoveHtml($this->siswa_id->caption());
+		$this->siswa_id->EditValue = FormatNumber($this->siswa_id->EditValue, 0, -2, -2, -2);
+		$this->siswa_id->ViewCustomAttributes = "";
 
 		// NomorInduk
 		$this->NomorInduk->EditAttrs["class"] = "form-control";
@@ -977,6 +1011,9 @@ class v103_daf_kelas_siswa_iuran extends DbTable
 
 		// Get key value
 		$key = "";
+		if ($key <> "")
+			$key .= $GLOBALS["COMPOSITE_KEY_SEPARATOR"];
+		$key .= $rs['siswa_id'];
 
 		// Write Audit Trail
 		$dt = DbCurrentDateTime();
@@ -1011,6 +1048,9 @@ class v103_daf_kelas_siswa_iuran extends DbTable
 
 		// Get key value
 		$key = "";
+		if ($key <> "")
+			$key .= $GLOBALS["COMPOSITE_KEY_SEPARATOR"];
+		$key .= $rsold['siswa_id'];
 
 		// Write Audit Trail
 		$dt = DbCurrentDateTime();
@@ -1058,6 +1098,9 @@ class v103_daf_kelas_siswa_iuran extends DbTable
 
 		// Get key value
 		$key = "";
+		if ($key <> "")
+			$key .= $GLOBALS["COMPOSITE_KEY_SEPARATOR"];
+		$key .= $rs['siswa_id'];
 
 		// Write Audit Trail
 		$dt = DbCurrentDateTime();

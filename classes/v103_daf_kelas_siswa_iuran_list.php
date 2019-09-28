@@ -602,6 +602,7 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 		global $COMPOSITE_KEY_SEPARATOR;
 		$key = "";
 		if (is_array($ar)) {
+			$key .= @$ar['siswa_id'];
 		}
 		return $key;
 	}
@@ -613,6 +614,8 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 	 */
 	protected function hideFieldsForAddEdit()
 	{
+		if ($this->isAdd() || $this->isCopy() || $this->isGridAdd())
+			$this->siswa_id->Visible = FALSE;
 	}
 
 	// Class variables
@@ -988,7 +991,10 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 	protected function setupKeyValues($key)
 	{
 		$arKeyFlds = explode($GLOBALS["COMPOSITE_KEY_SEPARATOR"], $key);
-		if (count($arKeyFlds) >= 0) {
+		if (count($arKeyFlds) >= 1) {
+			$this->siswa_id->setFormValue($arKeyFlds[0]);
+			if (!is_numeric($this->siswa_id->FormValue))
+				return FALSE;
 		}
 		return TRUE;
 	}
@@ -1329,6 +1335,7 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 
 		// "checkbox"
 		$opt = &$this->ListOptions->Items["checkbox"];
+		$opt->Body = "<input type=\"checkbox\" name=\"key_m[]\" class=\"ew-multi-select\" value=\"" . HtmlEncode($this->siswa_id->CurrentValue) . "\" onclick=\"ew.clickMultiCheckbox(event);\">";
 		$this->renderListOptionsExt();
 
 		// Call ListOptions_Rendered event
@@ -1678,7 +1685,24 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 	// Load old record
 	protected function loadOldRecord()
 	{
-		return FALSE;
+
+		// Load key values from Session
+		$validKey = TRUE;
+		if (strval($this->getKey("siswa_id")) <> "")
+			$this->siswa_id->CurrentValue = $this->getKey("siswa_id"); // siswa_id
+		else
+			$validKey = FALSE;
+
+		// Load old record
+		$this->OldRecordset = NULL;
+		if ($validKey) {
+			$this->CurrentFilter = $this->getRecordFilter();
+			$sql = $this->getCurrentSql();
+			$conn = &$this->getConnection();
+			$this->OldRecordset = LoadRecordset($sql, $conn);
+		}
+		$this->loadRowValues($this->OldRecordset); // Load row values
+		return $validKey;
 	}
 
 	// Render row values based on field settings
