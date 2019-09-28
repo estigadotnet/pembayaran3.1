@@ -61,6 +61,7 @@ class ReportLanguage extends Language
 		// hilangkan kata between
 
 		$this->setPhrase("BETWEEN", "antara");
+		$this->setPhrase("LIKE", "");
 	}
 }
 

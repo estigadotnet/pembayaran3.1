@@ -99,7 +99,6 @@ class r103_lap_um extends ReportTable
 		$this->tahunajaran->ViewValue = GetDropDownDisplayValue($this->tahunajaran->CurrentValue, "", 0);
 		$this->sekolahnama->ViewValue = GetDropDownDisplayValue($this->sekolahnama->CurrentValue, "", 0);
 		$this->kelasnama->ViewValue = GetDropDownDisplayValue($this->kelasnama->CurrentValue, "", 0);
-		$this->jumlah_total->ViewValue = $this->jumlah_total->CurrentValue;
 	}
 
 	// Get Field Visibility

@@ -91,10 +91,6 @@ fr101_lap_bayarsummary.lists["x_SekolahNama"] = <?php echo $r101_lap_bayar_summa
 fr101_lap_bayarsummary.lists["x_SekolahNama"].options = <?php echo JsonEncode($r101_lap_bayar_summary->SekolahNama->lookupOptions()) ?>;
 fr101_lap_bayarsummary.lists["x_KelasNama"] = <?php echo $r101_lap_bayar_summary->KelasNama->Lookup->toClientList() ?>;
 fr101_lap_bayarsummary.lists["x_KelasNama"].options = <?php echo JsonEncode($r101_lap_bayar_summary->KelasNama->lookupOptions()) ?>;
-fr101_lap_bayarsummary.lists["x_NomorInduk"] = <?php echo $r101_lap_bayar_summary->NomorInduk->Lookup->toClientList() ?>;
-fr101_lap_bayarsummary.lists["x_NomorInduk"].options = <?php echo JsonEncode($r101_lap_bayar_summary->NomorInduk->lookupOptions()) ?>;
-fr101_lap_bayarsummary.lists["x_SiswaNama"] = <?php echo $r101_lap_bayar_summary->SiswaNama->Lookup->toClientList() ?>;
-fr101_lap_bayarsummary.lists["x_SiswaNama"].options = <?php echo JsonEncode($r101_lap_bayar_summary->SiswaNama->lookupOptions()) ?>;
 </script>
 <?php } ?>
 <?php if ($Page->Export == "" && !$Page->DrillDown && !$DashboardReport) { ?>
@@ -189,26 +185,20 @@ if (!$Page->DrillDownInPanel) {
 <div id="r_4" class="ew-row d-sm-flex">
 <div id="c_NomorInduk" class="ew-cell form-group">
 	<label for="x_NomorInduk" class="ew-search-caption ew-label"><?php echo $Page->NomorInduk->caption() ?></label>
-	<span class="ew-search-field">
-<div class="input-group">
-	<select class="custom-select ew-custom-select" data-table="r101_lap_bayar" data-field="x_NomorInduk" data-value-separator="<?php echo $Page->NomorInduk->displayValueSeparatorAttribute() ?>" id="x_NomorInduk" name="x_NomorInduk"<?php echo $Page->NomorInduk->editAttributes() ?>>
-		<?php echo $Page->NomorInduk->selectOptionListHtml("x_NomorInduk") ?>
-	</select>
-</div>
-<?php echo $Page->NomorInduk->Lookup->getParamTag("p_x_NomorInduk") ?>
+	<span class="ew-search-operator"><?php echo $ReportLanguage->phrase("LIKE"); ?><input type="hidden" name="z_NomorInduk" id="z_NomorInduk" value="LIKE"></span>
+	<span class="control-group ew-search-field">
+<?php PrependClass($Page->NomorInduk->EditAttrs["class"], "form-control"); // PR8 ?>
+<input type="text" data-table="r101_lap_bayar" data-field="x_NomorInduk" id="x_NomorInduk" name="x_NomorInduk" size="10" maxlength="25" placeholder="<?php echo HtmlEncode($Page->NomorInduk->getPlaceHolder()) ?>" value="<?php echo HtmlEncode($Page->NomorInduk->AdvancedSearch->SearchValue) ?>"<?php echo $Page->NomorInduk->editAttributes() ?>>
 </span>
 </div>
 </div>
 <div id="r_5" class="ew-row d-sm-flex">
 <div id="c_SiswaNama" class="ew-cell form-group">
 	<label for="x_SiswaNama" class="ew-search-caption ew-label"><?php echo $Page->SiswaNama->caption() ?></label>
-	<span class="ew-search-field">
-<div class="input-group">
-	<select class="custom-select ew-custom-select" data-table="r101_lap_bayar" data-field="x_SiswaNama" data-value-separator="<?php echo $Page->SiswaNama->displayValueSeparatorAttribute() ?>" id="x_SiswaNama" name="x_SiswaNama"<?php echo $Page->SiswaNama->editAttributes() ?>>
-		<?php echo $Page->SiswaNama->selectOptionListHtml("x_SiswaNama") ?>
-	</select>
-</div>
-<?php echo $Page->SiswaNama->Lookup->getParamTag("p_x_SiswaNama") ?>
+	<span class="ew-search-operator"><?php echo $ReportLanguage->phrase("LIKE"); ?><input type="hidden" name="z_SiswaNama" id="z_SiswaNama" value="LIKE"></span>
+	<span class="control-group ew-search-field">
+<?php PrependClass($Page->SiswaNama->EditAttrs["class"], "form-control"); // PR8 ?>
+<input type="text" data-table="r101_lap_bayar" data-field="x_SiswaNama" id="x_SiswaNama" name="x_SiswaNama" size="30" maxlength="50" placeholder="<?php echo HtmlEncode($Page->SiswaNama->getPlaceHolder()) ?>" value="<?php echo HtmlEncode($Page->SiswaNama->AdvancedSearch->SearchValue) ?>"<?php echo $Page->SiswaNama->editAttributes() ?>>
 </span>
 </div>
 </div>
@@ -386,6 +376,24 @@ while ($Page->Recordset && !$Page->Recordset->EOF && $Page->GroupCount <= $Page-
 	</td>
 <?php } ?>
 <?php } ?>
+<?php if ($Page->iuran_id->Visible) { ?>
+<?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
+	<td data-field="iuran_id"><div class="r101_lap_bayar_iuran_id"><span class="ew-table-header-caption"><?php echo $Page->iuran_id->caption() ?></span></div></td>
+<?php } else { ?>
+	<td data-field="iuran_id">
+<?php if ($Page->sortUrl($Page->iuran_id) == "") { ?>
+		<div class="ew-table-header-btn r101_lap_bayar_iuran_id">
+			<span class="ew-table-header-caption"><?php echo $Page->iuran_id->caption() ?></span>
+		</div>
+<?php } else { ?>
+		<div class="ew-table-header-btn ew-pointer r101_lap_bayar_iuran_id" onclick="ew.sort(event,'<?php echo $Page->sortUrl($Page->iuran_id) ?>',2);">
+			<span class="ew-table-header-caption"><?php echo $Page->iuran_id->caption() ?></span>
+			<span class="ew-table-header-sort"><?php if ($Page->iuran_id->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($Page->iuran_id->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span>
+		</div>
+<?php } ?>
+	</td>
+<?php } ?>
+<?php } ?>
 <?php if ($Page->IuranNama->Visible) { ?>
 <?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
 	<td data-field="IuranNama"><div class="r101_lap_bayar_IuranNama"><span class="ew-table-header-caption"><?php echo $Page->IuranNama->caption() ?></span></div></td>
@@ -417,6 +425,24 @@ while ($Page->Recordset && !$Page->Recordset->EOF && $Page->GroupCount <= $Page-
 		<div class="ew-table-header-btn ew-pointer r101_lap_bayar_Jumlah" onclick="ew.sort(event,'<?php echo $Page->sortUrl($Page->Jumlah) ?>',2);" style="text-align: right;">
 			<span class="ew-table-header-caption"><?php echo $Page->Jumlah->caption() ?></span>
 			<span class="ew-table-header-sort"><?php if ($Page->Jumlah->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($Page->Jumlah->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span>
+		</div>
+<?php } ?>
+	</td>
+<?php } ?>
+<?php } ?>
+<?php if ($Page->Periode->Visible) { ?>
+<?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
+	<td data-field="Periode"><div class="r101_lap_bayar_Periode"><span class="ew-table-header-caption"><?php echo $Page->Periode->caption() ?></span></div></td>
+<?php } else { ?>
+	<td data-field="Periode">
+<?php if ($Page->sortUrl($Page->Periode) == "") { ?>
+		<div class="ew-table-header-btn r101_lap_bayar_Periode">
+			<span class="ew-table-header-caption"><?php echo $Page->Periode->caption() ?></span>
+		</div>
+<?php } else { ?>
+		<div class="ew-table-header-btn ew-pointer r101_lap_bayar_Periode" onclick="ew.sort(event,'<?php echo $Page->sortUrl($Page->Periode) ?>',2);">
+			<span class="ew-table-header-caption"><?php echo $Page->Periode->caption() ?></span>
+			<span class="ew-table-header-sort"><?php if ($Page->Periode->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($Page->Periode->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span>
 		</div>
 <?php } ?>
 	</td>
@@ -476,42 +502,6 @@ while ($Page->Recordset && !$Page->Recordset->EOF && $Page->GroupCount <= $Page-
 	</td>
 <?php } ?>
 <?php } ?>
-<?php if ($Page->iuran_id->Visible) { ?>
-<?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
-	<td data-field="iuran_id"><div class="r101_lap_bayar_iuran_id"><span class="ew-table-header-caption"><?php echo $Page->iuran_id->caption() ?></span></div></td>
-<?php } else { ?>
-	<td data-field="iuran_id">
-<?php if ($Page->sortUrl($Page->iuran_id) == "") { ?>
-		<div class="ew-table-header-btn r101_lap_bayar_iuran_id">
-			<span class="ew-table-header-caption"><?php echo $Page->iuran_id->caption() ?></span>
-		</div>
-<?php } else { ?>
-		<div class="ew-table-header-btn ew-pointer r101_lap_bayar_iuran_id" onclick="ew.sort(event,'<?php echo $Page->sortUrl($Page->iuran_id) ?>',2);">
-			<span class="ew-table-header-caption"><?php echo $Page->iuran_id->caption() ?></span>
-			<span class="ew-table-header-sort"><?php if ($Page->iuran_id->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($Page->iuran_id->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span>
-		</div>
-<?php } ?>
-	</td>
-<?php } ?>
-<?php } ?>
-<?php if ($Page->Periode->Visible) { ?>
-<?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
-	<td data-field="Periode"><div class="r101_lap_bayar_Periode"><span class="ew-table-header-caption"><?php echo $Page->Periode->caption() ?></span></div></td>
-<?php } else { ?>
-	<td data-field="Periode">
-<?php if ($Page->sortUrl($Page->Periode) == "") { ?>
-		<div class="ew-table-header-btn r101_lap_bayar_Periode">
-			<span class="ew-table-header-caption"><?php echo $Page->Periode->caption() ?></span>
-		</div>
-<?php } else { ?>
-		<div class="ew-table-header-btn ew-pointer r101_lap_bayar_Periode" onclick="ew.sort(event,'<?php echo $Page->sortUrl($Page->Periode) ?>',2);">
-			<span class="ew-table-header-caption"><?php echo $Page->Periode->caption() ?></span>
-			<span class="ew-table-header-sort"><?php if ($Page->Periode->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($Page->Periode->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span>
-		</div>
-<?php } ?>
-	</td>
-<?php } ?>
-<?php } ?>
 	</tr>
 </thead>
 <tbody>
@@ -550,6 +540,10 @@ while ($Page->Recordset && !$Page->Recordset->EOF && $Page->GroupCount <= $Page-
 		<td data-field="SiswaNama"<?php echo $Page->SiswaNama->cellAttributes() ?>>
 <span<?php echo $Page->SiswaNama->viewAttributes() ?>><?php echo $Page->SiswaNama->getViewValue() ?></span></td>
 <?php } ?>
+<?php if ($Page->iuran_id->Visible) { ?>
+		<td data-field="iuran_id"<?php echo $Page->iuran_id->cellAttributes() ?>>
+<span<?php echo $Page->iuran_id->viewAttributes() ?>><?php echo $Page->iuran_id->getViewValue() ?></span></td>
+<?php } ?>
 <?php if ($Page->IuranNama->Visible) { ?>
 		<td data-field="IuranNama"<?php echo $Page->IuranNama->cellAttributes() ?>>
 <span<?php echo $Page->IuranNama->viewAttributes() ?>><?php echo $Page->IuranNama->getViewValue() ?></span></td>
@@ -557,6 +551,10 @@ while ($Page->Recordset && !$Page->Recordset->EOF && $Page->GroupCount <= $Page-
 <?php if ($Page->Jumlah->Visible) { ?>
 		<td data-field="Jumlah"<?php echo $Page->Jumlah->cellAttributes() ?>>
 <span<?php echo $Page->Jumlah->viewAttributes() ?>><?php echo $Page->Jumlah->getViewValue() ?></span></td>
+<?php } ?>
+<?php if ($Page->Periode->Visible) { ?>
+		<td data-field="Periode"<?php echo $Page->Periode->cellAttributes() ?>>
+<span<?php echo $Page->Periode->viewAttributes() ?>><?php echo $Page->Periode->getViewValue() ?></span></td>
 <?php } ?>
 <?php if ($Page->PeriodeBulan->Visible) { ?>
 		<td data-field="PeriodeBulan"<?php echo $Page->PeriodeBulan->cellAttributes() ?>>
@@ -569,14 +567,6 @@ while ($Page->Recordset && !$Page->Recordset->EOF && $Page->GroupCount <= $Page-
 <?php if ($Page->JumlahBayar->Visible) { ?>
 		<td data-field="JumlahBayar"<?php echo $Page->JumlahBayar->cellAttributes() ?>>
 <span<?php echo $Page->JumlahBayar->viewAttributes() ?>><?php echo $Page->JumlahBayar->getViewValue() ?></span></td>
-<?php } ?>
-<?php if ($Page->iuran_id->Visible) { ?>
-		<td data-field="iuran_id"<?php echo $Page->iuran_id->cellAttributes() ?>>
-<span<?php echo $Page->iuran_id->viewAttributes() ?>><?php echo $Page->iuran_id->getViewValue() ?></span></td>
-<?php } ?>
-<?php if ($Page->Periode->Visible) { ?>
-		<td data-field="Periode"<?php echo $Page->Periode->cellAttributes() ?>>
-<span<?php echo $Page->Periode->viewAttributes() ?>><?php echo $Page->Periode->getViewValue() ?></span></td>
 <?php } ?>
 	</tr>
 <?php

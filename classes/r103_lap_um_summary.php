@@ -627,9 +627,8 @@ class r103_lap_um_summary extends r103_lap_um
 		$ExportFileName = $this->TableVar; // Get export file, used in header
 
 		// Setup placeholder
-		$this->jumlah_total->PlaceHolder = $this->jumlah_total->caption();
-
 		// Setup export options
+
 		$this->setupExportOptions();
 
 		// Global Page Loading event (in userfn*.php)
@@ -1505,7 +1504,6 @@ class r103_lap_um_summary extends r103_lap_um
 			$this->setSessionDropDownValue($this->tahunajaran->DropDownValue, $this->tahunajaran->AdvancedSearch->SearchOperator, "tahunajaran"); // Field tahunajaran
 			$this->setSessionDropDownValue($this->sekolahnama->DropDownValue, $this->sekolahnama->AdvancedSearch->SearchOperator, "sekolahnama"); // Field sekolahnama
 			$this->setSessionDropDownValue($this->kelasnama->DropDownValue, $this->kelasnama->AdvancedSearch->SearchOperator, "kelasnama"); // Field kelasnama
-			$this->setSessionFilterValues($this->jumlah_total->AdvancedSearch->SearchValue, $this->jumlah_total->AdvancedSearch->SearchOperator, $this->jumlah_total->AdvancedSearch->SearchCondition, $this->jumlah_total->AdvancedSearch->SearchValue2, $this->jumlah_total->AdvancedSearch->SearchOperator2, "jumlah_total"); // Field jumlah_total
 
 			//$setupFilter = TRUE; // No need to set up, just use default
 		} else {
@@ -1538,11 +1536,6 @@ class r103_lap_um_summary extends r103_lap_um
 			} elseif ($this->kelasnama->DropDownValue <> INIT_VALUE && !isset($_SESSION["x_r103_lap_um_kelasnama"])) {
 				$setupFilter = TRUE;
 			}
-
-			// Field jumlah_total
-			if ($this->getFilterValues($this->jumlah_total)) {
-				$setupFilter = TRUE;
-			}
 			if (!$this->validateForm()) {
 				$this->setFailureMessage($FormError);
 				return $filter;
@@ -1555,7 +1548,6 @@ class r103_lap_um_summary extends r103_lap_um
 			$this->getSessionDropDownValue($this->tahunajaran); // Field tahunajaran
 			$this->getSessionDropDownValue($this->sekolahnama); // Field sekolahnama
 			$this->getSessionDropDownValue($this->kelasnama); // Field kelasnama
-			$this->getSessionFilterValues($this->jumlah_total); // Field jumlah_total
 		}
 
 		// Call page filter validated event
@@ -1566,14 +1558,12 @@ class r103_lap_um_summary extends r103_lap_um
 		$this->buildDropDownFilter($this->tahunajaran, $filter, $this->tahunajaran->AdvancedSearch->SearchOperator, FALSE, TRUE); // Field tahunajaran
 		$this->buildDropDownFilter($this->sekolahnama, $filter, $this->sekolahnama->AdvancedSearch->SearchOperator, FALSE, TRUE); // Field sekolahnama
 		$this->buildDropDownFilter($this->kelasnama, $filter, $this->kelasnama->AdvancedSearch->SearchOperator, FALSE, TRUE); // Field kelasnama
-		$this->buildExtendedFilter($this->jumlah_total, $filter, FALSE, TRUE); // Field jumlah_total
 
 		// Save parms to session
 		$this->setSessionDropDownValue($this->iurannama->DropDownValue, $this->iurannama->AdvancedSearch->SearchOperator, "iurannama"); // Field iurannama
 		$this->setSessionDropDownValue($this->tahunajaran->DropDownValue, $this->tahunajaran->AdvancedSearch->SearchOperator, "tahunajaran"); // Field tahunajaran
 		$this->setSessionDropDownValue($this->sekolahnama->DropDownValue, $this->sekolahnama->AdvancedSearch->SearchOperator, "sekolahnama"); // Field sekolahnama
 		$this->setSessionDropDownValue($this->kelasnama->DropDownValue, $this->kelasnama->AdvancedSearch->SearchOperator, "kelasnama"); // Field kelasnama
-		$this->setSessionFilterValues($this->jumlah_total->AdvancedSearch->SearchValue, $this->jumlah_total->AdvancedSearch->SearchOperator, $this->jumlah_total->AdvancedSearch->SearchCondition, $this->jumlah_total->AdvancedSearch->SearchValue2, $this->jumlah_total->AdvancedSearch->SearchOperator2, "jumlah_total"); // Field jumlah_total
 
 		// Setup filter
 		if ($setupFilter) {
@@ -1883,9 +1873,6 @@ class r103_lap_um_summary extends r103_lap_um
 		// Check if validation required
 		if (!SERVER_VALIDATE)
 			return ($FormError == "");
-		if (!CheckNumber($this->jumlah_total->AdvancedSearch->SearchValue)) {
-			AddMessage($FormError, $this->jumlah_total->errorMessage());
-		}
 
 		// Return validate result
 		$validateForm = ($FormError == "");
@@ -1960,11 +1947,6 @@ class r103_lap_um_summary extends r103_lap_um
 		* $so2 - Default search operator 2 (if operator 2 is enabled)
 		* $sv2 - Default ext filter value 2 (if operator 2 is enabled)
 		*/
-		// Field jumlah_total
-
-		$this->setDefaultExtFilter($this->jumlah_total, "=", NULL, 'AND', "=", NULL);
-		if (!$this->SearchCommand)
-			$this->applyDefaultExtFilter($this->jumlah_total);
 
 		/**
 		* Set up default values for popup filters
@@ -1989,10 +1971,6 @@ class r103_lap_um_summary extends r103_lap_um
 
 		// Check kelasnama extended filter
 		if ($this->nonTextFilterApplied($this->kelasnama))
-			return TRUE;
-
-		// Check jumlah_total text filter
-		if ($this->textFilterApplied($this->jumlah_total))
 			return TRUE;
 		return FALSE;
 	}
@@ -2054,18 +2032,6 @@ class r103_lap_um_summary extends r103_lap_um
 			$filter .= "<span class=\"ew-filter-value\">$wrk</span>";
 		if ($filter <> "")
 			$filterList .= "<div><span class=\"" . $captionClass . "\">" . $this->kelasnama->caption() . "</span>" . $captionSuffix . $filter . "</div>";
-
-		// Field jumlah_total
-		$extWrk = "";
-		$wrk = "";
-		$this->buildExtendedFilter($this->jumlah_total, $extWrk);
-		$filter = "";
-		if ($extWrk <> "")
-			$filter .= "<span class=\"ew-filter-value\">$extWrk</span>";
-		elseif ($wrk <> "")
-			$filter .= "<span class=\"ew-filter-value\">$wrk</span>";
-		if ($filter <> "")
-			$filterList .= "<div><span class=\"" . $captionClass . "\">" . $this->jumlah_total->caption() . "</span>" . $captionSuffix . $filter . "</div>";
 		$divdataclass = "";
 
 		// Show Filters
@@ -2131,20 +2097,6 @@ class r103_lap_um_summary extends r103_lap_um
 			$wrk = implode("||", $wrk);
 		if ($wrk <> "")
 			$wrk = "\"x_kelasnama\":\"" . JsEncode($wrk) . "\"";
-		if ($wrk <> "") {
-			if ($filterList <> "") $filterList .= ",";
-			$filterList .= $wrk;
-		}
-
-		// Field jumlah_total
-		$wrk = "";
-		if ($this->jumlah_total->AdvancedSearch->SearchValue <> "" || $this->jumlah_total->AdvancedSearch->SearchValue2 <> "") {
-			$wrk = "\"x_jumlah_total\":\"" . JsEncode($this->jumlah_total->AdvancedSearch->SearchValue) . "\"," .
-				"\"z_jumlah_total\":\"" . JsEncode($this->jumlah_total->AdvancedSearch->SearchOperator) . "\"," .
-				"\"v_jumlah_total\":\"" . JsEncode($this->jumlah_total->AdvancedSearch->SearchCondition) . "\"," .
-				"\"y_jumlah_total\":\"" . JsEncode($this->jumlah_total->AdvancedSearch->SearchValue2) . "\"," .
-				"\"w_jumlah_total\":\"" . JsEncode($this->jumlah_total->AdvancedSearch->SearchOperator2) . "\"";
-		}
 		if ($wrk <> "") {
 			if ($filterList <> "") $filterList .= ",";
 			$filterList .= $wrk;
@@ -2224,18 +2176,6 @@ class r103_lap_um_summary extends r103_lap_um
 		}
 		if (!$restoreFilter) { // Clear filter
 			$this->setSessionDropDownValue(INIT_VALUE, "", "kelasnama");
-		}
-
-		// Field jumlah_total
-		$restoreFilter = FALSE;
-		if (array_key_exists("x_jumlah_total", $filter) || array_key_exists("z_jumlah_total", $filter) ||
-			array_key_exists("v_jumlah_total", $filter) ||
-			array_key_exists("y_jumlah_total", $filter) || array_key_exists("w_jumlah_total", $filter)) {
-			$this->setSessionFilterValues(@$filter["x_jumlah_total"], @$filter["z_jumlah_total"], @$filter["v_jumlah_total"], @$filter["y_jumlah_total"], @$filter["w_jumlah_total"], "jumlah_total");
-			$restoreFilter = TRUE;
-		}
-		if (!$restoreFilter) { // Clear filter
-			$this->setSessionFilterValues("", "=", "AND", "", "=", "jumlah_total");
 		}
 		return TRUE;
 	}

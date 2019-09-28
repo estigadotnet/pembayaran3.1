@@ -627,6 +627,8 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 		$ExportFileName = $this->TableVar; // Get export file, used in header
 
 		// Setup placeholder
+		$this->NomorInduk->PlaceHolder = $this->NomorInduk->caption();
+		$this->SiswaNama->PlaceHolder = $this->SiswaNama->caption();
 		$this->TglBayar->PlaceHolder = $this->TglBayar->caption();
 
 		// Setup export options
@@ -652,8 +654,6 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 		$this->setupLookupOptions($this->TahunAjaran);
 		$this->setupLookupOptions($this->SekolahNama);
 		$this->setupLookupOptions($this->KelasNama);
-		$this->setupLookupOptions($this->NomorInduk);
-		$this->setupLookupOptions($this->SiswaNama);
 
 		// Set field visibility for detail fields
 		$this->TahunAjaran->setVisibility();
@@ -661,13 +661,13 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 		$this->KelasNama->setVisibility();
 		$this->NomorInduk->setVisibility();
 		$this->SiswaNama->setVisibility();
+		$this->iuran_id->setVisibility();
 		$this->IuranNama->setVisibility();
 		$this->Jumlah->setVisibility();
+		$this->Periode->setVisibility();
 		$this->PeriodeBulan->setVisibility();
 		$this->TglBayar->setVisibility();
 		$this->JumlahBayar->setVisibility();
-		$this->iuran_id->setVisibility();
-		$this->Periode->setVisibility();
 
 		// Aggregate variables
 		// 1st dimension = no of groups (level 0 used for grand total)
@@ -857,13 +857,13 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 				$this->FirstRowData["KelasNama"] = $this->Recordset->fields('KelasNama');
 				$this->FirstRowData["NomorInduk"] = $this->Recordset->fields('NomorInduk');
 				$this->FirstRowData["SiswaNama"] = $this->Recordset->fields('SiswaNama');
+				$this->FirstRowData["iuran_id"] = $this->Recordset->fields('iuran_id');
 				$this->FirstRowData["IuranNama"] = $this->Recordset->fields('IuranNama');
 				$this->FirstRowData["Jumlah"] = $this->Recordset->fields('Jumlah');
+				$this->FirstRowData["Periode"] = $this->Recordset->fields('Periode');
 				$this->FirstRowData["PeriodeBulan"] = $this->Recordset->fields('PeriodeBulan');
 				$this->FirstRowData["TglBayar"] = $this->Recordset->fields('TglBayar');
 				$this->FirstRowData["JumlahBayar"] = $this->Recordset->fields('JumlahBayar');
-				$this->FirstRowData["iuran_id"] = $this->Recordset->fields('iuran_id');
-				$this->FirstRowData["Periode"] = $this->Recordset->fields('Periode');
 				$this->FirstRowData["dk_id"] = $this->Recordset->fields('dk_id');
 				$this->FirstRowData["daf_kelas_siswa_id"] = $this->Recordset->fields('daf_kelas_siswa_id');
 				$this->FirstRowData["tahun_ajaran_id"] = $this->Recordset->fields('tahun_ajaran_id');
@@ -880,13 +880,13 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 			$this->KelasNama->setDbValue($this->Recordset->fields('KelasNama'));
 			$this->NomorInduk->setDbValue($this->Recordset->fields('NomorInduk'));
 			$this->SiswaNama->setDbValue($this->Recordset->fields('SiswaNama'));
+			$this->iuran_id->setDbValue($this->Recordset->fields('iuran_id'));
 			$this->IuranNama->setDbValue($this->Recordset->fields('IuranNama'));
 			$this->Jumlah->setDbValue($this->Recordset->fields('Jumlah'));
+			$this->Periode->setDbValue($this->Recordset->fields('Periode'));
 			$this->PeriodeBulan->setDbValue($this->Recordset->fields('PeriodeBulan'));
 			$this->TglBayar->setDbValue($this->Recordset->fields('TglBayar'));
 			$this->JumlahBayar->setDbValue($this->Recordset->fields('JumlahBayar'));
-			$this->iuran_id->setDbValue($this->Recordset->fields('iuran_id'));
-			$this->Periode->setDbValue($this->Recordset->fields('Periode'));
 			$this->dk_id->setDbValue($this->Recordset->fields('dk_id'));
 			$this->daf_kelas_siswa_id->setDbValue($this->Recordset->fields('daf_kelas_siswa_id'));
 			$this->tahun_ajaran_id->setDbValue($this->Recordset->fields('tahun_ajaran_id'));
@@ -899,26 +899,26 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 			$this->Values[3] = $this->KelasNama->CurrentValue;
 			$this->Values[4] = $this->NomorInduk->CurrentValue;
 			$this->Values[5] = $this->SiswaNama->CurrentValue;
-			$this->Values[6] = $this->IuranNama->CurrentValue;
-			$this->Values[7] = $this->Jumlah->CurrentValue;
-			$this->Values[8] = $this->PeriodeBulan->CurrentValue;
-			$this->Values[9] = $this->TglBayar->CurrentValue;
-			$this->Values[10] = $this->JumlahBayar->CurrentValue;
-			$this->Values[11] = $this->iuran_id->CurrentValue;
-			$this->Values[12] = $this->Periode->CurrentValue;
+			$this->Values[6] = $this->iuran_id->CurrentValue;
+			$this->Values[7] = $this->IuranNama->CurrentValue;
+			$this->Values[8] = $this->Jumlah->CurrentValue;
+			$this->Values[9] = $this->Periode->CurrentValue;
+			$this->Values[10] = $this->PeriodeBulan->CurrentValue;
+			$this->Values[11] = $this->TglBayar->CurrentValue;
+			$this->Values[12] = $this->JumlahBayar->CurrentValue;
 		} else {
 			$this->TahunAjaran->setDbValue("");
 			$this->SekolahNama->setDbValue("");
 			$this->KelasNama->setDbValue("");
 			$this->NomorInduk->setDbValue("");
 			$this->SiswaNama->setDbValue("");
+			$this->iuran_id->setDbValue("");
 			$this->IuranNama->setDbValue("");
 			$this->Jumlah->setDbValue("");
+			$this->Periode->setDbValue("");
 			$this->PeriodeBulan->setDbValue("");
 			$this->TglBayar->setDbValue("");
 			$this->JumlahBayar->setDbValue("");
-			$this->iuran_id->setDbValue("");
-			$this->Periode->setDbValue("");
 			$this->dk_id->setDbValue("");
 			$this->daf_kelas_siswa_id->setDbValue("");
 			$this->tahun_ajaran_id->setDbValue("");
@@ -1005,30 +1005,6 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 			}
 			$this->KelasNama->EditValue = $ar;
 			$this->KelasNama->AdvancedSearch->SearchValue = is_array($this->KelasNama->DropDownValue) ? implode(",", $this->KelasNama->DropDownValue) : $this->KelasNama->DropDownValue;
-			$ar = [];
-			if (is_array($this->NomorInduk->AdvancedFilters)) {
-				foreach ($this->NomorInduk->AdvancedFilters as $filter)
-					if ($filter->Enabled)
-						$ar[] = [$filter->ID, $filter->Name];
-			}
-			if (is_array($this->NomorInduk->DropDownList)) {
-				foreach ($this->NomorInduk->DropDownList as $val)
-					$ar[] = [$val, GetDropDownDisplayValue($val, "", 0)];
-			}
-			$this->NomorInduk->EditValue = $ar;
-			$this->NomorInduk->AdvancedSearch->SearchValue = is_array($this->NomorInduk->DropDownValue) ? implode(",", $this->NomorInduk->DropDownValue) : $this->NomorInduk->DropDownValue;
-			$ar = [];
-			if (is_array($this->SiswaNama->AdvancedFilters)) {
-				foreach ($this->SiswaNama->AdvancedFilters as $filter)
-					if ($filter->Enabled)
-						$ar[] = [$filter->ID, $filter->Name];
-			}
-			if (is_array($this->SiswaNama->DropDownList)) {
-				foreach ($this->SiswaNama->DropDownList as $val)
-					$ar[] = [$val, GetDropDownDisplayValue($val, "", 0)];
-			}
-			$this->SiswaNama->EditValue = $ar;
-			$this->SiswaNama->AdvancedSearch->SearchValue = is_array($this->SiswaNama->DropDownValue) ? implode(",", $this->SiswaNama->DropDownValue) : $this->SiswaNama->DropDownValue;
 		} elseif ($this->RowType == ROWTYPE_TOTAL && !($this->RowTotalType == ROWTOTAL_GROUP && $this->RowTotalSubType == ROWTOTAL_HEADER)) { // Summary row
 			PrependClass($this->RowAttrs["class"], ($this->RowTotalType == ROWTOTAL_PAGE || $this->RowTotalType == ROWTOTAL_GRAND) ? "ew-rpt-grp-aggregate" : ""); // Set up row class
 
@@ -1047,11 +1023,17 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 			// SiswaNama
 			$this->SiswaNama->HrefValue = "";
 
+			// iuran_id
+			$this->iuran_id->HrefValue = "";
+
 			// IuranNama
 			$this->IuranNama->HrefValue = "";
 
 			// Jumlah
 			$this->Jumlah->HrefValue = "";
+
+			// Periode
+			$this->Periode->HrefValue = "";
 
 			// PeriodeBulan
 			$this->PeriodeBulan->HrefValue = "";
@@ -1061,12 +1043,6 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 
 			// JumlahBayar
 			$this->JumlahBayar->HrefValue = "";
-
-			// iuran_id
-			$this->iuran_id->HrefValue = "";
-
-			// Periode
-			$this->Periode->HrefValue = "";
 		} else {
 			if ($this->RowTotalType == ROWTOTAL_GROUP && $this->RowTotalSubType == ROWTOTAL_HEADER) {
 			} else {
@@ -1092,6 +1068,11 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 			$this->SiswaNama->ViewValue = $this->SiswaNama->CurrentValue;
 			$this->SiswaNama->CellAttrs["class"] = ($this->RecordCount % 2 <> 1 ? "ew-table-alt-row" : "ew-table-row");
 
+			// iuran_id
+			$this->iuran_id->ViewValue = $this->iuran_id->CurrentValue;
+			$this->iuran_id->ViewValue = FormatNumber($this->iuran_id->ViewValue, 0, -2, -2, -2);
+			$this->iuran_id->CellAttrs["class"] = ($this->RecordCount % 2 <> 1 ? "ew-table-alt-row" : "ew-table-row");
+
 			// IuranNama
 			$this->IuranNama->ViewValue = $this->IuranNama->CurrentValue;
 			$this->IuranNama->CellAttrs["class"] = ($this->RecordCount % 2 <> 1 ? "ew-table-alt-row" : "ew-table-row");
@@ -1100,6 +1081,11 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 			$this->Jumlah->ViewValue = $this->Jumlah->CurrentValue;
 			$this->Jumlah->ViewValue = FormatNumber($this->Jumlah->ViewValue, 0, -2, -2, -2);
 			$this->Jumlah->CellAttrs["class"] = "text-right " . ($this->RecordCount % 2 <> 1 ? "ew-table-alt-row" : "ew-table-row");
+
+			// Periode
+			$this->Periode->ViewValue = $this->Periode->CurrentValue;
+			$this->Periode->ViewValue = FormatNumber($this->Periode->ViewValue, 0, -2, -2, -2);
+			$this->Periode->CellAttrs["class"] = ($this->RecordCount % 2 <> 1 ? "ew-table-alt-row" : "ew-table-row");
 
 			// PeriodeBulan
 			$this->PeriodeBulan->ViewValue = $this->PeriodeBulan->CurrentValue;
@@ -1114,16 +1100,6 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 			$this->JumlahBayar->ViewValue = $this->JumlahBayar->CurrentValue;
 			$this->JumlahBayar->ViewValue = FormatNumber($this->JumlahBayar->ViewValue, 0, -2, -2, -2);
 			$this->JumlahBayar->CellAttrs["class"] = "text-right " . ($this->RecordCount % 2 <> 1 ? "ew-table-alt-row" : "ew-table-row");
-
-			// iuran_id
-			$this->iuran_id->ViewValue = $this->iuran_id->CurrentValue;
-			$this->iuran_id->ViewValue = FormatNumber($this->iuran_id->ViewValue, 0, -2, -2, -2);
-			$this->iuran_id->CellAttrs["class"] = ($this->RecordCount % 2 <> 1 ? "ew-table-alt-row" : "ew-table-row");
-
-			// Periode
-			$this->Periode->ViewValue = $this->Periode->CurrentValue;
-			$this->Periode->ViewValue = FormatNumber($this->Periode->ViewValue, 0, -2, -2, -2);
-			$this->Periode->CellAttrs["class"] = ($this->RecordCount % 2 <> 1 ? "ew-table-alt-row" : "ew-table-row");
 
 			// TahunAjaran
 			$this->TahunAjaran->HrefValue = "";
@@ -1140,11 +1116,17 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 			// SiswaNama
 			$this->SiswaNama->HrefValue = "";
 
+			// iuran_id
+			$this->iuran_id->HrefValue = "";
+
 			// IuranNama
 			$this->IuranNama->HrefValue = "";
 
 			// Jumlah
 			$this->Jumlah->HrefValue = "";
+
+			// Periode
+			$this->Periode->HrefValue = "";
 
 			// PeriodeBulan
 			$this->PeriodeBulan->HrefValue = "";
@@ -1154,12 +1136,6 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 
 			// JumlahBayar
 			$this->JumlahBayar->HrefValue = "";
-
-			// iuran_id
-			$this->iuran_id->HrefValue = "";
-
-			// Periode
-			$this->Periode->HrefValue = "";
 		}
 
 		// Call Cell_Rendered event
@@ -1211,6 +1187,15 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 			$linkAttrs = &$this->SiswaNama->LinkAttrs;
 			$this->Cell_Rendered($this->SiswaNama, $currentValue, $viewValue, $viewAttrs, $cellAttrs, $hrefValue, $linkAttrs);
 
+			// iuran_id
+			$currentValue = $this->iuran_id->CurrentValue;
+			$viewValue = &$this->iuran_id->ViewValue;
+			$viewAttrs = &$this->iuran_id->ViewAttrs;
+			$cellAttrs = &$this->iuran_id->CellAttrs;
+			$hrefValue = &$this->iuran_id->HrefValue;
+			$linkAttrs = &$this->iuran_id->LinkAttrs;
+			$this->Cell_Rendered($this->iuran_id, $currentValue, $viewValue, $viewAttrs, $cellAttrs, $hrefValue, $linkAttrs);
+
 			// IuranNama
 			$currentValue = $this->IuranNama->CurrentValue;
 			$viewValue = &$this->IuranNama->ViewValue;
@@ -1228,6 +1213,15 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 			$hrefValue = &$this->Jumlah->HrefValue;
 			$linkAttrs = &$this->Jumlah->LinkAttrs;
 			$this->Cell_Rendered($this->Jumlah, $currentValue, $viewValue, $viewAttrs, $cellAttrs, $hrefValue, $linkAttrs);
+
+			// Periode
+			$currentValue = $this->Periode->CurrentValue;
+			$viewValue = &$this->Periode->ViewValue;
+			$viewAttrs = &$this->Periode->ViewAttrs;
+			$cellAttrs = &$this->Periode->CellAttrs;
+			$hrefValue = &$this->Periode->HrefValue;
+			$linkAttrs = &$this->Periode->LinkAttrs;
+			$this->Cell_Rendered($this->Periode, $currentValue, $viewValue, $viewAttrs, $cellAttrs, $hrefValue, $linkAttrs);
 
 			// PeriodeBulan
 			$currentValue = $this->PeriodeBulan->CurrentValue;
@@ -1255,24 +1249,6 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 			$hrefValue = &$this->JumlahBayar->HrefValue;
 			$linkAttrs = &$this->JumlahBayar->LinkAttrs;
 			$this->Cell_Rendered($this->JumlahBayar, $currentValue, $viewValue, $viewAttrs, $cellAttrs, $hrefValue, $linkAttrs);
-
-			// iuran_id
-			$currentValue = $this->iuran_id->CurrentValue;
-			$viewValue = &$this->iuran_id->ViewValue;
-			$viewAttrs = &$this->iuran_id->ViewAttrs;
-			$cellAttrs = &$this->iuran_id->CellAttrs;
-			$hrefValue = &$this->iuran_id->HrefValue;
-			$linkAttrs = &$this->iuran_id->LinkAttrs;
-			$this->Cell_Rendered($this->iuran_id, $currentValue, $viewValue, $viewAttrs, $cellAttrs, $hrefValue, $linkAttrs);
-
-			// Periode
-			$currentValue = $this->Periode->CurrentValue;
-			$viewValue = &$this->Periode->ViewValue;
-			$viewAttrs = &$this->Periode->ViewAttrs;
-			$cellAttrs = &$this->Periode->CellAttrs;
-			$hrefValue = &$this->Periode->HrefValue;
-			$linkAttrs = &$this->Periode->LinkAttrs;
-			$this->Cell_Rendered($this->Periode, $currentValue, $viewValue, $viewAttrs, $cellAttrs, $hrefValue, $linkAttrs);
 		}
 
 		// Call Row_Rendered event
@@ -1374,19 +1350,19 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 			$this->DetailColumnCount += 1;
 		if ($this->SiswaNama->Visible)
 			$this->DetailColumnCount += 1;
+		if ($this->iuran_id->Visible)
+			$this->DetailColumnCount += 1;
 		if ($this->IuranNama->Visible)
 			$this->DetailColumnCount += 1;
 		if ($this->Jumlah->Visible)
+			$this->DetailColumnCount += 1;
+		if ($this->Periode->Visible)
 			$this->DetailColumnCount += 1;
 		if ($this->PeriodeBulan->Visible)
 			$this->DetailColumnCount += 1;
 		if ($this->TglBayar->Visible)
 			$this->DetailColumnCount += 1;
 		if ($this->JumlahBayar->Visible)
-			$this->DetailColumnCount += 1;
-		if ($this->iuran_id->Visible)
-			$this->DetailColumnCount += 1;
-		if ($this->Periode->Visible)
 			$this->DetailColumnCount += 1;
 	}
 
@@ -1627,13 +1603,13 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 			$this->KelasNama->setSort("");
 			$this->NomorInduk->setSort("");
 			$this->SiswaNama->setSort("");
+			$this->iuran_id->setSort("");
 			$this->IuranNama->setSort("");
 			$this->Jumlah->setSort("");
+			$this->Periode->setSort("");
 			$this->PeriodeBulan->setSort("");
 			$this->TglBayar->setSort("");
 			$this->JumlahBayar->setSort("");
-			$this->iuran_id->setSort("");
-			$this->Periode->setSort("");
 
 		// Check for an Order parameter
 		} elseif ($orderBy <> "") {
@@ -1644,13 +1620,13 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 			$this->updateSort($this->KelasNama, $ctrl); // KelasNama
 			$this->updateSort($this->NomorInduk, $ctrl); // NomorInduk
 			$this->updateSort($this->SiswaNama, $ctrl); // SiswaNama
+			$this->updateSort($this->iuran_id, $ctrl); // iuran_id
 			$this->updateSort($this->IuranNama, $ctrl); // IuranNama
 			$this->updateSort($this->Jumlah, $ctrl); // Jumlah
+			$this->updateSort($this->Periode, $ctrl); // Periode
 			$this->updateSort($this->PeriodeBulan, $ctrl); // PeriodeBulan
 			$this->updateSort($this->TglBayar, $ctrl); // TglBayar
 			$this->updateSort($this->JumlahBayar, $ctrl); // JumlahBayar
-			$this->updateSort($this->iuran_id, $ctrl); // iuran_id
-			$this->updateSort($this->Periode, $ctrl); // Periode
 			$sortSql = $this->sortSql();
 			$this->setOrderBy($sortSql);
 			$this->setStartGroup(1);
@@ -1690,8 +1666,8 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 			$this->setSessionDropDownValue($this->TahunAjaran->DropDownValue, $this->TahunAjaran->AdvancedSearch->SearchOperator, "TahunAjaran"); // Field TahunAjaran
 			$this->setSessionDropDownValue($this->SekolahNama->DropDownValue, $this->SekolahNama->AdvancedSearch->SearchOperator, "SekolahNama"); // Field SekolahNama
 			$this->setSessionDropDownValue($this->KelasNama->DropDownValue, $this->KelasNama->AdvancedSearch->SearchOperator, "KelasNama"); // Field KelasNama
-			$this->setSessionDropDownValue($this->NomorInduk->DropDownValue, $this->NomorInduk->AdvancedSearch->SearchOperator, "NomorInduk"); // Field NomorInduk
-			$this->setSessionDropDownValue($this->SiswaNama->DropDownValue, $this->SiswaNama->AdvancedSearch->SearchOperator, "SiswaNama"); // Field SiswaNama
+			$this->setSessionFilterValues($this->NomorInduk->AdvancedSearch->SearchValue, $this->NomorInduk->AdvancedSearch->SearchOperator, $this->NomorInduk->AdvancedSearch->SearchCondition, $this->NomorInduk->AdvancedSearch->SearchValue2, $this->NomorInduk->AdvancedSearch->SearchOperator2, "NomorInduk"); // Field NomorInduk
+			$this->setSessionFilterValues($this->SiswaNama->AdvancedSearch->SearchValue, $this->SiswaNama->AdvancedSearch->SearchOperator, $this->SiswaNama->AdvancedSearch->SearchCondition, $this->SiswaNama->AdvancedSearch->SearchValue2, $this->SiswaNama->AdvancedSearch->SearchOperator2, "SiswaNama"); // Field SiswaNama
 			$this->setSessionFilterValues($this->TglBayar->AdvancedSearch->SearchValue, $this->TglBayar->AdvancedSearch->SearchOperator, $this->TglBayar->AdvancedSearch->SearchCondition, $this->TglBayar->AdvancedSearch->SearchValue2, $this->TglBayar->AdvancedSearch->SearchOperator2, "TglBayar"); // Field TglBayar
 
 			//$setupFilter = TRUE; // No need to set up, just use default
@@ -1720,16 +1696,12 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 			}
 
 			// Field NomorInduk
-			if ($this->getDropDownValue($this->NomorInduk)) {
-				$setupFilter = TRUE;
-			} elseif ($this->NomorInduk->DropDownValue <> INIT_VALUE && !isset($_SESSION["x_r101_lap_bayar_NomorInduk"])) {
+			if ($this->getFilterValues($this->NomorInduk)) {
 				$setupFilter = TRUE;
 			}
 
 			// Field SiswaNama
-			if ($this->getDropDownValue($this->SiswaNama)) {
-				$setupFilter = TRUE;
-			} elseif ($this->SiswaNama->DropDownValue <> INIT_VALUE && !isset($_SESSION["x_r101_lap_bayar_SiswaNama"])) {
+			if ($this->getFilterValues($this->SiswaNama)) {
 				$setupFilter = TRUE;
 			}
 
@@ -1748,8 +1720,8 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 			$this->getSessionDropDownValue($this->TahunAjaran); // Field TahunAjaran
 			$this->getSessionDropDownValue($this->SekolahNama); // Field SekolahNama
 			$this->getSessionDropDownValue($this->KelasNama); // Field KelasNama
-			$this->getSessionDropDownValue($this->NomorInduk); // Field NomorInduk
-			$this->getSessionDropDownValue($this->SiswaNama); // Field SiswaNama
+			$this->getSessionFilterValues($this->NomorInduk); // Field NomorInduk
+			$this->getSessionFilterValues($this->SiswaNama); // Field SiswaNama
 			$this->getSessionFilterValues($this->TglBayar); // Field TglBayar
 		}
 
@@ -1760,16 +1732,16 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 		$this->buildDropDownFilter($this->TahunAjaran, $filter, $this->TahunAjaran->AdvancedSearch->SearchOperator, FALSE, TRUE); // Field TahunAjaran
 		$this->buildDropDownFilter($this->SekolahNama, $filter, $this->SekolahNama->AdvancedSearch->SearchOperator, FALSE, TRUE); // Field SekolahNama
 		$this->buildDropDownFilter($this->KelasNama, $filter, $this->KelasNama->AdvancedSearch->SearchOperator, FALSE, TRUE); // Field KelasNama
-		$this->buildDropDownFilter($this->NomorInduk, $filter, $this->NomorInduk->AdvancedSearch->SearchOperator, FALSE, TRUE); // Field NomorInduk
-		$this->buildDropDownFilter($this->SiswaNama, $filter, $this->SiswaNama->AdvancedSearch->SearchOperator, FALSE, TRUE); // Field SiswaNama
+		$this->buildExtendedFilter($this->NomorInduk, $filter, FALSE, TRUE); // Field NomorInduk
+		$this->buildExtendedFilter($this->SiswaNama, $filter, FALSE, TRUE); // Field SiswaNama
 		$this->buildExtendedFilter($this->TglBayar, $filter, FALSE, TRUE); // Field TglBayar
 
 		// Save parms to session
 		$this->setSessionDropDownValue($this->TahunAjaran->DropDownValue, $this->TahunAjaran->AdvancedSearch->SearchOperator, "TahunAjaran"); // Field TahunAjaran
 		$this->setSessionDropDownValue($this->SekolahNama->DropDownValue, $this->SekolahNama->AdvancedSearch->SearchOperator, "SekolahNama"); // Field SekolahNama
 		$this->setSessionDropDownValue($this->KelasNama->DropDownValue, $this->KelasNama->AdvancedSearch->SearchOperator, "KelasNama"); // Field KelasNama
-		$this->setSessionDropDownValue($this->NomorInduk->DropDownValue, $this->NomorInduk->AdvancedSearch->SearchOperator, "NomorInduk"); // Field NomorInduk
-		$this->setSessionDropDownValue($this->SiswaNama->DropDownValue, $this->SiswaNama->AdvancedSearch->SearchOperator, "SiswaNama"); // Field SiswaNama
+		$this->setSessionFilterValues($this->NomorInduk->AdvancedSearch->SearchValue, $this->NomorInduk->AdvancedSearch->SearchOperator, $this->NomorInduk->AdvancedSearch->SearchCondition, $this->NomorInduk->AdvancedSearch->SearchValue2, $this->NomorInduk->AdvancedSearch->SearchOperator2, "NomorInduk"); // Field NomorInduk
+		$this->setSessionFilterValues($this->SiswaNama->AdvancedSearch->SearchValue, $this->SiswaNama->AdvancedSearch->SearchOperator, $this->SiswaNama->AdvancedSearch->SearchCondition, $this->SiswaNama->AdvancedSearch->SearchValue2, $this->SiswaNama->AdvancedSearch->SearchOperator2, "SiswaNama"); // Field SiswaNama
 		$this->setSessionFilterValues($this->TglBayar->AdvancedSearch->SearchValue, $this->TglBayar->AdvancedSearch->SearchOperator, $this->TglBayar->AdvancedSearch->SearchCondition, $this->TglBayar->AdvancedSearch->SearchValue2, $this->TglBayar->AdvancedSearch->SearchOperator2, "TglBayar"); // Field TglBayar
 
 		// Setup filter
@@ -1784,12 +1756,6 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 
 		// Field KelasNama
 		LoadDropDownList($this->KelasNama->DropDownList, $this->KelasNama->DropDownValue);
-
-		// Field NomorInduk
-		LoadDropDownList($this->NomorInduk->DropDownList, $this->NomorInduk->DropDownValue);
-
-		// Field SiswaNama
-		LoadDropDownList($this->SiswaNama->DropDownList, $this->SiswaNama->DropDownValue);
 		return $filter;
 	}
 
@@ -2147,16 +2113,6 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 		if (!$this->SearchCommand)
 			$this->KelasNama->DropDownValue = $this->KelasNama->DefaultDropDownValue;
 
-		// Field NomorInduk
-		$this->NomorInduk->DefaultDropDownValue = INIT_VALUE;
-		if (!$this->SearchCommand)
-			$this->NomorInduk->DropDownValue = $this->NomorInduk->DefaultDropDownValue;
-
-		// Field SiswaNama
-		$this->SiswaNama->DefaultDropDownValue = INIT_VALUE;
-		if (!$this->SearchCommand)
-			$this->SiswaNama->DropDownValue = $this->SiswaNama->DefaultDropDownValue;
-
 		/**
 		* Set up default values for extended filters
 		* function setDefaultExtFilter(&$fld, $so1, $sv1, $sc, $so2, $sv2)
@@ -2168,8 +2124,18 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 		* $so2 - Default search operator 2 (if operator 2 is enabled)
 		* $sv2 - Default ext filter value 2 (if operator 2 is enabled)
 		*/
-		// Field TglBayar
+		// Field NomorInduk
 
+		$this->setDefaultExtFilter($this->NomorInduk, "LIKE", NULL, 'AND', "=", NULL);
+		if (!$this->SearchCommand)
+			$this->applyDefaultExtFilter($this->NomorInduk);
+
+		// Field SiswaNama
+		$this->setDefaultExtFilter($this->SiswaNama, "LIKE", NULL, 'AND', "=", NULL);
+		if (!$this->SearchCommand)
+			$this->applyDefaultExtFilter($this->SiswaNama);
+
+		// Field TglBayar
 		$this->setDefaultExtFilter($this->TglBayar, "BETWEEN", NULL, 'AND', "=", NULL);
 		if (!$this->SearchCommand)
 			$this->applyDefaultExtFilter($this->TglBayar);
@@ -2195,12 +2161,12 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 		if ($this->nonTextFilterApplied($this->KelasNama))
 			return TRUE;
 
-		// Check NomorInduk extended filter
-		if ($this->nonTextFilterApplied($this->NomorInduk))
+		// Check NomorInduk text filter
+		if ($this->textFilterApplied($this->NomorInduk))
 			return TRUE;
 
-		// Check SiswaNama extended filter
-		if ($this->nonTextFilterApplied($this->SiswaNama))
+		// Check SiswaNama text filter
+		if ($this->textFilterApplied($this->SiswaNama))
 			return TRUE;
 
 		// Check TglBayar text filter
@@ -2258,7 +2224,7 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 		// Field NomorInduk
 		$extWrk = "";
 		$wrk = "";
-		$this->buildDropDownFilter($this->NomorInduk, $extWrk, $this->NomorInduk->AdvancedSearch->SearchOperator);
+		$this->buildExtendedFilter($this->NomorInduk, $extWrk);
 		$filter = "";
 		if ($extWrk <> "")
 			$filter .= "<span class=\"ew-filter-value\">$extWrk</span>";
@@ -2270,7 +2236,7 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 		// Field SiswaNama
 		$extWrk = "";
 		$wrk = "";
-		$this->buildDropDownFilter($this->SiswaNama, $extWrk, $this->SiswaNama->AdvancedSearch->SearchOperator);
+		$this->buildExtendedFilter($this->SiswaNama, $extWrk);
 		$filter = "";
 		if ($extWrk <> "")
 			$filter .= "<span class=\"ew-filter-value\">$extWrk</span>";
@@ -2350,11 +2316,13 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 
 		// Field NomorInduk
 		$wrk = "";
-		$wrk = ($this->NomorInduk->DropDownValue <> INIT_VALUE) ? $this->NomorInduk->DropDownValue : "";
-		if (is_array($wrk))
-			$wrk = implode("||", $wrk);
-		if ($wrk <> "")
-			$wrk = "\"x_NomorInduk\":\"" . JsEncode($wrk) . "\"";
+		if ($this->NomorInduk->AdvancedSearch->SearchValue <> "" || $this->NomorInduk->AdvancedSearch->SearchValue2 <> "") {
+			$wrk = "\"x_NomorInduk\":\"" . JsEncode($this->NomorInduk->AdvancedSearch->SearchValue) . "\"," .
+				"\"z_NomorInduk\":\"" . JsEncode($this->NomorInduk->AdvancedSearch->SearchOperator) . "\"," .
+				"\"v_NomorInduk\":\"" . JsEncode($this->NomorInduk->AdvancedSearch->SearchCondition) . "\"," .
+				"\"y_NomorInduk\":\"" . JsEncode($this->NomorInduk->AdvancedSearch->SearchValue2) . "\"," .
+				"\"w_NomorInduk\":\"" . JsEncode($this->NomorInduk->AdvancedSearch->SearchOperator2) . "\"";
+		}
 		if ($wrk <> "") {
 			if ($filterList <> "") $filterList .= ",";
 			$filterList .= $wrk;
@@ -2362,11 +2330,13 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 
 		// Field SiswaNama
 		$wrk = "";
-		$wrk = ($this->SiswaNama->DropDownValue <> INIT_VALUE) ? $this->SiswaNama->DropDownValue : "";
-		if (is_array($wrk))
-			$wrk = implode("||", $wrk);
-		if ($wrk <> "")
-			$wrk = "\"x_SiswaNama\":\"" . JsEncode($wrk) . "\"";
+		if ($this->SiswaNama->AdvancedSearch->SearchValue <> "" || $this->SiswaNama->AdvancedSearch->SearchValue2 <> "") {
+			$wrk = "\"x_SiswaNama\":\"" . JsEncode($this->SiswaNama->AdvancedSearch->SearchValue) . "\"," .
+				"\"z_SiswaNama\":\"" . JsEncode($this->SiswaNama->AdvancedSearch->SearchOperator) . "\"," .
+				"\"v_SiswaNama\":\"" . JsEncode($this->SiswaNama->AdvancedSearch->SearchCondition) . "\"," .
+				"\"y_SiswaNama\":\"" . JsEncode($this->SiswaNama->AdvancedSearch->SearchValue2) . "\"," .
+				"\"w_SiswaNama\":\"" . JsEncode($this->SiswaNama->AdvancedSearch->SearchOperator2) . "\"";
+		}
 		if ($wrk <> "") {
 			if ($filterList <> "") $filterList .= ",";
 			$filterList .= $wrk;
@@ -2451,28 +2421,26 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 
 		// Field NomorInduk
 		$restoreFilter = FALSE;
-		if (array_key_exists("x_NomorInduk", $filter)) {
-			$wrk = $filter["x_NomorInduk"];
-			if (strpos($wrk, "||") !== FALSE)
-				$wrk = explode("||", $wrk);
-			$this->setSessionDropDownValue($wrk, @$filter["z_NomorInduk"], "NomorInduk");
+		if (array_key_exists("x_NomorInduk", $filter) || array_key_exists("z_NomorInduk", $filter) ||
+			array_key_exists("v_NomorInduk", $filter) ||
+			array_key_exists("y_NomorInduk", $filter) || array_key_exists("w_NomorInduk", $filter)) {
+			$this->setSessionFilterValues(@$filter["x_NomorInduk"], @$filter["z_NomorInduk"], @$filter["v_NomorInduk"], @$filter["y_NomorInduk"], @$filter["w_NomorInduk"], "NomorInduk");
 			$restoreFilter = TRUE;
 		}
 		if (!$restoreFilter) { // Clear filter
-			$this->setSessionDropDownValue(INIT_VALUE, "", "NomorInduk");
+			$this->setSessionFilterValues("", "=", "AND", "", "=", "NomorInduk");
 		}
 
 		// Field SiswaNama
 		$restoreFilter = FALSE;
-		if (array_key_exists("x_SiswaNama", $filter)) {
-			$wrk = $filter["x_SiswaNama"];
-			if (strpos($wrk, "||") !== FALSE)
-				$wrk = explode("||", $wrk);
-			$this->setSessionDropDownValue($wrk, @$filter["z_SiswaNama"], "SiswaNama");
+		if (array_key_exists("x_SiswaNama", $filter) || array_key_exists("z_SiswaNama", $filter) ||
+			array_key_exists("v_SiswaNama", $filter) ||
+			array_key_exists("y_SiswaNama", $filter) || array_key_exists("w_SiswaNama", $filter)) {
+			$this->setSessionFilterValues(@$filter["x_SiswaNama"], @$filter["z_SiswaNama"], @$filter["v_SiswaNama"], @$filter["y_SiswaNama"], @$filter["w_SiswaNama"], "SiswaNama");
 			$restoreFilter = TRUE;
 		}
 		if (!$restoreFilter) { // Clear filter
-			$this->setSessionDropDownValue(INIT_VALUE, "", "SiswaNama");
+			$this->setSessionFilterValues("", "=", "AND", "", "=", "SiswaNama");
 		}
 
 		// Field TglBayar
@@ -2593,11 +2561,10 @@ class r101_lap_bayar_summary extends r101_lap_bayar
 		// Example:
 		//$header = "your header";
 		// sembunyikan kolom
-
-		$this->iuran_id->Visible = false;
-		$this->Periode->Visible = false;
-
+		//$this->iuran_id->Visible = false;
+		//$this->Periode->Visible = false;
 		// header
+
 		$header = "Laporan Pembayaran";
 	}
 

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<ew-language date="2019/9/28" version="12.0.1" id="en" name="English" desc="English" author="e.World Technology Ltd.">
+<ew-language date="2019/9/29" version="12.0.1" id="en" name="English" desc="English" author="e.World Technology Ltd.">
   <!-- 
 	*** Important Notes:
 	1. Language ID should follow: https://developers.google.com/recaptcha/docs/language,
@@ -495,26 +495,26 @@
       <field id="siswanama">
         <phrase id="fldcaption" value="Siswa" />
       </field>
+      <field id="iuran_id">
+        <phrase id="fldcaption" value="No. Urut Iuran" />
+      </field>
       <field id="iurannama">
         <phrase id="fldcaption" value="Iuran" />
       </field>
       <field id="jumlah">
         <phrase id="fldcaption" value="Jumlah" />
       </field>
-      <field id="periodebulan">
+      <field id="periode">
         <phrase id="fldcaption" value="Periode" />
+      </field>
+      <field id="periodebulan">
+        <phrase id="fldcaption" value="Bulan" />
       </field>
       <field id="tglbayar">
         <phrase id="fldcaption" value="Tgl. Bayar" />
       </field>
       <field id="jumlahbayar">
         <phrase id="fldcaption" value="Jml. Bayar" />
-      </field>
-      <field id="iuran_id">
-        <phrase id="fldcaption" value="iuran id" />
-      </field>
-      <field id="periode">
-        <phrase id="fldcaption" value="Periode" />
       </field>
       <field id="dk_id">
         <phrase id="fldcaption" value="dk id" />
@@ -555,23 +555,23 @@
       <field id="siswanama">
         <phrase id="fldcaption" value="Siswa" />
       </field>
+      <field id="iuran_id">
+        <phrase id="fldcaption" value="No. Urut Iuran" />
+      </field>
       <field id="iurannama">
         <phrase id="fldcaption" value="Iuran" />
       </field>
       <field id="jumlah">
         <phrase id="fldcaption" value="Jumlah" />
       </field>
-      <field id="periodebulan">
+      <field id="periode">
         <phrase id="fldcaption" value="Periode" />
+      </field>
+      <field id="periodebulan">
+        <phrase id="fldcaption" value="Bulan" />
       </field>
       <field id="jumlahbayar">
         <phrase id="fldcaption" value="Jumlah Tunggakan" />
-      </field>
-      <field id="iuran_id">
-        <phrase id="fldcaption" value="iuran id" />
-      </field>
-      <field id="periode">
-        <phrase id="fldcaption" value="Periode" />
       </field>
       <field id="dk_id">
         <phrase id="fldcaption" value="dk id" />

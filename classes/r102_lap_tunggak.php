@@ -13,12 +13,12 @@ class r102_lap_tunggak extends ReportTable
 	public $KelasNama;
 	public $NomorInduk;
 	public $SiswaNama;
+	public $iuran_id;
 	public $IuranNama;
 	public $Jumlah;
+	public $Periode;
 	public $PeriodeBulan;
 	public $JumlahBayar;
-	public $iuran_id;
-	public $Periode;
 	public $dk_id;
 	public $daf_kelas_siswa_id;
 	public $tahun_ajaran_id;
@@ -65,24 +65,23 @@ class r102_lap_tunggak extends ReportTable
 		$this->fields['KelasNama'] = &$this->KelasNama;
 
 		// NomorInduk
-		$this->NomorInduk = new ReportField('r102_lap_tunggak', 'r102_lap_tunggak', 'x_NomorInduk', 'NomorInduk', '`NomorInduk`', 200, -1, FALSE, 'FORMATTED TEXT', 'SELECT');
+		$this->NomorInduk = new ReportField('r102_lap_tunggak', 'r102_lap_tunggak', 'x_NomorInduk', 'NomorInduk', '`NomorInduk`', 200, -1, FALSE, 'FORMATTED TEXT', 'TEXT');
 		$this->NomorInduk->Sortable = TRUE; // Allow sort
-		$this->NomorInduk->UsePleaseSelect = TRUE; // Use PleaseSelect by default
-		$this->NomorInduk->PleaseSelectText = $ReportLanguage->phrase("PleaseSelect"); // PleaseSelect text
 		$this->NomorInduk->DateFilter = "";
-		$this->NomorInduk->Lookup = new ReportLookup('NomorInduk', 'r102_lap_tunggak', TRUE, 'NomorInduk', ["NomorInduk","","",""], [], [], [], [], [], [], '`NomorInduk` ASC', '');
-		$this->NomorInduk->Lookup->RenderViewFunc = "renderLookup";
 		$this->fields['NomorInduk'] = &$this->NomorInduk;
 
 		// SiswaNama
-		$this->SiswaNama = new ReportField('r102_lap_tunggak', 'r102_lap_tunggak', 'x_SiswaNama', 'SiswaNama', '`SiswaNama`', 200, -1, FALSE, 'FORMATTED TEXT', 'SELECT');
+		$this->SiswaNama = new ReportField('r102_lap_tunggak', 'r102_lap_tunggak', 'x_SiswaNama', 'SiswaNama', '`SiswaNama`', 200, -1, FALSE, 'FORMATTED TEXT', 'TEXT');
 		$this->SiswaNama->Sortable = TRUE; // Allow sort
-		$this->SiswaNama->UsePleaseSelect = TRUE; // Use PleaseSelect by default
-		$this->SiswaNama->PleaseSelectText = $ReportLanguage->phrase("PleaseSelect"); // PleaseSelect text
 		$this->SiswaNama->DateFilter = "";
-		$this->SiswaNama->Lookup = new ReportLookup('SiswaNama', 'r102_lap_tunggak', TRUE, 'SiswaNama', ["SiswaNama","","",""], [], [], [], [], [], [], '`SiswaNama` ASC', '');
-		$this->SiswaNama->Lookup->RenderViewFunc = "renderLookup";
 		$this->fields['SiswaNama'] = &$this->SiswaNama;
+
+		// iuran_id
+		$this->iuran_id = new ReportField('r102_lap_tunggak', 'r102_lap_tunggak', 'x_iuran_id', 'iuran_id', '`iuran_id`', 3, -1, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->iuran_id->Sortable = TRUE; // Allow sort
+		$this->iuran_id->DefaultErrorMessage = $ReportLanguage->phrase("IncorrectInteger");
+		$this->iuran_id->DateFilter = "";
+		$this->fields['iuran_id'] = &$this->iuran_id;
 
 		// IuranNama
 		$this->IuranNama = new ReportField('r102_lap_tunggak', 'r102_lap_tunggak', 'x_IuranNama', 'IuranNama', '`IuranNama`', 200, -1, FALSE, 'FORMATTED TEXT', 'TEXT');
@@ -97,6 +96,16 @@ class r102_lap_tunggak extends ReportTable
 		$this->Jumlah->DateFilter = "";
 		$this->fields['Jumlah'] = &$this->Jumlah;
 
+		// Periode
+		$this->Periode = new ReportField('r102_lap_tunggak', 'r102_lap_tunggak', 'x_Periode', 'Periode', '`Periode`', 3, -1, FALSE, 'FORMATTED TEXT', 'SELECT');
+		$this->Periode->Sortable = TRUE; // Allow sort
+		$this->Periode->SelectMultiple = TRUE; // Multiple select
+		$this->Periode->DefaultErrorMessage = $ReportLanguage->phrase("IncorrectInteger");
+		$this->Periode->DateFilter = "";
+		$this->Periode->Lookup = new ReportLookup('Periode', 'r102_lap_tunggak', TRUE, 'Periode', ["Periode","","",""], [], [], [], [], [], [], '`Periode` ASC', '');
+		$this->Periode->Lookup->RenderViewFunc = "renderLookup";
+		$this->fields['Periode'] = &$this->Periode;
+
 		// PeriodeBulan
 		$this->PeriodeBulan = new ReportField('r102_lap_tunggak', 'r102_lap_tunggak', 'x_PeriodeBulan', 'PeriodeBulan', '`PeriodeBulan`', 200, -1, FALSE, 'FORMATTED TEXT', 'TEXT');
 		$this->PeriodeBulan->Sortable = TRUE; // Allow sort
@@ -109,23 +118,6 @@ class r102_lap_tunggak extends ReportTable
 		$this->JumlahBayar->DefaultErrorMessage = $ReportLanguage->phrase("IncorrectFloat");
 		$this->JumlahBayar->DateFilter = "";
 		$this->fields['JumlahBayar'] = &$this->JumlahBayar;
-
-		// iuran_id
-		$this->iuran_id = new ReportField('r102_lap_tunggak', 'r102_lap_tunggak', 'x_iuran_id', 'iuran_id', '`iuran_id`', 3, -1, FALSE, 'FORMATTED TEXT', 'TEXT');
-		$this->iuran_id->Sortable = TRUE; // Allow sort
-		$this->iuran_id->DefaultErrorMessage = $ReportLanguage->phrase("IncorrectInteger");
-		$this->iuran_id->DateFilter = "";
-		$this->fields['iuran_id'] = &$this->iuran_id;
-
-		// Periode
-		$this->Periode = new ReportField('r102_lap_tunggak', 'r102_lap_tunggak', 'x_Periode', 'Periode', '`Periode`', 3, -1, FALSE, 'FORMATTED TEXT', 'SELECT');
-		$this->Periode->Sortable = TRUE; // Allow sort
-		$this->Periode->SelectMultiple = TRUE; // Multiple select
-		$this->Periode->DefaultErrorMessage = $ReportLanguage->phrase("IncorrectInteger");
-		$this->Periode->DateFilter = "";
-		$this->Periode->Lookup = new ReportLookup('Periode', 'r102_lap_tunggak', TRUE, 'Periode', ["Periode","","",""], [], [], [], [], [], [], '`Periode` ASC', '');
-		$this->Periode->Lookup->RenderViewFunc = "renderLookup";
-		$this->fields['Periode'] = &$this->Periode;
 
 		// dk_id
 		$this->dk_id = new ReportField('r102_lap_tunggak', 'r102_lap_tunggak', 'x_dk_id', 'dk_id', '`dk_id`', 3, -1, FALSE, 'FORMATTED TEXT', 'NO');
@@ -201,8 +193,8 @@ class r102_lap_tunggak extends ReportTable
 	// Render for lookup
 	public function renderLookup()
 	{
-		$this->NomorInduk->ViewValue = GetDropDownDisplayValue($this->NomorInduk->CurrentValue, "", 0);
-		$this->SiswaNama->ViewValue = GetDropDownDisplayValue($this->SiswaNama->CurrentValue, "", 0);
+		$this->NomorInduk->ViewValue = $this->NomorInduk->CurrentValue;
+		$this->SiswaNama->ViewValue = $this->SiswaNama->CurrentValue;
 		$this->Periode->ViewValue = GetDropDownDisplayValue($this->Periode->CurrentValue, "", 0);
 	}
 

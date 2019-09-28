@@ -55,11 +55,6 @@ fr103_lap_umsummary.validate = function() {
 	if (!this.validateRequired)
 		return true; // Ignore validation
 	var $ = jQuery, fobj = this.getForm(), $fobj = $(fobj), elm;
-		elm = this.getElements("x_jumlah_total");
-		if (elm && !ew.checkNumber(elm.value)) {
-			if (!this.onError(elm, "<?php echo JsEncode($Page->jumlah_total->errorMessage()) ?>"))
-				return false;
-		}
 
 	// Call Form Custom Validate event
 	if (!this.Form_CustomValidate(fobj))
@@ -189,16 +184,6 @@ if (!$Page->DrillDownInPanel) {
 	</select>
 </div>
 <?php echo $Page->kelasnama->Lookup->getParamTag("p_x_kelasnama") ?>
-</span>
-</div>
-</div>
-<div id="r_5" class="ew-row d-sm-flex">
-<div id="c_jumlah_total" class="ew-cell form-group">
-	<label for="x_jumlah_total" class="ew-search-caption ew-label"><?php echo $Page->jumlah_total->caption() ?></label>
-	<span class="ew-search-operator"><?php echo $ReportLanguage->phrase("="); ?><input type="hidden" name="z_jumlah_total" id="z_jumlah_total" value="="></span>
-	<span class="control-group ew-search-field">
-<?php PrependClass($Page->jumlah_total->EditAttrs["class"], "form-control"); // PR8 ?>
-<input type="text" data-table="r103_lap_um" data-field="x_jumlah_total" id="x_jumlah_total" name="x_jumlah_total" size="30" maxlength="19" placeholder="<?php echo HtmlEncode($Page->jumlah_total->getPlaceHolder()) ?>" value="<?php echo HtmlEncode($Page->jumlah_total->AdvancedSearch->SearchValue) ?>"<?php echo $Page->jumlah_total->editAttributes() ?>>
 </span>
 </div>
 </div>

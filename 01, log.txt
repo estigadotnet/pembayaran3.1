@@ -3,7 +3,8 @@
 
 
 <font color="red"><strong>----- to do --------------------------------------------------------------------------------</strong>
--
+- di laporan uang masuk dan potensi uang masuk :: perlu diberi range tanggal
+- di laporan pembayaran dan tunggakan :: perlu diberi total
 
 
 </font><strong>----- start - finish -----------------------------------------------------------------------</strong>
