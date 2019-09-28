@@ -361,6 +361,7 @@ if ($t303_userlevelpermissions_list->Recordset)
 <select name="<?php echo TABLE_REC_PER_PAGE ?>" class="form-control form-control-sm ew-tooltip" title="<?php echo $Language->phrase("RecordsPerPage") ?>" onchange="this.form.submit();">
 <option value="10"<?php if ($t303_userlevelpermissions_list->DisplayRecs == 10) { ?> selected<?php } ?>>10</option>
 <option value="20"<?php if ($t303_userlevelpermissions_list->DisplayRecs == 20) { ?> selected<?php } ?>>20</option>
+<option value="30"<?php if ($t303_userlevelpermissions_list->DisplayRecs == 30) { ?> selected<?php } ?>>30</option>
 <option value="50"<?php if ($t303_userlevelpermissions_list->DisplayRecs == 50) { ?> selected<?php } ?>>50</option>
 <option value="100"<?php if ($t303_userlevelpermissions_list->DisplayRecs == 100) { ?> selected<?php } ?>>100</option>
 <option value="ALL"<?php if ($t303_userlevelpermissions->getRecordsPerPage() == -1) { ?> selected<?php } ?>><?php echo $Language->Phrase("AllRecords") ?></option>

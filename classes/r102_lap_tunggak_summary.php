@@ -546,7 +546,7 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 	public $TotalGroups = 0; // Total groups
 	public $GroupCount = 0; // Group count
 	public $GroupCounter = []; // Group counter
-	public $DisplayGroups = 10; // Groups per page
+	public $DisplayGroups = 30; // Groups per page
 	public $GroupRange = 10;
 	public $Sort = "";
 	public $Filter = "";
@@ -1545,7 +1545,7 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 				if (strtoupper($wrk) == "ALL") { // Display all groups
 					$this->DisplayGroups = -1;
 				} else {
-					$this->DisplayGroups = 10; // Non-numeric, load default
+					$this->DisplayGroups = 30; // Non-numeric, load default
 				}
 			}
 			$this->setGroupPerPage($this->DisplayGroups); // Save to session
@@ -1557,7 +1557,7 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 			if ($this->getGroupPerPage() <> "") {
 				$this->DisplayGroups = $this->getGroupPerPage(); // Restore from session
 			} else {
-				$this->DisplayGroups = 10; // Load default
+				$this->DisplayGroups = 30; // Load default
 			}
 		}
 	}

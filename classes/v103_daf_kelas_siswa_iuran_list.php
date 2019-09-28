@@ -625,7 +625,7 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 	public $ListActions; // List actions
 	public $SelectedCount = 0;
 	public $SelectedIndex = 0;
-	public $DisplayRecs = 20;
+	public $DisplayRecs = 30;
 	public $StartRec;
 	public $StopRec;
 	public $TotalRecs = 0;
@@ -830,7 +830,7 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 		if ($this->Command <> "json" && $this->getRecordsPerPage() <> "") {
 			$this->DisplayRecs = $this->getRecordsPerPage(); // Restore from Session
 		} else {
-			$this->DisplayRecs = 20; // Load default
+			$this->DisplayRecs = 30; // Load default
 		}
 
 		// Load Sorting Order
@@ -944,7 +944,7 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 				if (SameText($wrk, "all")) { // Display all records
 					$this->DisplayRecs = -1;
 				} else {
-					$this->DisplayRecs = 20; // Non-numeric, load default
+					$this->DisplayRecs = 30; // Non-numeric, load default
 				}
 			}
 			$this->setRecordsPerPage($this->DisplayRecs); // Save to Session

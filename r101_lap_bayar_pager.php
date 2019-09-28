@@ -59,6 +59,7 @@ namespace PHPMaker2019\p_pembayaran3_1;
 <option value="5"<?php if ($Page->DisplayGroups == 5) echo " selected" ?>>5</option>
 <option value="10"<?php if ($Page->DisplayGroups == 10) echo " selected" ?>>10</option>
 <option value="20"<?php if ($Page->DisplayGroups == 20) echo " selected" ?>>20</option>
+<option value="30"<?php if ($Page->DisplayGroups == 30) echo " selected" ?>>30</option>
 <option value="50"<?php if ($Page->DisplayGroups == 50) echo " selected" ?>>50</option>
 <option value="ALL"<?php if ($Page->getGroupPerPage() == -1) echo " selected" ?>><?php echo $ReportLanguage->Phrase("AllRecords") ?></option>
 </select>

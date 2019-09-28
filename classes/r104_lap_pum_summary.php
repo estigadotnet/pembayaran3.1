@@ -546,7 +546,7 @@ class r104_lap_pum_summary extends r104_lap_pum
 	public $TotalGroups = 0; // Total groups
 	public $GroupCount = 0; // Group count
 	public $GroupCounter = []; // Group counter
-	public $DisplayGroups = 10; // Groups per page
+	public $DisplayGroups = 30; // Groups per page
 	public $GroupRange = 10;
 	public $Sort = "";
 	public $Filter = "";
@@ -1425,7 +1425,7 @@ class r104_lap_pum_summary extends r104_lap_pum
 				if (strtoupper($wrk) == "ALL") { // Display all groups
 					$this->DisplayGroups = -1;
 				} else {
-					$this->DisplayGroups = 10; // Non-numeric, load default
+					$this->DisplayGroups = 30; // Non-numeric, load default
 				}
 			}
 			$this->setGroupPerPage($this->DisplayGroups); // Save to session
@@ -1437,7 +1437,7 @@ class r104_lap_pum_summary extends r104_lap_pum
 			if ($this->getGroupPerPage() <> "") {
 				$this->DisplayGroups = $this->getGroupPerPage(); // Restore from session
 			} else {
-				$this->DisplayGroups = 10; // Load default
+				$this->DisplayGroups = 30; // Load default
 			}
 		}
 	}
@@ -1446,7 +1446,7 @@ class r104_lap_pum_summary extends r104_lap_pum
 	protected function getSort()
 	{
 		if ($this->DrillDown)
-			return "`iuran_id` ASC";
+			return "`kelasnama` ASC, `iuran_id` ASC";
 		$resetSort = ReportParam("cmd") === "resetsort";
 		$orderBy = ReportParam("order", "");
 		$orderType = ReportParam("ordertype", "");
@@ -1482,7 +1482,8 @@ class r104_lap_pum_summary extends r104_lap_pum
 
 		// Set up default sort
 		if ($this->getOrderBy() == "") {
-			$this->setOrderBy("`iuran_id` ASC");
+			$this->setOrderBy("`kelasnama` ASC, `iuran_id` ASC");
+			$this->kelasnama->setSort("ASC");
 			$this->iuran_id->setSort("ASC");
 		}
 		return $this->getOrderBy();

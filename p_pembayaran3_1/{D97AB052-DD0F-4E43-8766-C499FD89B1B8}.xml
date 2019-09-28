@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<configuration date="2019/09/27" author="e.World Technology Ltd.">
-  <project id="{D97AB052-DD0F-4E43-8766-C499FD89B1B8}" file="C:\xampp\htdocs\pembayaran3.1\p_pembayaran3.1.pmp" name="p_pembayaran3_1" product="PHPMaker" version="15.0" datetime="2019/09/27 18:08:27" languagefolder="phplang" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" relatedid="{5ED375BE-ECE4-4069-8E33-06727256BDB4}">
+<configuration date="2019/09/28" author="e.World Technology Ltd.">
+  <project id="{D97AB052-DD0F-4E43-8766-C499FD89B1B8}" file="C:\xampp\htdocs\pembayaran3.1\p_pembayaran3.1.pmp" name="p_pembayaran3_1" product="PHPMaker" version="15.0" datetime="2019/09/28 13:12:20" languagefolder="phplang" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" relatedid="{5ED375BE-ECE4-4069-8E33-06727256BDB4}">
     <table id="c301_home" name="c301_home.php" caption="Home" userlevel="-2,&quot;Anonymous&quot;,72;0,&quot;Default&quot;,0" priv="1" />
     <table id="t001_tahun_ajaran" name="t001_tahun_ajaran" caption="Tahun Ajaran" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
     <table id="t002_sekolah" name="t002_sekolah" caption="Sekolah" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
@@ -19,5 +19,9 @@
     <table id="v103_daf_kelas_siswa_iuran" name="v103_daf_kelas_siswa_iuran" caption="Pembayaran" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
     <table id="v104_pembayaran" name="v104_pembayaran" caption="v 104 pembayaran" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
     <table id="v105_lap_bayar" name="v105_lap_bayar" caption="v 105 lap bayar" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+    <table id="v106_tunggakan" name="v106_tunggakan" caption="v 106 tunggakan" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+    <table id="v107_lap_tunggak" name="v107_lap_tunggak" caption="v 107 lap tunggak" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+    <table id="v108_lap_um" name="v108_lap_um" caption="v 108 lap um" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+    <table id="v109_lap_pum" name="v109_lap_pum" caption="v 109 lap pum" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
   </project>
 </configuration>
