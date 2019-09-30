@@ -1,13 +1,35 @@
+<strong>----- change log ---------------------------------------------------------------------------</strong>
+- 2:41 PM 9/30/2019
+  - tambah view v110, belum ditambahkan di customer
+
+
 <strong>----- on progress --------------------------------------------------------------------------</strong>
 -
 
 
 <font color="red"><strong>----- to do --------------------------------------------------------------------------------</strong>
 - di laporan uang masuk dan potensi uang masuk :: perlu diberi range tanggal
+
 - di laporan pembayaran dan tunggakan :: perlu diberi total
+
+- laporan tunggakan,
+  - harus periksa tipe iuran, apakah rutin atau non-rutin,
+    apabila non-rutin :: harus periksa dulu selisih antara yang sudah dibayar dengan jumlah yang ditentukan
+    di daftar siswa & iuran
+
+- fitur naik kelas
+
+- pembayaran, centang diubah menjadi read-only apabila sudah tutup buku bulanan
 
 
 </font><strong>----- start - finish -----------------------------------------------------------------------</strong>
+7:11 PM 9/30/2019
+- Pembayaran, Cetak Bukti Pembayaran
+
+12:50 PM 9/30/2019
+- General, Backup
+
+
 9:36 AM 9/27/2019 - 2:16 PM 9/27/2019
 - Laporan, Tunggakan
   - gimana caranya membangkitkan combobox periode ? sedangkan di database tidak ada field yang bisa

@@ -1338,6 +1338,7 @@ class t103_daf_kelas_siswa_iuran_grid extends t103_daf_kelas_siswa_iuran
 			if ($this->getSqlOrderBy() <> "") {
 				$orderBy = $this->getSqlOrderBy();
 				$this->setSessionOrderBy($orderBy);
+				$this->iuran_id->setSort("ASC");
 			}
 		}
 	}

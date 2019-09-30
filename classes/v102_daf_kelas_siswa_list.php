@@ -656,6 +656,7 @@ class v102_daf_kelas_siswa_list extends v102_daf_kelas_siswa
 	public $Command;
 	public $RestoreSearch = FALSE;
 	public $t103_daf_kelas_siswa_iuran_Count;
+	public $v110_bukti_master_Count;
 	public $DetailPages;
 	public $OldRecordset;
 
@@ -1274,6 +1275,15 @@ class v102_daf_kelas_siswa_list extends v102_daf_kelas_siswa
 		if (!isset($GLOBALS["t103_daf_kelas_siswa_iuran_grid"]))
 			$GLOBALS["t103_daf_kelas_siswa_iuran_grid"] = new t103_daf_kelas_siswa_iuran_grid();
 
+		// "detail_v110_bukti_master"
+		$item = &$this->ListOptions->add("detail_v110_bukti_master");
+		$item->CssClass = "text-nowrap";
+		$item->Visible = $Security->allowList(CurrentProjectID() . 'v110_bukti_master') && !$this->ShowMultipleDetails;
+		$item->OnLeft = TRUE;
+		$item->ShowInButtonGroup = FALSE;
+		if (!isset($GLOBALS["v110_bukti_master_grid"]))
+			$GLOBALS["v110_bukti_master_grid"] = new v110_bukti_master_grid();
+
 		// Multiple details
 		if ($this->ShowMultipleDetails) {
 			$item = &$this->ListOptions->add("details");
@@ -1286,6 +1296,7 @@ class v102_daf_kelas_siswa_list extends v102_daf_kelas_siswa
 		// Set up detail pages
 		$pages = new SubPages();
 		$pages->add("t103_daf_kelas_siswa_iuran");
+		$pages->add("v110_bukti_master");
 		$this->DetailPages = $pages;
 
 		// List actions
@@ -1380,6 +1391,23 @@ class v102_daf_kelas_siswa_list extends v102_daf_kelas_siswa
 			$body = $Language->phrase("DetailLink") . $Language->TablePhrase("t103_daf_kelas_siswa_iuran", "TblCaption");
 			$body .= "&nbsp;" . str_replace("%c", $this->t103_daf_kelas_siswa_iuran_Count, $Language->phrase("DetailCount"));
 			$body = "<a class=\"btn btn-default ew-row-link ew-detail\" data-action=\"list\" href=\"" . HtmlEncode("t103_daf_kelas_siswa_iuranlist.php?" . TABLE_SHOW_MASTER . "=v102_daf_kelas_siswa&fk_id=" . urlencode(strval($this->id->CurrentValue)) . "") . "\">" . $body . "</a>";
+			$links = "";
+			if ($links <> "") {
+				$body .= "<button class=\"dropdown-toggle btn btn-default ew-detail\" data-toggle=\"dropdown\"></button>";
+				$body .= "<ul class=\"dropdown-menu\">". $links . "</ul>";
+			}
+			$body = "<div class=\"btn-group btn-group-sm ew-btn-group\">" . $body . "</div>";
+			$opt->Body = $body;
+			if ($this->ShowMultipleDetails)
+				$opt->Visible = FALSE;
+		}
+
+		// "detail_v110_bukti_master"
+		$opt = &$this->ListOptions->Items["detail_v110_bukti_master"];
+		if ($Security->allowList(CurrentProjectID() . 'v110_bukti_master')) {
+			$body = $Language->phrase("DetailLink") . $Language->TablePhrase("v110_bukti_master", "TblCaption");
+			$body .= "&nbsp;" . str_replace("%c", $this->v110_bukti_master_Count, $Language->phrase("DetailCount"));
+			$body = "<a class=\"btn btn-default ew-row-link ew-detail\" data-action=\"list\" href=\"" . HtmlEncode("v110_bukti_masterlist.php?" . TABLE_SHOW_MASTER . "=v102_daf_kelas_siswa&fk_id=" . urlencode(strval($this->id->CurrentValue)) . "") . "\">" . $body . "</a>";
 			$links = "";
 			if ($links <> "") {
 				$body .= "<button class=\"dropdown-toggle btn btn-default ew-detail\" data-toggle=\"dropdown\"></button>";
@@ -1648,6 +1676,35 @@ class v102_daf_kelas_siswa_list extends v102_daf_kelas_siswa
 				$option->Body .= "<div class=\"d-none ew-preview\">" . $link . $btngrp . "</div>";
 			}
 		}
+		$sqlwrk = "`daf_kelas_siswa_id`=" . AdjustSql($this->id->CurrentValue, $this->Dbid) . "";
+
+		// Column "detail_v110_bukti_master"
+		if ($this->DetailPages->Items["v110_bukti_master"]->Visible) {
+			$link = "";
+			$option = &$this->ListOptions->Items["detail_v110_bukti_master"];
+			$url = "v110_bukti_masterpreview.php?t=v102_daf_kelas_siswa&f=" . Encrypt($sqlwrk);
+			$btngrp = "<div data-table=\"v110_bukti_master\" data-url=\"" . $url . "\">";
+			if ($Security->allowList(CurrentProjectID() . 'v110_bukti_master')) {
+				$label = $Language->TablePhrase("v110_bukti_master", "TblCaption");
+				$label .= "&nbsp;" . JsEncode(str_replace("%c", $this->v110_bukti_master_Count, $Language->Phrase("DetailCount")));
+				$link = "<li class=\"nav-item\"><a href=\"#\" class=\"nav-link\" data-toggle=\"tab\" data-table=\"v110_bukti_master\" data-url=\"" . $url . "\">" . $label . "</a></li>";
+				$links .= $link;
+				$detaillnk = JsEncodeAttribute("v110_bukti_masterlist.php?" . TABLE_SHOW_MASTER . "=v102_daf_kelas_siswa&fk_id=" . urlencode(strval($this->id->CurrentValue)) . "");
+				$btngrp .= "<a href=\"javascript:void(0);\" class=\"ew-link-separator\" title=\"" . $Language->TablePhrase("v110_bukti_master", "TblCaption") . "\" onclick=\"window.location='" . $detaillnk . "'\">" . $Language->Phrase("MasterDetailListLink") . "</a>";
+			}
+			if (!isset($GLOBALS["v110_bukti_master_grid"]))
+				$GLOBALS["v110_bukti_master_grid"] = new v110_bukti_master_grid();
+			if ($GLOBALS["v110_bukti_master_grid"]->DetailView && $Security->canView() && $Security->allowView(CurrentProjectID() . 'v110_bukti_master')) {
+				$caption = $Language->Phrase("MasterDetailViewLink");
+				$url = $this->getViewUrl(TABLE_SHOW_DETAIL . "=v110_bukti_master");
+				$btngrp .= "<a href=\"javascript:void(0);\" class=\"ew-link-separator\" title=\"" . HtmlTitle($caption) . "\" onclick=\"window.location='" . HtmlEncode($url) . "'\">" . $caption . "</a>";
+			}
+			$btngrp .= "</div>";
+			if ($link <> "") {
+				$btngrps .= $btngrp;
+				$option->Body .= "<div class=\"d-none ew-preview\">" . $link . $btngrp . "</div>";
+			}
+		}
 
 		// Hide detail items if necessary
 		$this->ListOptions->hideDetailItemsForDropDown();
@@ -1820,6 +1877,13 @@ class v102_daf_kelas_siswa_list extends v102_daf_kelas_siswa
 		$GLOBALS["t103_daf_kelas_siswa_iuran"]->setCurrentMasterTable("v102_daf_kelas_siswa");
 		$detailFilter = $GLOBALS["t103_daf_kelas_siswa_iuran"]->applyUserIDFilters($detailFilter);
 		$this->t103_daf_kelas_siswa_iuran_Count = $GLOBALS["t103_daf_kelas_siswa_iuran"]->loadRecordCount($detailFilter);
+		if (!isset($GLOBALS["v110_bukti_master_grid"]))
+			$GLOBALS["v110_bukti_master_grid"] = new v110_bukti_master_grid();
+		$detailFilter = $GLOBALS["v110_bukti_master"]->sqlDetailFilter_v102_daf_kelas_siswa();
+		$detailFilter = str_replace("@daf_kelas_siswa_id@", AdjustSql($this->id->DbValue, "DB"), $detailFilter);
+		$GLOBALS["v110_bukti_master"]->setCurrentMasterTable("v102_daf_kelas_siswa");
+		$detailFilter = $GLOBALS["v110_bukti_master"]->applyUserIDFilters($detailFilter);
+		$this->v110_bukti_master_Count = $GLOBALS["v110_bukti_master"]->loadRecordCount($detailFilter);
 	}
 
 	// Return a row with default values

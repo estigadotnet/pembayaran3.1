@@ -4,7 +4,7 @@ namespace PHPMaker2019\p_pembayaran3_1;
 /**
  * Page class
  */
-class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
+class v110_bukti_master_list extends v110_bukti_master
 {
 
 	// Page ID
@@ -14,13 +14,13 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 	public $ProjectID = "{D97AB052-DD0F-4E43-8766-C499FD89B1B8}";
 
 	// Table name
-	public $TableName = 'v103_daf_kelas_siswa_iuran';
+	public $TableName = 'v110_bukti_master';
 
 	// Page object name
-	public $PageObjName = "v103_daf_kelas_siswa_iuran_list";
+	public $PageObjName = "v110_bukti_master_list";
 
 	// Grid form hidden field names
-	public $FormName = "fv103_daf_kelas_siswa_iuranlist";
+	public $FormName = "fv110_bukti_masterlist";
 	public $FormActionName = "k_action";
 	public $FormKeyName = "k_key";
 	public $FormOldKeyName = "k_oldkey";
@@ -392,10 +392,10 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 		// Parent constuctor
 		parent::__construct();
 
-		// Table object (v103_daf_kelas_siswa_iuran)
-		if (!isset($GLOBALS["v103_daf_kelas_siswa_iuran"]) || get_class($GLOBALS["v103_daf_kelas_siswa_iuran"]) == PROJECT_NAMESPACE . "v103_daf_kelas_siswa_iuran") {
-			$GLOBALS["v103_daf_kelas_siswa_iuran"] = &$this;
-			$GLOBALS["Table"] = &$GLOBALS["v103_daf_kelas_siswa_iuran"];
+		// Table object (v110_bukti_master)
+		if (!isset($GLOBALS["v110_bukti_master"]) || get_class($GLOBALS["v110_bukti_master"]) == PROJECT_NAMESPACE . "v110_bukti_master") {
+			$GLOBALS["v110_bukti_master"] = &$this;
+			$GLOBALS["Table"] = &$GLOBALS["v110_bukti_master"];
 		}
 
 		// Initialize URLs
@@ -406,17 +406,21 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 		$this->ExportXmlUrl = $this->pageUrl() . "export=xml";
 		$this->ExportCsvUrl = $this->pageUrl() . "export=csv";
 		$this->ExportPdfUrl = $this->pageUrl() . "export=pdf";
-		$this->AddUrl = "v103_daf_kelas_siswa_iuranadd.php";
+		$this->AddUrl = "v110_bukti_masteradd.php";
 		$this->InlineAddUrl = $this->pageUrl() . "action=add";
 		$this->GridAddUrl = $this->pageUrl() . "action=gridadd";
 		$this->GridEditUrl = $this->pageUrl() . "action=gridedit";
-		$this->MultiDeleteUrl = "v103_daf_kelas_siswa_iurandelete.php";
-		$this->MultiUpdateUrl = "v103_daf_kelas_siswa_iuranupdate.php";
+		$this->MultiDeleteUrl = "v110_bukti_masterdelete.php";
+		$this->MultiUpdateUrl = "v110_bukti_masterupdate.php";
 		$this->CancelUrl = $this->pageUrl() . "action=cancel";
 
 		// Table object (t301_employees)
 		if (!isset($GLOBALS['t301_employees']))
 			$GLOBALS['t301_employees'] = new t301_employees();
+
+		// Table object (v102_daf_kelas_siswa)
+		if (!isset($GLOBALS['v102_daf_kelas_siswa']))
+			$GLOBALS['v102_daf_kelas_siswa'] = new v102_daf_kelas_siswa();
 
 		// Page ID
 		if (!defined(PROJECT_NAMESPACE . "PAGE_ID"))
@@ -424,7 +428,7 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 
 		// Table name (for backward compatibility)
 		if (!defined(PROJECT_NAMESPACE . "TABLE_NAME"))
-			define(PROJECT_NAMESPACE . "TABLE_NAME", 'v103_daf_kelas_siswa_iuran');
+			define(PROJECT_NAMESPACE . "TABLE_NAME", 'v110_bukti_master');
 
 		// Start timer
 		if (!isset($GLOBALS["DebugTimer"]))
@@ -473,7 +477,7 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 		// Filter options
 		$this->FilterOptions = new ListOptions();
 		$this->FilterOptions->Tag = "div";
-		$this->FilterOptions->TagClassName = "ew-filter-option fv103_daf_kelas_siswa_iuranlistsrch";
+		$this->FilterOptions->TagClassName = "ew-filter-option fv110_bukti_masterlistsrch";
 
 		// List actions
 		$this->ListActions = new ListActions();
@@ -491,14 +495,14 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 		Page_Unloaded();
 
 		// Export
-		global $EXPORT, $v103_daf_kelas_siswa_iuran;
+		global $EXPORT, $v110_bukti_master;
 		if ($this->CustomExport && $this->CustomExport == $this->Export && array_key_exists($this->CustomExport, $EXPORT)) {
 				$content = ob_get_contents();
 			if ($ExportFileName == "")
 				$ExportFileName = $this->TableVar;
 			$class = PROJECT_NAMESPACE . $EXPORT[$this->CustomExport];
 			if (class_exists($class)) {
-				$doc = new $class($v103_daf_kelas_siswa_iuran);
+				$doc = new $class($v110_bukti_master);
 				$doc->Text = @$content;
 				if ($this->isExport("email"))
 					echo $this->exportEmail($doc->Text);
@@ -602,7 +606,7 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 		global $COMPOSITE_KEY_SEPARATOR;
 		$key = "";
 		if (is_array($ar)) {
-			$key .= @$ar['siswa_id'];
+			$key .= @$ar['id'];
 		}
 		return $key;
 	}
@@ -614,8 +618,6 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 	 */
 	protected function hideFieldsForAddEdit()
 	{
-		if ($this->isAdd() || $this->isCopy() || $this->isGridAdd())
-			$this->siswa_id->Visible = FALSE;
 	}
 
 	// Class variables
@@ -720,9 +722,12 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 
 		// Set up list options
 		$this->setupListOptions();
-		$this->siswa_id->Visible = FALSE;
-		$this->NomorInduk->setVisibility();
-		$this->Nama->setVisibility();
+		$this->daf_kelas_siswa_id->Visible = FALSE;
+		$this->periode->Visible = FALSE;
+		$this->periodebulan->setVisibility();
+		$this->tglbayar->setVisibility();
+		$this->totalbayar->setVisibility();
+		$this->id->Visible = FALSE;
 		$this->hideFieldsForAddEdit();
 
 		// Global Page Loading event (in userfn*.php)
@@ -739,6 +744,9 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 
 		// Create Token
 		$this->createToken();
+
+		// Set up master detail parameters
+		$this->setupMasterParms();
 
 		// Setup other options
 		$this->setupOtherOptions();
@@ -802,31 +810,8 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 			if ($this->isExport())
 				$this->OtherOptions->hideAllOptions();
 
-			// Get default search criteria
-			AddFilter($this->DefaultSearchWhere, $this->advancedSearchWhere(TRUE));
-
-			// Get and validate search values for advanced search
-			$this->loadSearchValues(); // Get search values
-
-			// Process filter list
-			if ($this->processFilterList())
-				$this->terminate();
-			if (!$this->validateSearch())
-				$this->setFailureMessage($SearchError);
-
-			// Restore search parms from Session if not searching / reset / export
-			if (($this->isExport() || $this->Command <> "search" && $this->Command <> "reset" && $this->Command <> "resetall") && $this->Command <> "json" && $this->checkSearchParms())
-				$this->restoreSearchParms();
-
-			// Call Recordset SearchValidated event
-			$this->Recordset_SearchValidated();
-
 			// Set up sorting order
 			$this->setupSortOrder();
-
-			// Get search criteria for advanced search
-			if ($SearchError == "")
-				$srchAdvanced = $this->advancedSearchWhere();
 		}
 
 		// Restore display records
@@ -840,40 +825,31 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 		if ($this->Command <> "json")
 			$this->loadSortOrder();
 
-		// Load search default if no existing search criteria
-		if (!$this->checkSearchParms()) {
-
-			// Load advanced search from default
-			if ($this->loadAdvancedSearchDefault()) {
-				$srchAdvanced = $this->advancedSearchWhere();
-			}
-		}
-
-		// Build search criteria
-		AddFilter($this->SearchWhere, $srchAdvanced);
-		AddFilter($this->SearchWhere, $srchBasic);
-
-		// Call Recordset_Searching event
-		$this->Recordset_Searching($this->SearchWhere);
-
-		// Save search criteria
-		if ($this->Command == "search" && !$this->RestoreSearch) {
-			$this->setSearchWhere($this->SearchWhere); // Save to Session
-			$this->StartRec = 1; // Reset start record counter
-			$this->setStartRecordNumber($this->StartRec);
-		} elseif ($this->Command <> "json") {
-			$this->SearchWhere = $this->getSearchWhere();
-		}
-
 		// Build filter
 		$filter = "";
 		if (!$Security->canList())
 			$filter = "(0=1)"; // Filter all records
+
+		// Restore master/detail filter
+		$this->DbMasterFilter = $this->getMasterFilter(); // Restore master filter
+		$this->DbDetailFilter = $this->getDetailFilter(); // Restore detail filter
 		AddFilter($filter, $this->DbDetailFilter);
 		AddFilter($filter, $this->SearchWhere);
-		if ($filter == "") {
-			$filter = "0=101";
-			$this->SearchWhere = $filter;
+
+		// Load master record
+		if ($this->CurrentMode <> "add" && $this->getMasterFilter() <> "" && $this->getCurrentMasterTable() == "v102_daf_kelas_siswa") {
+			global $v102_daf_kelas_siswa;
+			$rsmaster = $v102_daf_kelas_siswa->loadRs($this->DbMasterFilter);
+			$this->MasterRecordExists = ($rsmaster && !$rsmaster->EOF);
+			if (!$this->MasterRecordExists) {
+				$this->setFailureMessage($Language->phrase("NoRecord")); // Set no record found
+				$this->terminate("v102_daf_kelas_siswalist.php"); // Return to master page
+			} else {
+				$v102_daf_kelas_siswa->loadListRowValues($rsmaster);
+				$v102_daf_kelas_siswa->RowType = ROWTYPE_MASTER; // Master row
+				$v102_daf_kelas_siswa->renderListRow();
+				$rsmaster->close();
+			}
 		}
 
 		// Set up filter
@@ -914,13 +890,6 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 					$this->setWarningMessage($Language->phrase("EnterSearchCriteria"));
 				else
 					$this->setWarningMessage($Language->phrase("NoRecord"));
-			}
-
-			// Audit trail on search
-			if ($this->AuditTrailOnSearch && $this->Command == "search" && !$this->RestoreSearch) {
-				$searchParm = ServerVar("QUERY_STRING");
-				$searchSql = $this->getSessionWhere();
-				$this->writeAuditTrailOnSearch($searchParm, $searchSql);
 			}
 		}
 
@@ -992,205 +961,11 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 	{
 		$arKeyFlds = explode($GLOBALS["COMPOSITE_KEY_SEPARATOR"], $key);
 		if (count($arKeyFlds) >= 1) {
-			$this->siswa_id->setFormValue($arKeyFlds[0]);
-			if (!is_numeric($this->siswa_id->FormValue))
+			$this->id->setFormValue($arKeyFlds[0]);
+			if (!is_numeric($this->id->FormValue))
 				return FALSE;
 		}
 		return TRUE;
-	}
-
-	// Get list of filters
-	public function getFilterList()
-	{
-		global $UserProfile;
-
-		// Initialize
-		$filterList = "";
-		$savedFilterList = "";
-		$filterList = Concat($filterList, $this->siswa_id->AdvancedSearch->toJson(), ","); // Field siswa_id
-		$filterList = Concat($filterList, $this->NomorInduk->AdvancedSearch->toJson(), ","); // Field NomorInduk
-		$filterList = Concat($filterList, $this->Nama->AdvancedSearch->toJson(), ","); // Field Nama
-
-		// Return filter list in JSON
-		if ($filterList <> "")
-			$filterList = "\"data\":{" . $filterList . "}";
-		if ($savedFilterList <> "")
-			$filterList = Concat($filterList, "\"filters\":" . $savedFilterList, ",");
-		return ($filterList <> "") ? "{" . $filterList . "}" : "null";
-	}
-
-	// Process filter list
-	protected function processFilterList()
-	{
-		global $UserProfile;
-		if (Post("ajax") == "savefilters") { // Save filter request (Ajax)
-			$filters = Post("filters");
-			$UserProfile->setSearchFilters(CurrentUserName(), "fv103_daf_kelas_siswa_iuranlistsrch", $filters);
-			WriteJson([["success" => TRUE]]); // Success
-			return TRUE;
-		} elseif (Post("cmd") == "resetfilter") {
-			$this->restoreFilterList();
-		}
-		return FALSE;
-	}
-
-	// Restore list of filters
-	protected function restoreFilterList()
-	{
-
-		// Return if not reset filter
-		if (Post("cmd") !== "resetfilter")
-			return FALSE;
-		$filter = json_decode(Post("filter"), TRUE);
-		$this->Command = "search";
-
-		// Field siswa_id
-		$this->siswa_id->AdvancedSearch->SearchValue = @$filter["x_siswa_id"];
-		$this->siswa_id->AdvancedSearch->SearchOperator = @$filter["z_siswa_id"];
-		$this->siswa_id->AdvancedSearch->SearchCondition = @$filter["v_siswa_id"];
-		$this->siswa_id->AdvancedSearch->SearchValue2 = @$filter["y_siswa_id"];
-		$this->siswa_id->AdvancedSearch->SearchOperator2 = @$filter["w_siswa_id"];
-		$this->siswa_id->AdvancedSearch->save();
-
-		// Field NomorInduk
-		$this->NomorInduk->AdvancedSearch->SearchValue = @$filter["x_NomorInduk"];
-		$this->NomorInduk->AdvancedSearch->SearchOperator = @$filter["z_NomorInduk"];
-		$this->NomorInduk->AdvancedSearch->SearchCondition = @$filter["v_NomorInduk"];
-		$this->NomorInduk->AdvancedSearch->SearchValue2 = @$filter["y_NomorInduk"];
-		$this->NomorInduk->AdvancedSearch->SearchOperator2 = @$filter["w_NomorInduk"];
-		$this->NomorInduk->AdvancedSearch->save();
-
-		// Field Nama
-		$this->Nama->AdvancedSearch->SearchValue = @$filter["x_Nama"];
-		$this->Nama->AdvancedSearch->SearchOperator = @$filter["z_Nama"];
-		$this->Nama->AdvancedSearch->SearchCondition = @$filter["v_Nama"];
-		$this->Nama->AdvancedSearch->SearchValue2 = @$filter["y_Nama"];
-		$this->Nama->AdvancedSearch->SearchOperator2 = @$filter["w_Nama"];
-		$this->Nama->AdvancedSearch->save();
-	}
-
-	// Advanced search WHERE clause based on QueryString
-	protected function advancedSearchWhere($default = FALSE)
-	{
-		global $Security;
-		$where = "";
-		if (!$Security->canSearch())
-			return "";
-		$this->buildSearchSql($where, $this->siswa_id, $default, FALSE); // siswa_id
-		$this->buildSearchSql($where, $this->NomorInduk, $default, FALSE); // NomorInduk
-		$this->buildSearchSql($where, $this->Nama, $default, FALSE); // Nama
-
-		// Set up search parm
-		if (!$default && $where <> "" && in_array($this->Command, array("", "reset", "resetall"))) {
-			$this->Command = "search";
-		}
-		if (!$default && $this->Command == "search") {
-			$this->siswa_id->AdvancedSearch->save(); // siswa_id
-			$this->NomorInduk->AdvancedSearch->save(); // NomorInduk
-			$this->Nama->AdvancedSearch->save(); // Nama
-		}
-		return $where;
-	}
-
-	// Build search SQL
-	protected function buildSearchSql(&$where, &$fld, $default, $multiValue)
-	{
-		$fldParm = $fld->Param;
-		$fldVal = ($default) ? $fld->AdvancedSearch->SearchValueDefault : $fld->AdvancedSearch->SearchValue;
-		$fldOpr = ($default) ? $fld->AdvancedSearch->SearchOperatorDefault : $fld->AdvancedSearch->SearchOperator;
-		$fldCond = ($default) ? $fld->AdvancedSearch->SearchConditionDefault : $fld->AdvancedSearch->SearchCondition;
-		$fldVal2 = ($default) ? $fld->AdvancedSearch->SearchValue2Default : $fld->AdvancedSearch->SearchValue2;
-		$fldOpr2 = ($default) ? $fld->AdvancedSearch->SearchOperator2Default : $fld->AdvancedSearch->SearchOperator2;
-		$wrk = "";
-		if (is_array($fldVal))
-			$fldVal = implode(",", $fldVal);
-		if (is_array($fldVal2))
-			$fldVal2 = implode(",", $fldVal2);
-		$fldOpr = strtoupper(trim($fldOpr));
-		if ($fldOpr == "")
-			$fldOpr = "=";
-		$fldOpr2 = strtoupper(trim($fldOpr2));
-		if ($fldOpr2 == "")
-			$fldOpr2 = "=";
-		if (SEARCH_MULTI_VALUE_OPTION == 1)
-			$multiValue = FALSE;
-		if ($multiValue) {
-			$wrk1 = ($fldVal <> "") ? GetMultiSearchSql($fld, $fldOpr, $fldVal, $this->Dbid) : ""; // Field value 1
-			$wrk2 = ($fldVal2 <> "") ? GetMultiSearchSql($fld, $fldOpr2, $fldVal2, $this->Dbid) : ""; // Field value 2
-			$wrk = $wrk1; // Build final SQL
-			if ($wrk2 <> "")
-				$wrk = ($wrk <> "") ? "($wrk) $fldCond ($wrk2)" : $wrk2;
-		} else {
-			$fldVal = $this->convertSearchValue($fld, $fldVal);
-			$fldVal2 = $this->convertSearchValue($fld, $fldVal2);
-			$wrk = GetSearchSql($fld, $fldVal, $fldOpr, $fldCond, $fldVal2, $fldOpr2, $this->Dbid);
-		}
-		AddFilter($where, $wrk);
-	}
-
-	// Convert search value
-	protected function convertSearchValue(&$fld, $fldVal)
-	{
-		if ($fldVal == NULL_VALUE || $fldVal == NOT_NULL_VALUE)
-			return $fldVal;
-		$value = $fldVal;
-		if ($fld->DataType == DATATYPE_BOOLEAN) {
-			if ($fldVal <> "")
-				$value = (SameText($fldVal, "1") || SameText($fldVal, "y") || SameText($fldVal, "t")) ? $fld->TrueValue : $fld->FalseValue;
-		} elseif ($fld->DataType == DATATYPE_DATE || $fld->DataType == DATATYPE_TIME) {
-			if ($fldVal <> "")
-				$value = UnFormatDateTime($fldVal, $fld->DateTimeFormat);
-		}
-		return $value;
-	}
-
-	// Check if search parm exists
-	protected function checkSearchParms()
-	{
-		if ($this->siswa_id->AdvancedSearch->issetSession())
-			return TRUE;
-		if ($this->NomorInduk->AdvancedSearch->issetSession())
-			return TRUE;
-		if ($this->Nama->AdvancedSearch->issetSession())
-			return TRUE;
-		return FALSE;
-	}
-
-	// Clear all search parameters
-	protected function resetSearchParms()
-	{
-
-		// Clear search WHERE clause
-		$this->SearchWhere = "";
-		$this->setSearchWhere($this->SearchWhere);
-
-		// Clear advanced search parameters
-		$this->resetAdvancedSearchParms();
-	}
-
-	// Load advanced search default values
-	protected function loadAdvancedSearchDefault()
-	{
-		return FALSE;
-	}
-
-	// Clear all advanced search parameters
-	protected function resetAdvancedSearchParms()
-	{
-		$this->siswa_id->AdvancedSearch->unsetSession();
-		$this->NomorInduk->AdvancedSearch->unsetSession();
-		$this->Nama->AdvancedSearch->unsetSession();
-	}
-
-	// Restore all search parameters
-	protected function restoreSearchParms()
-	{
-		$this->RestoreSearch = TRUE;
-
-		// Restore advanced search values
-		$this->siswa_id->AdvancedSearch->load();
-		$this->NomorInduk->AdvancedSearch->load();
-		$this->Nama->AdvancedSearch->load();
 	}
 
 	// Set up sort parameters
@@ -1204,8 +979,9 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 		if (Get("order") !== NULL) {
 			$this->CurrentOrder = Get("order");
 			$this->CurrentOrderType = Get("ordertype", "");
-			$this->updateSort($this->NomorInduk, $ctrl); // NomorInduk
-			$this->updateSort($this->Nama, $ctrl); // Nama
+			$this->updateSort($this->periodebulan, $ctrl); // periodebulan
+			$this->updateSort($this->tglbayar, $ctrl); // tglbayar
+			$this->updateSort($this->totalbayar, $ctrl); // totalbayar
 			$this->setStartRecordNumber(1); // Reset start position
 		}
 	}
@@ -1233,16 +1009,21 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 		// Check if reset command
 		if (substr($this->Command,0,5) == "reset") {
 
-			// Reset search criteria
-			if ($this->Command == "reset" || $this->Command == "resetall")
-				$this->resetSearchParms();
+			// Reset master/detail keys
+			if ($this->Command == "resetall") {
+				$this->setCurrentMasterTable(""); // Clear master table
+				$this->DbMasterFilter = "";
+				$this->DbDetailFilter = "";
+				$this->daf_kelas_siswa_id->setSessionValue("");
+			}
 
 			// Reset sorting order
 			if ($this->Command == "resetsort") {
 				$orderBy = "";
 				$this->setSessionOrderBy($orderBy);
-				$this->NomorInduk->setSort("");
-				$this->Nama->setSort("");
+				$this->periodebulan->setSort("");
+				$this->tglbayar->setSort("");
+				$this->totalbayar->setSort("");
 			}
 
 			// Reset start position
@@ -1279,6 +1060,14 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 		$item->ShowInDropDown = FALSE;
 		$item->ShowInButtonGroup = FALSE;
 
+		// "sequence"
+		$item = &$this->ListOptions->add("sequence");
+		$item->CssClass = "text-nowrap";
+		$item->Visible = TRUE;
+		$item->OnLeft = TRUE; // Always on left
+		$item->ShowInDropDown = FALSE;
+		$item->ShowInButtonGroup = FALSE;
+
 		// Drop down button for ListOptions
 		$this->ListOptions->UseDropDownButton = FALSE;
 		$this->ListOptions->DropDownButtonPhrase = $Language->phrase("ButtonListOptions");
@@ -1303,6 +1092,10 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 
 		// Call ListOptions_Rendering event
 		$this->ListOptions_Rendering();
+
+		// "sequence"
+		$opt = &$this->ListOptions->Items["sequence"];
+		$opt->Body = FormatSequenceNumber($this->RecCnt);
 
 		// Set up list action buttons
 		$opt = &$this->ListOptions->getItem("listactions");
@@ -1335,7 +1128,7 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 
 		// "checkbox"
 		$opt = &$this->ListOptions->Items["checkbox"];
-		$opt->Body = "<input type=\"checkbox\" name=\"key_m[]\" class=\"ew-multi-select\" value=\"" . HtmlEncode($this->siswa_id->CurrentValue) . "\" onclick=\"ew.clickMultiCheckbox(event);\">";
+		$opt->Body = "<input type=\"checkbox\" name=\"key_m[]\" class=\"ew-multi-select\" value=\"" . HtmlEncode($this->id->CurrentValue) . "\" onclick=\"ew.clickMultiCheckbox(event);\">";
 		$this->renderListOptionsExt();
 
 		// Call ListOptions_Rendered event
@@ -1365,11 +1158,11 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 
 		// Filter button
 		$item = &$this->FilterOptions->add("savecurrentfilter");
-		$item->Body = "<a class=\"ew-save-filter\" data-form=\"fv103_daf_kelas_siswa_iuranlistsrch\" href=\"#\">" . $Language->phrase("SaveCurrentFilter") . "</a>";
-		$item->Visible = TRUE;
+		$item->Body = "<a class=\"ew-save-filter\" data-form=\"fv110_bukti_masterlistsrch\" href=\"#\">" . $Language->phrase("SaveCurrentFilter") . "</a>";
+		$item->Visible = FALSE;
 		$item = &$this->FilterOptions->add("deletefilter");
-		$item->Body = "<a class=\"ew-delete-filter\" data-form=\"fv103_daf_kelas_siswa_iuranlistsrch\" href=\"#\">" . $Language->phrase("DeleteFilter") . "</a>";
-		$item->Visible = TRUE;
+		$item->Body = "<a class=\"ew-delete-filter\" data-form=\"fv110_bukti_masterlistsrch\" href=\"#\">" . $Language->phrase("DeleteFilter") . "</a>";
+		$item->Visible = FALSE;
 		$this->FilterOptions->UseDropDownButton = TRUE;
 		$this->FilterOptions->UseButtonGroup = !$this->FilterOptions->UseDropDownButton;
 		$this->FilterOptions->DropDownButtonPhrase = $Language->phrase("Filters");
@@ -1393,7 +1186,7 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 					$item = &$option->add("custom_" . $listaction->Action);
 					$caption = $listaction->Caption;
 					$icon = ($listaction->Icon <> "") ? "<i class=\"" . HtmlEncode($listaction->Icon) . "\" data-caption=\"" . HtmlEncode($caption) . "\"></i> " . $caption : $caption;
-					$item->Body = "<a class=\"ew-action ew-list-action\" title=\"" . HtmlEncode($caption) . "\" data-caption=\"" . HtmlEncode($caption) . "\" href=\"\" onclick=\"ew.submitAction(event,jQuery.extend({f:document.fv103_daf_kelas_siswa_iuranlist}," . $listaction->toJson(TRUE) . "));return false;\">" . $icon . "</a>";
+					$item->Body = "<a class=\"ew-action ew-list-action\" title=\"" . HtmlEncode($caption) . "\" data-caption=\"" . HtmlEncode($caption) . "\" href=\"\" onclick=\"ew.submitAction(event,jQuery.extend({f:document.fv110_bukti_masterlist}," . $listaction->toJson(TRUE) . "));return false;\">" . $icon . "</a>";
 					$item->Visible = $listaction->Allow;
 				}
 			}
@@ -1497,17 +1290,6 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 		$this->SearchOptions->Tag = "div";
 		$this->SearchOptions->TagClassName = "ew-search-option";
 
-		// Search button
-		$item = &$this->SearchOptions->add("searchtoggle");
-		$searchToggleClass = ($this->SearchWhere <> "") ? " active" : " active";
-		$item->Body = "<button type=\"button\" class=\"btn btn-default ew-search-toggle" . $searchToggleClass . "\" title=\"" . $Language->phrase("SearchPanel") . "\" data-caption=\"" . $Language->phrase("SearchPanel") . "\" data-toggle=\"button\" data-form=\"fv103_daf_kelas_siswa_iuranlistsrch\">" . $Language->phrase("SearchLink") . "</button>";
-		$item->Visible = TRUE;
-
-		// Show all button
-		$item = &$this->SearchOptions->add("showall");
-		$item->Body = "<a class=\"btn btn-default ew-show-all\" title=\"" . $Language->phrase("ResetSearch") . "\" data-caption=\"" . $Language->phrase("ResetSearch") . "\" href=\"" . $this->pageUrl() . "cmd=reset\">" . $Language->phrase("ResetSearchBtn") . "</a>";
-		$item->Visible = ($this->SearchWhere <> $this->DefaultSearchWhere && $this->SearchWhere <> "0=101");
-
 		// Button group for search
 		$this->SearchOptions->UseDropDownButton = FALSE;
 		$this->SearchOptions->UseButtonGroup = TRUE;
@@ -1576,35 +1358,6 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 		}
 	}
 
-	// Load search values for validation
-	protected function loadSearchValues()
-	{
-		global $CurrentForm;
-
-		// Load search values
-		// siswa_id
-
-		if (!$this->isAddOrEdit())
-			$this->siswa_id->AdvancedSearch->setSearchValue(Get("x_siswa_id", Get("siswa_id", "")));
-		if ($this->siswa_id->AdvancedSearch->SearchValue <> "" && $this->Command == "")
-			$this->Command = "search";
-		$this->siswa_id->AdvancedSearch->setSearchOperator(Get("z_siswa_id", ""));
-
-		// NomorInduk
-		if (!$this->isAddOrEdit())
-			$this->NomorInduk->AdvancedSearch->setSearchValue(Get("x_NomorInduk", Get("NomorInduk", "")));
-		if ($this->NomorInduk->AdvancedSearch->SearchValue <> "" && $this->Command == "")
-			$this->Command = "search";
-		$this->NomorInduk->AdvancedSearch->setSearchOperator(Get("z_NomorInduk", ""));
-
-		// Nama
-		if (!$this->isAddOrEdit())
-			$this->Nama->AdvancedSearch->setSearchValue(Get("x_Nama", Get("Nama", "")));
-		if ($this->Nama->AdvancedSearch->SearchValue <> "" && $this->Command == "")
-			$this->Command = "search";
-		$this->Nama->AdvancedSearch->setSearchOperator(Get("z_Nama", ""));
-	}
-
 	// Load recordset
 	public function loadRecordset($offset = -1, $rowcnt = -1)
 	{
@@ -1667,18 +1420,24 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 		$this->Row_Selected($row);
 		if (!$rs || $rs->EOF)
 			return;
-		$this->siswa_id->setDbValue($row['siswa_id']);
-		$this->NomorInduk->setDbValue($row['NomorInduk']);
-		$this->Nama->setDbValue($row['Nama']);
+		$this->daf_kelas_siswa_id->setDbValue($row['daf_kelas_siswa_id']);
+		$this->periode->setDbValue($row['periode']);
+		$this->periodebulan->setDbValue($row['periodebulan']);
+		$this->tglbayar->setDbValue($row['tglbayar']);
+		$this->totalbayar->setDbValue($row['totalbayar']);
+		$this->id->setDbValue($row['id']);
 	}
 
 	// Return a row with default values
 	protected function newRow()
 	{
 		$row = [];
-		$row['siswa_id'] = NULL;
-		$row['NomorInduk'] = NULL;
-		$row['Nama'] = NULL;
+		$row['daf_kelas_siswa_id'] = NULL;
+		$row['periode'] = NULL;
+		$row['periodebulan'] = NULL;
+		$row['tglbayar'] = NULL;
+		$row['totalbayar'] = NULL;
+		$row['id'] = NULL;
 		return $row;
 	}
 
@@ -1688,8 +1447,8 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 
 		// Load key values from Session
 		$validKey = TRUE;
-		if (strval($this->getKey("siswa_id")) <> "")
-			$this->siswa_id->CurrentValue = $this->getKey("siswa_id"); // siswa_id
+		if (strval($this->getKey("id")) <> "")
+			$this->id->CurrentValue = $this->getKey("id"); // id
 		else
 			$validKey = FALSE;
 
@@ -1718,94 +1477,143 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 		$this->InlineCopyUrl = $this->getInlineCopyUrl();
 		$this->DeleteUrl = $this->getDeleteUrl();
 
+		// Convert decimal values if posted back
+		if ($this->totalbayar->FormValue == $this->totalbayar->CurrentValue && is_numeric(ConvertToFloatString($this->totalbayar->CurrentValue)))
+			$this->totalbayar->CurrentValue = ConvertToFloatString($this->totalbayar->CurrentValue);
+
 		// Call Row_Rendering event
 		$this->Row_Rendering();
 
 		// Common render codes for all row types
-		// siswa_id
-		// NomorInduk
-		// Nama
+		// daf_kelas_siswa_id
+		// periode
+		// periodebulan
+		// tglbayar
+		// totalbayar
+		// id
 
 		if ($this->RowType == ROWTYPE_VIEW) { // View row
 
-			// siswa_id
-			$this->siswa_id->ViewValue = $this->siswa_id->CurrentValue;
-			$this->siswa_id->ViewValue = FormatNumber($this->siswa_id->ViewValue, 0, -2, -2, -2);
-			$this->siswa_id->ViewCustomAttributes = "";
+			// daf_kelas_siswa_id
+			$this->daf_kelas_siswa_id->ViewValue = $this->daf_kelas_siswa_id->CurrentValue;
+			$this->daf_kelas_siswa_id->ViewValue = FormatNumber($this->daf_kelas_siswa_id->ViewValue, 0, -2, -2, -2);
+			$this->daf_kelas_siswa_id->ViewCustomAttributes = "";
 
-			// NomorInduk
-			$this->NomorInduk->ViewValue = $this->NomorInduk->CurrentValue;
-			$this->NomorInduk->ViewCustomAttributes = "";
+			// periode
+			$this->periode->ViewValue = $this->periode->CurrentValue;
+			$this->periode->ViewValue = FormatNumber($this->periode->ViewValue, 0, -2, -2, -2);
+			$this->periode->ViewCustomAttributes = "";
 
-			// Nama
-			$this->Nama->ViewValue = $this->Nama->CurrentValue;
-			$this->Nama->ViewCustomAttributes = "";
+			// periodebulan
+			$this->periodebulan->ViewValue = $this->periodebulan->CurrentValue;
+			$this->periodebulan->ViewCustomAttributes = "";
 
-			// NomorInduk
-			$this->NomorInduk->LinkCustomAttributes = "";
-			$this->NomorInduk->HrefValue = "";
-			$this->NomorInduk->TooltipValue = "";
+			// tglbayar
+			$this->tglbayar->ViewValue = $this->tglbayar->CurrentValue;
+			$this->tglbayar->ViewValue = FormatDateTime($this->tglbayar->ViewValue, 7);
+			$this->tglbayar->ViewCustomAttributes = "";
 
-			// Nama
-			$this->Nama->LinkCustomAttributes = "";
-			$this->Nama->HrefValue = "";
-			$this->Nama->TooltipValue = "";
-		} elseif ($this->RowType == ROWTYPE_SEARCH) { // Search row
+			// totalbayar
+			$this->totalbayar->ViewValue = $this->totalbayar->CurrentValue;
+			$this->totalbayar->ViewValue = FormatNumber($this->totalbayar->ViewValue, 0, -2, -2, -2);
+			$this->totalbayar->CellCssStyle .= "text-align: right;";
+			$this->totalbayar->ViewCustomAttributes = "";
 
-			// NomorInduk
-			$this->NomorInduk->EditAttrs["class"] = "form-control";
-			$this->NomorInduk->EditCustomAttributes = "";
-			if (REMOVE_XSS)
-				$this->NomorInduk->AdvancedSearch->SearchValue = HtmlDecode($this->NomorInduk->AdvancedSearch->SearchValue);
-			$this->NomorInduk->EditValue = HtmlEncode($this->NomorInduk->AdvancedSearch->SearchValue);
-			$this->NomorInduk->PlaceHolder = RemoveHtml($this->NomorInduk->caption());
+			// id
+			$this->id->ViewValue = $this->id->CurrentValue;
+			$this->id->ViewValue = FormatNumber($this->id->ViewValue, 0, -2, -2, -2);
+			$this->id->ViewCustomAttributes = "";
 
-			// Nama
-			$this->Nama->EditAttrs["class"] = "form-control";
-			$this->Nama->EditCustomAttributes = "";
-			if (REMOVE_XSS)
-				$this->Nama->AdvancedSearch->SearchValue = HtmlDecode($this->Nama->AdvancedSearch->SearchValue);
-			$this->Nama->EditValue = HtmlEncode($this->Nama->AdvancedSearch->SearchValue);
-			$this->Nama->PlaceHolder = RemoveHtml($this->Nama->caption());
+			// periodebulan
+			$this->periodebulan->LinkCustomAttributes = "";
+			$this->periodebulan->HrefValue = "";
+			$this->periodebulan->TooltipValue = "";
+
+			// tglbayar
+			$this->tglbayar->LinkCustomAttributes = "";
+			$this->tglbayar->HrefValue = "";
+			$this->tglbayar->TooltipValue = "";
+
+			// totalbayar
+			$this->totalbayar->LinkCustomAttributes = "";
+			$this->totalbayar->HrefValue = "";
+			$this->totalbayar->TooltipValue = "";
 		}
-		if ($this->RowType == ROWTYPE_ADD || $this->RowType == ROWTYPE_EDIT || $this->RowType == ROWTYPE_SEARCH) // Add/Edit/Search row
-			$this->setupFieldTitles();
 
 		// Call Row Rendered event
 		if ($this->RowType <> ROWTYPE_AGGREGATEINIT)
 			$this->Row_Rendered();
 	}
 
-	// Validate search
-	protected function validateSearch()
+	// Set up master/detail based on QueryString
+	protected function setupMasterParms()
 	{
-		global $SearchError;
+		$validMaster = FALSE;
 
-		// Initialize
-		$SearchError = "";
-
-		// Check if validation required
-		if (!SERVER_VALIDATE)
-			return TRUE;
-
-		// Return validate result
-		$validateSearch = ($SearchError == "");
-
-		// Call Form_CustomValidate event
-		$formCustomError = "";
-		$validateSearch = $validateSearch && $this->Form_CustomValidate($formCustomError);
-		if ($formCustomError <> "") {
-			AddMessage($SearchError, $formCustomError);
+		// Get the keys for master table
+		if (Get(TABLE_SHOW_MASTER) !== NULL) {
+			$masterTblVar = Get(TABLE_SHOW_MASTER);
+			if ($masterTblVar == "") {
+				$validMaster = TRUE;
+				$this->DbMasterFilter = "";
+				$this->DbDetailFilter = "";
+			}
+			if ($masterTblVar == "v102_daf_kelas_siswa") {
+				$validMaster = TRUE;
+				if (Get("fk_id") !== NULL) {
+					$this->daf_kelas_siswa_id->setQueryStringValue(Get("fk_id"));
+					$this->daf_kelas_siswa_id->setSessionValue($this->daf_kelas_siswa_id->QueryStringValue);
+					if (!is_numeric($this->daf_kelas_siswa_id->QueryStringValue))
+						$validMaster = FALSE;
+				} else {
+					$validMaster = FALSE;
+				}
+			}
+		} elseif (Post(TABLE_SHOW_MASTER) !== NULL) {
+			$masterTblVar = Post(TABLE_SHOW_MASTER);
+			if ($masterTblVar == "") {
+				$validMaster = TRUE;
+				$this->DbMasterFilter = "";
+				$this->DbDetailFilter = "";
+			}
+			if ($masterTblVar == "v102_daf_kelas_siswa") {
+				$validMaster = TRUE;
+				if (Post("fk_id") !== NULL) {
+					$this->daf_kelas_siswa_id->setFormValue(Post("fk_id"));
+					$this->daf_kelas_siswa_id->setSessionValue($this->daf_kelas_siswa_id->FormValue);
+					if (!is_numeric($this->daf_kelas_siswa_id->FormValue))
+						$validMaster = FALSE;
+				} else {
+					$validMaster = FALSE;
+				}
+			}
 		}
-		return $validateSearch;
-	}
+		if ($validMaster) {
 
-	// Load advanced search
-	public function loadAdvancedSearch()
-	{
-		$this->siswa_id->AdvancedSearch->load();
-		$this->NomorInduk->AdvancedSearch->load();
-		$this->Nama->AdvancedSearch->load();
+			// Update URL
+			$this->AddUrl = $this->addMasterUrl($this->AddUrl);
+			$this->InlineAddUrl = $this->addMasterUrl($this->InlineAddUrl);
+			$this->GridAddUrl = $this->addMasterUrl($this->GridAddUrl);
+			$this->GridEditUrl = $this->addMasterUrl($this->GridEditUrl);
+			$this->CancelUrl = $this->addMasterUrl($this->CancelUrl);
+
+			// Save current master table
+			$this->setCurrentMasterTable($masterTblVar);
+
+			// Reset start record counter (new master key)
+			if (!$this->isAddOrEdit()) {
+				$this->StartRec = 1;
+				$this->setStartRecordNumber($this->StartRec);
+			}
+
+			// Clear previous master key from Session
+			if ($masterTblVar <> "v102_daf_kelas_siswa") {
+				if ($this->daf_kelas_siswa_id->CurrentValue == "")
+					$this->daf_kelas_siswa_id->setSessionValue("");
+			}
+		}
+		$this->DbMasterFilter = $this->getMasterFilter(); // Get master filter
+		$this->DbDetailFilter = $this->getDetailFilter(); // Get detail filter
 	}
 
 	// Set up Breadcrumb
@@ -1935,18 +1743,12 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 		//$opt->Header = "xxx";
 		//$opt->OnLeft = TRUE; // Link on left
 		//$opt->MoveTo(0); // Move to first column
-		// tambah link PROSES
+		// link cetak
 
-		$opt = &$this->ListOptions->Add("bayar");
-		$opt->Header = "";
-		$opt->OnLeft = TRUE; // Link on left
-		$opt->MoveTo(0); // Move to first column
-
-		// tambah link CETAK
 		$opt = &$this->ListOptions->Add("cetak");
 		$opt->Header = "";
 		$opt->OnLeft = TRUE; // Link on left
-		$opt->MoveTo(1); // Move to first column
+		$opt->MoveTo(0); // Move to first column
 	}
 
 	// ListOptions Rendering event
@@ -1963,12 +1765,10 @@ class v103_daf_kelas_siswa_iuran_list extends v103_daf_kelas_siswa_iuran
 
 		// Example:
 		//$this->ListOptions->Items["new"]->Body = "xxx";
-		// link PROSES BAYAR
+		// link PROSES CETAK
+		//$this->ListOptions->Items["cetak"]->Body = "<a href='t103_daf_kelas_siswa_iuranlist.php?action=gridedit&showmaster=v102_daf_kelas_siswa&fk_id=".$this->daf_kelas_siswa_id->CurrentValue."'>Cetak</a>";
 
-		$this->ListOptions->Items["bayar"]->Body = "<a href='t103_daf_kelas_siswa_iuranlist.php?action=gridedit&showmaster=v102_daf_kelas_siswa&fk_id=".$this->siswa_id->CurrentValue."'>Proses</a>";
-
-		// link CETAK
-		$this->ListOptions->Items["cetak"]->Body = "<a href='v110_bukti_masterlist.php?showmaster=v102_daf_kelas_siswa&fk_id=".$this->siswa_id->CurrentValue."'>Cetak</a>";
+		$this->ListOptions->Items["cetak"]->Body = "<a href='cetak_bukti.php?daf_kelas_siswa_id=".$this->daf_kelas_siswa_id->CurrentValue."&periode=".$this->periode->CurrentValue."' target='blank'>Cetak</a>";
 	}
 
 	// Row Custom Action event

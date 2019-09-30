@@ -586,7 +586,7 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 	}
 	public function getSqlOrderBy() // Order By
 	{
-		return ($this->SqlOrderBy <> "") ? $this->SqlOrderBy : "";
+		return ($this->SqlOrderBy <> "") ? $this->SqlOrderBy : "`iuran_id` ASC";
 	}
 	public function sqlOrderBy() // For backward compatibility
 	{
