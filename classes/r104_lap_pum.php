@@ -8,10 +8,13 @@ class r104_lap_pum extends ReportTable
 {
 	public $ShowGroupHeaderAsRow = FALSE;
 	public $ShowCompactSummaryFooter = TRUE;
-	public $iurannama;
 	public $tahunajaran;
 	public $sekolahnama;
 	public $kelasnama;
+	public $nomorinduk;
+	public $siswanama;
+	public $iurannama;
+	public $periode;
 	public $jumlah_total;
 	public $iuran_id;
 
@@ -31,15 +34,6 @@ class r104_lap_pum extends ReportTable
 		$this->Dbid = 'DB';
 		$this->ExportAll = FALSE;
 		$this->ExportPageBreakCount = 0;
-
-		// iurannama
-		$this->iurannama = new ReportField('r104_lap_pum', 'r104_lap_pum', 'x_iurannama', 'iurannama', '`iurannama`', 200, -1, FALSE, 'FORMATTED TEXT', 'SELECT');
-		$this->iurannama->Sortable = TRUE; // Allow sort
-		$this->iurannama->SelectMultiple = TRUE; // Multiple select
-		$this->iurannama->DateFilter = "";
-		$this->iurannama->Lookup = new ReportLookup('iurannama', 'r104_lap_pum', TRUE, 'iurannama', ["iurannama","","",""], [], [], [], [], [], [], '`iurannama` ASC', '');
-		$this->iurannama->Lookup->RenderViewFunc = "renderLookup";
-		$this->fields['iurannama'] = &$this->iurannama;
 
 		// tahunajaran
 		$this->tahunajaran = new ReportField('r104_lap_pum', 'r104_lap_pum', 'x_tahunajaran', 'tahunajaran', '`tahunajaran`', 200, -1, FALSE, 'FORMATTED TEXT', 'SELECT');
@@ -71,6 +65,37 @@ class r104_lap_pum extends ReportTable
 		$this->kelasnama->Lookup->RenderViewFunc = "renderLookup";
 		$this->fields['kelasnama'] = &$this->kelasnama;
 
+		// nomorinduk
+		$this->nomorinduk = new ReportField('r104_lap_pum', 'r104_lap_pum', 'x_nomorinduk', 'nomorinduk', '`nomorinduk`', 200, -1, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->nomorinduk->Sortable = TRUE; // Allow sort
+		$this->nomorinduk->DateFilter = "";
+		$this->fields['nomorinduk'] = &$this->nomorinduk;
+
+		// siswanama
+		$this->siswanama = new ReportField('r104_lap_pum', 'r104_lap_pum', 'x_siswanama', 'siswanama', '`siswanama`', 200, -1, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->siswanama->Sortable = TRUE; // Allow sort
+		$this->siswanama->DateFilter = "";
+		$this->fields['siswanama'] = &$this->siswanama;
+
+		// iurannama
+		$this->iurannama = new ReportField('r104_lap_pum', 'r104_lap_pum', 'x_iurannama', 'iurannama', '`iurannama`', 200, -1, FALSE, 'FORMATTED TEXT', 'SELECT');
+		$this->iurannama->Sortable = TRUE; // Allow sort
+		$this->iurannama->SelectMultiple = TRUE; // Multiple select
+		$this->iurannama->DateFilter = "";
+		$this->iurannama->Lookup = new ReportLookup('iurannama', 'r104_lap_pum', TRUE, 'iurannama', ["iurannama","","",""], [], [], [], [], [], [], '`iurannama` ASC', '');
+		$this->iurannama->Lookup->RenderViewFunc = "renderLookup";
+		$this->fields['iurannama'] = &$this->iurannama;
+
+		// periode
+		$this->periode = new ReportField('r104_lap_pum', 'r104_lap_pum', 'x_periode', 'periode', '`periode`', 3, -1, FALSE, 'FORMATTED TEXT', 'SELECT');
+		$this->periode->Sortable = TRUE; // Allow sort
+		$this->periode->SelectMultiple = TRUE; // Multiple select
+		$this->periode->DefaultErrorMessage = $ReportLanguage->phrase("IncorrectInteger");
+		$this->periode->DateFilter = "";
+		$this->periode->Lookup = new ReportLookup('periode', 'r104_lap_pum', TRUE, 'periode', ["periode","","",""], [], [], [], [], [], [], '`periode` ASC', '');
+		$this->periode->Lookup->RenderViewFunc = "renderLookup";
+		$this->fields['periode'] = &$this->periode;
+
 		// jumlah_total
 		$this->jumlah_total = new ReportField('r104_lap_pum', 'r104_lap_pum', 'x_jumlah_total', 'jumlah_total', '`jumlah_total`', 5, -1, FALSE, 'FORMATTED TEXT', 'TEXT');
 		$this->jumlah_total->Sortable = TRUE; // Allow sort
@@ -95,10 +120,13 @@ class r104_lap_pum extends ReportTable
 	// Render for lookup
 	public function renderLookup()
 	{
-		$this->iurannama->ViewValue = GetDropDownDisplayValue($this->iurannama->CurrentValue, "", 0);
 		$this->tahunajaran->ViewValue = GetDropDownDisplayValue($this->tahunajaran->CurrentValue, "", 0);
 		$this->sekolahnama->ViewValue = GetDropDownDisplayValue($this->sekolahnama->CurrentValue, "", 0);
 		$this->kelasnama->ViewValue = GetDropDownDisplayValue($this->kelasnama->CurrentValue, "", 0);
+		$this->nomorinduk->ViewValue = $this->nomorinduk->CurrentValue;
+		$this->siswanama->ViewValue = $this->siswanama->CurrentValue;
+		$this->iurannama->ViewValue = GetDropDownDisplayValue($this->iurannama->CurrentValue, "", 0);
+		$this->periode->ViewValue = GetDropDownDisplayValue($this->periode->CurrentValue, "", 0);
 	}
 
 	// Get Field Visibility

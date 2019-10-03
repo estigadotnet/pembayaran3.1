@@ -1,6 +1,5 @@
 <strong>----- on progress --------------------------------------------------------------------------</strong>
-- 10:35 AM 10/3/2019
-  - di laporan uang masuk dan potensi uang masuk :: perlu diberi range tanggal
+
 
 
 <strong>----- change log ---------------------------------------------------------------------------</strong>
@@ -9,54 +8,64 @@
 
 
 <font color="red"><strong>----- to do --------------------------------------------------------------------------------</strong>
-- di laporan uang masuk dan potensi uang masuk :: perlu diberi range tanggal
-
-- di laporan pembayaran dan tunggakan :: perlu diberi total
-
 - laporan tunggakan,
   - harus periksa tipe iuran, apakah rutin atau non-rutin,
     apabila non-rutin :: harus periksa dulu selisih antara yang sudah dibayar dengan jumlah yang ditentukan
     di daftar siswa & iuran
 
+
 - fitur naik kelas
+
 
 - pembayaran, centang diubah menjadi read-only apabila sudah tutup buku bulanan
 
 
-</font><strong>----- start - finish -----------------------------------------------------------------------</strong>
-7:11 PM 9/30/2019
-- Pembayaran, Cetak Bukti Pembayaran
+- upload data TK
 
-12:50 PM 9/30/2019
-- General, Backup
+
+</font><strong>----- start - finish -----------------------------------------------------------------------</strong>
+3:36 PM 10/3/2019 - 3:37 PM 10/3/2019
+  - di laporan pembayaran dan tunggakan :: perlu diberi total
+
+
+10:35 AM 10/3/2019 - 3:34 PM 10/3/20193:34 PM 10/3/2019
+  - di laporan uang masuk dan potensi uang masuk :: perlu diberi range tanggal
+
+
+? - 7:11 PM 9/30/2019
+  - Pembayaran, Cetak Bukti Pembayaran
+
+
+? - 12:50 PM 9/30/2019
+  - General, Backup
 
 
 9:36 AM 9/27/2019 - 2:16 PM 9/27/2019
-- Laporan, Tunggakan
-  - gimana caranya membangkitkan combobox periode ? sedangkan di database tidak ada field yang bisa
-    dijadikan acuan untuk membangkitkan combobox periode ... sekaligus sebagai filtering data
-    ? ? ? ?
+  - Laporan, Tunggakan
+    - gimana caranya membangkitkan combobox periode ? sedangkan di database tidak ada field yang bisa
+      dijadikan acuan untuk membangkitkan combobox periode ... sekaligus sebagai filtering data
+      ? ? ? ?
 
 
 4:30 PM 9/26/2019 - ?
-- Laporan, Pembayaran
+  - Laporan, Pembayaran
 
 
 ? - 4:29 PM 9/26/2019
-- Pembayaran
+  - Pembayaran
 
 
 2:24 PM 9/26/2019 - 3:38 PM 9/26/2019
-- Daftar, Siswa & Iuran
+  - Daftar, Siswa & Iuran
 
 
-2:23 PM 9/26/2019
-- Daftar, Kelas & Siswa
+? - 2:23 PM 9/26/2019
+  - Daftar, Kelas & Siswa
 
 
-12:36 PM 9/26/2019
-- Setup, Tahun Ajaran
-- Setup, Sekolah
-- Setup, Kelas
-- Setup, Siswa
-- Setup, Iuran 
+? - 12:36 PM 9/26/2019
+  - Setup, Tahun Ajaran
+  - Setup, Sekolah
+  - Setup, Kelas
+  - Setup, Siswa
+  - Setup, Iuran 

@@ -1215,6 +1215,15 @@
       <field id="iuran_id">
         <phrase id="fldcaption" value="iuran id" />
       </field>
+      <field id="nomorinduk">
+        <phrase id="fldcaption" value="nomorinduk" />
+      </field>
+      <field id="siswanama">
+        <phrase id="fldcaption" value="siswanama" />
+      </field>
+      <field id="periode">
+        <phrase id="fldcaption" value="periode" />
+      </field>
     </table>
     <table id="r103_lap_um">
       <phrase id="tblcaption" value="Uang Masuk" />
@@ -1248,9 +1257,6 @@
     </table>
     <table id="r104_lap_pum">
       <phrase id="tblcaption" value="Potensi Uang Masuk" />
-      <field id="iurannama">
-        <phrase id="fldcaption" value="Iuran" />
-      </field>
       <field id="tahunajaran">
         <phrase id="fldcaption" value="Tahun Ajaran" />
       </field>
@@ -1259,6 +1265,18 @@
       </field>
       <field id="kelasnama">
         <phrase id="fldcaption" value="Kelas" />
+      </field>
+      <field id="nomorinduk">
+        <phrase id="fldcaption" value="Nomor Induk" />
+      </field>
+      <field id="siswanama">
+        <phrase id="fldcaption" value="Siswa" />
+      </field>
+      <field id="iurannama">
+        <phrase id="fldcaption" value="Iuran" />
+      </field>
+      <field id="periode">
+        <phrase id="fldcaption" value="Periode" />
       </field>
       <field id="jumlah_total">
         <phrase id="fldcaption" value="Jumlah" />

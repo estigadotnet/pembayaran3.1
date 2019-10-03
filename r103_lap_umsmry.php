@@ -182,7 +182,7 @@ if (!$Page->DrillDownInPanel) {
 	<span class="ew-search-operator"><?php echo $ReportLanguage->phrase("LIKE"); ?><input type="hidden" name="z_nomorinduk" id="z_nomorinduk" value="LIKE"></span>
 	<span class="control-group ew-search-field">
 <?php PrependClass($Page->nomorinduk->EditAttrs["class"], "form-control"); // PR8 ?>
-<input type="text" data-table="r103_lap_um" data-field="x_nomorinduk" id="x_nomorinduk" name="x_nomorinduk" size="30" maxlength="25" placeholder="<?php echo HtmlEncode($Page->nomorinduk->getPlaceHolder()) ?>" value="<?php echo HtmlEncode($Page->nomorinduk->AdvancedSearch->SearchValue) ?>"<?php echo $Page->nomorinduk->editAttributes() ?>>
+<input type="text" data-table="r103_lap_um" data-field="x_nomorinduk" id="x_nomorinduk" name="x_nomorinduk" size="10" maxlength="25" placeholder="<?php echo HtmlEncode($Page->nomorinduk->getPlaceHolder()) ?>" value="<?php echo HtmlEncode($Page->nomorinduk->AdvancedSearch->SearchValue) ?>"<?php echo $Page->nomorinduk->editAttributes() ?>>
 </span>
 </div>
 </div>
