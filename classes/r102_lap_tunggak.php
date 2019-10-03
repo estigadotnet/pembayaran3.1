@@ -47,21 +47,33 @@ class r102_lap_tunggak extends ReportTable
 		$this->ExportPageBreakCount = 0;
 
 		// TahunAjaran
-		$this->TahunAjaran = new ReportField('r102_lap_tunggak', 'r102_lap_tunggak', 'x_TahunAjaran', 'TahunAjaran', '`TahunAjaran`', 200, -1, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->TahunAjaran = new ReportField('r102_lap_tunggak', 'r102_lap_tunggak', 'x_TahunAjaran', 'TahunAjaran', '`TahunAjaran`', 200, -1, FALSE, 'FORMATTED TEXT', 'SELECT');
 		$this->TahunAjaran->Sortable = TRUE; // Allow sort
+		$this->TahunAjaran->UsePleaseSelect = TRUE; // Use PleaseSelect by default
+		$this->TahunAjaran->PleaseSelectText = $ReportLanguage->phrase("PleaseSelect"); // PleaseSelect text
 		$this->TahunAjaran->DateFilter = "";
+		$this->TahunAjaran->Lookup = new ReportLookup('TahunAjaran', 'r102_lap_tunggak', TRUE, 'TahunAjaran', ["TahunAjaran","","",""], [], [], [], [], [], [], '`TahunAjaran` ASC', '');
+		$this->TahunAjaran->Lookup->RenderViewFunc = "renderLookup";
 		$this->fields['TahunAjaran'] = &$this->TahunAjaran;
 
 		// SekolahNama
-		$this->SekolahNama = new ReportField('r102_lap_tunggak', 'r102_lap_tunggak', 'x_SekolahNama', 'SekolahNama', '`SekolahNama`', 200, -1, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->SekolahNama = new ReportField('r102_lap_tunggak', 'r102_lap_tunggak', 'x_SekolahNama', 'SekolahNama', '`SekolahNama`', 200, -1, FALSE, 'FORMATTED TEXT', 'SELECT');
 		$this->SekolahNama->Sortable = TRUE; // Allow sort
+		$this->SekolahNama->UsePleaseSelect = TRUE; // Use PleaseSelect by default
+		$this->SekolahNama->PleaseSelectText = $ReportLanguage->phrase("PleaseSelect"); // PleaseSelect text
 		$this->SekolahNama->DateFilter = "";
+		$this->SekolahNama->Lookup = new ReportLookup('SekolahNama', 'r102_lap_tunggak', TRUE, 'SekolahNama', ["SekolahNama","","",""], [], [], [], [], [], [], '`SekolahNama` ASC', '');
+		$this->SekolahNama->Lookup->RenderViewFunc = "renderLookup";
 		$this->fields['SekolahNama'] = &$this->SekolahNama;
 
 		// KelasNama
-		$this->KelasNama = new ReportField('r102_lap_tunggak', 'r102_lap_tunggak', 'x_KelasNama', 'KelasNama', '`KelasNama`', 200, -1, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->KelasNama = new ReportField('r102_lap_tunggak', 'r102_lap_tunggak', 'x_KelasNama', 'KelasNama', '`KelasNama`', 200, -1, FALSE, 'FORMATTED TEXT', 'SELECT');
 		$this->KelasNama->Sortable = TRUE; // Allow sort
+		$this->KelasNama->UsePleaseSelect = TRUE; // Use PleaseSelect by default
+		$this->KelasNama->PleaseSelectText = $ReportLanguage->phrase("PleaseSelect"); // PleaseSelect text
 		$this->KelasNama->DateFilter = "";
+		$this->KelasNama->Lookup = new ReportLookup('KelasNama', 'r102_lap_tunggak', TRUE, 'KelasNama', ["KelasNama","","",""], [], [], [], [], [], [], '`KelasNama` ASC', '');
+		$this->KelasNama->Lookup->RenderViewFunc = "renderLookup";
 		$this->fields['KelasNama'] = &$this->KelasNama;
 
 		// NomorInduk
@@ -84,9 +96,12 @@ class r102_lap_tunggak extends ReportTable
 		$this->fields['iuran_id'] = &$this->iuran_id;
 
 		// IuranNama
-		$this->IuranNama = new ReportField('r102_lap_tunggak', 'r102_lap_tunggak', 'x_IuranNama', 'IuranNama', '`IuranNama`', 200, -1, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->IuranNama = new ReportField('r102_lap_tunggak', 'r102_lap_tunggak', 'x_IuranNama', 'IuranNama', '`IuranNama`', 200, -1, FALSE, 'FORMATTED TEXT', 'SELECT');
 		$this->IuranNama->Sortable = TRUE; // Allow sort
+		$this->IuranNama->SelectMultiple = TRUE; // Multiple select
 		$this->IuranNama->DateFilter = "";
+		$this->IuranNama->Lookup = new ReportLookup('IuranNama', 'r102_lap_tunggak', TRUE, 'IuranNama', ["IuranNama","","",""], [], [], [], [], [], [], '`IuranNama` ASC', '');
+		$this->IuranNama->Lookup->RenderViewFunc = "renderLookup";
 		$this->fields['IuranNama'] = &$this->IuranNama;
 
 		// Jumlah
@@ -193,8 +208,12 @@ class r102_lap_tunggak extends ReportTable
 	// Render for lookup
 	public function renderLookup()
 	{
+		$this->TahunAjaran->ViewValue = GetDropDownDisplayValue($this->TahunAjaran->CurrentValue, "", 0);
+		$this->SekolahNama->ViewValue = GetDropDownDisplayValue($this->SekolahNama->CurrentValue, "", 0);
+		$this->KelasNama->ViewValue = GetDropDownDisplayValue($this->KelasNama->CurrentValue, "", 0);
 		$this->NomorInduk->ViewValue = $this->NomorInduk->CurrentValue;
 		$this->SiswaNama->ViewValue = $this->SiswaNama->CurrentValue;
+		$this->IuranNama->ViewValue = GetDropDownDisplayValue($this->IuranNama->CurrentValue, "", 0);
 		$this->Periode->ViewValue = GetDropDownDisplayValue($this->Periode->CurrentValue, "", 0);
 	}
 

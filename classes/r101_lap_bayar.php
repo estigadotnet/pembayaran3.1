@@ -95,9 +95,12 @@ class r101_lap_bayar extends ReportTable
 		$this->fields['iuran_id'] = &$this->iuran_id;
 
 		// IuranNama
-		$this->IuranNama = new ReportField('r101_lap_bayar', 'r101_lap_bayar', 'x_IuranNama', 'IuranNama', '`IuranNama`', 200, -1, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->IuranNama = new ReportField('r101_lap_bayar', 'r101_lap_bayar', 'x_IuranNama', 'IuranNama', '`IuranNama`', 200, -1, FALSE, 'FORMATTED TEXT', 'SELECT');
 		$this->IuranNama->Sortable = TRUE; // Allow sort
+		$this->IuranNama->SelectMultiple = TRUE; // Multiple select
 		$this->IuranNama->DateFilter = "";
+		$this->IuranNama->Lookup = new ReportLookup('IuranNama', 'r101_lap_bayar', TRUE, 'IuranNama', ["IuranNama","","",""], [], [], [], [], [], [], '`IuranNama` ASC', '');
+		$this->IuranNama->Lookup->RenderViewFunc = "renderLookup";
 		$this->fields['IuranNama'] = &$this->IuranNama;
 
 		// Jumlah
@@ -197,6 +200,7 @@ class r101_lap_bayar extends ReportTable
 		$this->KelasNama->ViewValue = GetDropDownDisplayValue($this->KelasNama->CurrentValue, "", 0);
 		$this->NomorInduk->ViewValue = $this->NomorInduk->CurrentValue;
 		$this->SiswaNama->ViewValue = $this->SiswaNama->CurrentValue;
+		$this->IuranNama->ViewValue = GetDropDownDisplayValue($this->IuranNama->CurrentValue, "", 0);
 		$this->TglBayar->ViewValue = $this->TglBayar->CurrentValue;
 	}
 

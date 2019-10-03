@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<ew-language date="2019/9/29" version="12.0.1" id="en" name="English" desc="English" author="e.World Technology Ltd.">
+<ew-language date="2019/10/3" version="12.0.1" id="en" name="English" desc="English" author="e.World Technology Ltd.">
   <!-- 
 	*** Important Notes:
 	1. Language ID should follow: https://developers.google.com/recaptcha/docs/language,
@@ -414,6 +414,9 @@
     </menu>
     <menu id="27">
       <phrase id="menutext" value="Potensi Uang Masuk" />
+    </menu>
+    <menu id="28">
+      <phrase id="menutext" value="v 110 bukti master" />
     </menu>
     <menu id="18">
       <phrase id="menutext" value="Pembayaran" />
@@ -1182,6 +1185,15 @@
       <field id="iuran_id">
         <phrase id="fldcaption" value="iuran id" />
       </field>
+      <field id="nomorinduk">
+        <phrase id="fldcaption" value="nomorinduk" />
+      </field>
+      <field id="siswanama">
+        <phrase id="fldcaption" value="siswanama" />
+      </field>
+      <field id="periodebayar">
+        <phrase id="fldcaption" value="periodebayar" />
+      </field>
     </table>
     <table id="v109_lap_pum_base">
       <phrase id="tblcaption" value="Potensi Uang Masuk" />
@@ -1206,9 +1218,6 @@
     </table>
     <table id="r103_lap_um">
       <phrase id="tblcaption" value="Uang Masuk" />
-      <field id="iurannama">
-        <phrase id="fldcaption" value="Iuran" />
-      </field>
       <field id="tahunajaran">
         <phrase id="fldcaption" value="Tahun Ajaran" />
       </field>
@@ -1217,6 +1226,18 @@
       </field>
       <field id="kelasnama">
         <phrase id="fldcaption" value="Kelas" />
+      </field>
+      <field id="nomorinduk">
+        <phrase id="fldcaption" value="Nomor Induk" />
+      </field>
+      <field id="siswanama">
+        <phrase id="fldcaption" value="Siswa" />
+      </field>
+      <field id="iurannama">
+        <phrase id="fldcaption" value="Iuran" />
+      </field>
+      <field id="periodebayar">
+        <phrase id="fldcaption" value="Periode" />
       </field>
       <field id="jumlah_total">
         <phrase id="fldcaption" value="Jumlah" />
@@ -1244,6 +1265,27 @@
       </field>
       <field id="iuran_id">
         <phrase id="fldcaption" value="iuran id" />
+      </field>
+    </table>
+    <table id="v110_bukti_master_base">
+      <phrase id="tblcaption" value="v 110 bukti master" />
+      <field id="daf_kelas_siswa_id">
+        <phrase id="fldcaption" value="daf kelas siswa id" />
+      </field>
+      <field id="periode">
+        <phrase id="fldcaption" value="periode" />
+      </field>
+      <field id="periodebulan">
+        <phrase id="fldcaption" value="periodebulan" />
+      </field>
+      <field id="tglbayar">
+        <phrase id="fldcaption" value="tglbayar" />
+      </field>
+      <field id="totalbayar">
+        <phrase id="fldcaption" value="totalbayar" />
+      </field>
+      <field id="id">
+        <phrase id="fldcaption" value="id" />
       </field>
     </table>
   </project>

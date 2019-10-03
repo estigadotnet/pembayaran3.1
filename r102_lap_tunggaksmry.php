@@ -75,6 +75,14 @@ fr102_lap_tunggaksummary.validateRequired = false; // No JavaScript validation
 <?php } ?>
 
 // Use Ajax
+fr102_lap_tunggaksummary.lists["x_TahunAjaran"] = <?php echo $r102_lap_tunggak_summary->TahunAjaran->Lookup->toClientList() ?>;
+fr102_lap_tunggaksummary.lists["x_TahunAjaran"].options = <?php echo JsonEncode($r102_lap_tunggak_summary->TahunAjaran->lookupOptions()) ?>;
+fr102_lap_tunggaksummary.lists["x_SekolahNama"] = <?php echo $r102_lap_tunggak_summary->SekolahNama->Lookup->toClientList() ?>;
+fr102_lap_tunggaksummary.lists["x_SekolahNama"].options = <?php echo JsonEncode($r102_lap_tunggak_summary->SekolahNama->lookupOptions()) ?>;
+fr102_lap_tunggaksummary.lists["x_KelasNama"] = <?php echo $r102_lap_tunggak_summary->KelasNama->Lookup->toClientList() ?>;
+fr102_lap_tunggaksummary.lists["x_KelasNama"].options = <?php echo JsonEncode($r102_lap_tunggak_summary->KelasNama->lookupOptions()) ?>;
+fr102_lap_tunggaksummary.lists["x_IuranNama[]"] = <?php echo $r102_lap_tunggak_summary->IuranNama->Lookup->toClientList() ?>;
+fr102_lap_tunggaksummary.lists["x_IuranNama[]"].options = <?php echo JsonEncode($r102_lap_tunggak_summary->IuranNama->lookupOptions()) ?>;
 fr102_lap_tunggaksummary.lists["x_Periode[]"] = <?php echo $r102_lap_tunggak_summary->Periode->Lookup->toClientList() ?>;
 fr102_lap_tunggaksummary.lists["x_Periode[]"].options = <?php echo JsonEncode($r102_lap_tunggak_summary->Periode->lookupOptions()) ?>;
 </script>
@@ -130,6 +138,45 @@ if (!$Page->DrillDownInPanel) {
 <div id="fr102_lap_tunggaksummary-search-panel" class="ew-search-panel collapse<?php echo $searchPanelClass ?>">
 <input type="hidden" name="cmd" value="search">
 <div id="r_1" class="ew-row d-sm-flex">
+<div id="c_TahunAjaran" class="ew-cell form-group">
+	<label for="x_TahunAjaran" class="ew-search-caption ew-label"><?php echo $Page->TahunAjaran->caption() ?></label>
+	<span class="ew-search-field">
+<div class="input-group">
+	<select class="custom-select ew-custom-select" data-table="r102_lap_tunggak" data-field="x_TahunAjaran" data-value-separator="<?php echo $Page->TahunAjaran->displayValueSeparatorAttribute() ?>" id="x_TahunAjaran" name="x_TahunAjaran"<?php echo $Page->TahunAjaran->editAttributes() ?>>
+		<?php echo $Page->TahunAjaran->selectOptionListHtml("x_TahunAjaran") ?>
+	</select>
+</div>
+<?php echo $Page->TahunAjaran->Lookup->getParamTag("p_x_TahunAjaran") ?>
+</span>
+</div>
+</div>
+<div id="r_2" class="ew-row d-sm-flex">
+<div id="c_SekolahNama" class="ew-cell form-group">
+	<label for="x_SekolahNama" class="ew-search-caption ew-label"><?php echo $Page->SekolahNama->caption() ?></label>
+	<span class="ew-search-field">
+<div class="input-group">
+	<select class="custom-select ew-custom-select" data-table="r102_lap_tunggak" data-field="x_SekolahNama" data-value-separator="<?php echo $Page->SekolahNama->displayValueSeparatorAttribute() ?>" id="x_SekolahNama" name="x_SekolahNama"<?php echo $Page->SekolahNama->editAttributes() ?>>
+		<?php echo $Page->SekolahNama->selectOptionListHtml("x_SekolahNama") ?>
+	</select>
+</div>
+<?php echo $Page->SekolahNama->Lookup->getParamTag("p_x_SekolahNama") ?>
+</span>
+</div>
+</div>
+<div id="r_3" class="ew-row d-sm-flex">
+<div id="c_KelasNama" class="ew-cell form-group">
+	<label for="x_KelasNama" class="ew-search-caption ew-label"><?php echo $Page->KelasNama->caption() ?></label>
+	<span class="ew-search-field">
+<div class="input-group">
+	<select class="custom-select ew-custom-select" data-table="r102_lap_tunggak" data-field="x_KelasNama" data-value-separator="<?php echo $Page->KelasNama->displayValueSeparatorAttribute() ?>" id="x_KelasNama" name="x_KelasNama"<?php echo $Page->KelasNama->editAttributes() ?>>
+		<?php echo $Page->KelasNama->selectOptionListHtml("x_KelasNama") ?>
+	</select>
+</div>
+<?php echo $Page->KelasNama->Lookup->getParamTag("p_x_KelasNama") ?>
+</span>
+</div>
+</div>
+<div id="r_4" class="ew-row d-sm-flex">
 <div id="c_NomorInduk" class="ew-cell form-group">
 	<label for="x_NomorInduk" class="ew-search-caption ew-label"><?php echo $Page->NomorInduk->caption() ?></label>
 	<span class="ew-search-operator"><?php echo $ReportLanguage->phrase("LIKE"); ?><input type="hidden" name="z_NomorInduk" id="z_NomorInduk" value="LIKE"></span>
@@ -139,7 +186,7 @@ if (!$Page->DrillDownInPanel) {
 </span>
 </div>
 </div>
-<div id="r_2" class="ew-row d-sm-flex">
+<div id="r_5" class="ew-row d-sm-flex">
 <div id="c_SiswaNama" class="ew-cell form-group">
 	<label for="x_SiswaNama" class="ew-search-caption ew-label"><?php echo $Page->SiswaNama->caption() ?></label>
 	<span class="ew-search-operator"><?php echo $ReportLanguage->phrase("LIKE"); ?><input type="hidden" name="z_SiswaNama" id="z_SiswaNama" value="LIKE"></span>
@@ -149,7 +196,20 @@ if (!$Page->DrillDownInPanel) {
 </span>
 </div>
 </div>
-<div id="r_3" class="ew-row d-sm-flex">
+<div id="r_6" class="ew-row d-sm-flex">
+<div id="c_IuranNama" class="ew-cell form-group">
+	<label for="x_IuranNama" class="ew-search-caption ew-label"><?php echo $Page->IuranNama->caption() ?></label>
+	<span class="ew-search-field">
+<div class="input-group">
+	<select class="custom-select ew-custom-select" data-table="r102_lap_tunggak" data-field="x_IuranNama" data-value-separator="<?php echo $Page->IuranNama->displayValueSeparatorAttribute() ?>" id="x_IuranNama[]" name="x_IuranNama[]" multiple="multiple"<?php echo $Page->IuranNama->editAttributes() ?>>
+		<?php echo $Page->IuranNama->selectOptionListHtml("x_IuranNama[]") ?>
+	</select>
+</div>
+<?php echo $Page->IuranNama->Lookup->getParamTag("p_x_IuranNama") ?>
+</span>
+</div>
+</div>
+<div id="r_7" class="ew-row d-sm-flex">
 <div id="c_Periode" class="ew-cell form-group">
 	<label for="x_Periode" class="ew-search-caption ew-label"><?php echo $Page->Periode->caption() ?></label>
 	<span class="ew-search-field">

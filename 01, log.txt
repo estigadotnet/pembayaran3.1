@@ -1,10 +1,11 @@
+<strong>----- on progress --------------------------------------------------------------------------</strong>
+- 10:35 AM 10/3/2019
+  - di laporan uang masuk dan potensi uang masuk :: perlu diberi range tanggal
+
+
 <strong>----- change log ---------------------------------------------------------------------------</strong>
 - 2:41 PM 9/30/2019
   - tambah view v110, belum ditambahkan di customer
-
-
-<strong>----- on progress --------------------------------------------------------------------------</strong>
--
 
 
 <font color="red"><strong>----- to do --------------------------------------------------------------------------------</strong>

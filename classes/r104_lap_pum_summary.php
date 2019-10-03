@@ -722,6 +722,10 @@ class r104_lap_pum_summary extends r104_lap_pum
 		// Call Page Selecting event
 		$this->Page_Selecting($this->Filter);
 
+		// Requires search criteria
+		if (($this->Filter == $this->UserIDFilter || $FormError != "") && !$this->DrillDown)
+			$this->Filter = "0=101";
+
 		// Search options
 		$this->setupSearchOptions();
 

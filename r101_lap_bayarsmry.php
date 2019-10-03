@@ -91,6 +91,8 @@ fr101_lap_bayarsummary.lists["x_SekolahNama"] = <?php echo $r101_lap_bayar_summa
 fr101_lap_bayarsummary.lists["x_SekolahNama"].options = <?php echo JsonEncode($r101_lap_bayar_summary->SekolahNama->lookupOptions()) ?>;
 fr101_lap_bayarsummary.lists["x_KelasNama"] = <?php echo $r101_lap_bayar_summary->KelasNama->Lookup->toClientList() ?>;
 fr101_lap_bayarsummary.lists["x_KelasNama"].options = <?php echo JsonEncode($r101_lap_bayar_summary->KelasNama->lookupOptions()) ?>;
+fr101_lap_bayarsummary.lists["x_IuranNama[]"] = <?php echo $r101_lap_bayar_summary->IuranNama->Lookup->toClientList() ?>;
+fr101_lap_bayarsummary.lists["x_IuranNama[]"].options = <?php echo JsonEncode($r101_lap_bayar_summary->IuranNama->lookupOptions()) ?>;
 </script>
 <?php } ?>
 <?php if ($Page->Export == "" && !$Page->DrillDown && !$DashboardReport) { ?>
@@ -203,6 +205,19 @@ if (!$Page->DrillDownInPanel) {
 </div>
 </div>
 <div id="r_6" class="ew-row d-sm-flex">
+<div id="c_IuranNama" class="ew-cell form-group">
+	<label for="x_IuranNama" class="ew-search-caption ew-label"><?php echo $Page->IuranNama->caption() ?></label>
+	<span class="ew-search-field">
+<div class="input-group">
+	<select class="custom-select ew-custom-select" data-table="r101_lap_bayar" data-field="x_IuranNama" data-value-separator="<?php echo $Page->IuranNama->displayValueSeparatorAttribute() ?>" id="x_IuranNama[]" name="x_IuranNama[]" multiple="multiple"<?php echo $Page->IuranNama->editAttributes() ?>>
+		<?php echo $Page->IuranNama->selectOptionListHtml("x_IuranNama[]") ?>
+	</select>
+</div>
+<?php echo $Page->IuranNama->Lookup->getParamTag("p_x_IuranNama") ?>
+</span>
+</div>
+</div>
+<div id="r_7" class="ew-row d-sm-flex">
 <div id="c_TglBayar" class="ew-cell form-group">
 	<label for="x_TglBayar" class="ew-search-caption ew-label"><?php echo $Page->TglBayar->caption() ?></label>
 	<span class="ew-search-operator"><?php echo $ReportLanguage->phrase("BETWEEN"); ?><input type="hidden" name="z_TglBayar" id="z_TglBayar" value="BETWEEN"></span>

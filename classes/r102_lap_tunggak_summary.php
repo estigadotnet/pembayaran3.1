@@ -650,6 +650,10 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 		$this->createToken();
 
 		// Set up lookup cache
+		$this->setupLookupOptions($this->TahunAjaran);
+		$this->setupLookupOptions($this->SekolahNama);
+		$this->setupLookupOptions($this->KelasNama);
+		$this->setupLookupOptions($this->IuranNama);
 		$this->setupLookupOptions($this->Periode);
 
 		// Set field visibility for detail fields
@@ -991,6 +995,54 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 		// Call Row_Rendering event
 		$this->Row_Rendering();
 		if ($this->RowType == ROWTYPE_SEARCH) { // Search row
+			$ar = [];
+			if (is_array($this->TahunAjaran->AdvancedFilters)) {
+				foreach ($this->TahunAjaran->AdvancedFilters as $filter)
+					if ($filter->Enabled)
+						$ar[] = [$filter->ID, $filter->Name];
+			}
+			if (is_array($this->TahunAjaran->DropDownList)) {
+				foreach ($this->TahunAjaran->DropDownList as $val)
+					$ar[] = [$val, GetDropDownDisplayValue($val, "", 0)];
+			}
+			$this->TahunAjaran->EditValue = $ar;
+			$this->TahunAjaran->AdvancedSearch->SearchValue = is_array($this->TahunAjaran->DropDownValue) ? implode(",", $this->TahunAjaran->DropDownValue) : $this->TahunAjaran->DropDownValue;
+			$ar = [];
+			if (is_array($this->SekolahNama->AdvancedFilters)) {
+				foreach ($this->SekolahNama->AdvancedFilters as $filter)
+					if ($filter->Enabled)
+						$ar[] = [$filter->ID, $filter->Name];
+			}
+			if (is_array($this->SekolahNama->DropDownList)) {
+				foreach ($this->SekolahNama->DropDownList as $val)
+					$ar[] = [$val, GetDropDownDisplayValue($val, "", 0)];
+			}
+			$this->SekolahNama->EditValue = $ar;
+			$this->SekolahNama->AdvancedSearch->SearchValue = is_array($this->SekolahNama->DropDownValue) ? implode(",", $this->SekolahNama->DropDownValue) : $this->SekolahNama->DropDownValue;
+			$ar = [];
+			if (is_array($this->KelasNama->AdvancedFilters)) {
+				foreach ($this->KelasNama->AdvancedFilters as $filter)
+					if ($filter->Enabled)
+						$ar[] = [$filter->ID, $filter->Name];
+			}
+			if (is_array($this->KelasNama->DropDownList)) {
+				foreach ($this->KelasNama->DropDownList as $val)
+					$ar[] = [$val, GetDropDownDisplayValue($val, "", 0)];
+			}
+			$this->KelasNama->EditValue = $ar;
+			$this->KelasNama->AdvancedSearch->SearchValue = is_array($this->KelasNama->DropDownValue) ? implode(",", $this->KelasNama->DropDownValue) : $this->KelasNama->DropDownValue;
+			$ar = [];
+			if (is_array($this->IuranNama->AdvancedFilters)) {
+				foreach ($this->IuranNama->AdvancedFilters as $filter)
+					if ($filter->Enabled)
+						$ar[] = [$filter->ID, $filter->Name];
+			}
+			if (is_array($this->IuranNama->DropDownList)) {
+				foreach ($this->IuranNama->DropDownList as $val)
+					$ar[] = [$val, GetDropDownDisplayValue($val, "", 0)];
+			}
+			$this->IuranNama->EditValue = $ar;
+			$this->IuranNama->AdvancedSearch->SearchValue = is_array($this->IuranNama->DropDownValue) ? implode(",", $this->IuranNama->DropDownValue) : $this->IuranNama->DropDownValue;
 			$ar = [];
 			if (is_array($this->Periode->AdvancedFilters)) {
 				foreach ($this->Periode->AdvancedFilters as $filter)
@@ -1652,13 +1704,38 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 		} elseif (Get("cmd", "") == "reset") {
 
 			// Load default values
+			$this->setSessionDropDownValue($this->TahunAjaran->DropDownValue, $this->TahunAjaran->AdvancedSearch->SearchOperator, "TahunAjaran"); // Field TahunAjaran
+			$this->setSessionDropDownValue($this->SekolahNama->DropDownValue, $this->SekolahNama->AdvancedSearch->SearchOperator, "SekolahNama"); // Field SekolahNama
+			$this->setSessionDropDownValue($this->KelasNama->DropDownValue, $this->KelasNama->AdvancedSearch->SearchOperator, "KelasNama"); // Field KelasNama
 			$this->setSessionFilterValues($this->NomorInduk->AdvancedSearch->SearchValue, $this->NomorInduk->AdvancedSearch->SearchOperator, $this->NomorInduk->AdvancedSearch->SearchCondition, $this->NomorInduk->AdvancedSearch->SearchValue2, $this->NomorInduk->AdvancedSearch->SearchOperator2, "NomorInduk"); // Field NomorInduk
 			$this->setSessionFilterValues($this->SiswaNama->AdvancedSearch->SearchValue, $this->SiswaNama->AdvancedSearch->SearchOperator, $this->SiswaNama->AdvancedSearch->SearchCondition, $this->SiswaNama->AdvancedSearch->SearchValue2, $this->SiswaNama->AdvancedSearch->SearchOperator2, "SiswaNama"); // Field SiswaNama
+			$this->setSessionDropDownValue($this->IuranNama->DropDownValue, $this->IuranNama->AdvancedSearch->SearchOperator, "IuranNama"); // Field IuranNama
 			$this->setSessionDropDownValue($this->Periode->DropDownValue, $this->Periode->AdvancedSearch->SearchOperator, "Periode"); // Field Periode
 
 			//$setupFilter = TRUE; // No need to set up, just use default
 		} else {
 			$restoreSession = !$this->SearchCommand;
+
+			// Field TahunAjaran
+			if ($this->getDropDownValue($this->TahunAjaran)) {
+				$setupFilter = TRUE;
+			} elseif ($this->TahunAjaran->DropDownValue <> INIT_VALUE && !isset($_SESSION["x_r102_lap_tunggak_TahunAjaran"])) {
+				$setupFilter = TRUE;
+			}
+
+			// Field SekolahNama
+			if ($this->getDropDownValue($this->SekolahNama)) {
+				$setupFilter = TRUE;
+			} elseif ($this->SekolahNama->DropDownValue <> INIT_VALUE && !isset($_SESSION["x_r102_lap_tunggak_SekolahNama"])) {
+				$setupFilter = TRUE;
+			}
+
+			// Field KelasNama
+			if ($this->getDropDownValue($this->KelasNama)) {
+				$setupFilter = TRUE;
+			} elseif ($this->KelasNama->DropDownValue <> INIT_VALUE && !isset($_SESSION["x_r102_lap_tunggak_KelasNama"])) {
+				$setupFilter = TRUE;
+			}
 
 			// Field NomorInduk
 			if ($this->getFilterValues($this->NomorInduk)) {
@@ -1667,6 +1744,13 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 
 			// Field SiswaNama
 			if ($this->getFilterValues($this->SiswaNama)) {
+				$setupFilter = TRUE;
+			}
+
+			// Field IuranNama
+			if ($this->getDropDownValue($this->IuranNama)) {
+				$setupFilter = TRUE;
+			} elseif ($this->IuranNama->DropDownValue <> INIT_VALUE && !isset($_SESSION["x_r102_lap_tunggak_IuranNama"])) {
 				$setupFilter = TRUE;
 			}
 
@@ -1684,8 +1768,12 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 
 		// Restore session
 		if ($restoreSession) {
+			$this->getSessionDropDownValue($this->TahunAjaran); // Field TahunAjaran
+			$this->getSessionDropDownValue($this->SekolahNama); // Field SekolahNama
+			$this->getSessionDropDownValue($this->KelasNama); // Field KelasNama
 			$this->getSessionFilterValues($this->NomorInduk); // Field NomorInduk
 			$this->getSessionFilterValues($this->SiswaNama); // Field SiswaNama
+			$this->getSessionDropDownValue($this->IuranNama); // Field IuranNama
 			$this->getSessionDropDownValue($this->Periode); // Field Periode
 		}
 
@@ -1693,18 +1781,38 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 		$this->Page_FilterValidated();
 
 		// Build SQL
+		$this->buildDropDownFilter($this->TahunAjaran, $filter, $this->TahunAjaran->AdvancedSearch->SearchOperator, FALSE, TRUE); // Field TahunAjaran
+		$this->buildDropDownFilter($this->SekolahNama, $filter, $this->SekolahNama->AdvancedSearch->SearchOperator, FALSE, TRUE); // Field SekolahNama
+		$this->buildDropDownFilter($this->KelasNama, $filter, $this->KelasNama->AdvancedSearch->SearchOperator, FALSE, TRUE); // Field KelasNama
 		$this->buildExtendedFilter($this->NomorInduk, $filter, FALSE, TRUE); // Field NomorInduk
 		$this->buildExtendedFilter($this->SiswaNama, $filter, FALSE, TRUE); // Field SiswaNama
+		$this->buildDropDownFilter($this->IuranNama, $filter, $this->IuranNama->AdvancedSearch->SearchOperator, FALSE, TRUE); // Field IuranNama
 		$this->buildDropDownFilter($this->Periode, $filter, $this->Periode->AdvancedSearch->SearchOperator, FALSE, TRUE); // Field Periode
 
 		// Save parms to session
+		$this->setSessionDropDownValue($this->TahunAjaran->DropDownValue, $this->TahunAjaran->AdvancedSearch->SearchOperator, "TahunAjaran"); // Field TahunAjaran
+		$this->setSessionDropDownValue($this->SekolahNama->DropDownValue, $this->SekolahNama->AdvancedSearch->SearchOperator, "SekolahNama"); // Field SekolahNama
+		$this->setSessionDropDownValue($this->KelasNama->DropDownValue, $this->KelasNama->AdvancedSearch->SearchOperator, "KelasNama"); // Field KelasNama
 		$this->setSessionFilterValues($this->NomorInduk->AdvancedSearch->SearchValue, $this->NomorInduk->AdvancedSearch->SearchOperator, $this->NomorInduk->AdvancedSearch->SearchCondition, $this->NomorInduk->AdvancedSearch->SearchValue2, $this->NomorInduk->AdvancedSearch->SearchOperator2, "NomorInduk"); // Field NomorInduk
 		$this->setSessionFilterValues($this->SiswaNama->AdvancedSearch->SearchValue, $this->SiswaNama->AdvancedSearch->SearchOperator, $this->SiswaNama->AdvancedSearch->SearchCondition, $this->SiswaNama->AdvancedSearch->SearchValue2, $this->SiswaNama->AdvancedSearch->SearchOperator2, "SiswaNama"); // Field SiswaNama
+		$this->setSessionDropDownValue($this->IuranNama->DropDownValue, $this->IuranNama->AdvancedSearch->SearchOperator, "IuranNama"); // Field IuranNama
 		$this->setSessionDropDownValue($this->Periode->DropDownValue, $this->Periode->AdvancedSearch->SearchOperator, "Periode"); // Field Periode
 
 		// Setup filter
 		if ($setupFilter) {
 		}
+
+		// Field TahunAjaran
+		LoadDropDownList($this->TahunAjaran->DropDownList, $this->TahunAjaran->DropDownValue);
+
+		// Field SekolahNama
+		LoadDropDownList($this->SekolahNama->DropDownList, $this->SekolahNama->DropDownValue);
+
+		// Field KelasNama
+		LoadDropDownList($this->KelasNama->DropDownList, $this->KelasNama->DropDownValue);
+
+		// Field IuranNama
+		LoadDropDownList($this->IuranNama->DropDownList, $this->IuranNama->DropDownValue);
 
 		// Field Periode
 		LoadDropDownList($this->Periode->DropDownList, $this->Periode->DropDownValue);
@@ -2043,8 +2151,28 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 		/**
 		* Set up default values for non Text filters
 		*/
-		// Field Periode
+		// Field TahunAjaran
 
+		$this->TahunAjaran->DefaultDropDownValue = INIT_VALUE;
+		if (!$this->SearchCommand)
+			$this->TahunAjaran->DropDownValue = $this->TahunAjaran->DefaultDropDownValue;
+
+		// Field SekolahNama
+		$this->SekolahNama->DefaultDropDownValue = INIT_VALUE;
+		if (!$this->SearchCommand)
+			$this->SekolahNama->DropDownValue = $this->SekolahNama->DefaultDropDownValue;
+
+		// Field KelasNama
+		$this->KelasNama->DefaultDropDownValue = INIT_VALUE;
+		if (!$this->SearchCommand)
+			$this->KelasNama->DropDownValue = $this->KelasNama->DefaultDropDownValue;
+
+		// Field IuranNama
+		$this->IuranNama->DefaultDropDownValue = INIT_VALUE;
+		if (!$this->SearchCommand)
+			$this->IuranNama->DropDownValue = $this->IuranNama->DefaultDropDownValue;
+
+		// Field Periode
 		$this->Periode->DefaultDropDownValue = INIT_VALUE;
 		if (!$this->SearchCommand)
 			$this->Periode->DropDownValue = $this->Periode->DefaultDropDownValue;
@@ -2080,12 +2208,28 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 	protected function checkFilter()
 	{
 
+		// Check TahunAjaran extended filter
+		if ($this->nonTextFilterApplied($this->TahunAjaran))
+			return TRUE;
+
+		// Check SekolahNama extended filter
+		if ($this->nonTextFilterApplied($this->SekolahNama))
+			return TRUE;
+
+		// Check KelasNama extended filter
+		if ($this->nonTextFilterApplied($this->KelasNama))
+			return TRUE;
+
 		// Check NomorInduk text filter
 		if ($this->textFilterApplied($this->NomorInduk))
 			return TRUE;
 
 		// Check SiswaNama text filter
 		if ($this->textFilterApplied($this->SiswaNama))
+			return TRUE;
+
+		// Check IuranNama extended filter
+		if ($this->nonTextFilterApplied($this->IuranNama))
 			return TRUE;
 
 		// Check Periode extended filter
@@ -2103,6 +2247,42 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 		$filterList = "";
 		$captionClass = $this->isExport("email") ? "ew-filter-caption-email" : "ew-filter-caption";
 		$captionSuffix = $this->isExport("email") ? ": " : "";
+
+		// Field TahunAjaran
+		$extWrk = "";
+		$wrk = "";
+		$this->buildDropDownFilter($this->TahunAjaran, $extWrk, $this->TahunAjaran->AdvancedSearch->SearchOperator);
+		$filter = "";
+		if ($extWrk <> "")
+			$filter .= "<span class=\"ew-filter-value\">$extWrk</span>";
+		elseif ($wrk <> "")
+			$filter .= "<span class=\"ew-filter-value\">$wrk</span>";
+		if ($filter <> "")
+			$filterList .= "<div><span class=\"" . $captionClass . "\">" . $this->TahunAjaran->caption() . "</span>" . $captionSuffix . $filter . "</div>";
+
+		// Field SekolahNama
+		$extWrk = "";
+		$wrk = "";
+		$this->buildDropDownFilter($this->SekolahNama, $extWrk, $this->SekolahNama->AdvancedSearch->SearchOperator);
+		$filter = "";
+		if ($extWrk <> "")
+			$filter .= "<span class=\"ew-filter-value\">$extWrk</span>";
+		elseif ($wrk <> "")
+			$filter .= "<span class=\"ew-filter-value\">$wrk</span>";
+		if ($filter <> "")
+			$filterList .= "<div><span class=\"" . $captionClass . "\">" . $this->SekolahNama->caption() . "</span>" . $captionSuffix . $filter . "</div>";
+
+		// Field KelasNama
+		$extWrk = "";
+		$wrk = "";
+		$this->buildDropDownFilter($this->KelasNama, $extWrk, $this->KelasNama->AdvancedSearch->SearchOperator);
+		$filter = "";
+		if ($extWrk <> "")
+			$filter .= "<span class=\"ew-filter-value\">$extWrk</span>";
+		elseif ($wrk <> "")
+			$filter .= "<span class=\"ew-filter-value\">$wrk</span>";
+		if ($filter <> "")
+			$filterList .= "<div><span class=\"" . $captionClass . "\">" . $this->KelasNama->caption() . "</span>" . $captionSuffix . $filter . "</div>";
 
 		// Field NomorInduk
 		$extWrk = "";
@@ -2127,6 +2307,18 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 			$filter .= "<span class=\"ew-filter-value\">$wrk</span>";
 		if ($filter <> "")
 			$filterList .= "<div><span class=\"" . $captionClass . "\">" . $this->SiswaNama->caption() . "</span>" . $captionSuffix . $filter . "</div>";
+
+		// Field IuranNama
+		$extWrk = "";
+		$wrk = "";
+		$this->buildDropDownFilter($this->IuranNama, $extWrk, $this->IuranNama->AdvancedSearch->SearchOperator);
+		$filter = "";
+		if ($extWrk <> "")
+			$filter .= "<span class=\"ew-filter-value\">$extWrk</span>";
+		elseif ($wrk <> "")
+			$filter .= "<span class=\"ew-filter-value\">$wrk</span>";
+		if ($filter <> "")
+			$filterList .= "<div><span class=\"" . $captionClass . "\">" . $this->IuranNama->caption() . "</span>" . $captionSuffix . $filter . "</div>";
 
 		// Field Periode
 		$extWrk = "";
@@ -2161,6 +2353,42 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 		// Initialize
 		$filterList = "";
 
+		// Field TahunAjaran
+		$wrk = "";
+		$wrk = ($this->TahunAjaran->DropDownValue <> INIT_VALUE) ? $this->TahunAjaran->DropDownValue : "";
+		if (is_array($wrk))
+			$wrk = implode("||", $wrk);
+		if ($wrk <> "")
+			$wrk = "\"x_TahunAjaran\":\"" . JsEncode($wrk) . "\"";
+		if ($wrk <> "") {
+			if ($filterList <> "") $filterList .= ",";
+			$filterList .= $wrk;
+		}
+
+		// Field SekolahNama
+		$wrk = "";
+		$wrk = ($this->SekolahNama->DropDownValue <> INIT_VALUE) ? $this->SekolahNama->DropDownValue : "";
+		if (is_array($wrk))
+			$wrk = implode("||", $wrk);
+		if ($wrk <> "")
+			$wrk = "\"x_SekolahNama\":\"" . JsEncode($wrk) . "\"";
+		if ($wrk <> "") {
+			if ($filterList <> "") $filterList .= ",";
+			$filterList .= $wrk;
+		}
+
+		// Field KelasNama
+		$wrk = "";
+		$wrk = ($this->KelasNama->DropDownValue <> INIT_VALUE) ? $this->KelasNama->DropDownValue : "";
+		if (is_array($wrk))
+			$wrk = implode("||", $wrk);
+		if ($wrk <> "")
+			$wrk = "\"x_KelasNama\":\"" . JsEncode($wrk) . "\"";
+		if ($wrk <> "") {
+			if ($filterList <> "") $filterList .= ",";
+			$filterList .= $wrk;
+		}
+
 		// Field NomorInduk
 		$wrk = "";
 		if ($this->NomorInduk->AdvancedSearch->SearchValue <> "" || $this->NomorInduk->AdvancedSearch->SearchValue2 <> "") {
@@ -2184,6 +2412,18 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 				"\"y_SiswaNama\":\"" . JsEncode($this->SiswaNama->AdvancedSearch->SearchValue2) . "\"," .
 				"\"w_SiswaNama\":\"" . JsEncode($this->SiswaNama->AdvancedSearch->SearchOperator2) . "\"";
 		}
+		if ($wrk <> "") {
+			if ($filterList <> "") $filterList .= ",";
+			$filterList .= $wrk;
+		}
+
+		// Field IuranNama
+		$wrk = "";
+		$wrk = ($this->IuranNama->DropDownValue <> INIT_VALUE) ? $this->IuranNama->DropDownValue : "";
+		if (is_array($wrk))
+			$wrk = implode("||", $wrk);
+		if ($wrk <> "")
+			$wrk = "\"x_IuranNama\":\"" . JsEncode($wrk) . "\"";
 		if ($wrk <> "") {
 			if ($filterList <> "") $filterList .= ",";
 			$filterList .= $wrk;
@@ -2225,6 +2465,45 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 		if (!is_array($filter))
 			return FALSE;
 
+		// Field TahunAjaran
+		$restoreFilter = FALSE;
+		if (array_key_exists("x_TahunAjaran", $filter)) {
+			$wrk = $filter["x_TahunAjaran"];
+			if (strpos($wrk, "||") !== FALSE)
+				$wrk = explode("||", $wrk);
+			$this->setSessionDropDownValue($wrk, @$filter["z_TahunAjaran"], "TahunAjaran");
+			$restoreFilter = TRUE;
+		}
+		if (!$restoreFilter) { // Clear filter
+			$this->setSessionDropDownValue(INIT_VALUE, "", "TahunAjaran");
+		}
+
+		// Field SekolahNama
+		$restoreFilter = FALSE;
+		if (array_key_exists("x_SekolahNama", $filter)) {
+			$wrk = $filter["x_SekolahNama"];
+			if (strpos($wrk, "||") !== FALSE)
+				$wrk = explode("||", $wrk);
+			$this->setSessionDropDownValue($wrk, @$filter["z_SekolahNama"], "SekolahNama");
+			$restoreFilter = TRUE;
+		}
+		if (!$restoreFilter) { // Clear filter
+			$this->setSessionDropDownValue(INIT_VALUE, "", "SekolahNama");
+		}
+
+		// Field KelasNama
+		$restoreFilter = FALSE;
+		if (array_key_exists("x_KelasNama", $filter)) {
+			$wrk = $filter["x_KelasNama"];
+			if (strpos($wrk, "||") !== FALSE)
+				$wrk = explode("||", $wrk);
+			$this->setSessionDropDownValue($wrk, @$filter["z_KelasNama"], "KelasNama");
+			$restoreFilter = TRUE;
+		}
+		if (!$restoreFilter) { // Clear filter
+			$this->setSessionDropDownValue(INIT_VALUE, "", "KelasNama");
+		}
+
 		// Field NomorInduk
 		$restoreFilter = FALSE;
 		if (array_key_exists("x_NomorInduk", $filter) || array_key_exists("z_NomorInduk", $filter) ||
@@ -2247,6 +2526,19 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 		}
 		if (!$restoreFilter) { // Clear filter
 			$this->setSessionFilterValues("", "=", "AND", "", "=", "SiswaNama");
+		}
+
+		// Field IuranNama
+		$restoreFilter = FALSE;
+		if (array_key_exists("x_IuranNama", $filter)) {
+			$wrk = $filter["x_IuranNama"];
+			if (strpos($wrk, "||") !== FALSE)
+				$wrk = explode("||", $wrk);
+			$this->setSessionDropDownValue($wrk, @$filter["z_IuranNama"], "IuranNama");
+			$restoreFilter = TRUE;
+		}
+		if (!$restoreFilter) { // Clear filter
+			$this->setSessionDropDownValue(INIT_VALUE, "", "IuranNama");
 		}
 
 		// Field Periode
