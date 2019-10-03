@@ -14,7 +14,6 @@ class ComposerStaticInitc03f287509d60c56e3cfb0cb69f6f77e
     public static $prefixLengthsPsr4 = array (
         'S' => 
         array (
-            'Svg\\' => 4,
             'Slim\\Middleware\\' => 16,
             'Slim\\HttpCache\\' => 15,
             'Slim\\' => 5,
@@ -36,22 +35,16 @@ class ComposerStaticInitc03f287509d60c56e3cfb0cb69f6f77e
         ),
         'F' => 
         array (
-            'FontLib\\' => 8,
             'Firebase\\JWT\\' => 13,
             'FastRoute\\' => 10,
         ),
         'D' => 
         array (
-            'Dompdf\\' => 7,
             'Defuse\\Crypto\\' => 14,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Svg\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/phenx/php-svg-lib/src/Svg',
-        ),
         'Slim\\Middleware\\' => 
         array (
             0 => __DIR__ . '/..' . '/tuupola/slim-jwt-auth/src',
@@ -88,10 +81,6 @@ class ComposerStaticInitc03f287509d60c56e3cfb0cb69f6f77e
         array (
             0 => __DIR__ . '/..' . '/soundasleep/html2text/src',
         ),
-        'FontLib\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/phenx/php-font-lib/src/FontLib',
-        ),
         'Firebase\\JWT\\' => 
         array (
             0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
@@ -100,10 +89,6 @@ class ComposerStaticInitc03f287509d60c56e3cfb0cb69f6f77e
         array (
             0 => __DIR__ . '/..' . '/nikic/fast-route/src',
         ),
-        'Dompdf\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/hkvstore/dompdf/src',
-        ),
         'Defuse\\Crypto\\' => 
         array (
             0 => __DIR__ . '/..' . '/defuse/php-encryption/src',
@@ -111,13 +96,6 @@ class ComposerStaticInitc03f287509d60c56e3cfb0cb69f6f77e
     );
 
     public static $prefixesPsr0 = array (
-        'S' => 
-        array (
-            'Sabberworm\\CSS' => 
-            array (
-                0 => __DIR__ . '/..' . '/sabberworm/php-css-parser/lib',
-            ),
-        ),
         'P' => 
         array (
             'Pimple' => 
@@ -146,12 +124,6 @@ class ComposerStaticInitc03f287509d60c56e3cfb0cb69f6f77e
     );
 
     public static $classMap = array (
-        'Cpdf' => __DIR__ . '/..' . '/hkvstore/dompdf/lib/Cpdf.php',
-        'HTML5_Data' => __DIR__ . '/..' . '/hkvstore/dompdf/lib/html5lib/Data.php',
-        'HTML5_InputStream' => __DIR__ . '/..' . '/hkvstore/dompdf/lib/html5lib/InputStream.php',
-        'HTML5_Parser' => __DIR__ . '/..' . '/hkvstore/dompdf/lib/html5lib/Parser.php',
-        'HTML5_Tokenizer' => __DIR__ . '/..' . '/hkvstore/dompdf/lib/html5lib/Tokenizer.php',
-        'HTML5_TreeBuilder' => __DIR__ . '/..' . '/hkvstore/dompdf/lib/html5lib/TreeBuilder.php',
         'Mobile_Detect' => __DIR__ . '/..' . '/mobiledetect/mobiledetectlib/Mobile_Detect.php',
     );
 

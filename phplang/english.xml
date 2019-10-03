@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<ew-language date="2019/9/30" version="15.0.0.1" id="en" name="English" desc="English" author="e.World Technology Ltd.">
+<ew-language date="2019/10/3" version="15.0.0.1" id="en" name="English" desc="English" author="e.World Technology Ltd.">
   <!-- 
 	*** Important Notes:
 	1. Language ID should follow: https://developers.google.com/recaptcha/docs/language,
@@ -1448,6 +1448,15 @@
       <field id="jumlah_total">
         <phrase id="fldcaption" value="jumlah total" />
       </field>
+      <field id="nomorinduk">
+        <phrase id="fldcaption" value="nomorinduk" />
+      </field>
+      <field id="siswanama">
+        <phrase id="fldcaption" value="siswanama" />
+      </field>
+      <field id="periodebayar">
+        <phrase id="fldcaption" value="periodebayar" />
+      </field>
     </table>
     <table id="v109_lap_pum">
       <phrase id="tblcaption" value="v 109 lap pum" />
@@ -1468,6 +1477,15 @@
       </field>
       <field id="jumlah_total">
         <phrase id="fldcaption" value="jumlah total" />
+      </field>
+      <field id="nomorinduk">
+        <phrase id="fldcaption" value="nomorinduk" />
+      </field>
+      <field id="siswanama">
+        <phrase id="fldcaption" value="siswanama" />
+      </field>
+      <field id="periode">
+        <phrase id="fldcaption" value="periode" />
       </field>
     </table>
     <table id="c302_backup">
