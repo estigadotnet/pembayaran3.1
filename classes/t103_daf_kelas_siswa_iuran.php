@@ -2474,20 +2474,38 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 
 		// Enter your code here
 		// To cancel, set return value to FALSE
-		// isi secara ostosmastis => field jml01 hingga jml12, dengan nilai Jumlah Iuran
+		// check jenis iuran
 
-		$rsnew["jml01"] = $rsnew["Jumlah"];
-		$rsnew["jml02"] = $rsnew["Jumlah"];
-		$rsnew["jml03"] = $rsnew["Jumlah"];
-		$rsnew["jml04"] = $rsnew["Jumlah"];
-		$rsnew["jml05"] = $rsnew["Jumlah"];
-		$rsnew["jml06"] = $rsnew["Jumlah"];
-		$rsnew["jml07"] = $rsnew["Jumlah"];
-		$rsnew["jml08"] = $rsnew["Jumlah"];
-		$rsnew["jml09"] = $rsnew["Jumlah"];
-		$rsnew["jml10"] = $rsnew["Jumlah"];
-		$rsnew["jml11"] = $rsnew["Jumlah"];
-		$rsnew["jml12"] = $rsnew["Jumlah"];
+		if (f_check_jenis_iuran($rsnew["iuran_id"]) == "Non-Rutin") {
+			$rsnew["jml01"] = 0;
+			$rsnew["jml02"] = 0;
+			$rsnew["jml03"] = 0;
+			$rsnew["jml04"] = 0;
+			$rsnew["jml05"] = 0;
+			$rsnew["jml06"] = 0;
+			$rsnew["jml07"] = 0;
+			$rsnew["jml08"] = 0;
+			$rsnew["jml09"] = 0;
+			$rsnew["jml10"] = 0;
+			$rsnew["jml11"] = 0;
+			$rsnew["jml12"] = 0;
+		}
+		else {
+
+			// isi secara ostosmastis => field jml01 hingga jml12, dengan nilai Jumlah Iuran
+			$rsnew["jml01"] = $rsnew["Jumlah"];
+			$rsnew["jml02"] = $rsnew["Jumlah"];
+			$rsnew["jml03"] = $rsnew["Jumlah"];
+			$rsnew["jml04"] = $rsnew["Jumlah"];
+			$rsnew["jml05"] = $rsnew["Jumlah"];
+			$rsnew["jml06"] = $rsnew["Jumlah"];
+			$rsnew["jml07"] = $rsnew["Jumlah"];
+			$rsnew["jml08"] = $rsnew["Jumlah"];
+			$rsnew["jml09"] = $rsnew["Jumlah"];
+			$rsnew["jml10"] = $rsnew["Jumlah"];
+			$rsnew["jml11"] = $rsnew["Jumlah"];
+			$rsnew["jml12"] = $rsnew["Jumlah"];
+		}
 		return TRUE;
 	}
 

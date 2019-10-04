@@ -416,6 +416,8 @@ class index
 		$Security->loadUserLevel(); // Load User Level
 		if ($Security->allowList(CurrentProjectID() . 'c301_home.php'))
 			$this->terminate("c301_home.php"); // Exit and go to default page
+		if ($Security->allowList(CurrentProjectID() . 'c302_backup.php'))
+			$this->terminate("./c302_backup.php");
 		if ($Security->allowList(CurrentProjectID() . 't001_tahun_ajaran'))
 			$this->terminate("t001_tahun_ajaranlist.php");
 		if ($Security->allowList(CurrentProjectID() . 't002_sekolah'))
@@ -444,8 +446,6 @@ class index
 			$this->terminate("v102_daf_kelas_siswalist.php");
 		if ($Security->allowList(CurrentProjectID() . 'v103_daf_kelas_siswa_iuran'))
 			$this->terminate("v103_daf_kelas_siswa_iuranlist.php");
-		if ($Security->allowList(CurrentProjectID() . 'c302_backup.php'))
-			$this->terminate("./c302_backup.php");
 		if ($Security->allowList(CurrentProjectID() . 'v110_bukti_master'))
 			$this->terminate("v110_bukti_masterlist.php");
 		if ($Security->isLoggedIn()) {

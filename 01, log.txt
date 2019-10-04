@@ -1,5 +1,9 @@
 <strong>----- on progress --------------------------------------------------------------------------</strong>
-
+- 5:43 PM 10/3/2019
+  - laporan tunggakan,
+    - harus periksa tipe iuran, apakah rutin atau non-rutin,
+      apabila non-rutin :: harus periksa dulu selisih antara yang sudah dibayar dengan jumlah yang ditentukan
+      di daftar siswa & iuran
 
 
 <strong>----- change log ---------------------------------------------------------------------------</strong>
@@ -8,6 +12,10 @@
 
 
 <font color="red"><strong>----- to do --------------------------------------------------------------------------------</strong>
+- penambahan dan pengurangan iuran, bisa untuk 1 (satu) siswa, ataupun untuk semua siswa, bisa multi-select
+  atau per kelas
+
+
 - laporan tunggakan,
   - harus periksa tipe iuran, apakah rutin atau non-rutin,
     apabila non-rutin :: harus periksa dulu selisih antara yang sudah dibayar dengan jumlah yang ditentukan
