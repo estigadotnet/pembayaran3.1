@@ -253,19 +253,36 @@ $Page->RecordIndex = 0;
 
 // Get first row
 if ($Page->TotalGroups > 0) {
-	$Page->loadRowValues(TRUE);
+	$Page->loadGroupRowValues(TRUE);
+	$Page->GroupCounter[0] = 1;
+	$Page->GroupCounter[1] = 1;
 	$Page->GroupCount = 1;
 }
-$Page->GroupIndexes = InitArray(2, -1);
-$Page->GroupIndexes[0] = -1;
-$Page->GroupIndexes[1] = $Page->StopGroup - $Page->StartGroup + 1;
-while ($Page->Recordset && !$Page->Recordset->EOF && $Page->GroupCount <= $Page->DisplayGroups || $Page->ShowHeader) {
+$Page->GroupIndexes = InitArray($Page->StopGroup - $Page->StartGroup + 1, -1);
+while ($Page->GroupRecordset && !$Page->GroupRecordset->EOF && $Page->GroupCount <= $Page->DisplayGroups || $Page->ShowHeader) {
 
 	// Show dummy header for custom template
 	// Show header
 
 	if ($Page->ShowHeader) {
 ?>
+<?php if ($Page->GroupCount > 1) { ?>
+</tbody>
+</table>
+<?php if ($Page->Export <> "pdf") { ?>
+</div>
+<?php } ?>
+<?php if ($Page->Export == "" && !($Page->DrillDown && $Page->TotalGroups > 0)) { ?>
+<div class="card-footer ew-grid-lower-panel">
+<?php include "r102_lap_tunggak_pager.php" ?>
+<div class="clearfix"></div>
+</div>
+<?php } ?>
+<?php if ($Page->Export <> "pdf") { ?>
+</div>
+<?php } ?>
+<span data-class="tpb<?php echo $Page->GroupCount - 1 ?>_r102_lap_tunggak"><?php echo $Page->PageBreakContent ?></span>
+<?php } ?>
 <?php if ($Page->Export <> "pdf") { ?>
 <?php if ($Page->Export == "word" || $Page->Export == "excel") { ?>
 <div class="ew-grid"<?php echo $Page->ReportTableStyle ?>>
@@ -281,6 +298,72 @@ while ($Page->Recordset && !$Page->Recordset->EOF && $Page->GroupCount <= $Page-
 <thead>
 	<!-- Table header -->
 	<tr class="ew-table-header">
+<?php if ($Page->keterangan->Visible) { ?>
+	<?php if ($Page->keterangan->ShowGroupHeaderAsRow) { ?>
+	<td data-field="keterangan">&nbsp;</td>
+	<?php } else { ?>
+<?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
+	<td data-field="keterangan"><div class="r102_lap_tunggak_keterangan"><span class="ew-table-header-caption"><?php echo $Page->keterangan->caption() ?></span></div></td>
+<?php } else { ?>
+	<td data-field="keterangan">
+<?php if ($Page->sortUrl($Page->keterangan) == "") { ?>
+		<div class="ew-table-header-btn r102_lap_tunggak_keterangan">
+			<span class="ew-table-header-caption"><?php echo $Page->keterangan->caption() ?></span>
+		</div>
+<?php } else { ?>
+		<div class="ew-table-header-btn ew-pointer r102_lap_tunggak_keterangan" onclick="ew.sort(event,'<?php echo $Page->sortUrl($Page->keterangan) ?>',2);">
+			<span class="ew-table-header-caption"><?php echo $Page->keterangan->caption() ?></span>
+			<span class="ew-table-header-sort"><?php if ($Page->keterangan->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($Page->keterangan->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span>
+		</div>
+<?php } ?>
+	</td>
+<?php } ?>
+	<?php } ?>
+<?php } ?>
+<?php if ($Page->IuranNama2->Visible) { ?>
+	<?php if ($Page->IuranNama2->ShowGroupHeaderAsRow) { ?>
+	<td data-field="IuranNama2">&nbsp;</td>
+	<?php } else { ?>
+<?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
+	<td data-field="IuranNama2"><div class="r102_lap_tunggak_IuranNama2"><span class="ew-table-header-caption"><?php echo $Page->IuranNama2->caption() ?></span></div></td>
+<?php } else { ?>
+	<td data-field="IuranNama2">
+<?php if ($Page->sortUrl($Page->IuranNama2) == "") { ?>
+		<div class="ew-table-header-btn r102_lap_tunggak_IuranNama2">
+			<span class="ew-table-header-caption"><?php echo $Page->IuranNama2->caption() ?></span>
+		</div>
+<?php } else { ?>
+		<div class="ew-table-header-btn ew-pointer r102_lap_tunggak_IuranNama2" onclick="ew.sort(event,'<?php echo $Page->sortUrl($Page->IuranNama2) ?>',2);">
+			<span class="ew-table-header-caption"><?php echo $Page->IuranNama2->caption() ?></span>
+			<span class="ew-table-header-sort"><?php if ($Page->IuranNama2->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($Page->IuranNama2->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span>
+		</div>
+<?php } ?>
+	</td>
+<?php } ?>
+	<?php } ?>
+<?php } ?>
+<?php if ($Page->Jumlah->Visible) { ?>
+	<?php if ($Page->Jumlah->ShowGroupHeaderAsRow) { ?>
+	<td data-field="Jumlah">&nbsp;</td>
+	<?php } else { ?>
+<?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
+	<td data-field="Jumlah"><div class="r102_lap_tunggak_Jumlah" style="text-align: right;"><span class="ew-table-header-caption"><?php echo $Page->Jumlah->caption() ?></span></div></td>
+<?php } else { ?>
+	<td data-field="Jumlah">
+<?php if ($Page->sortUrl($Page->Jumlah) == "") { ?>
+		<div class="ew-table-header-btn r102_lap_tunggak_Jumlah" style="text-align: right;">
+			<span class="ew-table-header-caption"><?php echo $Page->Jumlah->caption() ?></span>
+		</div>
+<?php } else { ?>
+		<div class="ew-table-header-btn ew-pointer r102_lap_tunggak_Jumlah" onclick="ew.sort(event,'<?php echo $Page->sortUrl($Page->Jumlah) ?>',2);" style="text-align: right;">
+			<span class="ew-table-header-caption"><?php echo $Page->Jumlah->caption() ?></span>
+			<span class="ew-table-header-sort"><?php if ($Page->Jumlah->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($Page->Jumlah->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span>
+		</div>
+<?php } ?>
+	</td>
+<?php } ?>
+	<?php } ?>
+<?php } ?>
 <?php if ($Page->TahunAjaran->Visible) { ?>
 <?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
 	<td data-field="TahunAjaran"><div class="r102_lap_tunggak_TahunAjaran"><span class="ew-table-header-caption"><?php echo $Page->TahunAjaran->caption() ?></span></div></td>
@@ -407,24 +490,6 @@ while ($Page->Recordset && !$Page->Recordset->EOF && $Page->GroupCount <= $Page-
 	</td>
 <?php } ?>
 <?php } ?>
-<?php if ($Page->Jumlah->Visible) { ?>
-<?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
-	<td data-field="Jumlah"><div class="r102_lap_tunggak_Jumlah" style="text-align: right;"><span class="ew-table-header-caption"><?php echo $Page->Jumlah->caption() ?></span></div></td>
-<?php } else { ?>
-	<td data-field="Jumlah">
-<?php if ($Page->sortUrl($Page->Jumlah) == "") { ?>
-		<div class="ew-table-header-btn r102_lap_tunggak_Jumlah" style="text-align: right;">
-			<span class="ew-table-header-caption"><?php echo $Page->Jumlah->caption() ?></span>
-		</div>
-<?php } else { ?>
-		<div class="ew-table-header-btn ew-pointer r102_lap_tunggak_Jumlah" onclick="ew.sort(event,'<?php echo $Page->sortUrl($Page->Jumlah) ?>',2);" style="text-align: right;">
-			<span class="ew-table-header-caption"><?php echo $Page->Jumlah->caption() ?></span>
-			<span class="ew-table-header-sort"><?php if ($Page->Jumlah->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($Page->Jumlah->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span>
-		</div>
-<?php } ?>
-	</td>
-<?php } ?>
-<?php } ?>
 <?php if ($Page->Periode->Visible) { ?>
 <?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
 	<td data-field="Periode"><div class="r102_lap_tunggak_Periode"><span class="ew-table-header-caption"><?php echo $Page->Periode->caption() ?></span></div></td>
@@ -486,9 +551,153 @@ while ($Page->Recordset && !$Page->Recordset->EOF && $Page->GroupCount <= $Page-
 		if ($Page->TotalGroups == 0) break; // Show header only
 		$Page->ShowHeader = FALSE;
 	}
-	$Page->RecordCount++;
-	$Page->RecordIndex++;
+
+	// Build detail SQL
+	$where = DetailFilterSql($Page->keterangan, $Page->getSqlFirstGroupField(), $Page->keterangan->groupValue(), $Page->Dbid);
+	if ($Page->PageFirstGroupFilter <> "") $Page->PageFirstGroupFilter .= " OR ";
+	$Page->PageFirstGroupFilter .= $where;
+	if ($Page->Filter != "")
+		$where = "($Page->Filter) AND ($where)";
+	$sql = BuildReportSql($Page->getSqlSelect(), $Page->getSqlWhere(), $Page->getSqlGroupBy(), $Page->getSqlHaving(), $Page->getSqlOrderBy(), $where, $Page->Sort);
+	$Page->DetailRecordCount = 0;
+	if ($Page->Recordset = $Page->getRecordset($sql)) {
+		$Page->DetailRecordCount = $Page->Recordset->recordCount();
+		if (GetConnectionType($Page->Dbid) == "ORACLE") { // Oracle, cannot moveFirst, use another recordset
+			$rswrk = $Page->getRecordset($sql);
+			$Page->DetailRows = $rswrk ? $rswrk->getRows() : [];
+			$rswrk->close();
+		} else {
+			$Page->DetailRows = $Page->Recordset ? $Page->Recordset->getRows() : [];
+		}
+	}
+	if ($Page->DetailRecordCount > 0)
+		$Page->loadRowValues(TRUE);
+	$Page->GroupIndexes[$Page->GroupCount] = [-1];
+	$Page->GroupIndexes[$Page->GroupCount][] = [-1];
+	while ($Page->Recordset && !$Page->Recordset->EOF) { // Loop detail records
+		$Page->RecordCount++;
+		$Page->RecordIndex++;
 ?>
+<?php if ($Page->keterangan->Visible && $Page->checkLevelBreak(1) && $Page->keterangan->ShowGroupHeaderAsRow) { ?>
+<?php
+
+		// Render header row
+		$Page->resetAttributes();
+		$Page->RowType = ROWTYPE_TOTAL;
+		$Page->RowTotalType = ROWTOTAL_GROUP;
+		$Page->RowTotalSubType = ROWTOTAL_HEADER;
+		$Page->RowGroupLevel = 1;
+		$Page->keterangan->Count = $Page->getSummaryCount(1);
+		$Page->renderRow();
+?>
+	<tr<?php echo $Page->rowAttributes(); ?>>
+<?php if ($Page->keterangan->Visible) { ?>
+		<td data-field="keterangan"<?php echo $Page->keterangan->cellAttributes(); ?>><span class="ew-group-toggle icon-collapse"></span></td>
+<?php } ?>
+		<td data-field="keterangan" colspan="<?php echo ($Page->GroupColumnCount + $Page->DetailColumnCount - 1) ?>"<?php echo $Page->keterangan->cellAttributes() ?>>
+<?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
+		<span class="ew-summary-caption r102_lap_tunggak_keterangan"><span class="ew-table-header-caption"><?php echo $Page->keterangan->caption() ?></span></span>
+<?php } else { ?>
+	<?php if ($Page->sortUrl($Page->keterangan) == "") { ?>
+		<span class="ew-summary-caption r102_lap_tunggak_keterangan">
+			<span class="ew-table-header-caption"><?php echo $Page->keterangan->caption() ?></span>
+		</span>
+	<?php } else { ?>
+		<span class="ew-table-header-btn ew-pointer ew-summary-caption r102_lap_tunggak_keterangan" onclick="ew.sort(event,'<?php echo $Page->sortUrl($Page->keterangan) ?>',2);">
+			<span class="ew-table-header-caption"><?php echo $Page->keterangan->caption() ?></span>
+			<span class="ew-table-header-sort"><?php if ($Page->keterangan->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($Page->keterangan->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span>
+		</span>
+	<?php } ?>
+<?php } ?>
+		<?php echo $ReportLanguage->phrase("SummaryColon") ?>
+<span data-class="tpx<?php echo $Page->GroupCount ?>_r102_lap_tunggak_keterangan"<?php echo $Page->keterangan->viewAttributes() ?>><?php echo $Page->keterangan->GroupViewValue ?></span>
+		<span class="ew-summary-count">(<span class="ew-aggregate-caption"><?php echo $ReportLanguage->phrase("RptCnt") ?></span><?php echo $ReportLanguage->phrase("AggregateEqual") ?><span class="ew-aggregate-value"><?php echo FormatNumber($Page->keterangan->Count,0,-2,-2,-2) ?></span>)</span>
+		</td>
+	</tr>
+<?php } ?>
+<?php if ($Page->IuranNama2->Visible && $Page->checkLevelBreak(2) && $Page->IuranNama2->ShowGroupHeaderAsRow) { ?>
+<?php
+
+		// Render header row
+		$Page->resetAttributes();
+		$Page->RowType = ROWTYPE_TOTAL;
+		$Page->RowTotalType = ROWTOTAL_GROUP;
+		$Page->RowTotalSubType = ROWTOTAL_HEADER;
+		$Page->RowGroupLevel = 2;
+		$Page->IuranNama2->Count = $Page->getSummaryCount(2);
+		$Page->renderRow();
+?>
+	<tr<?php echo $Page->rowAttributes(); ?>>
+<?php if ($Page->keterangan->Visible) { ?>
+		<td data-field="keterangan"<?php echo $Page->keterangan->cellAttributes(); ?>></td>
+<?php } ?>
+<?php if ($Page->IuranNama2->Visible) { ?>
+		<td data-field="IuranNama2"<?php echo $Page->IuranNama2->cellAttributes(); ?>><span class="ew-group-toggle icon-collapse"></span></td>
+<?php } ?>
+		<td data-field="IuranNama2" colspan="<?php echo ($Page->GroupColumnCount + $Page->DetailColumnCount - 2) ?>"<?php echo $Page->IuranNama2->cellAttributes() ?>>
+<?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
+		<span class="ew-summary-caption r102_lap_tunggak_IuranNama2"><span class="ew-table-header-caption"><?php echo $Page->IuranNama2->caption() ?></span></span>
+<?php } else { ?>
+	<?php if ($Page->sortUrl($Page->IuranNama2) == "") { ?>
+		<span class="ew-summary-caption r102_lap_tunggak_IuranNama2">
+			<span class="ew-table-header-caption"><?php echo $Page->IuranNama2->caption() ?></span>
+		</span>
+	<?php } else { ?>
+		<span class="ew-table-header-btn ew-pointer ew-summary-caption r102_lap_tunggak_IuranNama2" onclick="ew.sort(event,'<?php echo $Page->sortUrl($Page->IuranNama2) ?>',2);">
+			<span class="ew-table-header-caption"><?php echo $Page->IuranNama2->caption() ?></span>
+			<span class="ew-table-header-sort"><?php if ($Page->IuranNama2->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($Page->IuranNama2->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span>
+		</span>
+	<?php } ?>
+<?php } ?>
+		<?php echo $ReportLanguage->phrase("SummaryColon") ?>
+<span data-class="tpx<?php echo $Page->GroupCount ?>_<?php echo $Page->GroupCounter[0] ?>_r102_lap_tunggak_IuranNama2"<?php echo $Page->IuranNama2->viewAttributes() ?>><?php echo $Page->IuranNama2->GroupViewValue ?></span>
+		<span class="ew-summary-count">(<span class="ew-aggregate-caption"><?php echo $ReportLanguage->phrase("RptCnt") ?></span><?php echo $ReportLanguage->phrase("AggregateEqual") ?><span class="ew-aggregate-value"><?php echo FormatNumber($Page->IuranNama2->Count,0,-2,-2,-2) ?></span>)</span>
+		</td>
+	</tr>
+<?php } ?>
+<?php if ($Page->Jumlah->Visible && $Page->checkLevelBreak(3) && $Page->Jumlah->ShowGroupHeaderAsRow) { ?>
+<?php
+
+		// Render header row
+		$Page->resetAttributes();
+		$Page->RowType = ROWTYPE_TOTAL;
+		$Page->RowTotalType = ROWTOTAL_GROUP;
+		$Page->RowTotalSubType = ROWTOTAL_HEADER;
+		$Page->RowGroupLevel = 3;
+		$Page->Jumlah->Count = $Page->getSummaryCount(3);
+		$Page->renderRow();
+?>
+	<tr<?php echo $Page->rowAttributes(); ?>>
+<?php if ($Page->keterangan->Visible) { ?>
+		<td data-field="keterangan"<?php echo $Page->keterangan->cellAttributes(); ?>></td>
+<?php } ?>
+<?php if ($Page->IuranNama2->Visible) { ?>
+		<td data-field="IuranNama2"<?php echo $Page->IuranNama2->cellAttributes(); ?>></td>
+<?php } ?>
+<?php if ($Page->Jumlah->Visible) { ?>
+		<td data-field="Jumlah"<?php echo $Page->Jumlah->cellAttributes(); ?>><span class="ew-group-toggle icon-collapse"></span></td>
+<?php } ?>
+		<td data-field="Jumlah" colspan="<?php echo ($Page->GroupColumnCount + $Page->DetailColumnCount - 3) ?>"<?php echo $Page->Jumlah->cellAttributes() ?>>
+<?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
+		<span class="ew-summary-caption r102_lap_tunggak_Jumlah"><span class="ew-table-header-caption"><?php echo $Page->Jumlah->caption() ?></span></span>
+<?php } else { ?>
+	<?php if ($Page->sortUrl($Page->Jumlah) == "") { ?>
+		<span class="ew-summary-caption r102_lap_tunggak_Jumlah">
+			<span class="ew-table-header-caption"><?php echo $Page->Jumlah->caption() ?></span>
+		</span>
+	<?php } else { ?>
+		<span class="ew-table-header-btn ew-pointer ew-summary-caption r102_lap_tunggak_Jumlah" onclick="ew.sort(event,'<?php echo $Page->sortUrl($Page->Jumlah) ?>',2);">
+			<span class="ew-table-header-caption"><?php echo $Page->Jumlah->caption() ?></span>
+			<span class="ew-table-header-sort"><?php if ($Page->Jumlah->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($Page->Jumlah->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span>
+		</span>
+	<?php } ?>
+<?php } ?>
+		<?php echo $ReportLanguage->phrase("SummaryColon") ?>
+<span data-class="tpx<?php echo $Page->GroupCount ?>_<?php echo $Page->GroupCounter[0] ?>_<?php echo $Page->GroupCounter[1] ?>_r102_lap_tunggak_Jumlah"<?php echo $Page->Jumlah->viewAttributes() ?>><?php echo $Page->Jumlah->GroupViewValue ?></span>
+		<span class="ew-summary-count">(<span class="ew-aggregate-caption"><?php echo $ReportLanguage->phrase("RptCnt") ?></span><?php echo $ReportLanguage->phrase("AggregateEqual") ?><span class="ew-aggregate-value"><?php echo FormatNumber($Page->Jumlah->Count,0,-2,-2,-2) ?></span>)</span>
+		</td>
+	</tr>
+<?php } ?>
 <?php
 
 		// Render detail row
@@ -497,6 +706,30 @@ while ($Page->Recordset && !$Page->Recordset->EOF && $Page->GroupCount <= $Page-
 		$Page->renderRow();
 ?>
 	<tr<?php echo $Page->rowAttributes(); ?>>
+<?php if ($Page->keterangan->Visible) { ?>
+	<?php if ($Page->keterangan->ShowGroupHeaderAsRow) { ?>
+		<td data-field="keterangan"<?php echo $Page->keterangan->cellAttributes(); ?>>&nbsp;</td>
+	<?php } else { ?>
+		<td data-field="keterangan"<?php echo $Page->keterangan->cellAttributes(); ?>>
+<span data-class="tpx<?php echo $Page->GroupCount ?>_r102_lap_tunggak_keterangan"<?php echo $Page->keterangan->viewAttributes() ?>><?php echo $Page->keterangan->GroupViewValue ?></span></td>
+	<?php } ?>
+<?php } ?>
+<?php if ($Page->IuranNama2->Visible) { ?>
+	<?php if ($Page->IuranNama2->ShowGroupHeaderAsRow) { ?>
+		<td data-field="IuranNama2"<?php echo $Page->IuranNama2->cellAttributes(); ?>>&nbsp;</td>
+	<?php } else { ?>
+		<td data-field="IuranNama2"<?php echo $Page->IuranNama2->cellAttributes(); ?>>
+<span data-class="tpx<?php echo $Page->GroupCount ?>_<?php echo $Page->GroupCounter[0] ?>_r102_lap_tunggak_IuranNama2"<?php echo $Page->IuranNama2->viewAttributes() ?>><?php echo $Page->IuranNama2->GroupViewValue ?></span></td>
+	<?php } ?>
+<?php } ?>
+<?php if ($Page->Jumlah->Visible) { ?>
+	<?php if ($Page->Jumlah->ShowGroupHeaderAsRow) { ?>
+		<td data-field="Jumlah"<?php echo $Page->Jumlah->cellAttributes(); ?>>&nbsp;</td>
+	<?php } else { ?>
+		<td data-field="Jumlah"<?php echo $Page->Jumlah->cellAttributes(); ?>>
+<span data-class="tpx<?php echo $Page->GroupCount ?>_<?php echo $Page->GroupCounter[0] ?>_<?php echo $Page->GroupCounter[1] ?>_r102_lap_tunggak_Jumlah"<?php echo $Page->Jumlah->viewAttributes() ?>><?php echo $Page->Jumlah->GroupViewValue ?></span></td>
+	<?php } ?>
+<?php } ?>
 <?php if ($Page->TahunAjaran->Visible) { ?>
 		<td data-field="TahunAjaran"<?php echo $Page->TahunAjaran->cellAttributes() ?>>
 <span<?php echo $Page->TahunAjaran->viewAttributes() ?>><?php echo $Page->TahunAjaran->getViewValue() ?></span></td>
@@ -525,10 +758,6 @@ while ($Page->Recordset && !$Page->Recordset->EOF && $Page->GroupCount <= $Page-
 		<td data-field="IuranNama"<?php echo $Page->IuranNama->cellAttributes() ?>>
 <span<?php echo $Page->IuranNama->viewAttributes() ?>><?php echo $Page->IuranNama->getViewValue() ?></span></td>
 <?php } ?>
-<?php if ($Page->Jumlah->Visible) { ?>
-		<td data-field="Jumlah"<?php echo $Page->Jumlah->cellAttributes() ?>>
-<span<?php echo $Page->Jumlah->viewAttributes() ?>><?php echo $Page->Jumlah->getViewValue() ?></span></td>
-<?php } ?>
 <?php if ($Page->Periode->Visible) { ?>
 		<td data-field="Periode"<?php echo $Page->Periode->cellAttributes() ?>>
 <span<?php echo $Page->Periode->viewAttributes() ?>><?php echo $Page->Periode->getViewValue() ?></span></td>
@@ -549,15 +778,39 @@ while ($Page->Recordset && !$Page->Recordset->EOF && $Page->GroupCount <= $Page-
 
 		// Get next record
 		$Page->loadRowValues();
+
+		// Show Footers
+?>
+<?php
+	} // End detail records loop
+?>
+<?php
+
+	// Next group
+	$Page->loadGroupRowValues();
+
+	// Show header if page break
+	if ($Page->Export <> "")
+		$Page->ShowHeader = ($Page->ExportPageBreakCount == 0) ? FALSE : ($Page->GroupCount % $Page->ExportPageBreakCount == 0);
+
+	// Page_Breaking server event
+	if ($Page->ShowHeader)
+		$Page->Page_Breaking($Page->ShowHeader, $Page->PageBreakContent);
 	$Page->GroupCount++;
+	$Page->GroupCounter[1] = 1;
+	$Page->GroupCounter[0] = 1;
+
+	// Handle EOF
+	if (!$Page->GroupRecordset || $Page->GroupRecordset->EOF)
+		$Page->ShowHeader = FALSE;
 } // End while
 ?>
 <?php if ($Page->TotalGroups > 0) { ?>
 </tbody>
 <tfoot>
 <?php
-	$Page->JumlahBayar->Count = $Page->GrandCounts[11];
-	$Page->JumlahBayar->SumValue = $Page->GrandSummaries[11]; // Load SUM
+	$Page->JumlahBayar->Count = $Page->GrandCounts[10];
+	$Page->JumlahBayar->SumValue = $Page->GrandSummaries[10]; // Load SUM
 	$Page->resetAttributes();
 	$Page->RowType = ROWTYPE_TOTAL;
 	$Page->RowTotalType = ROWTOTAL_GRAND;
@@ -565,7 +818,7 @@ while ($Page->Recordset && !$Page->Recordset->EOF && $Page->GroupCount <= $Page-
 	$Page->RowAttrs["class"] = "ew-rpt-grand-summary";
 	$Page->renderRow();
 ?>
-<?php if ($Page->ShowCompactSummaryFooter) { ?>
+<?php if ($Page->Jumlah->ShowCompactSummaryFooter) { ?>
 	<tr<?php echo $Page->rowAttributes() ?>><td colspan="<?php echo ($Page->GroupColumnCount + $Page->DetailColumnCount) ?>"><?php echo $ReportLanguage->Phrase("RptGrandSummary") ?> <span class="ew-summary-count">(<span class="ew-aggregate-caption"><?php echo $ReportLanguage->phrase("RptCnt") ?></span><?php echo $ReportLanguage->phrase("AggregateEqual") ?><span class="ew-aggregate-value"><?php echo FormatNumber($Page->TotalCount,0,-2,-2,-2) ?></span>)</span></td></tr>
 	<tr<?php echo $Page->rowAttributes() ?>>
 <?php if ($Page->GroupColumnCount > 0) { ?>
@@ -592,9 +845,6 @@ while ($Page->Recordset && !$Page->Recordset->EOF && $Page->GroupCount <= $Page-
 <?php if ($Page->IuranNama->Visible) { ?>
 		<td data-field="IuranNama"<?php echo $Page->IuranNama->cellAttributes() ?>></td>
 <?php } ?>
-<?php if ($Page->Jumlah->Visible) { ?>
-		<td data-field="Jumlah"<?php echo $Page->Jumlah->cellAttributes() ?>></td>
-<?php } ?>
 <?php if ($Page->Periode->Visible) { ?>
 		<td data-field="Periode"<?php echo $Page->Periode->cellAttributes() ?>></td>
 <?php } ?>
@@ -608,6 +858,9 @@ while ($Page->Recordset && !$Page->Recordset->EOF && $Page->GroupCount <= $Page-
 <?php } else { ?>
 	<tr<?php echo $Page->rowAttributes() ?>><td colspan="<?php echo ($Page->GroupColumnCount + $Page->DetailColumnCount) ?>"><?php echo $ReportLanguage->Phrase("RptGrandSummary") ?> <span class="ew-summary-count">(<?php echo FormatNumber($Page->TotalCount,0,-2,-2,-2); ?><?php echo $ReportLanguage->Phrase("RptDtlRec") ?>)</span></td></tr>
 	<tr<?php echo $Page->rowAttributes() ?>>
+<?php if ($Page->GroupColumnCount > 0) { ?>
+		<td colspan="<?php echo $Page->GroupColumnCount ?>" class="ew-rpt-grp-aggregate"><?php echo $ReportLanguage->phrase("RptSum") ?></td>
+<?php } ?>
 <?php if ($Page->TahunAjaran->Visible) { ?>
 		<td data-field="TahunAjaran"<?php echo $Page->TahunAjaran->cellAttributes() ?>>&nbsp;</td>
 <?php } ?>
@@ -629,9 +882,6 @@ while ($Page->Recordset && !$Page->Recordset->EOF && $Page->GroupCount <= $Page-
 <?php if ($Page->IuranNama->Visible) { ?>
 		<td data-field="IuranNama"<?php echo $Page->IuranNama->cellAttributes() ?>>&nbsp;</td>
 <?php } ?>
-<?php if ($Page->Jumlah->Visible) { ?>
-		<td data-field="Jumlah"<?php echo $Page->Jumlah->cellAttributes() ?>>&nbsp;</td>
-<?php } ?>
 <?php if ($Page->Periode->Visible) { ?>
 		<td data-field="Periode"<?php echo $Page->Periode->cellAttributes() ?>>&nbsp;</td>
 <?php } ?>
@@ -639,7 +889,7 @@ while ($Page->Recordset && !$Page->Recordset->EOF && $Page->GroupCount <= $Page-
 		<td data-field="PeriodeBulan"<?php echo $Page->PeriodeBulan->cellAttributes() ?>>&nbsp;</td>
 <?php } ?>
 <?php if ($Page->JumlahBayar->Visible) { ?>
-		<td data-field="JumlahBayar"<?php echo $Page->JumlahBayar->cellAttributes() ?>><span class="ew-aggregate"><?php echo $ReportLanguage->phrase("RptSum") ?></span><?php echo $ReportLanguage->phrase("AggregateColon") ?>
+		<td data-field="JumlahBayar"<?php echo $Page->JumlahBayar->cellAttributes() ?>>
 <span<?php echo $Page->JumlahBayar->viewAttributes() ?>><?php echo $Page->JumlahBayar->SumViewValue ?></span></td>
 <?php } ?>
 	</tr>

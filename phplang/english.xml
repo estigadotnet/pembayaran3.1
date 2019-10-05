@@ -1361,6 +1361,12 @@
       <field id="iurannama">
         <phrase id="fldcaption" value="Iuran Nama" />
       </field>
+      <field id="keterangan">
+        <phrase id="fldcaption" value="keterangan" />
+      </field>
+      <field id="iurannama2">
+        <phrase id="fldcaption" value="Iuran Nama 2" />
+      </field>
     </table>
     <table id="v106_tunggakan">
       <phrase id="tblcaption" value="v 106 tunggakan" />
@@ -1453,6 +1459,12 @@
       </field>
       <field id="periodenow">
         <phrase id="fldcaption" value="Periode Now" />
+      </field>
+      <field id="keterangan">
+        <phrase id="fldcaption" value="keterangan" />
+      </field>
+      <field id="iurannama2">
+        <phrase id="fldcaption" value="Iuran Nama 2" />
       </field>
     </table>
     <table id="v108_lap_um">
@@ -1624,6 +1636,9 @@
       </field>
       <field id="iurannama">
         <phrase id="fldcaption" value="Iuran Nama" />
+      </field>
+      <field id="keterangan">
+        <phrase id="fldcaption" value="keterangan" />
       </field>
     </table>
   </project>

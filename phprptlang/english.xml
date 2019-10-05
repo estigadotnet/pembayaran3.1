@@ -558,6 +558,9 @@
     </table>
     <table id="r102_lap_tunggak">
       <phrase id="tblcaption" value="Tunggakan" />
+      <field id="keterangan">
+        <phrase id="fldcaption" value="Keterangan" />
+      </field>
       <field id="tahunajaran">
         <phrase id="fldcaption" value="Tahun Ajaran" />
       </field>
@@ -572,6 +575,9 @@
       </field>
       <field id="siswanama">
         <phrase id="fldcaption" value="Siswa" />
+      </field>
+      <field id="iurannama2">
+        <phrase id="fldcaption" value="Iuran" />
       </field>
       <field id="iuran_id">
         <phrase id="fldcaption" value="No. Urut Iuran" />
@@ -588,8 +594,11 @@
       <field id="periodebulan">
         <phrase id="fldcaption" value="Bulan" />
       </field>
+      <field id="tglbayar">
+        <phrase id="fldcaption" value="Tgl Bayar" />
+      </field>
       <field id="jumlahbayar">
-        <phrase id="fldcaption" value="Jumlah Tunggakan" />
+        <phrase id="fldcaption" value="Jml. Tunggakan" />
       </field>
       <field id="dk_id">
         <phrase id="fldcaption" value="dk id" />
@@ -608,9 +617,6 @@
       </field>
       <field id="siswa_id">
         <phrase id="fldcaption" value="siswa id" />
-      </field>
-      <field id="tglbayar">
-        <phrase id="fldcaption" value="Tgl Bayar" />
       </field>
       <field id="statusbayar">
         <phrase id="fldcaption" value="Status Bayar" />
@@ -1244,6 +1250,12 @@
       </field>
       <field id="periodenow">
         <phrase id="fldcaption" value="Periode Now" />
+      </field>
+      <field id="keterangan">
+        <phrase id="fldcaption" value="keterangan" />
+      </field>
+      <field id="iurannama2">
+        <phrase id="fldcaption" value="Iuran Nama 2" />
       </field>
     </table>
     <table id="v108_lap_um_base">

@@ -8,16 +8,19 @@ class r102_lap_tunggak extends ReportTable
 {
 	public $ShowGroupHeaderAsRow = FALSE;
 	public $ShowCompactSummaryFooter = TRUE;
+	public $keterangan;
 	public $TahunAjaran;
 	public $SekolahNama;
 	public $KelasNama;
 	public $NomorInduk;
 	public $SiswaNama;
+	public $IuranNama2;
 	public $iuran_id;
 	public $IuranNama;
 	public $Jumlah;
 	public $Periode;
 	public $PeriodeBulan;
+	public $TglBayar;
 	public $JumlahBayar;
 	public $dk_id;
 	public $daf_kelas_siswa_id;
@@ -25,7 +28,6 @@ class r102_lap_tunggak extends ReportTable
 	public $sekolah_id;
 	public $kelas_id;
 	public $siswa_id;
-	public $TglBayar;
 	public $StatusBayar;
 	public $PeriodeNow;
 
@@ -45,6 +47,18 @@ class r102_lap_tunggak extends ReportTable
 		$this->Dbid = 'DB';
 		$this->ExportAll = FALSE;
 		$this->ExportPageBreakCount = 0;
+
+		// keterangan
+		$this->keterangan = new ReportField('r102_lap_tunggak', 'r102_lap_tunggak', 'x_keterangan', 'keterangan', '`keterangan`', 200, -1, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->keterangan->Sortable = TRUE; // Allow sort
+		$this->keterangan->GroupingFieldId = 1;
+		$this->keterangan->ShowGroupHeaderAsRow = $this->ShowGroupHeaderAsRow;
+		$this->keterangan->ShowCompactSummaryFooter = $this->ShowCompactSummaryFooter;
+		$this->keterangan->DateFilter = "";
+		$this->keterangan->GroupByType = "";
+		$this->keterangan->GroupInterval = "0";
+		$this->keterangan->GroupSql = "";
+		$this->fields['keterangan'] = &$this->keterangan;
 
 		// TahunAjaran
 		$this->TahunAjaran = new ReportField('r102_lap_tunggak', 'r102_lap_tunggak', 'x_TahunAjaran', 'TahunAjaran', '`TahunAjaran`', 200, -1, FALSE, 'FORMATTED TEXT', 'SELECT');
@@ -88,6 +102,18 @@ class r102_lap_tunggak extends ReportTable
 		$this->SiswaNama->DateFilter = "";
 		$this->fields['SiswaNama'] = &$this->SiswaNama;
 
+		// IuranNama2
+		$this->IuranNama2 = new ReportField('r102_lap_tunggak', 'r102_lap_tunggak', 'x_IuranNama2', 'IuranNama2', '`IuranNama2`', 200, -1, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->IuranNama2->Sortable = TRUE; // Allow sort
+		$this->IuranNama2->GroupingFieldId = 2;
+		$this->IuranNama2->ShowGroupHeaderAsRow = $this->ShowGroupHeaderAsRow;
+		$this->IuranNama2->ShowCompactSummaryFooter = $this->ShowCompactSummaryFooter;
+		$this->IuranNama2->DateFilter = "";
+		$this->IuranNama2->GroupByType = "";
+		$this->IuranNama2->GroupInterval = "0";
+		$this->IuranNama2->GroupSql = "";
+		$this->fields['IuranNama2'] = &$this->IuranNama2;
+
 		// iuran_id
 		$this->iuran_id = new ReportField('r102_lap_tunggak', 'r102_lap_tunggak', 'x_iuran_id', 'iuran_id', '`iuran_id`', 3, -1, FALSE, 'FORMATTED TEXT', 'TEXT');
 		$this->iuran_id->Sortable = TRUE; // Allow sort
@@ -107,8 +133,14 @@ class r102_lap_tunggak extends ReportTable
 		// Jumlah
 		$this->Jumlah = new ReportField('r102_lap_tunggak', 'r102_lap_tunggak', 'x_Jumlah', 'Jumlah', '`Jumlah`', 4, -1, FALSE, 'FORMATTED TEXT', 'TEXT');
 		$this->Jumlah->Sortable = TRUE; // Allow sort
+		$this->Jumlah->GroupingFieldId = 3;
+		$this->Jumlah->ShowGroupHeaderAsRow = $this->ShowGroupHeaderAsRow;
+		$this->Jumlah->ShowCompactSummaryFooter = $this->ShowCompactSummaryFooter;
 		$this->Jumlah->DefaultErrorMessage = $ReportLanguage->phrase("IncorrectFloat");
 		$this->Jumlah->DateFilter = "";
+		$this->Jumlah->GroupByType = "";
+		$this->Jumlah->GroupInterval = "0";
+		$this->Jumlah->GroupSql = "";
 		$this->fields['Jumlah'] = &$this->Jumlah;
 
 		// Periode
@@ -127,8 +159,15 @@ class r102_lap_tunggak extends ReportTable
 		$this->PeriodeBulan->DateFilter = "";
 		$this->fields['PeriodeBulan'] = &$this->PeriodeBulan;
 
+		// TglBayar
+		$this->TglBayar = new ReportField('r102_lap_tunggak', 'r102_lap_tunggak', 'x_TglBayar', 'TglBayar', '`TglBayar`', 133, 0, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->TglBayar->Sortable = TRUE; // Allow sort
+		$this->TglBayar->DefaultErrorMessage = str_replace("%s", $GLOBALS["DATE_FORMAT"], $ReportLanguage->phrase("IncorrectDate"));
+		$this->TglBayar->DateFilter = "";
+		$this->fields['TglBayar'] = &$this->TglBayar;
+
 		// JumlahBayar
-		$this->JumlahBayar = new ReportField('r102_lap_tunggak', 'r102_lap_tunggak', 'x_JumlahBayar', 'JumlahBayar', '`JumlahBayar`', 4, -1, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->JumlahBayar = new ReportField('r102_lap_tunggak', 'r102_lap_tunggak', 'x_JumlahBayar', 'JumlahBayar', '`JumlahBayar`', 5, -1, FALSE, 'FORMATTED TEXT', 'TEXT');
 		$this->JumlahBayar->Sortable = TRUE; // Allow sort
 		$this->JumlahBayar->DefaultErrorMessage = $ReportLanguage->phrase("IncorrectFloat");
 		$this->JumlahBayar->DateFilter = "";
@@ -175,13 +214,6 @@ class r102_lap_tunggak extends ReportTable
 		$this->siswa_id->DefaultErrorMessage = $ReportLanguage->phrase("IncorrectInteger");
 		$this->siswa_id->DateFilter = "";
 		$this->fields['siswa_id'] = &$this->siswa_id;
-
-		// TglBayar
-		$this->TglBayar = new ReportField('r102_lap_tunggak', 'r102_lap_tunggak', 'x_TglBayar', 'TglBayar', '`TglBayar`', 133, 0, FALSE, 'FORMATTED TEXT', 'TEXT');
-		$this->TglBayar->Sortable = TRUE; // Allow sort
-		$this->TglBayar->DefaultErrorMessage = str_replace("%s", $GLOBALS["DATE_FORMAT"], $ReportLanguage->phrase("IncorrectDate"));
-		$this->TglBayar->DateFilter = "";
-		$this->fields['TglBayar'] = &$this->TglBayar;
 
 		// StatusBayar
 		$this->StatusBayar = new ReportField('r102_lap_tunggak', 'r102_lap_tunggak', 'x_StatusBayar', 'StatusBayar', '`StatusBayar`', 200, -1, FALSE, 'FORMATTED TEXT', 'TEXT');
@@ -347,7 +379,7 @@ class r102_lap_tunggak extends ReportTable
 	// Order By
 	public function getSqlOrderBy()
 	{
-		return ($this->_sqlOrderBy <> "") ? $this->_sqlOrderBy : "";
+		return ($this->_sqlOrderBy <> "") ? $this->_sqlOrderBy : "`keterangan` ASC, `IuranNama2` ASC, `Jumlah` ASC";
 	}
 	public function setSqlOrderBy($v)
 	{
@@ -370,7 +402,7 @@ class r102_lap_tunggak extends ReportTable
 	// First Group Field
 	public function getSqlFirstGroupField()
 	{
-		return ($this->_sqlFirstGroupField <> "") ? $this->_sqlFirstGroupField : "";
+		return ($this->_sqlFirstGroupField <> "") ? $this->_sqlFirstGroupField : "`keterangan`";
 	}
 	public function setSqlFirstGroupField($v)
 	{
@@ -390,7 +422,7 @@ class r102_lap_tunggak extends ReportTable
 	// Order By Group
 	public function getSqlOrderByGroup()
 	{
-		return ($this->_sqlOrderByGroup <> "") ? $this->_sqlOrderByGroup : "";
+		return ($this->_sqlOrderByGroup <> "") ? $this->_sqlOrderByGroup : "`keterangan` ASC";
 	}
 	public function setSqlOrderByGroup($v)
 	{
@@ -654,6 +686,12 @@ class r102_lap_tunggak extends ReportTable
 	function Row_Rendering() {
 
 		// Enter your code here
+		// hilangkan value di PeriodeBulan untuk jenis iuran NON RUTIN
+
+		if (f_check_jenis_iuran($this->iuran_id->CurrentValue) == "Non-Rutin") {
+			$this->Periode->CurrentValue = "-";
+			$this->PeriodeBulan->CurrentValue = "";
+		}
 	}
 
 	// Cell Rendered event

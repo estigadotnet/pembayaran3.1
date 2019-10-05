@@ -54,8 +54,10 @@ fv102_daf_kelas_siswalist.validateRequired = <?php echo json_encode(CLIENT_VALID
 // Dynamic selection lists
 fv102_daf_kelas_siswalist.lists["x_daf_kelas_id"] = <?php echo $v102_daf_kelas_siswa_list->daf_kelas_id->Lookup->toClientList() ?>;
 fv102_daf_kelas_siswalist.lists["x_daf_kelas_id"].options = <?php echo JsonEncode($v102_daf_kelas_siswa_list->daf_kelas_id->lookupOptions()) ?>;
+fv102_daf_kelas_siswalist.autoSuggests["x_daf_kelas_id"] = <?php echo json_encode(["data" => "ajax=autosuggest"]) ?>;
 fv102_daf_kelas_siswalist.lists["x_siswa_id"] = <?php echo $v102_daf_kelas_siswa_list->siswa_id->Lookup->toClientList() ?>;
 fv102_daf_kelas_siswalist.lists["x_siswa_id"].options = <?php echo JsonEncode($v102_daf_kelas_siswa_list->siswa_id->lookupOptions()) ?>;
+fv102_daf_kelas_siswalist.autoSuggests["x_siswa_id"] = <?php echo json_encode(["data" => "ajax=autosuggest"]) ?>;
 
 // Form object for search
 var fv102_daf_kelas_siswalistsrch = currentSearchForm = new ew.Form("fv102_daf_kelas_siswalistsrch");
@@ -86,8 +88,10 @@ fv102_daf_kelas_siswalistsrch.validateRequired = <?php echo json_encode(CLIENT_V
 // Dynamic selection lists
 fv102_daf_kelas_siswalistsrch.lists["x_daf_kelas_id"] = <?php echo $v102_daf_kelas_siswa_list->daf_kelas_id->Lookup->toClientList() ?>;
 fv102_daf_kelas_siswalistsrch.lists["x_daf_kelas_id"].options = <?php echo JsonEncode($v102_daf_kelas_siswa_list->daf_kelas_id->lookupOptions()) ?>;
+fv102_daf_kelas_siswalistsrch.autoSuggests["x_daf_kelas_id"] = <?php echo json_encode(["data" => "ajax=autosuggest"]) ?>;
 fv102_daf_kelas_siswalistsrch.lists["x_siswa_id"] = <?php echo $v102_daf_kelas_siswa_list->siswa_id->Lookup->toClientList() ?>;
 fv102_daf_kelas_siswalistsrch.lists["x_siswa_id"].options = <?php echo JsonEncode($v102_daf_kelas_siswa_list->siswa_id->lookupOptions()) ?>;
+fv102_daf_kelas_siswalistsrch.autoSuggests["x_siswa_id"] = <?php echo json_encode(["data" => "ajax=autosuggest"]) ?>;
 
 // Filters
 fv102_daf_kelas_siswalistsrch.filterList = <?php echo $v102_daf_kelas_siswa_list->getFilterList() ?>;
@@ -161,17 +165,27 @@ $v102_daf_kelas_siswa_list->renderRow();
 <div id="xsr_1" class="ew-row d-sm-flex">
 <?php if ($v102_daf_kelas_siswa->daf_kelas_id->Visible) { // daf_kelas_id ?>
 	<div id="xsc_daf_kelas_id" class="ew-cell form-group">
-		<label for="x_daf_kelas_id" class="ew-search-caption ew-label"><?php echo $v102_daf_kelas_siswa->daf_kelas_id->caption() ?></label>
-		<span class="ew-search-operator"><?php echo $Language->phrase("=") ?><input type="hidden" name="z_daf_kelas_id" id="z_daf_kelas_id" value="="></span>
+		<label class="ew-search-caption ew-label"><?php echo $v102_daf_kelas_siswa->daf_kelas_id->caption() ?></label>
+		<span class="ew-search-operator"><?php echo $Language->phrase("LIKE") ?><input type="hidden" name="z_daf_kelas_id" id="z_daf_kelas_id" value="LIKE"></span>
 		<span class="ew-search-field">
-<div class="input-group ew-lookup-list">
-	<div class="form-control ew-lookup-text" tabindex="-1" id="lu_x_daf_kelas_id"><?php echo strval($v102_daf_kelas_siswa->daf_kelas_id->AdvancedSearch->ViewValue) == "" ? $Language->phrase("PleaseSelect") : (REMOVE_XSS ? HtmlDecode($v102_daf_kelas_siswa->daf_kelas_id->AdvancedSearch->ViewValue) : $v102_daf_kelas_siswa->daf_kelas_id->AdvancedSearch->ViewValue) ?></div>
-	<div class="input-group-append">
-		<button type="button" title="<?php echo HtmlEncode(str_replace("%s", RemoveHtml($v102_daf_kelas_siswa->daf_kelas_id->caption()), $Language->phrase("LookupLink", TRUE))) ?>" class="ew-lookup-btn btn btn-default"<?php echo (($v102_daf_kelas_siswa->daf_kelas_id->ReadOnly || $v102_daf_kelas_siswa->daf_kelas_id->Disabled) ? " disabled" : "")?> onclick="ew.modalLookupShow({lnk:this,el:'x_daf_kelas_id',m:0,n:10});"><i class="fa fa-search ew-icon"></i></button>
+<?php
+$wrkonchange = "" . trim(@$v102_daf_kelas_siswa->daf_kelas_id->EditAttrs["onchange"]);
+if (trim($wrkonchange) <> "") $wrkonchange = " onchange=\"" . JsEncode($wrkonchange) . "\"";
+$v102_daf_kelas_siswa->daf_kelas_id->EditAttrs["onchange"] = "";
+?>
+<span id="as_x_daf_kelas_id" class="text-nowrap" style="z-index: 8980">
+	<div class="input-group mb-3">
+		<input type="text" class="form-control" name="sv_x_daf_kelas_id" id="sv_x_daf_kelas_id" value="<?php echo RemoveHtml($v102_daf_kelas_siswa->daf_kelas_id->EditValue) ?>" size="30" placeholder="<?php echo HtmlEncode($v102_daf_kelas_siswa->daf_kelas_id->getPlaceHolder()) ?>" data-placeholder="<?php echo HtmlEncode($v102_daf_kelas_siswa->daf_kelas_id->getPlaceHolder()) ?>"<?php echo $v102_daf_kelas_siswa->daf_kelas_id->editAttributes() ?>>
+		<div class="input-group-append">
+			<button type="button" title="<?php echo HtmlEncode(str_replace("%s", RemoveHtml($v102_daf_kelas_siswa->daf_kelas_id->caption()), $Language->phrase("LookupLink", TRUE))) ?>" onclick="ew.modalLookupShow({lnk:this,el:'x_daf_kelas_id',m:0,n:10,srch:true});" class="ew-lookup-btn btn btn-default"<?php echo (($v102_daf_kelas_siswa->daf_kelas_id->ReadOnly || $v102_daf_kelas_siswa->daf_kelas_id->Disabled) ? " disabled" : "")?>><i class="fa fa-search ew-icon"></i></button>
+		</div>
 	</div>
-</div>
+</span>
+<input type="hidden" data-table="v102_daf_kelas_siswa" data-field="x_daf_kelas_id" data-multiple="0" data-lookup="1" data-value-separator="<?php echo $v102_daf_kelas_siswa->daf_kelas_id->displayValueSeparatorAttribute() ?>" name="x_daf_kelas_id" id="x_daf_kelas_id" value="<?php echo HtmlEncode($v102_daf_kelas_siswa->daf_kelas_id->AdvancedSearch->SearchValue) ?>"<?php echo $wrkonchange ?>>
+<script>
+fv102_daf_kelas_siswalistsrch.createAutoSuggest({"id":"x_daf_kelas_id","forceSelect":false});
+</script>
 <?php echo $v102_daf_kelas_siswa->daf_kelas_id->Lookup->getParamTag("p_x_daf_kelas_id") ?>
-<input type="hidden" data-table="v102_daf_kelas_siswa" data-field="x_daf_kelas_id" data-multiple="0" data-lookup="1" data-value-separator="<?php echo $v102_daf_kelas_siswa->daf_kelas_id->displayValueSeparatorAttribute() ?>" name="x_daf_kelas_id" id="x_daf_kelas_id" value="<?php echo $v102_daf_kelas_siswa->daf_kelas_id->AdvancedSearch->SearchValue ?>"<?php echo $v102_daf_kelas_siswa->daf_kelas_id->editAttributes() ?>>
 </span>
 	</div>
 <?php } ?>
@@ -179,17 +193,27 @@ $v102_daf_kelas_siswa_list->renderRow();
 <div id="xsr_2" class="ew-row d-sm-flex">
 <?php if ($v102_daf_kelas_siswa->siswa_id->Visible) { // siswa_id ?>
 	<div id="xsc_siswa_id" class="ew-cell form-group">
-		<label for="x_siswa_id" class="ew-search-caption ew-label"><?php echo $v102_daf_kelas_siswa->siswa_id->caption() ?></label>
-		<span class="ew-search-operator"><?php echo $Language->phrase("=") ?><input type="hidden" name="z_siswa_id" id="z_siswa_id" value="="></span>
+		<label class="ew-search-caption ew-label"><?php echo $v102_daf_kelas_siswa->siswa_id->caption() ?></label>
+		<span class="ew-search-operator"><?php echo $Language->phrase("LIKE") ?><input type="hidden" name="z_siswa_id" id="z_siswa_id" value="LIKE"></span>
 		<span class="ew-search-field">
-<div class="input-group ew-lookup-list">
-	<div class="form-control ew-lookup-text" tabindex="-1" id="lu_x_siswa_id"><?php echo strval($v102_daf_kelas_siswa->siswa_id->AdvancedSearch->ViewValue) == "" ? $Language->phrase("PleaseSelect") : (REMOVE_XSS ? HtmlDecode($v102_daf_kelas_siswa->siswa_id->AdvancedSearch->ViewValue) : $v102_daf_kelas_siswa->siswa_id->AdvancedSearch->ViewValue) ?></div>
-	<div class="input-group-append">
-		<button type="button" title="<?php echo HtmlEncode(str_replace("%s", RemoveHtml($v102_daf_kelas_siswa->siswa_id->caption()), $Language->phrase("LookupLink", TRUE))) ?>" class="ew-lookup-btn btn btn-default"<?php echo (($v102_daf_kelas_siswa->siswa_id->ReadOnly || $v102_daf_kelas_siswa->siswa_id->Disabled) ? " disabled" : "")?> onclick="ew.modalLookupShow({lnk:this,el:'x_siswa_id',m:0,n:10});"><i class="fa fa-search ew-icon"></i></button>
+<?php
+$wrkonchange = "" . trim(@$v102_daf_kelas_siswa->siswa_id->EditAttrs["onchange"]);
+if (trim($wrkonchange) <> "") $wrkonchange = " onchange=\"" . JsEncode($wrkonchange) . "\"";
+$v102_daf_kelas_siswa->siswa_id->EditAttrs["onchange"] = "";
+?>
+<span id="as_x_siswa_id" class="text-nowrap" style="z-index: 8970">
+	<div class="input-group mb-3">
+		<input type="text" class="form-control" name="sv_x_siswa_id" id="sv_x_siswa_id" value="<?php echo RemoveHtml($v102_daf_kelas_siswa->siswa_id->EditValue) ?>" size="30" placeholder="<?php echo HtmlEncode($v102_daf_kelas_siswa->siswa_id->getPlaceHolder()) ?>" data-placeholder="<?php echo HtmlEncode($v102_daf_kelas_siswa->siswa_id->getPlaceHolder()) ?>"<?php echo $v102_daf_kelas_siswa->siswa_id->editAttributes() ?>>
+		<div class="input-group-append">
+			<button type="button" title="<?php echo HtmlEncode(str_replace("%s", RemoveHtml($v102_daf_kelas_siswa->siswa_id->caption()), $Language->phrase("LookupLink", TRUE))) ?>" onclick="ew.modalLookupShow({lnk:this,el:'x_siswa_id',m:0,n:10,srch:true});" class="ew-lookup-btn btn btn-default"<?php echo (($v102_daf_kelas_siswa->siswa_id->ReadOnly || $v102_daf_kelas_siswa->siswa_id->Disabled) ? " disabled" : "")?>><i class="fa fa-search ew-icon"></i></button>
+		</div>
 	</div>
-</div>
+</span>
+<input type="hidden" data-table="v102_daf_kelas_siswa" data-field="x_siswa_id" data-multiple="0" data-lookup="1" data-value-separator="<?php echo $v102_daf_kelas_siswa->siswa_id->displayValueSeparatorAttribute() ?>" name="x_siswa_id" id="x_siswa_id" value="<?php echo HtmlEncode($v102_daf_kelas_siswa->siswa_id->AdvancedSearch->SearchValue) ?>"<?php echo $wrkonchange ?>>
+<script>
+fv102_daf_kelas_siswalistsrch.createAutoSuggest({"id":"x_siswa_id","forceSelect":false});
+</script>
 <?php echo $v102_daf_kelas_siswa->siswa_id->Lookup->getParamTag("p_x_siswa_id") ?>
-<input type="hidden" data-table="v102_daf_kelas_siswa" data-field="x_siswa_id" data-multiple="0" data-lookup="1" data-value-separator="<?php echo $v102_daf_kelas_siswa->siswa_id->displayValueSeparatorAttribute() ?>" name="x_siswa_id" id="x_siswa_id" value="<?php echo $v102_daf_kelas_siswa->siswa_id->AdvancedSearch->SearchValue ?>"<?php echo $v102_daf_kelas_siswa->siswa_id->editAttributes() ?>>
 </span>
 	</div>
 <?php } ?>

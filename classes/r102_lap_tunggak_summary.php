@@ -664,7 +664,6 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 		$this->SiswaNama->setVisibility();
 		$this->iuran_id->setVisibility();
 		$this->IuranNama->setVisibility();
-		$this->Jumlah->setVisibility();
 		$this->Periode->setVisibility();
 		$this->PeriodeBulan->setVisibility();
 		$this->JumlahBayar->setVisibility();
@@ -673,8 +672,8 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 		// 1st dimension = no of groups (level 0 used for grand total)
 		// 2nd dimension = no of fields
 
-		$fieldCount = 12;
-		$groupCount = 1;
+		$fieldCount = 11;
+		$groupCount = 4;
 		$this->Values = &InitArray($fieldCount, 0);
 		$this->Counts = &Init2DArray($groupCount, $fieldCount, 0);
 		$this->Summaries = &Init2DArray($groupCount, $fieldCount, 0);
@@ -686,7 +685,7 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 		$this->GrandMaximums = &InitArray($fieldCount, NULL);
 
 		// Set up array if accumulation required: [Accum, SkipNullOrZero]
-		$this->Columns = [[FALSE, FALSE], [FALSE,FALSE], [FALSE,FALSE], [FALSE,FALSE], [FALSE,FALSE], [FALSE,FALSE], [FALSE,FALSE], [FALSE,FALSE], [FALSE,FALSE], [FALSE,FALSE], [FALSE,FALSE], [TRUE,FALSE]];
+		$this->Columns = [[FALSE, FALSE], [FALSE,FALSE], [FALSE,FALSE], [FALSE,FALSE], [FALSE,FALSE], [FALSE,FALSE], [FALSE,FALSE], [FALSE,FALSE], [FALSE,FALSE], [FALSE,FALSE], [TRUE,FALSE]];
 
 		// Set up groups per page dynamically
 		$this->setupDisplayGroups();
@@ -740,8 +739,8 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 		// Get sort
 		$this->Sort = $this->getSort();
 
-		// Get total count
-		$sql = BuildReportSql($this->getSqlSelect(), $this->getSqlWhere(), $this->getSqlGroupBy(), $this->getSqlHaving(), "", $this->Filter, "");
+		// Get total group count
+		$sql = BuildReportSql($this->getSqlSelectGroup(), $this->getSqlWhere(), $this->getSqlGroupBy(), $this->getSqlHaving(), "", $this->Filter, "");
 		$this->TotalGroups = $this->getRecordCount($sql);
 		if ($this->DisplayGroups <= 0 || $this->DrillDown || $DashboardReport) // Display all groups
 			$this->DisplayGroups = $this->TotalGroups;
@@ -780,10 +779,67 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 			$this->GenerateOptions->hideAllOptions();
 		}
 
-		// Get current page records
-		$sql = BuildReportSql($this->getSqlSelect(), $this->getSqlWhere(), $this->getSqlGroupBy(), $this->getSqlHaving(), $this->getSqlOrderBy(), $this->Filter, $this->Sort);
-		$this->Recordset = $this->getRecordset($sql, $this->DisplayGroups, $this->StartGroup - 1);
+		// Get current page groups
+		$grpSort = UpdateSortFields($this->getSqlOrderByGroup(), $this->Sort, 2); // Get grouping field only
+		$sql = BuildReportSql($this->getSqlSelectGroup(), $this->getSqlWhere(), $this->getSqlGroupBy(), $this->getSqlHaving(), $this->getSqlOrderByGroup(), $this->Filter, $grpSort);
+		$this->GroupRecordset = $this->getRecordset($sql, $this->DisplayGroups, $this->StartGroup - 1);
+
+		// Init detail recordset
+		$this->Recordset = NULL;
 		$this->setupFieldCount();
+	}
+
+	// Get summary count
+	public function getSummaryCount($lvl, $curValue = TRUE)
+	{
+		$cnt = 0;
+		foreach ($this->DetailRows as $row) {
+			$wrkketerangan = $row["keterangan"];
+			$wrkIuranNama2 = $row["IuranNama2"];
+			$wrkJumlah = $row["Jumlah"];
+			if ($lvl >= 1) {
+				$val = $curValue ? $this->keterangan->CurrentValue : $this->keterangan->OldValue;
+				$grpval = $curValue ? $this->keterangan->groupValue() : $this->keterangan->groupOldValue();
+				if ($val === NULL && $wrkketerangan !== NULL || $val !== NULL && $wrkketerangan === NULL ||
+					$grpval <> $this->keterangan->getGroupValueBase($wrkketerangan))
+				continue;
+			}
+			if ($lvl >= 2) {
+				$val = $curValue ? $this->IuranNama2->CurrentValue : $this->IuranNama2->OldValue;
+				$grpval = $curValue ? $this->IuranNama2->groupValue() : $this->IuranNama2->groupOldValue();
+				if ($val === NULL && $wrkIuranNama2 !== NULL || $val !== NULL && $wrkIuranNama2 === NULL ||
+					$grpval <> $this->IuranNama2->getGroupValueBase($wrkIuranNama2))
+				continue;
+			}
+			if ($lvl >= 3) {
+				$val = $curValue ? $this->Jumlah->CurrentValue : $this->Jumlah->OldValue;
+				$grpval = $curValue ? $this->Jumlah->groupValue() : $this->Jumlah->groupOldValue();
+				if ($val === NULL && $wrkJumlah !== NULL || $val !== NULL && $wrkJumlah === NULL ||
+					$grpval <> $this->Jumlah->getGroupValueBase($wrkJumlah))
+				continue;
+			}
+			$cnt++;
+		}
+		return $cnt;
+	}
+
+	// Check level break
+	public function checkLevelBreak($lvl)
+	{
+		switch ($lvl) {
+			case 1:
+				return ($this->keterangan->CurrentValue === NULL && $this->keterangan->OldValue !== NULL) ||
+					($this->keterangan->CurrentValue !== NULL && $this->keterangan->OldValue === NULL) ||
+					($this->keterangan->groupValue() <> $this->keterangan->groupOldValue());
+			case 2:
+				return ($this->IuranNama2->CurrentValue === NULL && $this->IuranNama2->OldValue !== NULL) ||
+					($this->IuranNama2->CurrentValue !== NULL && $this->IuranNama2->OldValue === NULL) ||
+					($this->IuranNama2->groupValue() <> $this->IuranNama2->groupOldValue()) || $this->checkLevelBreak(1); // Recurse upper level
+			case 3:
+				return ($this->Jumlah->CurrentValue === NULL && $this->Jumlah->OldValue !== NULL) ||
+					($this->Jumlah->CurrentValue !== NULL && $this->Jumlah->OldValue === NULL) ||
+					($this->Jumlah->groupValue() <> $this->Jumlah->groupOldValue()) || $this->checkLevelBreak(2); // Recurse upper level
+		}
 	}
 
 	// Accummulate summary
@@ -849,23 +905,45 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 		$this->RecordCount = 0;
 	}
 
+	// Load group row values
+	public function loadGroupRowValues($firstRow = FALSE)
+	{
+		if (!$this->GroupRecordset)
+			return;
+		if ($firstRow) // Get first group
+
+			//$this->GroupRecordset->moveFirst(); // NOTE: no need to move position
+			$this->keterangan->setDbValue(""); // Init first value
+		else // Get next group
+			$this->GroupRecordset->moveNext();
+		if (!$this->GroupRecordset->EOF)
+			$this->keterangan->setDbValue($this->GroupRecordset->fields[0]);
+		else
+			$this->keterangan->setDbValue("");
+	}
+
 	// Load row values
 	public function loadRowValues($firstRow = FALSE)
 	{
 		if (!$this->Recordset)
 			return;
 		if ($firstRow) { // Get first row
+			$this->Recordset->moveFirst(); // Move first
+			if ($this->GroupCount == 1) {
 				$this->FirstRowData = [];
+				$this->FirstRowData["keterangan"] = $this->Recordset->fields('keterangan');
 				$this->FirstRowData["TahunAjaran"] = $this->Recordset->fields('TahunAjaran');
 				$this->FirstRowData["SekolahNama"] = $this->Recordset->fields('SekolahNama');
 				$this->FirstRowData["KelasNama"] = $this->Recordset->fields('KelasNama');
 				$this->FirstRowData["NomorInduk"] = $this->Recordset->fields('NomorInduk');
 				$this->FirstRowData["SiswaNama"] = $this->Recordset->fields('SiswaNama');
+				$this->FirstRowData["IuranNama2"] = $this->Recordset->fields('IuranNama2');
 				$this->FirstRowData["iuran_id"] = $this->Recordset->fields('iuran_id');
 				$this->FirstRowData["IuranNama"] = $this->Recordset->fields('IuranNama');
 				$this->FirstRowData["Jumlah"] = $this->Recordset->fields('Jumlah');
 				$this->FirstRowData["Periode"] = $this->Recordset->fields('Periode');
 				$this->FirstRowData["PeriodeBulan"] = $this->Recordset->fields('PeriodeBulan');
+				$this->FirstRowData["TglBayar"] = $this->Recordset->fields('TglBayar');
 				$this->FirstRowData["JumlahBayar"] = $this->Recordset->fields('JumlahBayar');
 				$this->FirstRowData["dk_id"] = $this->Recordset->fields('dk_id');
 				$this->FirstRowData["daf_kelas_siswa_id"] = $this->Recordset->fields('daf_kelas_siswa_id');
@@ -873,23 +951,31 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 				$this->FirstRowData["sekolah_id"] = $this->Recordset->fields('sekolah_id');
 				$this->FirstRowData["kelas_id"] = $this->Recordset->fields('kelas_id');
 				$this->FirstRowData["siswa_id"] = $this->Recordset->fields('siswa_id');
-				$this->FirstRowData["TglBayar"] = $this->Recordset->fields('TglBayar');
 				$this->FirstRowData["StatusBayar"] = $this->Recordset->fields('StatusBayar');
 				$this->FirstRowData["PeriodeNow"] = $this->Recordset->fields('PeriodeNow');
+			}
 		} else { // Get next row
 			$this->Recordset->moveNext();
 		}
 		if (!$this->Recordset->EOF) {
+			if (!$firstRow) {
+				if (is_array($this->keterangan->GroupDbValues))
+					$this->keterangan->setDbValue(@$this->keterangan->GroupDbValues[$this->Recordset->fields('keterangan')]);
+				else
+					$this->keterangan->setDbValue(GroupValue($this->keterangan, $this->Recordset->fields('keterangan')));
+			}
 			$this->TahunAjaran->setDbValue($this->Recordset->fields('TahunAjaran'));
 			$this->SekolahNama->setDbValue($this->Recordset->fields('SekolahNama'));
 			$this->KelasNama->setDbValue($this->Recordset->fields('KelasNama'));
 			$this->NomorInduk->setDbValue($this->Recordset->fields('NomorInduk'));
 			$this->SiswaNama->setDbValue($this->Recordset->fields('SiswaNama'));
+			$this->IuranNama2->setDbValue($this->Recordset->fields('IuranNama2'));
 			$this->iuran_id->setDbValue($this->Recordset->fields('iuran_id'));
 			$this->IuranNama->setDbValue($this->Recordset->fields('IuranNama'));
 			$this->Jumlah->setDbValue($this->Recordset->fields('Jumlah'));
 			$this->Periode->setDbValue($this->Recordset->fields('Periode'));
 			$this->PeriodeBulan->setDbValue($this->Recordset->fields('PeriodeBulan'));
+			$this->TglBayar->setDbValue($this->Recordset->fields('TglBayar'));
 			$this->JumlahBayar->setDbValue($this->Recordset->fields('JumlahBayar'));
 			$this->dk_id->setDbValue($this->Recordset->fields('dk_id'));
 			$this->daf_kelas_siswa_id->setDbValue($this->Recordset->fields('daf_kelas_siswa_id'));
@@ -897,7 +983,6 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 			$this->sekolah_id->setDbValue($this->Recordset->fields('sekolah_id'));
 			$this->kelas_id->setDbValue($this->Recordset->fields('kelas_id'));
 			$this->siswa_id->setDbValue($this->Recordset->fields('siswa_id'));
-			$this->TglBayar->setDbValue($this->Recordset->fields('TglBayar'));
 			$this->StatusBayar->setDbValue($this->Recordset->fields('StatusBayar'));
 			$this->PeriodeNow->setDbValue($this->Recordset->fields('PeriodeNow'));
 			$this->Values[1] = $this->TahunAjaran->CurrentValue;
@@ -907,21 +992,23 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 			$this->Values[5] = $this->SiswaNama->CurrentValue;
 			$this->Values[6] = $this->iuran_id->CurrentValue;
 			$this->Values[7] = $this->IuranNama->CurrentValue;
-			$this->Values[8] = $this->Jumlah->CurrentValue;
-			$this->Values[9] = $this->Periode->CurrentValue;
-			$this->Values[10] = $this->PeriodeBulan->CurrentValue;
-			$this->Values[11] = $this->JumlahBayar->CurrentValue;
+			$this->Values[8] = $this->Periode->CurrentValue;
+			$this->Values[9] = $this->PeriodeBulan->CurrentValue;
+			$this->Values[10] = $this->JumlahBayar->CurrentValue;
 		} else {
+			$this->keterangan->setDbValue("");
 			$this->TahunAjaran->setDbValue("");
 			$this->SekolahNama->setDbValue("");
 			$this->KelasNama->setDbValue("");
 			$this->NomorInduk->setDbValue("");
 			$this->SiswaNama->setDbValue("");
+			$this->IuranNama2->setDbValue("");
 			$this->iuran_id->setDbValue("");
 			$this->IuranNama->setDbValue("");
 			$this->Jumlah->setDbValue("");
 			$this->Periode->setDbValue("");
 			$this->PeriodeBulan->setDbValue("");
+			$this->TglBayar->setDbValue("");
 			$this->JumlahBayar->setDbValue("");
 			$this->dk_id->setDbValue("");
 			$this->daf_kelas_siswa_id->setDbValue("");
@@ -929,7 +1016,6 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 			$this->sekolah_id->setDbValue("");
 			$this->kelas_id->setDbValue("");
 			$this->siswa_id->setDbValue("");
-			$this->TglBayar->setDbValue("");
 			$this->StatusBayar->setDbValue("");
 			$this->PeriodeNow->setDbValue("");
 		}
@@ -970,8 +1056,7 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 				$this->GrandCounts[8] = $this->TotalCount;
 				$this->GrandCounts[9] = $this->TotalCount;
 				$this->GrandCounts[10] = $this->TotalCount;
-				$this->GrandCounts[11] = $this->TotalCount;
-				$this->GrandSummaries[11] = $rsagg->fields("sum_jumlahbayar");
+				$this->GrandSummaries[10] = $rsagg->fields("sum_jumlahbayar");
 				$rsagg->close();
 				$hasSummary = TRUE;
 			}
@@ -1057,12 +1142,49 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 			$this->Periode->AdvancedSearch->SearchValue = is_array($this->Periode->DropDownValue) ? implode(",", $this->Periode->DropDownValue) : $this->Periode->DropDownValue;
 		} elseif ($this->RowType == ROWTYPE_TOTAL && !($this->RowTotalType == ROWTOTAL_GROUP && $this->RowTotalSubType == ROWTOTAL_HEADER)) { // Summary row
 			PrependClass($this->RowAttrs["class"], ($this->RowTotalType == ROWTOTAL_PAGE || $this->RowTotalType == ROWTOTAL_GRAND) ? "ew-rpt-grp-aggregate" : ""); // Set up row class
+			if ($this->RowTotalType == ROWTOTAL_GROUP) $this->RowAttrs["data-group"] = $this->keterangan->groupOldValue(); // Set up group attribute
+			if ($this->RowTotalType == ROWTOTAL_GROUP && $this->RowGroupLevel >= 2) $this->RowAttrs["data-group-2"] = $this->IuranNama2->groupOldValue(); // Set up group attribute 2
+			if ($this->RowTotalType == ROWTOTAL_GROUP && $this->RowGroupLevel >= 3) $this->RowAttrs["data-group-3"] = $this->Jumlah->groupOldValue(); // Set up group attribute 3
+
+			// keterangan
+			$this->keterangan->GroupViewValue = $this->keterangan->groupOldValue();
+			$this->keterangan->CellAttrs["class"] = ($this->RowGroupLevel == 1 ? "ew-rpt-grp-summary-1" : "ew-rpt-grp-field-1");
+			$this->keterangan->GroupViewValue = DisplayGroupValue($this->keterangan, $this->keterangan->GroupViewValue);
+			$this->keterangan->GroupSummaryOldValue = $this->keterangan->GroupSummaryValue;
+			$this->keterangan->GroupSummaryValue = $this->keterangan->GroupViewValue;
+			$this->keterangan->GroupSummaryViewValue = ($this->keterangan->GroupSummaryOldValue <> $this->keterangan->GroupSummaryValue) ? $this->keterangan->GroupSummaryValue : "&nbsp;";
+
+			// IuranNama2
+			$this->IuranNama2->GroupViewValue = $this->IuranNama2->groupOldValue();
+			$this->IuranNama2->CellAttrs["class"] = ($this->RowGroupLevel == 2 ? "ew-rpt-grp-summary-2" : "ew-rpt-grp-field-2");
+			$this->IuranNama2->GroupViewValue = DisplayGroupValue($this->IuranNama2, $this->IuranNama2->GroupViewValue);
+			$this->IuranNama2->GroupSummaryOldValue = $this->IuranNama2->GroupSummaryValue;
+			$this->IuranNama2->GroupSummaryValue = $this->IuranNama2->GroupViewValue;
+			$this->IuranNama2->GroupSummaryViewValue = ($this->IuranNama2->GroupSummaryOldValue <> $this->IuranNama2->GroupSummaryValue) ? $this->IuranNama2->GroupSummaryValue : "&nbsp;";
+
+			// Jumlah
+			$this->Jumlah->GroupViewValue = $this->Jumlah->groupOldValue();
+			$this->Jumlah->GroupViewValue = FormatNumber($this->Jumlah->GroupViewValue, 0, -2, -2, -2);
+			$this->Jumlah->CellAttrs["class"] = "text-right " . ($this->RowGroupLevel == 3 ? "ew-rpt-grp-summary-3" : "ew-rpt-grp-field-3");
+			$this->Jumlah->GroupViewValue = DisplayGroupValue($this->Jumlah, $this->Jumlah->GroupViewValue);
+			$this->Jumlah->GroupSummaryOldValue = $this->Jumlah->GroupSummaryValue;
+			$this->Jumlah->GroupSummaryValue = $this->Jumlah->GroupViewValue;
+			$this->Jumlah->GroupSummaryViewValue = ($this->Jumlah->GroupSummaryOldValue <> $this->Jumlah->GroupSummaryValue) ? $this->Jumlah->GroupSummaryValue : "&nbsp;";
 
 			// JumlahBayar
 			$this->JumlahBayar->SumViewValue = $this->JumlahBayar->SumValue;
 			$this->JumlahBayar->SumViewValue = FormatNumber($this->JumlahBayar->SumViewValue, 0, -2, -2, -2);
 			$this->JumlahBayar->CellAttrs["class"] = "text-right";
 			$this->JumlahBayar->CellAttrs["class"] = ($this->RowTotalType == ROWTOTAL_PAGE || $this->RowTotalType == ROWTOTAL_GRAND) ? "ew-rpt-grp-aggregate" : "ew-rpt-grp-summary-" . $this->RowGroupLevel;
+
+			// keterangan
+			$this->keterangan->HrefValue = "";
+
+			// IuranNama2
+			$this->IuranNama2->HrefValue = "";
+
+			// Jumlah
+			$this->Jumlah->HrefValue = "";
 
 			// TahunAjaran
 			$this->TahunAjaran->HrefValue = "";
@@ -1085,9 +1207,6 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 			// IuranNama
 			$this->IuranNama->HrefValue = "";
 
-			// Jumlah
-			$this->Jumlah->HrefValue = "";
-
 			// Periode
 			$this->Periode->HrefValue = "";
 
@@ -1098,8 +1217,36 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 			$this->JumlahBayar->HrefValue = "";
 		} else {
 			if ($this->RowTotalType == ROWTOTAL_GROUP && $this->RowTotalSubType == ROWTOTAL_HEADER) {
+			$this->RowAttrs["data-group"] = $this->keterangan->groupValue(); // Set up group attribute
+			if ($this->RowGroupLevel >= 2) $this->RowAttrs["data-group-2"] = $this->IuranNama2->groupValue(); // Set up group attribute 2
+			if ($this->RowGroupLevel >= 3) $this->RowAttrs["data-group-3"] = $this->Jumlah->groupValue(); // Set up group attribute 3
 			} else {
+			$this->RowAttrs["data-group"] = $this->keterangan->groupValue(); // Set up group attribute
+			$this->RowAttrs["data-group-2"] = $this->IuranNama2->groupValue(); // Set up group attribute 2
+			$this->RowAttrs["data-group-3"] = $this->Jumlah->groupValue(); // Set up group attribute 3
 			}
+
+			// keterangan
+			$this->keterangan->GroupViewValue = $this->keterangan->groupValue();
+			$this->keterangan->CellAttrs["class"] = "ew-rpt-grp-field-1";
+			$this->keterangan->GroupViewValue = DisplayGroupValue($this->keterangan, $this->keterangan->GroupViewValue);
+			if ($this->keterangan->groupValue() == $this->keterangan->groupOldValue() && !$this->checkLevelBreak(1))
+				$this->keterangan->GroupViewValue = "&nbsp;";
+
+			// IuranNama2
+			$this->IuranNama2->GroupViewValue = $this->IuranNama2->groupValue();
+			$this->IuranNama2->CellAttrs["class"] = "ew-rpt-grp-field-2";
+			$this->IuranNama2->GroupViewValue = DisplayGroupValue($this->IuranNama2, $this->IuranNama2->GroupViewValue);
+			if ($this->IuranNama2->groupValue() == $this->IuranNama2->groupOldValue() && !$this->checkLevelBreak(2))
+				$this->IuranNama2->GroupViewValue = "&nbsp;";
+
+			// Jumlah
+			$this->Jumlah->GroupViewValue = $this->Jumlah->groupValue();
+			$this->Jumlah->GroupViewValue = FormatNumber($this->Jumlah->GroupViewValue, 0, -2, -2, -2);
+			$this->Jumlah->CellAttrs["class"] = "text-right ew-rpt-grp-field-3";
+			$this->Jumlah->GroupViewValue = DisplayGroupValue($this->Jumlah, $this->Jumlah->GroupViewValue);
+			if ($this->Jumlah->groupValue() == $this->Jumlah->groupOldValue() && !$this->checkLevelBreak(3))
+				$this->Jumlah->GroupViewValue = "&nbsp;";
 
 			// TahunAjaran
 			$this->TahunAjaran->ViewValue = $this->TahunAjaran->CurrentValue;
@@ -1130,11 +1277,6 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 			$this->IuranNama->ViewValue = $this->IuranNama->CurrentValue;
 			$this->IuranNama->CellAttrs["class"] = ($this->RecordCount % 2 <> 1 ? "ew-table-alt-row" : "ew-table-row");
 
-			// Jumlah
-			$this->Jumlah->ViewValue = $this->Jumlah->CurrentValue;
-			$this->Jumlah->ViewValue = FormatNumber($this->Jumlah->ViewValue, 0, -2, -2, -2);
-			$this->Jumlah->CellAttrs["class"] = "text-right " . ($this->RecordCount % 2 <> 1 ? "ew-table-alt-row" : "ew-table-row");
-
 			// Periode
 			$this->Periode->ViewValue = $this->Periode->CurrentValue;
 			$this->Periode->ViewValue = FormatNumber($this->Periode->ViewValue, 0, -2, -2, -2);
@@ -1148,6 +1290,15 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 			$this->JumlahBayar->ViewValue = $this->JumlahBayar->CurrentValue;
 			$this->JumlahBayar->ViewValue = FormatNumber($this->JumlahBayar->ViewValue, 0, -2, -2, -2);
 			$this->JumlahBayar->CellAttrs["class"] = "text-right " . ($this->RecordCount % 2 <> 1 ? "ew-table-alt-row" : "ew-table-row");
+
+			// keterangan
+			$this->keterangan->HrefValue = "";
+
+			// IuranNama2
+			$this->IuranNama2->HrefValue = "";
+
+			// Jumlah
+			$this->Jumlah->HrefValue = "";
 
 			// TahunAjaran
 			$this->TahunAjaran->HrefValue = "";
@@ -1170,9 +1321,6 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 			// IuranNama
 			$this->IuranNama->HrefValue = "";
 
-			// Jumlah
-			$this->Jumlah->HrefValue = "";
-
 			// Periode
 			$this->Periode->HrefValue = "";
 
@@ -1186,6 +1334,33 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 		// Call Cell_Rendered event
 		if ($this->RowType == ROWTYPE_TOTAL) { // Summary row
 
+			// keterangan
+			$currentValue = $this->keterangan->GroupViewValue;
+			$viewValue = &$this->keterangan->GroupViewValue;
+			$viewAttrs = &$this->keterangan->ViewAttrs;
+			$cellAttrs = &$this->keterangan->CellAttrs;
+			$hrefValue = &$this->keterangan->HrefValue;
+			$linkAttrs = &$this->keterangan->LinkAttrs;
+			$this->Cell_Rendered($this->keterangan, $currentValue, $viewValue, $viewAttrs, $cellAttrs, $hrefValue, $linkAttrs);
+
+			// IuranNama2
+			$currentValue = $this->IuranNama2->GroupViewValue;
+			$viewValue = &$this->IuranNama2->GroupViewValue;
+			$viewAttrs = &$this->IuranNama2->ViewAttrs;
+			$cellAttrs = &$this->IuranNama2->CellAttrs;
+			$hrefValue = &$this->IuranNama2->HrefValue;
+			$linkAttrs = &$this->IuranNama2->LinkAttrs;
+			$this->Cell_Rendered($this->IuranNama2, $currentValue, $viewValue, $viewAttrs, $cellAttrs, $hrefValue, $linkAttrs);
+
+			// Jumlah
+			$currentValue = $this->Jumlah->GroupViewValue;
+			$viewValue = &$this->Jumlah->GroupViewValue;
+			$viewAttrs = &$this->Jumlah->ViewAttrs;
+			$cellAttrs = &$this->Jumlah->CellAttrs;
+			$hrefValue = &$this->Jumlah->HrefValue;
+			$linkAttrs = &$this->Jumlah->LinkAttrs;
+			$this->Cell_Rendered($this->Jumlah, $currentValue, $viewValue, $viewAttrs, $cellAttrs, $hrefValue, $linkAttrs);
+
 			// JumlahBayar
 			$currentValue = $this->JumlahBayar->SumValue;
 			$viewValue = &$this->JumlahBayar->SumViewValue;
@@ -1195,6 +1370,33 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 			$linkAttrs = &$this->JumlahBayar->LinkAttrs;
 			$this->Cell_Rendered($this->JumlahBayar, $currentValue, $viewValue, $viewAttrs, $cellAttrs, $hrefValue, $linkAttrs);
 		} else {
+
+			// keterangan
+			$currentValue = $this->keterangan->groupValue();
+			$viewValue = &$this->keterangan->GroupViewValue;
+			$viewAttrs = &$this->keterangan->ViewAttrs;
+			$cellAttrs = &$this->keterangan->CellAttrs;
+			$hrefValue = &$this->keterangan->HrefValue;
+			$linkAttrs = &$this->keterangan->LinkAttrs;
+			$this->Cell_Rendered($this->keterangan, $currentValue, $viewValue, $viewAttrs, $cellAttrs, $hrefValue, $linkAttrs);
+
+			// IuranNama2
+			$currentValue = $this->IuranNama2->groupValue();
+			$viewValue = &$this->IuranNama2->GroupViewValue;
+			$viewAttrs = &$this->IuranNama2->ViewAttrs;
+			$cellAttrs = &$this->IuranNama2->CellAttrs;
+			$hrefValue = &$this->IuranNama2->HrefValue;
+			$linkAttrs = &$this->IuranNama2->LinkAttrs;
+			$this->Cell_Rendered($this->IuranNama2, $currentValue, $viewValue, $viewAttrs, $cellAttrs, $hrefValue, $linkAttrs);
+
+			// Jumlah
+			$currentValue = $this->Jumlah->groupValue();
+			$viewValue = &$this->Jumlah->GroupViewValue;
+			$viewAttrs = &$this->Jumlah->ViewAttrs;
+			$cellAttrs = &$this->Jumlah->CellAttrs;
+			$hrefValue = &$this->Jumlah->HrefValue;
+			$linkAttrs = &$this->Jumlah->LinkAttrs;
+			$this->Cell_Rendered($this->Jumlah, $currentValue, $viewValue, $viewAttrs, $cellAttrs, $hrefValue, $linkAttrs);
 
 			// TahunAjaran
 			$currentValue = $this->TahunAjaran->CurrentValue;
@@ -1258,15 +1460,6 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 			$hrefValue = &$this->IuranNama->HrefValue;
 			$linkAttrs = &$this->IuranNama->LinkAttrs;
 			$this->Cell_Rendered($this->IuranNama, $currentValue, $viewValue, $viewAttrs, $cellAttrs, $hrefValue, $linkAttrs);
-
-			// Jumlah
-			$currentValue = $this->Jumlah->CurrentValue;
-			$viewValue = &$this->Jumlah->ViewValue;
-			$viewAttrs = &$this->Jumlah->ViewAttrs;
-			$cellAttrs = &$this->Jumlah->CellAttrs;
-			$hrefValue = &$this->Jumlah->HrefValue;
-			$linkAttrs = &$this->Jumlah->LinkAttrs;
-			$this->Cell_Rendered($this->Jumlah, $currentValue, $viewValue, $viewAttrs, $cellAttrs, $hrefValue, $linkAttrs);
 
 			// Periode
 			$currentValue = $this->Periode->CurrentValue;
@@ -1385,6 +1578,16 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 		$this->GroupColumnCount = 0;
 		$this->SubGroupColumnCount = 0;
 		$this->DetailColumnCount = 0;
+		if ($this->keterangan->Visible)
+			$this->GroupColumnCount += 1;
+		if ($this->IuranNama2->Visible) {
+			$this->GroupColumnCount += 1;
+			$this->SubGroupColumnCount += 1;
+		}
+		if ($this->Jumlah->Visible) {
+			$this->GroupColumnCount += 1;
+			$this->SubGroupColumnCount += 1;
+		}
 		if ($this->TahunAjaran->Visible)
 			$this->DetailColumnCount += 1;
 		if ($this->SekolahNama->Visible)
@@ -1398,8 +1601,6 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 		if ($this->iuran_id->Visible)
 			$this->DetailColumnCount += 1;
 		if ($this->IuranNama->Visible)
-			$this->DetailColumnCount += 1;
-		if ($this->Jumlah->Visible)
 			$this->DetailColumnCount += 1;
 		if ($this->Periode->Visible)
 			$this->DetailColumnCount += 1;
@@ -1629,7 +1830,7 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 	protected function getSort()
 	{
 		if ($this->DrillDown)
-			return "`TahunAjaran` ASC, `SekolahNama` ASC, `KelasNama` ASC, `NomorInduk` ASC, `iuran_id` ASC, `Periode` ASC";
+			return "`Periode` ASC";
 		$resetSort = ReportParam("cmd") === "resetsort";
 		$orderBy = ReportParam("order", "");
 		$orderType = ReportParam("ordertype", "");
@@ -1641,6 +1842,9 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 		if ($resetSort) {
 			$this->setOrderBy("");
 			$this->setStartGroup(1);
+			$this->keterangan->setSort("");
+			$this->IuranNama2->setSort("");
+			$this->Jumlah->setSort("");
 			$this->TahunAjaran->setSort("");
 			$this->SekolahNama->setSort("");
 			$this->KelasNama->setSort("");
@@ -1648,7 +1852,6 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 			$this->SiswaNama->setSort("");
 			$this->iuran_id->setSort("");
 			$this->IuranNama->setSort("");
-			$this->Jumlah->setSort("");
 			$this->Periode->setSort("");
 			$this->PeriodeBulan->setSort("");
 			$this->JumlahBayar->setSort("");
@@ -1657,6 +1860,9 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 		} elseif ($orderBy <> "") {
 			$this->CurrentOrder = $orderBy;
 			$this->CurrentOrderType = $orderType;
+			$this->updateSort($this->keterangan, $ctrl); // keterangan
+			$this->updateSort($this->IuranNama2, $ctrl); // IuranNama2
+			$this->updateSort($this->Jumlah, $ctrl); // Jumlah
 			$this->updateSort($this->TahunAjaran, $ctrl); // TahunAjaran
 			$this->updateSort($this->SekolahNama, $ctrl); // SekolahNama
 			$this->updateSort($this->KelasNama, $ctrl); // KelasNama
@@ -1664,7 +1870,6 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 			$this->updateSort($this->SiswaNama, $ctrl); // SiswaNama
 			$this->updateSort($this->iuran_id, $ctrl); // iuran_id
 			$this->updateSort($this->IuranNama, $ctrl); // IuranNama
-			$this->updateSort($this->Jumlah, $ctrl); // Jumlah
 			$this->updateSort($this->Periode, $ctrl); // Periode
 			$this->updateSort($this->PeriodeBulan, $ctrl); // PeriodeBulan
 			$this->updateSort($this->JumlahBayar, $ctrl); // JumlahBayar
@@ -1675,12 +1880,7 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 
 		// Set up default sort
 		if ($this->getOrderBy() == "") {
-			$this->setOrderBy("`TahunAjaran` ASC, `SekolahNama` ASC, `KelasNama` ASC, `NomorInduk` ASC, `iuran_id` ASC, `Periode` ASC");
-			$this->TahunAjaran->setSort("ASC");
-			$this->SekolahNama->setSort("ASC");
-			$this->KelasNama->setSort("ASC");
-			$this->NomorInduk->setSort("ASC");
-			$this->iuran_id->setSort("ASC");
+			$this->setOrderBy("`Periode` ASC");
 			$this->Periode->setSort("ASC");
 		}
 		return $this->getOrderBy();
@@ -2663,10 +2863,16 @@ class r102_lap_tunggak_summary extends r102_lap_tunggak
 		// Example:
 		//$header = "your header";
 		// sembunyikan kolom
-		//$this->iuran_id->Visible = false;
-		//$this->Periode->Visible = false;
-		// header
 
+		$this->TahunAjaran->Visible = false;
+		$this->SekolahNama->Visible = false;
+		$this->KelasNama->Visible = false;
+		$this->NomorInduk->Visible = false;
+		$this->SiswaNama->Visible = false;
+		$this->iuran_id->Visible = false;
+		$this->IuranNama->Visible = false;
+
+		// header
 		$header = "Laporan Tunggakan";
 	}
 

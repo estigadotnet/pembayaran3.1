@@ -875,10 +875,6 @@ class v102_daf_kelas_siswa_list extends v102_daf_kelas_siswa
 			$filter = "(0=1)"; // Filter all records
 		AddFilter($filter, $this->DbDetailFilter);
 		AddFilter($filter, $this->SearchWhere);
-		if ($filter == "") {
-			$filter = "0=101";
-			$this->SearchWhere = $filter;
-		}
 
 		// Set up filter
 		if ($this->Command == "json") {
@@ -1245,6 +1241,7 @@ class v102_daf_kelas_siswa_list extends v102_daf_kelas_siswa
 			if ($this->Command == "resetsort") {
 				$orderBy = "";
 				$this->setSessionOrderBy($orderBy);
+				$this->setSessionOrderByList($orderBy);
 				$this->daf_kelas_id->setSort("");
 				$this->siswa_id->setSort("");
 			}
@@ -1613,7 +1610,7 @@ class v102_daf_kelas_siswa_list extends v102_daf_kelas_siswa
 
 		// Show all button
 		$item = &$this->SearchOptions->add("showall");
-		$item->Body = "<a class=\"btn btn-default ew-show-all\" title=\"" . $Language->phrase("ResetSearch") . "\" data-caption=\"" . $Language->phrase("ResetSearch") . "\" href=\"" . $this->pageUrl() . "cmd=reset\">" . $Language->phrase("ResetSearchBtn") . "</a>";
+		$item->Body = "<a class=\"btn btn-default ew-show-all\" title=\"" . $Language->phrase("ShowAll") . "\" data-caption=\"" . $Language->phrase("ShowAll") . "\" href=\"" . $this->pageUrl() . "cmd=reset\">" . $Language->phrase("ShowAllBtn") . "</a>";
 		$item->Visible = ($this->SearchWhere <> $this->DefaultSearchWhere && $this->SearchWhere <> "0=101");
 
 		// Button group for search
@@ -1818,7 +1815,7 @@ class v102_daf_kelas_siswa_list extends v102_daf_kelas_siswa
 		if ($this->UseSelectLimit) {
 			$conn->raiseErrorFn = $GLOBALS["ERROR_FUNC"];
 			if ($dbtype == "MSSQL") {
-				$rs = $conn->selectLimit($sql, $rowcnt, $offset, ["_hasOrderBy" => trim($this->getOrderBy()) || trim($this->getSessionOrderBy())]);
+				$rs = $conn->selectLimit($sql, $rowcnt, $offset, ["_hasOrderBy" => trim($this->getOrderBy()) || trim($this->getSessionOrderByList())]);
 			} else {
 				$rs = $conn->selectLimit($sql, $rowcnt, $offset);
 			}
@@ -1869,7 +1866,17 @@ class v102_daf_kelas_siswa_list extends v102_daf_kelas_siswa
 			return;
 		$this->id->setDbValue($row['id']);
 		$this->daf_kelas_id->setDbValue($row['daf_kelas_id']);
+		if (array_key_exists('EV__daf_kelas_id', $rs->fields)) {
+			$this->daf_kelas_id->VirtualValue = $rs->fields('EV__daf_kelas_id'); // Set up virtual field value
+		} else {
+			$this->daf_kelas_id->VirtualValue = ""; // Clear value
+		}
 		$this->siswa_id->setDbValue($row['siswa_id']);
+		if (array_key_exists('EV__siswa_id', $rs->fields)) {
+			$this->siswa_id->VirtualValue = $rs->fields('EV__siswa_id'); // Set up virtual field value
+		} else {
+			$this->siswa_id->VirtualValue = ""; // Clear value
+		}
 		if (!isset($GLOBALS["t103_daf_kelas_siswa_iuran_grid"]))
 			$GLOBALS["t103_daf_kelas_siswa_iuran_grid"] = new t103_daf_kelas_siswa_iuran_grid();
 		$detailFilter = $GLOBALS["t103_daf_kelas_siswa_iuran"]->sqlDetailFilter_v102_daf_kelas_siswa();
@@ -1947,6 +1954,10 @@ class v102_daf_kelas_siswa_list extends v102_daf_kelas_siswa
 			$this->id->ViewCustomAttributes = "";
 
 			// daf_kelas_id
+			if ($this->daf_kelas_id->VirtualValue <> "") {
+				$this->daf_kelas_id->ViewValue = $this->daf_kelas_id->VirtualValue;
+			} else {
+				$this->daf_kelas_id->ViewValue = $this->daf_kelas_id->CurrentValue;
 			$curVal = strval($this->daf_kelas_id->CurrentValue);
 			if ($curVal <> "") {
 				$this->daf_kelas_id->ViewValue = $this->daf_kelas_id->lookupCacheOption($curVal);
@@ -1966,9 +1977,14 @@ class v102_daf_kelas_siswa_list extends v102_daf_kelas_siswa
 			} else {
 				$this->daf_kelas_id->ViewValue = NULL;
 			}
+			}
 			$this->daf_kelas_id->ViewCustomAttributes = "";
 
 			// siswa_id
+			if ($this->siswa_id->VirtualValue <> "") {
+				$this->siswa_id->ViewValue = $this->siswa_id->VirtualValue;
+			} else {
+				$this->siswa_id->ViewValue = $this->siswa_id->CurrentValue;
 			$curVal = strval($this->siswa_id->CurrentValue);
 			if ($curVal <> "") {
 				$this->siswa_id->ViewValue = $this->siswa_id->lookupCacheOption($curVal);
@@ -1989,6 +2005,7 @@ class v102_daf_kelas_siswa_list extends v102_daf_kelas_siswa
 			} else {
 				$this->siswa_id->ViewValue = NULL;
 			}
+			}
 			$this->siswa_id->ViewCustomAttributes = "";
 
 			// daf_kelas_id
@@ -2003,67 +2020,16 @@ class v102_daf_kelas_siswa_list extends v102_daf_kelas_siswa
 		} elseif ($this->RowType == ROWTYPE_SEARCH) { // Search row
 
 			// daf_kelas_id
+			$this->daf_kelas_id->EditAttrs["class"] = "form-control";
 			$this->daf_kelas_id->EditCustomAttributes = "";
-			$curVal = trim(strval($this->daf_kelas_id->AdvancedSearch->SearchValue));
-			if ($curVal <> "")
-				$this->daf_kelas_id->AdvancedSearch->ViewValue = $this->daf_kelas_id->lookupCacheOption($curVal);
-			else
-				$this->daf_kelas_id->AdvancedSearch->ViewValue = $this->daf_kelas_id->Lookup !== NULL && is_array($this->daf_kelas_id->Lookup->Options) ? $curVal : NULL;
-			if ($this->daf_kelas_id->AdvancedSearch->ViewValue !== NULL) { // Load from cache
-				$this->daf_kelas_id->EditValue = array_values($this->daf_kelas_id->Lookup->Options);
-				if ($this->daf_kelas_id->AdvancedSearch->ViewValue == "")
-					$this->daf_kelas_id->AdvancedSearch->ViewValue = $Language->phrase("PleaseSelect");
-			} else { // Lookup from database
-				if ($curVal == "") {
-					$filterWrk = "0=1";
-				} else {
-					$filterWrk = "`id`" . SearchString("=", $this->daf_kelas_id->AdvancedSearch->SearchValue, DATATYPE_NUMBER, "");
-				}
-				$sqlWrk = $this->daf_kelas_id->Lookup->getSql(TRUE, $filterWrk, '', $this);
-				$rswrk = Conn()->execute($sqlWrk);
-				if ($rswrk && !$rswrk->EOF) { // Lookup values found
-					$arwrk = array();
-					$arwrk[1] = HtmlEncode($rswrk->fields('df'));
-					$this->daf_kelas_id->AdvancedSearch->ViewValue = $this->daf_kelas_id->displayValue($arwrk);
-				} else {
-					$this->daf_kelas_id->AdvancedSearch->ViewValue = $Language->phrase("PleaseSelect");
-				}
-				$arwrk = ($rswrk) ? $rswrk->GetRows() : array();
-				if ($rswrk) $rswrk->Close();
-				$this->daf_kelas_id->EditValue = $arwrk;
-			}
+			$this->daf_kelas_id->EditValue = HtmlEncode($this->daf_kelas_id->AdvancedSearch->SearchValue);
+			$this->daf_kelas_id->PlaceHolder = RemoveHtml($this->daf_kelas_id->caption());
 
 			// siswa_id
+			$this->siswa_id->EditAttrs["class"] = "form-control";
 			$this->siswa_id->EditCustomAttributes = "";
-			$curVal = trim(strval($this->siswa_id->AdvancedSearch->SearchValue));
-			if ($curVal <> "")
-				$this->siswa_id->AdvancedSearch->ViewValue = $this->siswa_id->lookupCacheOption($curVal);
-			else
-				$this->siswa_id->AdvancedSearch->ViewValue = $this->siswa_id->Lookup !== NULL && is_array($this->siswa_id->Lookup->Options) ? $curVal : NULL;
-			if ($this->siswa_id->AdvancedSearch->ViewValue !== NULL) { // Load from cache
-				$this->siswa_id->EditValue = array_values($this->siswa_id->Lookup->Options);
-				if ($this->siswa_id->AdvancedSearch->ViewValue == "")
-					$this->siswa_id->AdvancedSearch->ViewValue = $Language->phrase("PleaseSelect");
-			} else { // Lookup from database
-				if ($curVal == "") {
-					$filterWrk = "0=1";
-				} else {
-					$filterWrk = "`id`" . SearchString("=", $this->siswa_id->AdvancedSearch->SearchValue, DATATYPE_NUMBER, "");
-				}
-				$sqlWrk = $this->siswa_id->Lookup->getSql(TRUE, $filterWrk, '', $this);
-				$rswrk = Conn()->execute($sqlWrk);
-				if ($rswrk && !$rswrk->EOF) { // Lookup values found
-					$arwrk = array();
-					$arwrk[1] = HtmlEncode($rswrk->fields('df'));
-					$arwrk[2] = HtmlEncode($rswrk->fields('df2'));
-					$this->siswa_id->AdvancedSearch->ViewValue = $this->siswa_id->displayValue($arwrk);
-				} else {
-					$this->siswa_id->AdvancedSearch->ViewValue = $Language->phrase("PleaseSelect");
-				}
-				$arwrk = ($rswrk) ? $rswrk->GetRows() : array();
-				if ($rswrk) $rswrk->Close();
-				$this->siswa_id->EditValue = $arwrk;
-			}
+			$this->siswa_id->EditValue = HtmlEncode($this->siswa_id->AdvancedSearch->SearchValue);
+			$this->siswa_id->PlaceHolder = RemoveHtml($this->siswa_id->caption());
 		}
 		if ($this->RowType == ROWTYPE_ADD || $this->RowType == ROWTYPE_EDIT || $this->RowType == ROWTYPE_SEARCH) // Add/Edit/Search row
 			$this->setupFieldTitles();
