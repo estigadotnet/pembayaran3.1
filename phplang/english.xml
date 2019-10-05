@@ -1253,11 +1253,17 @@
       <field id="id">
         <phrase id="fldcaption" value="id" />
       </field>
-      <field id="daf_kelas_id">
+      <field id="tsk">
         <phrase id="fldcaption" value="Kelas" />
+      </field>
+      <field id="siswa">
+        <phrase id="fldcaption" value="Nomor Induk atau Nama Siswa" />
       </field>
       <field id="siswa_id">
         <phrase id="fldcaption" value="Siswa" />
+      </field>
+      <field id="daf_kelas_id">
+        <phrase id="fldcaption" value="Kelas" />
       </field>
     </table>
     <table id="v103_daf_kelas_siswa_iuran">

@@ -34,8 +34,10 @@ class v102_daf_kelas_siswa extends DbTable
 
 	// Fields
 	public $id;
-	public $daf_kelas_id;
+	public $tsk;
+	public $siswa;
 	public $siswa_id;
+	public $daf_kelas_id;
 
 	// Constructor
 	public function __construct()
@@ -78,23 +80,37 @@ class v102_daf_kelas_siswa extends DbTable
 		$this->id->DefaultErrorMessage = $Language->phrase("IncorrectInteger");
 		$this->fields['id'] = &$this->id;
 
-		// daf_kelas_id
-		$this->daf_kelas_id = new DbField('v102_daf_kelas_siswa', 'v102_daf_kelas_siswa', 'x_daf_kelas_id', 'daf_kelas_id', '`daf_kelas_id`', '`daf_kelas_id`', 3, -1, FALSE, '`EV__daf_kelas_id`', TRUE, TRUE, TRUE, 'FORMATTED TEXT', 'TEXT');
-		$this->daf_kelas_id->Nullable = FALSE; // NOT NULL field
-		$this->daf_kelas_id->Required = TRUE; // Required field
-		$this->daf_kelas_id->Sortable = TRUE; // Allow sort
-		$this->daf_kelas_id->Lookup = new Lookup('daf_kelas_id', 'v101_daf_kelas', FALSE, 'id', ["tsk","","",""], [], [], [], [], [], [], '', '');
-		$this->daf_kelas_id->DefaultErrorMessage = $Language->phrase("IncorrectInteger");
-		$this->fields['daf_kelas_id'] = &$this->daf_kelas_id;
+		// tsk
+		$this->tsk = new DbField('v102_daf_kelas_siswa', 'v102_daf_kelas_siswa', 'x_tsk', 'tsk', '`tsk`', '`tsk`', 200, -1, FALSE, '`tsk`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->tsk->Sortable = TRUE; // Allow sort
+		$this->fields['tsk'] = &$this->tsk;
+
+		// siswa
+		$this->siswa = new DbField('v102_daf_kelas_siswa', 'v102_daf_kelas_siswa', 'x_siswa', 'siswa', '`siswa`', '`siswa`', 200, -1, FALSE, '`siswa`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'TEXT');
+		$this->siswa->Sortable = TRUE; // Allow sort
+		$this->fields['siswa'] = &$this->siswa;
 
 		// siswa_id
-		$this->siswa_id = new DbField('v102_daf_kelas_siswa', 'v102_daf_kelas_siswa', 'x_siswa_id', 'siswa_id', '`siswa_id`', '`siswa_id`', 3, -1, FALSE, '`EV__siswa_id`', TRUE, TRUE, TRUE, 'FORMATTED TEXT', 'TEXT');
+		$this->siswa_id = new DbField('v102_daf_kelas_siswa', 'v102_daf_kelas_siswa', 'x_siswa_id', 'siswa_id', '`siswa_id`', '`siswa_id`', 3, -1, FALSE, '`siswa_id`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'SELECT');
 		$this->siswa_id->Nullable = FALSE; // NOT NULL field
 		$this->siswa_id->Required = TRUE; // Required field
 		$this->siswa_id->Sortable = TRUE; // Allow sort
+		$this->siswa_id->UsePleaseSelect = TRUE; // Use PleaseSelect by default
+		$this->siswa_id->PleaseSelectText = $Language->phrase("PleaseSelect"); // PleaseSelect text
 		$this->siswa_id->Lookup = new Lookup('siswa_id', 't004_siswa', FALSE, 'id', ["NomorInduk","Nama","",""], [], [], [], [], [], [], '', '');
 		$this->siswa_id->DefaultErrorMessage = $Language->phrase("IncorrectInteger");
 		$this->fields['siswa_id'] = &$this->siswa_id;
+
+		// daf_kelas_id
+		$this->daf_kelas_id = new DbField('v102_daf_kelas_siswa', 'v102_daf_kelas_siswa', 'x_daf_kelas_id', 'daf_kelas_id', '`daf_kelas_id`', '`daf_kelas_id`', 3, -1, FALSE, '`daf_kelas_id`', FALSE, FALSE, FALSE, 'FORMATTED TEXT', 'SELECT');
+		$this->daf_kelas_id->Nullable = FALSE; // NOT NULL field
+		$this->daf_kelas_id->Required = TRUE; // Required field
+		$this->daf_kelas_id->Sortable = TRUE; // Allow sort
+		$this->daf_kelas_id->UsePleaseSelect = TRUE; // Use PleaseSelect by default
+		$this->daf_kelas_id->PleaseSelectText = $Language->phrase("PleaseSelect"); // PleaseSelect text
+		$this->daf_kelas_id->Lookup = new Lookup('daf_kelas_id', 'v101_daf_kelas', FALSE, 'id', ["tsk","","",""], [], [], [], [], [], [], '', '');
+		$this->daf_kelas_id->DefaultErrorMessage = $Language->phrase("IncorrectInteger");
+		$this->fields['daf_kelas_id'] = &$this->daf_kelas_id;
 	}
 
 	// Field Visibility
@@ -140,33 +156,10 @@ class v102_daf_kelas_siswa extends DbTable
 			} else {
 				$this->setSessionOrderBy($sortField . " " . $thisSort); // Save to Session
 			}
-			$sortFieldList = ($fld->VirtualExpression <> "") ? $fld->VirtualExpression : $sortField;
-			if ($ctrl) {
-				$orderByList = $this->getSessionOrderByList();
-				if (ContainsString($orderByList, $sortFieldList . " " . $lastSort)) {
-					$orderByList = str_replace($sortFieldList . " " . $lastSort, $sortFieldList . " " . $thisSort, $orderByList);
-				} else {
-					if ($orderByList <> "") $orderByList .= ", ";
-					$orderByList .= $sortFieldList . " " . $thisSort;
-				}
-				$this->setSessionOrderByList($orderByList); // Save to Session
-			} else {
-				$this->setSessionOrderByList($sortFieldList . " " . $thisSort); // Save to Session
-			}
 		} else {
 			if (!$ctrl)
 				$fld->setSort("");
 		}
-	}
-
-	// Session ORDER BY for List page
-	public function getSessionOrderByList()
-	{
-		return @$_SESSION[PROJECT_NAME . "_" . $this->TableVar . "_" . TABLE_ORDER_BY_LIST];
-	}
-	public function setSessionOrderByList($v)
-	{
-		$_SESSION[PROJECT_NAME . "_" . $this->TableVar . "_" . TABLE_ORDER_BY_LIST] = $v;
 	}
 
 	// Current detail table name
@@ -222,22 +215,6 @@ class v102_daf_kelas_siswa extends DbTable
 	public function setSqlSelect($v)
 	{
 		$this->SqlSelect = $v;
-	}
-	public function getSqlSelectList() // Select for List page
-	{
-		$select = "";
-		$select = "SELECT * FROM (" .
-			"SELECT *, (SELECT `tsk` FROM `v101_daf_kelas` `TMP_LOOKUPTABLE` WHERE `TMP_LOOKUPTABLE`.`id` = `v102_daf_kelas_siswa`.`daf_kelas_id` LIMIT 1) AS `EV__daf_kelas_id`, (SELECT CONCAT(COALESCE(`NomorInduk`, ''),'" . ValueSeparator(1, $this->siswa_id) . "',COALESCE(`Nama`,'')) FROM `t004_siswa` `TMP_LOOKUPTABLE` WHERE `TMP_LOOKUPTABLE`.`id` = `v102_daf_kelas_siswa`.`siswa_id` LIMIT 1) AS `EV__siswa_id` FROM `v102_daf_kelas_siswa`" .
-			") `TMP_TABLE`";
-		return ($this->SqlSelectList <> "") ? $this->SqlSelectList : $select;
-	}
-	public function sqlSelectList() // For backward compatibility
-	{
-		return $this->getSqlSelectList();
-	}
-	public function setSqlSelectList($v)
-	{
-		$this->SqlSelectList = $v;
 	}
 	public function getSqlWhere() // Where
 	{
@@ -349,13 +326,8 @@ class v102_daf_kelas_siswa extends DbTable
 		AddFilter($filter, $this->CurrentFilter);
 		$filter = $this->applyUserIDFilters($filter);
 		$this->Recordset_Selecting($filter);
-		if ($this->useVirtualFields()) {
-			$select = $this->getSqlSelectList();
-			$sort = $this->UseSessionForListSql ? $this->getSessionOrderByList() : "";
-		} else {
-			$select = $this->getSqlSelect();
-			$sort = $this->UseSessionForListSql ? $this->getSessionOrderBy() : "";
-		}
+		$select = $this->getSqlSelect();
+		$sort = $this->UseSessionForListSql ? $this->getSessionOrderBy() : "";
 		return BuildSelectSql($select, $this->getSqlWhere(), $this->getSqlGroupBy(),
 			$this->getSqlHaving(), $this->getSqlOrderBy(), $filter, $sort);
 	}
@@ -363,32 +335,8 @@ class v102_daf_kelas_siswa extends DbTable
 	// Get ORDER BY clause
 	public function getOrderBy()
 	{
-		$sort = ($this->useVirtualFields()) ? $this->getSessionOrderByList() : $this->getSessionOrderBy();
+		$sort = $this->getSessionOrderBy();
 		return BuildSelectSql("", "", "", "", $this->getSqlOrderBy(), "", $sort);
-	}
-
-	// Check if virtual fields is used in SQL
-	protected function useVirtualFields()
-	{
-		$where = $this->UseSessionForListSql ? $this->getSessionWhere() : $this->CurrentFilter;
-		$orderBy = $this->UseSessionForListSql ? $this->getSessionOrderByList() : "";
-		if ($where <> "")
-			$where = " " . str_replace(array("(",")"), array("",""), $where) . " ";
-		if ($orderBy <> "")
-			$orderBy = " " . str_replace(array("(",")"), array("",""), $orderBy) . " ";
-		if ($this->daf_kelas_id->AdvancedSearch->SearchValue <> "" ||
-			$this->daf_kelas_id->AdvancedSearch->SearchValue2 <> "" ||
-			ContainsString($where, " " . $this->daf_kelas_id->VirtualExpression . " "))
-			return TRUE;
-		if (ContainsString($orderBy, " " . $this->daf_kelas_id->VirtualExpression . " "))
-			return TRUE;
-		if ($this->siswa_id->AdvancedSearch->SearchValue <> "" ||
-			$this->siswa_id->AdvancedSearch->SearchValue2 <> "" ||
-			ContainsString($where, " " . $this->siswa_id->VirtualExpression . " "))
-			return TRUE;
-		if (ContainsString($orderBy, " " . $this->siswa_id->VirtualExpression . " "))
-			return TRUE;
-		return FALSE;
 	}
 
 	// Get record count
@@ -449,10 +397,7 @@ class v102_daf_kelas_siswa extends DbTable
 		$select = $this->TableType == 'CUSTOMVIEW' ? $this->getSqlSelect() : "SELECT * FROM " . $this->getSqlFrom();
 		$groupBy = $this->TableType == 'CUSTOMVIEW' ? $this->getSqlGroupBy() : "";
 		$having = $this->TableType == 'CUSTOMVIEW' ? $this->getSqlHaving() : "";
-		if ($this->useVirtualFields())
-			$sql = BuildSelectSql($this->getSqlSelectList(), $this->getSqlWhere(), $groupBy, $having, "", $filter, "");
-		else
-			$sql = BuildSelectSql($select, $this->getSqlWhere(), $groupBy, $having, "", $filter, "");
+		$sql = BuildSelectSql($select, $this->getSqlWhere(), $groupBy, $having, "", $filter, "");
 		$cnt = $this->getRecordCount($sql);
 		return $cnt;
 	}
@@ -676,8 +621,10 @@ class v102_daf_kelas_siswa extends DbTable
 			return;
 		$row = is_array($rs) ? $rs : $rs->fields;
 		$this->id->DbValue = $row['id'];
-		$this->daf_kelas_id->DbValue = $row['daf_kelas_id'];
+		$this->tsk->DbValue = $row['tsk'];
+		$this->siswa->DbValue = $row['siswa'];
 		$this->siswa_id->DbValue = $row['siswa_id'];
+		$this->daf_kelas_id->DbValue = $row['daf_kelas_id'];
 	}
 
 	// Delete uploaded files
@@ -910,8 +857,10 @@ class v102_daf_kelas_siswa extends DbTable
 	public function loadListRowValues(&$rs)
 	{
 		$this->id->setDbValue($rs->fields('id'));
-		$this->daf_kelas_id->setDbValue($rs->fields('daf_kelas_id'));
+		$this->tsk->setDbValue($rs->fields('tsk'));
+		$this->siswa->setDbValue($rs->fields('siswa'));
 		$this->siswa_id->setDbValue($rs->fields('siswa_id'));
+		$this->daf_kelas_id->setDbValue($rs->fields('daf_kelas_id'));
 	}
 
 	// Render list row values
@@ -924,45 +873,24 @@ class v102_daf_kelas_siswa extends DbTable
 
 		// Common render codes
 		// id
-		// daf_kelas_id
+		// tsk
+		// siswa
 		// siswa_id
+		// daf_kelas_id
 		// id
 
 		$this->id->ViewValue = $this->id->CurrentValue;
 		$this->id->ViewCustomAttributes = "";
 
-		// daf_kelas_id
-		if ($this->daf_kelas_id->VirtualValue <> "") {
-			$this->daf_kelas_id->ViewValue = $this->daf_kelas_id->VirtualValue;
-		} else {
-			$this->daf_kelas_id->ViewValue = $this->daf_kelas_id->CurrentValue;
-		$curVal = strval($this->daf_kelas_id->CurrentValue);
-		if ($curVal <> "") {
-			$this->daf_kelas_id->ViewValue = $this->daf_kelas_id->lookupCacheOption($curVal);
-			if ($this->daf_kelas_id->ViewValue === NULL) { // Lookup from database
-				$filterWrk = "`id`" . SearchString("=", $curVal, DATATYPE_NUMBER, "");
-				$sqlWrk = $this->daf_kelas_id->Lookup->getSql(FALSE, $filterWrk, '', $this);
-				$rswrk = Conn()->execute($sqlWrk);
-				if ($rswrk && !$rswrk->EOF) { // Lookup values found
-					$arwrk = array();
-					$arwrk[1] = $rswrk->fields('df');
-					$this->daf_kelas_id->ViewValue = $this->daf_kelas_id->displayValue($arwrk);
-					$rswrk->Close();
-				} else {
-					$this->daf_kelas_id->ViewValue = $this->daf_kelas_id->CurrentValue;
-				}
-			}
-		} else {
-			$this->daf_kelas_id->ViewValue = NULL;
-		}
-		}
-		$this->daf_kelas_id->ViewCustomAttributes = "";
+		// tsk
+		$this->tsk->ViewValue = $this->tsk->CurrentValue;
+		$this->tsk->ViewCustomAttributes = "";
+
+		// siswa
+		$this->siswa->ViewValue = $this->siswa->CurrentValue;
+		$this->siswa->ViewCustomAttributes = "";
 
 		// siswa_id
-		if ($this->siswa_id->VirtualValue <> "") {
-			$this->siswa_id->ViewValue = $this->siswa_id->VirtualValue;
-		} else {
-			$this->siswa_id->ViewValue = $this->siswa_id->CurrentValue;
 		$curVal = strval($this->siswa_id->CurrentValue);
 		if ($curVal <> "") {
 			$this->siswa_id->ViewValue = $this->siswa_id->lookupCacheOption($curVal);
@@ -983,23 +911,54 @@ class v102_daf_kelas_siswa extends DbTable
 		} else {
 			$this->siswa_id->ViewValue = NULL;
 		}
-		}
 		$this->siswa_id->ViewCustomAttributes = "";
+
+		// daf_kelas_id
+		$curVal = strval($this->daf_kelas_id->CurrentValue);
+		if ($curVal <> "") {
+			$this->daf_kelas_id->ViewValue = $this->daf_kelas_id->lookupCacheOption($curVal);
+			if ($this->daf_kelas_id->ViewValue === NULL) { // Lookup from database
+				$filterWrk = "`id`" . SearchString("=", $curVal, DATATYPE_NUMBER, "");
+				$sqlWrk = $this->daf_kelas_id->Lookup->getSql(FALSE, $filterWrk, '', $this);
+				$rswrk = Conn()->execute($sqlWrk);
+				if ($rswrk && !$rswrk->EOF) { // Lookup values found
+					$arwrk = array();
+					$arwrk[1] = $rswrk->fields('df');
+					$this->daf_kelas_id->ViewValue = $this->daf_kelas_id->displayValue($arwrk);
+					$rswrk->Close();
+				} else {
+					$this->daf_kelas_id->ViewValue = $this->daf_kelas_id->CurrentValue;
+				}
+			}
+		} else {
+			$this->daf_kelas_id->ViewValue = NULL;
+		}
+		$this->daf_kelas_id->ViewCustomAttributes = "";
 
 		// id
 		$this->id->LinkCustomAttributes = "";
 		$this->id->HrefValue = "";
 		$this->id->TooltipValue = "";
 
-		// daf_kelas_id
-		$this->daf_kelas_id->LinkCustomAttributes = "";
-		$this->daf_kelas_id->HrefValue = "";
-		$this->daf_kelas_id->TooltipValue = "";
+		// tsk
+		$this->tsk->LinkCustomAttributes = "";
+		$this->tsk->HrefValue = "";
+		$this->tsk->TooltipValue = "";
+
+		// siswa
+		$this->siswa->LinkCustomAttributes = "";
+		$this->siswa->HrefValue = "";
+		$this->siswa->TooltipValue = "";
 
 		// siswa_id
 		$this->siswa_id->LinkCustomAttributes = "";
 		$this->siswa_id->HrefValue = "";
 		$this->siswa_id->TooltipValue = "";
+
+		// daf_kelas_id
+		$this->daf_kelas_id->LinkCustomAttributes = "";
+		$this->daf_kelas_id->HrefValue = "";
+		$this->daf_kelas_id->TooltipValue = "";
 
 		// Call Row Rendered event
 		$this->Row_Rendered();
@@ -1022,17 +981,29 @@ class v102_daf_kelas_siswa extends DbTable
 		$this->id->EditValue = $this->id->CurrentValue;
 		$this->id->ViewCustomAttributes = "";
 
-		// daf_kelas_id
-		$this->daf_kelas_id->EditAttrs["class"] = "form-control";
-		$this->daf_kelas_id->EditCustomAttributes = "";
-		$this->daf_kelas_id->EditValue = $this->daf_kelas_id->CurrentValue;
-		$this->daf_kelas_id->PlaceHolder = RemoveHtml($this->daf_kelas_id->caption());
+		// tsk
+		$this->tsk->EditAttrs["class"] = "form-control";
+		$this->tsk->EditCustomAttributes = "";
+		if (REMOVE_XSS)
+			$this->tsk->CurrentValue = HtmlDecode($this->tsk->CurrentValue);
+		$this->tsk->EditValue = $this->tsk->CurrentValue;
+		$this->tsk->PlaceHolder = RemoveHtml($this->tsk->caption());
+
+		// siswa
+		$this->siswa->EditAttrs["class"] = "form-control";
+		$this->siswa->EditCustomAttributes = "";
+		if (REMOVE_XSS)
+			$this->siswa->CurrentValue = HtmlDecode($this->siswa->CurrentValue);
+		$this->siswa->EditValue = $this->siswa->CurrentValue;
+		$this->siswa->PlaceHolder = RemoveHtml($this->siswa->caption());
 
 		// siswa_id
 		$this->siswa_id->EditAttrs["class"] = "form-control";
 		$this->siswa_id->EditCustomAttributes = "";
-		$this->siswa_id->EditValue = $this->siswa_id->CurrentValue;
-		$this->siswa_id->PlaceHolder = RemoveHtml($this->siswa_id->caption());
+
+		// daf_kelas_id
+		$this->daf_kelas_id->EditAttrs["class"] = "form-control";
+		$this->daf_kelas_id->EditCustomAttributes = "";
 
 		// Call Row Rendered event
 		$this->Row_Rendered();
@@ -1063,12 +1034,16 @@ class v102_daf_kelas_siswa extends DbTable
 			if ($doc->Horizontal) { // Horizontal format, write header
 				$doc->beginExportRow();
 				if ($exportPageType == "view") {
-					$doc->exportCaption($this->daf_kelas_id);
+					$doc->exportCaption($this->tsk);
+					$doc->exportCaption($this->siswa);
 					$doc->exportCaption($this->siswa_id);
+					$doc->exportCaption($this->daf_kelas_id);
 				} else {
 					$doc->exportCaption($this->id);
-					$doc->exportCaption($this->daf_kelas_id);
+					$doc->exportCaption($this->tsk);
+					$doc->exportCaption($this->siswa);
 					$doc->exportCaption($this->siswa_id);
+					$doc->exportCaption($this->daf_kelas_id);
 				}
 				$doc->endExportRow();
 			}
@@ -1100,12 +1075,16 @@ class v102_daf_kelas_siswa extends DbTable
 				if (!$doc->ExportCustom) {
 					$doc->beginExportRow($rowCnt); // Allow CSS styles if enabled
 					if ($exportPageType == "view") {
-						$doc->exportField($this->daf_kelas_id);
+						$doc->exportField($this->tsk);
+						$doc->exportField($this->siswa);
 						$doc->exportField($this->siswa_id);
+						$doc->exportField($this->daf_kelas_id);
 					} else {
 						$doc->exportField($this->id);
-						$doc->exportField($this->daf_kelas_id);
+						$doc->exportField($this->tsk);
+						$doc->exportField($this->siswa);
 						$doc->exportField($this->siswa_id);
+						$doc->exportField($this->daf_kelas_id);
 					}
 					$doc->endExportRow($rowCnt);
 				}

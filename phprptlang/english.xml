@@ -1050,6 +1050,12 @@
       <field id="siswa_id">
         <phrase id="fldcaption" value="siswa id" />
       </field>
+      <field id="tsk">
+        <phrase id="fldcaption" value="tsk" />
+      </field>
+      <field id="siswa">
+        <phrase id="fldcaption" value="siswa" />
+      </field>
     </table>
     <table id="v103_daf_kelas_siswa_iuran_base">
       <phrase id="tblcaption" value="v 103 daf kelas siswa iuran" />
