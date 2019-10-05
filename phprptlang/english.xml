@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<ew-language date="2019/10/4" version="12.0.1" id="en" name="English" desc="English" author="e.World Technology Ltd.">
+<ew-language date="2019/10/5" version="12.0.1" id="en" name="English" desc="English" author="e.World Technology Ltd.">
   <!-- 
 	*** Important Notes:
 	1. Language ID should follow: https://developers.google.com/recaptcha/docs/language,
@@ -403,39 +403,6 @@
   <project>
     <phrase id="bodytitle" value="Pembayaran v.3.1" />
     <phrase id="footertext" value="&amp;copy;2019 ESTIGA[dot]NET. All rights reserved." />
-    <menu id="25">
-      <phrase id="menutext" value="Potensi Uang Masuk" />
-    </menu>
-    <menu id="26">
-      <phrase id="menutext" value="Uang Masuk" />
-    </menu>
-    <menu id="27">
-      <phrase id="menutext" value="Potensi Uang Masuk" />
-    </menu>
-    <menu id="28">
-      <phrase id="menutext" value="v 110 bukti master" />
-    </menu>
-    <menu id="29">
-      <phrase id="menutext" value="v 114 pembayaran" />
-    </menu>
-    <menu id="30">
-      <phrase id="menutext" value="v 115 lap bayar" />
-    </menu>
-    <menu id="31">
-      <phrase id="menutext" value="v 105 lap bayar" />
-    </menu>
-    <menu id="32">
-      <phrase id="menutext" value="v 108 lap um" />
-    </menu>
-    <menu id="33">
-      <phrase id="menutext" value="Pembayaran (Non-Rutin)" />
-    </menu>
-    <menu id="18">
-      <phrase id="menutext" value="Pembayaran (Rutin)" />
-    </menu>
-    <menu id="21">
-      <phrase id="menutext" value="Tunggakan" />
-    </menu>
     <menu id="1">
       <phrase id="menutext" value="t 001 tahun ajaran" />
     </menu>
@@ -484,14 +451,47 @@
     <menu id="16">
       <phrase id="menutext" value="v 104 pembayaran" />
     </menu>
+    <menu id="31">
+      <phrase id="menutext" value="v 105 lap bayar" />
+    </menu>
     <menu id="19">
       <phrase id="menutext" value="v 106 tunggakan" />
     </menu>
     <menu id="20">
       <phrase id="menutext" value="v 107 lap tunggak" />
     </menu>
+    <menu id="32">
+      <phrase id="menutext" value="v 108 lap um" />
+    </menu>
+    <menu id="25">
+      <phrase id="menutext" value="Potensi Uang Masuk" />
+    </menu>
+    <menu id="28">
+      <phrase id="menutext" value="v 110 bukti master" />
+    </menu>
+    <menu id="29">
+      <phrase id="menutext" value="v 114 pembayaran" />
+    </menu>
+    <menu id="30">
+      <phrase id="menutext" value="v 115 lap bayar" />
+    </menu>
+    <menu id="18">
+      <phrase id="menutext" value="Pembayaran" />
+    </menu>
+    <menu id="21">
+      <phrase id="menutext" value="Tunggakan" />
+    </menu>
+    <menu id="26">
+      <phrase id="menutext" value="Uang Masuk" />
+    </menu>
+    <menu id="27">
+      <phrase id="menutext" value="Potensi Uang Masuk" />
+    </menu>
+    <menu id="33">
+      <phrase id="menutext" value="Pembayaran (Non-Rutin)" />
+    </menu>
     <table id="r101_lap_bayar">
-      <phrase id="tblcaption" value="Pembayaran (Rutin)" />
+      <phrase id="tblcaption" value="Pembayaran" />
       <field id="keterangan">
         <phrase id="fldcaption" value="Keterangan" />
       </field>
