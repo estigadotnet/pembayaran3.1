@@ -2610,7 +2610,470 @@ class t103_daf_kelas_siswa_iuran extends DbTable
 
 		// To view properties of field class, use:
 		//var_dump($this-><FieldName>);
+		//var_dump($this->byr01);
+		// jika sudah lewat bulan dan tercentang => maka direadonly
 
+		$bulan = date("n"); //echo $bulan;
+		switch ($bulan) {
+			case 7:
+				$periode = 1;
+				break;
+			case 8:
+				$periode = 2;
+				break;
+			case 9:
+				$periode = 3;
+				break;
+			case 10:
+				$periode = 4;
+				break;
+			case 11:
+				$periode = 5;
+				break;
+			case 12:
+				$periode = 6;
+				break;
+			case 1:
+				$periode = 7;
+				break;
+			case 2:
+				$periode = 8;
+				break;
+			case 3:
+				$periode = 9;
+				break;
+			case 4:
+				$periode = 10;
+				break;
+			case 5:
+				$periode = 11;
+				break;
+			case 6:
+				$periode = 12;
+				break;
+		}
+		switch ($periode) {
+			case 1:
+				break;
+			case 2:
+				$this->byr01->ReadOnly = false;
+				if ($this->byr01->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl01->CurrentValue)) < $bulan) {
+						$this->byr01->ReadOnly = true;
+					}
+				}
+				break;
+			case 3:
+				$this->byr01->ReadOnly = false;
+				$this->byr02->ReadOnly = false;
+				if ($this->byr01->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl01->CurrentValue)) < $bulan) {
+						$this->byr01->ReadOnly = true;
+					}
+				}
+				if ($this->byr02->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl02->CurrentValue)) < $bulan) {
+						$this->byr02->ReadOnly = true;
+					}
+				}
+				break;
+			case 4:
+				$this->byr01->ReadOnly = false;
+				$this->byr02->ReadOnly = false;
+				$this->byr03->ReadOnly = false;
+				if ($this->byr01->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl01->CurrentValue)) < $bulan) {
+						$this->byr01->ReadOnly = true;
+					}
+				}
+				if ($this->byr02->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl02->CurrentValue)) < $bulan) {
+						$this->byr02->ReadOnly = true;
+					}
+				}
+				if ($this->byr03->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl03->CurrentValue)) < $bulan) {
+						$this->byr03->ReadOnly = true;
+					}
+				}
+				break;
+			case 5:
+				$this->byr01->ReadOnly = false;
+				$this->byr02->ReadOnly = false;
+				$this->byr03->ReadOnly = false;
+				$this->byr04->ReadOnly = false;
+				if ($this->byr01->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl01->CurrentValue)) < $bulan) {
+						$this->byr01->ReadOnly = true;
+					}
+				}
+				if ($this->byr02->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl02->CurrentValue)) < $bulan) {
+						$this->byr02->ReadOnly = true;
+					}
+				}
+				if ($this->byr03->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl03->CurrentValue)) < $bulan) {
+						$this->byr03->ReadOnly = true;
+					}
+				}
+				if ($this->byr04->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl04->CurrentValue)) < $bulan) {
+						$this->byr04->ReadOnly = true;
+					}
+				}
+				break;
+			case 6:
+				$this->byr01->ReadOnly = false;
+				$this->byr02->ReadOnly = false;
+				$this->byr03->ReadOnly = false;
+				$this->byr04->ReadOnly = false;
+				$this->byr05->ReadOnly = false;
+				if ($this->byr01->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl01->CurrentValue)) < $bulan) {
+						$this->byr01->ReadOnly = true;
+					}
+				}
+				if ($this->byr02->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl02->CurrentValue)) < $bulan) {
+						$this->byr02->ReadOnly = true;
+					}
+				}
+				if ($this->byr03->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl03->CurrentValue)) < $bulan) {
+						$this->byr03->ReadOnly = true;
+					}
+				}
+				if ($this->byr04->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl04->CurrentValue)) < $bulan) {
+						$this->byr04->ReadOnly = true;
+					}
+				}
+				if ($this->byr05->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl05->CurrentValue)) < $bulan) {
+						$this->byr05->ReadOnly = true;
+					}
+				}
+				break;
+			case 7:
+				$this->byr01->ReadOnly = false;
+				$this->byr02->ReadOnly = false;
+				$this->byr03->ReadOnly = false;
+				$this->byr04->ReadOnly = false;
+				$this->byr05->ReadOnly = false;
+				$this->byr06->ReadOnly = false;
+				if ($this->byr01->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl01->CurrentValue)) < $bulan) {
+						$this->byr01->ReadOnly = true;
+					}
+				}
+				if ($this->byr02->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl02->CurrentValue)) < $bulan) {
+						$this->byr02->ReadOnly = true;
+					}
+				}
+				if ($this->byr03->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl03->CurrentValue)) < $bulan) {
+						$this->byr03->ReadOnly = true;
+					}
+				}
+				if ($this->byr04->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl04->CurrentValue)) < $bulan) {
+						$this->byr04->ReadOnly = true;
+					}
+				}
+				if ($this->byr05->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl05->CurrentValue)) < $bulan) {
+						$this->byr05->ReadOnly = true;
+					}
+				}
+				if ($this->byr06->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl06->CurrentValue)) < $bulan) {
+						$this->byr06->ReadOnly = true;
+					}
+				}
+				break;
+			case 8:
+				$this->byr01->ReadOnly = false;
+				$this->byr02->ReadOnly = false;
+				$this->byr03->ReadOnly = false;
+				$this->byr04->ReadOnly = false;
+				$this->byr05->ReadOnly = false;
+				$this->byr06->ReadOnly = false;
+				$this->byr07->ReadOnly = false;
+				if ($this->byr01->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl01->CurrentValue)) < $bulan) {
+						$this->byr01->ReadOnly = true;
+					}
+				}
+				if ($this->byr02->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl02->CurrentValue)) < $bulan) {
+						$this->byr02->ReadOnly = true;
+					}
+				}
+				if ($this->byr03->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl03->CurrentValue)) < $bulan) {
+						$this->byr03->ReadOnly = true;
+					}
+				}
+				if ($this->byr04->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl04->CurrentValue)) < $bulan) {
+						$this->byr04->ReadOnly = true;
+					}
+				}
+				if ($this->byr05->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl05->CurrentValue)) < $bulan) {
+						$this->byr05->ReadOnly = true;
+					}
+				}
+				if ($this->byr06->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl06->CurrentValue)) < $bulan) {
+						$this->byr06->ReadOnly = true;
+					}
+				}
+				if ($this->byr07->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl07->CurrentValue)) < $bulan) {
+						$this->byr07->ReadOnly = true;
+					}
+				}
+				break;
+			case 9:
+				$this->byr01->ReadOnly = false;
+				$this->byr02->ReadOnly = false;
+				$this->byr03->ReadOnly = false;
+				$this->byr04->ReadOnly = false;
+				$this->byr05->ReadOnly = false;
+				$this->byr06->ReadOnly = false;
+				$this->byr07->ReadOnly = false;
+				$this->byr08->ReadOnly = false;
+				if ($this->byr01->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl01->CurrentValue)) < $bulan) {
+						$this->byr01->ReadOnly = true;
+					}
+				}
+				if ($this->byr02->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl02->CurrentValue)) < $bulan) {
+						$this->byr02->ReadOnly = true;
+					}
+				}
+				if ($this->byr03->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl03->CurrentValue)) < $bulan) {
+						$this->byr03->ReadOnly = true;
+					}
+				}
+				if ($this->byr04->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl04->CurrentValue)) < $bulan) {
+						$this->byr04->ReadOnly = true;
+					}
+				}
+				if ($this->byr05->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl05->CurrentValue)) < $bulan) {
+						$this->byr05->ReadOnly = true;
+					}
+				}
+				if ($this->byr06->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl06->CurrentValue)) < $bulan) {
+						$this->byr06->ReadOnly = true;
+					}
+				}
+				if ($this->byr07->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl07->CurrentValue)) < $bulan) {
+						$this->byr07->ReadOnly = true;
+					}
+				}
+				if ($this->byr08->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl08->CurrentValue)) < $bulan) {
+						$this->byr08->ReadOnly = true;
+					}
+				}
+				break;
+			case 10:
+				$this->byr01->ReadOnly = false;
+				$this->byr02->ReadOnly = false;
+				$this->byr03->ReadOnly = false;
+				$this->byr04->ReadOnly = false;
+				$this->byr05->ReadOnly = false;
+				$this->byr06->ReadOnly = false;
+				$this->byr07->ReadOnly = false;
+				$this->byr08->ReadOnly = false;
+				$this->byr09->ReadOnly = false;
+				if ($this->byr01->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl01->CurrentValue)) < $bulan) {
+						$this->byr01->ReadOnly = true;
+					}
+				}
+				if ($this->byr02->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl02->CurrentValue)) < $bulan) {
+						$this->byr02->ReadOnly = true;
+					}
+				}
+				if ($this->byr03->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl03->CurrentValue)) < $bulan) {
+						$this->byr03->ReadOnly = true;
+					}
+				}
+				if ($this->byr04->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl04->CurrentValue)) < $bulan) {
+						$this->byr04->ReadOnly = true;
+					}
+				}
+				if ($this->byr05->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl05->CurrentValue)) < $bulan) {
+						$this->byr05->ReadOnly = true;
+					}
+				}
+				if ($this->byr06->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl06->CurrentValue)) < $bulan) {
+						$this->byr06->ReadOnly = true;
+					}
+				}
+				if ($this->byr07->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl07->CurrentValue)) < $bulan) {
+						$this->byr07->ReadOnly = true;
+					}
+				}
+				if ($this->byr08->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl08->CurrentValue)) < $bulan) {
+						$this->byr08->ReadOnly = true;
+					}
+				}
+				if ($this->byr09->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl09->CurrentValue)) < $bulan) {
+						$this->byr09->ReadOnly = true;
+					}
+				}
+				break;
+			case 11:
+				$this->byr01->ReadOnly = false;
+				$this->byr02->ReadOnly = false;
+				$this->byr03->ReadOnly = false;
+				$this->byr04->ReadOnly = false;
+				$this->byr05->ReadOnly = false;
+				$this->byr06->ReadOnly = false;
+				$this->byr07->ReadOnly = false;
+				$this->byr08->ReadOnly = false;
+				$this->byr09->ReadOnly = false;
+				$this->byr10->ReadOnly = false;
+				if ($this->byr01->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl01->CurrentValue)) < $bulan) {
+						$this->byr01->ReadOnly = true;
+					}
+				}
+				if ($this->byr02->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl02->CurrentValue)) < $bulan) {
+						$this->byr02->ReadOnly = true;
+					}
+				}
+				if ($this->byr03->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl03->CurrentValue)) < $bulan) {
+						$this->byr03->ReadOnly = true;
+					}
+				}
+				if ($this->byr04->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl04->CurrentValue)) < $bulan) {
+						$this->byr04->ReadOnly = true;
+					}
+				}
+				if ($this->byr05->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl05->CurrentValue)) < $bulan) {
+						$this->byr05->ReadOnly = true;
+					}
+				}
+				if ($this->byr06->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl06->CurrentValue)) < $bulan) {
+						$this->byr06->ReadOnly = true;
+					}
+				}
+				if ($this->byr07->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl07->CurrentValue)) < $bulan) {
+						$this->byr07->ReadOnly = true;
+					}
+				}
+				if ($this->byr08->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl08->CurrentValue)) < $bulan) {
+						$this->byr08->ReadOnly = true;
+					}
+				}
+				if ($this->byr09->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl09->CurrentValue)) < $bulan) {
+						$this->byr09->ReadOnly = true;
+					}
+				}
+				if ($this->byr10->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl10->CurrentValue)) < $bulan) {
+						$this->byr10->ReadOnly = true;
+					}
+				}
+				break;
+			case 12:
+				$this->byr01->ReadOnly = false;
+				$this->byr02->ReadOnly = false;
+				$this->byr03->ReadOnly = false;
+				$this->byr04->ReadOnly = false;
+				$this->byr05->ReadOnly = false;
+				$this->byr06->ReadOnly = false;
+				$this->byr07->ReadOnly = false;
+				$this->byr08->ReadOnly = false;
+				$this->byr09->ReadOnly = false;
+				$this->byr10->ReadOnly = false;
+				$this->byr11->ReadOnly = false;
+				if ($this->byr01->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl01->CurrentValue)) < $bulan) {
+						$this->byr01->ReadOnly = true;
+					}
+				}
+				if ($this->byr02->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl02->CurrentValue)) < $bulan) {
+						$this->byr02->ReadOnly = true;
+					}
+				}
+				if ($this->byr03->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl03->CurrentValue)) < $bulan) {
+						$this->byr03->ReadOnly = true;
+					}
+				}
+				if ($this->byr04->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl04->CurrentValue)) < $bulan) {
+						$this->byr04->ReadOnly = true;
+					}
+				}
+				if ($this->byr05->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl05->CurrentValue)) < $bulan) {
+						$this->byr05->ReadOnly = true;
+					}
+				}
+				if ($this->byr06->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl06->CurrentValue)) < $bulan) {
+						$this->byr06->ReadOnly = true;
+					}
+				}
+				if ($this->byr07->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl07->CurrentValue)) < $bulan) {
+						$this->byr07->ReadOnly = true;
+					}
+				}
+				if ($this->byr08->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl08->CurrentValue)) < $bulan) {
+						$this->byr08->ReadOnly = true;
+					}
+				}
+				if ($this->byr09->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl09->CurrentValue)) < $bulan) {
+						$this->byr09->ReadOnly = true;
+					}
+				}
+				if ($this->byr10->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl10->CurrentValue)) < $bulan) {
+						$this->byr10->ReadOnly = true;
+					}
+				}
+				if ($this->byr11->CurrentValue == "1") {
+					if (date("n", strtotime($this->tgl11->CurrentValue)) < $bulan) {
+						$this->byr11->ReadOnly = true;
+					}
+				}
+				break;
+		}
 	}
 
 	// User ID Filtering event

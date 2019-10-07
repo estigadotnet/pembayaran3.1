@@ -16,13 +16,15 @@
 - fitur naik kelas
 
 
-- pembayaran, centang diubah menjadi read-only apabila sudah tutup buku bulanan
-
-
 - upload data TK
 
 
+
 </font><strong>----- start - finish -----------------------------------------------------------------------</strong>
+s9:57 AM 10/7/2019 - f2:54 PM 10/7/2019
+  - pembayaran, centang diubah menjadi read-only apabila sudah tutup buku bulanan
+
+
 s5:43 PM 10/3/2019 - f12:44 PM 10/5/2019
   - laporan tunggakan,
     - harus periksa tipe iuran, apakah rutin atau non-rutin,
