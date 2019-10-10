@@ -1,5 +1,7 @@
 <strong>----- on progress --------------------------------------------------------------------------</strong>
-
+s1:49 PM 10/10/2019
+- penambahan dan pengurangan iuran, bisa untuk 1 (satu) siswa, ataupun untuk semua siswa, bisa multi-select
+  atau per kelas
 
 
 <strong>----- change log ---------------------------------------------------------------------------</strong>
@@ -9,10 +11,6 @@
 
 
 <font color="red"><strong>----- to do --------------------------------------------------------------------------------</strong>
-- penambahan dan pengurangan iuran, bisa untuk 1 (satu) siswa, ataupun untuk semua siswa, bisa multi-select
-  atau per kelas
-
-
 - fitur naik kelas
 
 
