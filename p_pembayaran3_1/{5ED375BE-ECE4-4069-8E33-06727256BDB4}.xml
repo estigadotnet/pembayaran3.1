@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<configuration date="2019/10/07" author="e.World Technology Ltd.">
-  <project id="{5ED375BE-ECE4-4069-8E33-06727256BDB4}" file="C:\xampp\htdocs\pembayaran3.1\p_pembayaran3.1.prp" name="p_pembayaran3_1" product="PHPReportMaker" version="12.0" datetime="2019/10/07 16:15:33" languagefolder="phprptlang" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0">
+<configuration date="2019/10/10" author="e.World Technology Ltd.">
+  <project id="{5ED375BE-ECE4-4069-8E33-06727256BDB4}" file="C:\xampp\htdocs\pembayaran3.1\p_pembayaran3.1.prp" name="p_pembayaran3_1" product="PHPReportMaker" version="12.0" datetime="2019/10/10 18:35:15" languagefolder="phprptlang" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0">
     <table id="r101_lap_bayar" name="r101_lap_bayar" caption="Pembayaran" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
     <table id="r102_lap_tunggak" name="r102_lap_tunggak" caption="Tunggakan" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
     <table id="r103_lap_um" name="r103_lap_um" caption="Uang Masuk" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
@@ -27,8 +27,7 @@
     <table id="v108_lap_um" name="v108_lap_um" caption="v 108 lap um" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
     <table id="v109_lap_pum" name="v109_lap_pum" caption="Potensi Uang Masuk" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
     <table id="v110_bukti_master" name="v110_bukti_master" caption="v 110 bukti master" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
-    <table id="v114_pembayaran" name="v114_pembayaran" caption="v 114 pembayaran" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
-    <table id="v115_lap_bayar" name="v115_lap_bayar" caption="v 115 lap bayar" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
-    <table id="r105_lap_bayar_nr" name="r105_lap_bayar_nr" caption="Pembayaran (Non-Rutin)" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+    <table id="v111_daf_kelas_iuran" name="v111_daf_kelas_iuran" caption="v 111 daf kelas iuran" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+    <table id="r105_daf_kelas_iuran" name="r105_daf_kelas_iuran" caption="Kelas &amp; Iuran" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
   </project>
 </configuration>
