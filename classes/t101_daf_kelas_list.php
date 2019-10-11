@@ -1890,12 +1890,7 @@ class t101_daf_kelas_list extends t101_daf_kelas
 		//$opt->Header = "xxx";
 		//$opt->OnLeft = TRUE; // Link on left
 		//$opt->MoveTo(0); // Move to first column
-		// tambah iuran untuk semua siswa dalam satu kelas
 
-		$opt = &$this->ListOptions->Add("tambah_iuran");
-		$opt->Header = "Tambah Iuran";
-		$opt->OnLeft = TRUE; // Link on left
-		$opt->MoveTo(0); // Move to first column
 	}
 
 	// ListOptions Rendering event
@@ -1912,9 +1907,7 @@ class t101_daf_kelas_list extends t101_daf_kelas
 
 		// Example:
 		//$this->ListOptions->Items["new"]->Body = "xxx";
-		// proses link tambah iuran
 
-		$this->ListOptions->Items["tambah_iuran"]->Body = "Proses";
 	}
 
 	// Row Custom Action event

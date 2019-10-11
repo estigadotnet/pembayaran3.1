@@ -448,6 +448,8 @@ class index
 			$this->terminate("v103_daf_kelas_siswa_iuranlist.php");
 		if ($Security->allowList(CurrentProjectID() . 'v110_bukti_master'))
 			$this->terminate("v110_bukti_masterlist.php");
+		if ($Security->allowList(CurrentProjectID() . 'v113_export_siswa_iuran'))
+			$this->terminate("v113_export_siswa_iuranlist.php");
 		if ($Security->isLoggedIn()) {
 			$this->setFailureMessage(DeniedMessage() . "<br><br><a href=\"logout.php\">" . $Language->phrase("BackToLogin") . "</a>");
 		} else {
