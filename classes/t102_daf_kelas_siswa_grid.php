@@ -663,7 +663,7 @@ class t102_daf_kelas_siswa_grid extends t102_daf_kelas_siswa
 
 		// Set up list options
 		$this->setupListOptions();
-		$this->id->Visible = FALSE;
+		$this->id->setVisibility();
 		$this->daf_kelas_id->Visible = FALSE;
 		$this->siswa_id->setVisibility();
 		$this->hideFieldsForAddEdit();
@@ -1474,6 +1474,11 @@ class t102_daf_kelas_siswa_grid extends t102_daf_kelas_siswa
 		global $CurrentForm;
 		$CurrentForm->FormName = $this->FormName;
 
+		// Check field name 'id' first before field var 'x_id'
+		$val = $CurrentForm->hasValue("id") ? $CurrentForm->getValue("id") : $CurrentForm->getValue("x_id");
+		if (!$this->id->IsDetailKey && !$this->isGridAdd() && !$this->isAdd())
+			$this->id->setFormValue($val);
+
 		// Check field name 'siswa_id' first before field var 'x_siswa_id'
 		$val = $CurrentForm->hasValue("siswa_id") ? $CurrentForm->getValue("siswa_id") : $CurrentForm->getValue("x_siswa_id");
 		if (!$this->siswa_id->IsDetailKey) {
@@ -1483,11 +1488,6 @@ class t102_daf_kelas_siswa_grid extends t102_daf_kelas_siswa
 				$this->siswa_id->setFormValue($val);
 		}
 		$this->siswa_id->setOldValue($CurrentForm->getValue("o_siswa_id"));
-
-		// Check field name 'id' first before field var 'x_id'
-		$val = $CurrentForm->hasValue("id") ? $CurrentForm->getValue("id") : $CurrentForm->getValue("x_id");
-		if (!$this->id->IsDetailKey && !$this->isGridAdd() && !$this->isAdd())
-			$this->id->setFormValue($val);
 	}
 
 	// Restore form values
@@ -1659,13 +1659,20 @@ class t102_daf_kelas_siswa_grid extends t102_daf_kelas_siswa
 			}
 			$this->siswa_id->ViewCustomAttributes = "";
 
+			// id
+			$this->id->LinkCustomAttributes = "";
+			$this->id->HrefValue = "";
+			$this->id->TooltipValue = "";
+
 			// siswa_id
 			$this->siswa_id->LinkCustomAttributes = "";
 			$this->siswa_id->HrefValue = "";
 			$this->siswa_id->TooltipValue = "";
 		} elseif ($this->RowType == ROWTYPE_ADD) { // Add row
 
+			// id
 			// siswa_id
+
 			$this->siswa_id->EditAttrs["class"] = "form-control";
 			$this->siswa_id->EditCustomAttributes = "";
 			$curVal = trim(strval($this->siswa_id->CurrentValue));
@@ -1689,11 +1696,21 @@ class t102_daf_kelas_siswa_grid extends t102_daf_kelas_siswa
 			}
 
 			// Add refer script
-			// siswa_id
+			// id
 
+			$this->id->LinkCustomAttributes = "";
+			$this->id->HrefValue = "";
+
+			// siswa_id
 			$this->siswa_id->LinkCustomAttributes = "";
 			$this->siswa_id->HrefValue = "";
 		} elseif ($this->RowType == ROWTYPE_EDIT) { // Edit row
+
+			// id
+			$this->id->EditAttrs["class"] = "form-control";
+			$this->id->EditCustomAttributes = "";
+			$this->id->EditValue = $this->id->CurrentValue;
+			$this->id->ViewCustomAttributes = "";
 
 			// siswa_id
 			$this->siswa_id->EditAttrs["class"] = "form-control";
@@ -1719,8 +1736,13 @@ class t102_daf_kelas_siswa_grid extends t102_daf_kelas_siswa
 			}
 
 			// Edit refer script
-			// siswa_id
+			// id
 
+			$this->id->LinkCustomAttributes = "";
+			$this->id->HrefValue = "";
+			$this->id->TooltipValue = "";
+
+			// siswa_id
 			$this->siswa_id->LinkCustomAttributes = "";
 			$this->siswa_id->HrefValue = "";
 		}

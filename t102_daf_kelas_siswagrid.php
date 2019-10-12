@@ -46,6 +46,11 @@ ft102_daf_kelas_siswagrid.validate = function() {
 		var checkrow = (gridinsert) ? !this.emptyRow(infix) : true;
 		if (checkrow) {
 			addcnt++;
+		<?php if ($t102_daf_kelas_siswa_grid->id->Required) { ?>
+			elm = this.getElements("x" + infix + "_id");
+			if (elm && !ew.isHidden(elm) && !ew.hasValue(elm))
+				return this.onError(elm, "<?php echo JsEncode(str_replace("%s", $t102_daf_kelas_siswa->id->caption(), $t102_daf_kelas_siswa->id->RequiredErrorMessage)) ?>");
+		<?php } ?>
 		<?php if ($t102_daf_kelas_siswa_grid->siswa_id->Required) { ?>
 			elm = this.getElements("x" + infix + "_siswa_id");
 			if (elm && !ew.isHidden(elm) && !ew.hasValue(elm))
@@ -109,6 +114,15 @@ $t102_daf_kelas_siswa_grid->renderListOptions();
 // Render list options (header, left)
 $t102_daf_kelas_siswa_grid->ListOptions->render("header", "left");
 ?>
+<?php if ($t102_daf_kelas_siswa->id->Visible) { // id ?>
+	<?php if ($t102_daf_kelas_siswa->sortUrl($t102_daf_kelas_siswa->id) == "") { ?>
+		<th data-name="id" class="<?php echo $t102_daf_kelas_siswa->id->headerCellClass() ?>"><div id="elh_t102_daf_kelas_siswa_id" class="t102_daf_kelas_siswa_id"><div class="ew-table-header-caption"><?php echo $t102_daf_kelas_siswa->id->caption() ?></div></div></th>
+	<?php } else { ?>
+		<th data-name="id" class="<?php echo $t102_daf_kelas_siswa->id->headerCellClass() ?>"><div><div id="elh_t102_daf_kelas_siswa_id" class="t102_daf_kelas_siswa_id">
+			<div class="ew-table-header-btn"><span class="ew-table-header-caption"><?php echo $t102_daf_kelas_siswa->id->caption() ?></span><span class="ew-table-header-sort"><?php if ($t102_daf_kelas_siswa->id->getSort() == "ASC") { ?><i class="fa fa-sort-up"></i><?php } elseif ($t102_daf_kelas_siswa->id->getSort() == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?></span></div>
+		</div></div></th>
+	<?php } ?>
+<?php } ?>
 <?php if ($t102_daf_kelas_siswa->siswa_id->Visible) { // siswa_id ?>
 	<?php if ($t102_daf_kelas_siswa->sortUrl($t102_daf_kelas_siswa->siswa_id) == "") { ?>
 		<th data-name="siswa_id" class="<?php echo $t102_daf_kelas_siswa->siswa_id->headerCellClass() ?>"><div id="elh_t102_daf_kelas_siswa_siswa_id" class="t102_daf_kelas_siswa_siswa_id"><div class="ew-table-header-caption"><?php echo $t102_daf_kelas_siswa->siswa_id->caption() ?></div></div></th>
@@ -226,6 +240,33 @@ while ($t102_daf_kelas_siswa_grid->RecCnt < $t102_daf_kelas_siswa_grid->StopRec)
 // Render list options (body, left)
 $t102_daf_kelas_siswa_grid->ListOptions->render("body", "left", $t102_daf_kelas_siswa_grid->RowCnt);
 ?>
+	<?php if ($t102_daf_kelas_siswa->id->Visible) { // id ?>
+		<td data-name="id"<?php echo $t102_daf_kelas_siswa->id->cellAttributes() ?>>
+<?php if ($t102_daf_kelas_siswa->RowType == ROWTYPE_ADD) { // Add record ?>
+<input type="hidden" data-table="t102_daf_kelas_siswa" data-field="x_id" name="o<?php echo $t102_daf_kelas_siswa_grid->RowIndex ?>_id" id="o<?php echo $t102_daf_kelas_siswa_grid->RowIndex ?>_id" value="<?php echo HtmlEncode($t102_daf_kelas_siswa->id->OldValue) ?>">
+<?php } ?>
+<?php if ($t102_daf_kelas_siswa->RowType == ROWTYPE_EDIT) { // Edit record ?>
+<span id="el<?php echo $t102_daf_kelas_siswa_grid->RowCnt ?>_t102_daf_kelas_siswa_id" class="form-group t102_daf_kelas_siswa_id">
+<span<?php echo $t102_daf_kelas_siswa->id->viewAttributes() ?>>
+<input type="text" readonly class="form-control-plaintext" value="<?php echo RemoveHtml($t102_daf_kelas_siswa->id->EditValue) ?>"></span>
+</span>
+<input type="hidden" data-table="t102_daf_kelas_siswa" data-field="x_id" name="x<?php echo $t102_daf_kelas_siswa_grid->RowIndex ?>_id" id="x<?php echo $t102_daf_kelas_siswa_grid->RowIndex ?>_id" value="<?php echo HtmlEncode($t102_daf_kelas_siswa->id->CurrentValue) ?>">
+<?php } ?>
+<?php if ($t102_daf_kelas_siswa->RowType == ROWTYPE_VIEW) { // View record ?>
+<span id="el<?php echo $t102_daf_kelas_siswa_grid->RowCnt ?>_t102_daf_kelas_siswa_id" class="t102_daf_kelas_siswa_id">
+<span<?php echo $t102_daf_kelas_siswa->id->viewAttributes() ?>>
+<?php echo $t102_daf_kelas_siswa->id->getViewValue() ?></span>
+</span>
+<?php if (!$t102_daf_kelas_siswa->isConfirm()) { ?>
+<input type="hidden" data-table="t102_daf_kelas_siswa" data-field="x_id" name="x<?php echo $t102_daf_kelas_siswa_grid->RowIndex ?>_id" id="x<?php echo $t102_daf_kelas_siswa_grid->RowIndex ?>_id" value="<?php echo HtmlEncode($t102_daf_kelas_siswa->id->FormValue) ?>">
+<input type="hidden" data-table="t102_daf_kelas_siswa" data-field="x_id" name="o<?php echo $t102_daf_kelas_siswa_grid->RowIndex ?>_id" id="o<?php echo $t102_daf_kelas_siswa_grid->RowIndex ?>_id" value="<?php echo HtmlEncode($t102_daf_kelas_siswa->id->OldValue) ?>">
+<?php } else { ?>
+<input type="hidden" data-table="t102_daf_kelas_siswa" data-field="x_id" name="ft102_daf_kelas_siswagrid$x<?php echo $t102_daf_kelas_siswa_grid->RowIndex ?>_id" id="ft102_daf_kelas_siswagrid$x<?php echo $t102_daf_kelas_siswa_grid->RowIndex ?>_id" value="<?php echo HtmlEncode($t102_daf_kelas_siswa->id->FormValue) ?>">
+<input type="hidden" data-table="t102_daf_kelas_siswa" data-field="x_id" name="ft102_daf_kelas_siswagrid$o<?php echo $t102_daf_kelas_siswa_grid->RowIndex ?>_id" id="ft102_daf_kelas_siswagrid$o<?php echo $t102_daf_kelas_siswa_grid->RowIndex ?>_id" value="<?php echo HtmlEncode($t102_daf_kelas_siswa->id->OldValue) ?>">
+<?php } ?>
+<?php } ?>
+</td>
+	<?php } ?>
 	<?php if ($t102_daf_kelas_siswa->siswa_id->Visible) { // siswa_id ?>
 		<td data-name="siswa_id"<?php echo $t102_daf_kelas_siswa->siswa_id->cellAttributes() ?>>
 <?php if ($t102_daf_kelas_siswa->RowType == ROWTYPE_ADD) { // Add record ?>
@@ -264,13 +305,6 @@ $t102_daf_kelas_siswa_grid->ListOptions->render("body", "left", $t102_daf_kelas_
 <?php } ?>
 </td>
 	<?php } ?>
-<?php if ($t102_daf_kelas_siswa->RowType == ROWTYPE_ADD) { // Add record ?>
-<input type="hidden" data-table="t102_daf_kelas_siswa" data-field="x_id" name="x<?php echo $t102_daf_kelas_siswa_grid->RowIndex ?>_id" id="x<?php echo $t102_daf_kelas_siswa_grid->RowIndex ?>_id" value="<?php echo HtmlEncode($t102_daf_kelas_siswa->id->CurrentValue) ?>">
-<input type="hidden" data-table="t102_daf_kelas_siswa" data-field="x_id" name="o<?php echo $t102_daf_kelas_siswa_grid->RowIndex ?>_id" id="o<?php echo $t102_daf_kelas_siswa_grid->RowIndex ?>_id" value="<?php echo HtmlEncode($t102_daf_kelas_siswa->id->OldValue) ?>">
-<?php } ?>
-<?php if ($t102_daf_kelas_siswa->RowType == ROWTYPE_EDIT || $t102_daf_kelas_siswa->CurrentMode == "edit") { ?>
-<input type="hidden" data-table="t102_daf_kelas_siswa" data-field="x_id" name="x<?php echo $t102_daf_kelas_siswa_grid->RowIndex ?>_id" id="x<?php echo $t102_daf_kelas_siswa_grid->RowIndex ?>_id" value="<?php echo HtmlEncode($t102_daf_kelas_siswa->id->CurrentValue) ?>">
-<?php } ?>
 <?php
 
 // Render list options (body, right)
@@ -314,6 +348,19 @@ ft102_daf_kelas_siswagrid.updateLists(<?php echo $t102_daf_kelas_siswa_grid->Row
 // Render list options (body, left)
 $t102_daf_kelas_siswa_grid->ListOptions->render("body", "left", $t102_daf_kelas_siswa_grid->RowIndex);
 ?>
+	<?php if ($t102_daf_kelas_siswa->id->Visible) { // id ?>
+		<td data-name="id">
+<?php if (!$t102_daf_kelas_siswa->isConfirm()) { ?>
+<?php } else { ?>
+<span id="el$rowindex$_t102_daf_kelas_siswa_id" class="form-group t102_daf_kelas_siswa_id">
+<span<?php echo $t102_daf_kelas_siswa->id->viewAttributes() ?>>
+<input type="text" readonly class="form-control-plaintext" value="<?php echo RemoveHtml($t102_daf_kelas_siswa->id->ViewValue) ?>"></span>
+</span>
+<input type="hidden" data-table="t102_daf_kelas_siswa" data-field="x_id" name="x<?php echo $t102_daf_kelas_siswa_grid->RowIndex ?>_id" id="x<?php echo $t102_daf_kelas_siswa_grid->RowIndex ?>_id" value="<?php echo HtmlEncode($t102_daf_kelas_siswa->id->FormValue) ?>">
+<?php } ?>
+<input type="hidden" data-table="t102_daf_kelas_siswa" data-field="x_id" name="o<?php echo $t102_daf_kelas_siswa_grid->RowIndex ?>_id" id="o<?php echo $t102_daf_kelas_siswa_grid->RowIndex ?>_id" value="<?php echo HtmlEncode($t102_daf_kelas_siswa->id->OldValue) ?>">
+</td>
+	<?php } ?>
 	<?php if ($t102_daf_kelas_siswa->siswa_id->Visible) { // siswa_id ?>
 		<td data-name="siswa_id">
 <?php if (!$t102_daf_kelas_siswa->isConfirm()) { ?>

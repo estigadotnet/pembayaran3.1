@@ -78,6 +78,9 @@ $t102_daf_kelas_siswa_delete->showMessage();
 <table class="table ew-table">
 	<thead>
 	<tr class="ew-table-header">
+<?php if ($t102_daf_kelas_siswa->id->Visible) { // id ?>
+		<th class="<?php echo $t102_daf_kelas_siswa->id->headerCellClass() ?>"><span id="elh_t102_daf_kelas_siswa_id" class="t102_daf_kelas_siswa_id"><?php echo $t102_daf_kelas_siswa->id->caption() ?></span></th>
+<?php } ?>
 <?php if ($t102_daf_kelas_siswa->siswa_id->Visible) { // siswa_id ?>
 		<th class="<?php echo $t102_daf_kelas_siswa->siswa_id->headerCellClass() ?>"><span id="elh_t102_daf_kelas_siswa_siswa_id" class="t102_daf_kelas_siswa_siswa_id"><?php echo $t102_daf_kelas_siswa->siswa_id->caption() ?></span></th>
 <?php } ?>
@@ -102,6 +105,14 @@ while (!$t102_daf_kelas_siswa_delete->Recordset->EOF) {
 	$t102_daf_kelas_siswa_delete->renderRow();
 ?>
 	<tr<?php echo $t102_daf_kelas_siswa->rowAttributes() ?>>
+<?php if ($t102_daf_kelas_siswa->id->Visible) { // id ?>
+		<td<?php echo $t102_daf_kelas_siswa->id->cellAttributes() ?>>
+<span id="el<?php echo $t102_daf_kelas_siswa_delete->RowCnt ?>_t102_daf_kelas_siswa_id" class="t102_daf_kelas_siswa_id">
+<span<?php echo $t102_daf_kelas_siswa->id->viewAttributes() ?>>
+<?php echo $t102_daf_kelas_siswa->id->getViewValue() ?></span>
+</span>
+</td>
+<?php } ?>
 <?php if ($t102_daf_kelas_siswa->siswa_id->Visible) { // siswa_id ?>
 		<td<?php echo $t102_daf_kelas_siswa->siswa_id->cellAttributes() ?>>
 <span id="el<?php echo $t102_daf_kelas_siswa_delete->RowCnt ?>_t102_daf_kelas_siswa_siswa_id" class="t102_daf_kelas_siswa_siswa_id">

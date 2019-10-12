@@ -720,7 +720,7 @@ class t005_iuran_list extends t005_iuran
 
 		// Set up list options
 		$this->setupListOptions();
-		$this->id->Visible = FALSE;
+		$this->id->setVisibility();
 		$this->Nama->setVisibility();
 		$this->Jenis->setVisibility();
 		$this->hideFieldsForAddEdit();
@@ -951,6 +951,7 @@ class t005_iuran_list extends t005_iuran
 		if (Get("order") !== NULL) {
 			$this->CurrentOrder = Get("order");
 			$this->CurrentOrderType = Get("ordertype", "");
+			$this->updateSort($this->id, $ctrl); // id
 			$this->updateSort($this->Nama, $ctrl); // Nama
 			$this->updateSort($this->Jenis, $ctrl); // Jenis
 			$this->setStartRecordNumber(1); // Reset start position
@@ -984,6 +985,7 @@ class t005_iuran_list extends t005_iuran
 			if ($this->Command == "resetsort") {
 				$orderBy = "";
 				$this->setSessionOrderBy($orderBy);
+				$this->id->setSort("");
 				$this->Nama->setSort("");
 				$this->Jenis->setSort("");
 			}
@@ -1493,6 +1495,11 @@ class t005_iuran_list extends t005_iuran
 				$this->Jenis->ViewValue = NULL;
 			}
 			$this->Jenis->ViewCustomAttributes = "";
+
+			// id
+			$this->id->LinkCustomAttributes = "";
+			$this->id->HrefValue = "";
+			$this->id->TooltipValue = "";
 
 			// Nama
 			$this->Nama->LinkCustomAttributes = "";

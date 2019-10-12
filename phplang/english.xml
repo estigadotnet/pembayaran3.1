@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<ew-language date="2019/10/11" version="15.0.0.1" id="en" name="English" desc="English" author="e.World Technology Ltd.">
+<ew-language date="2019/10/12" version="15.0.0.1" id="en" name="English" desc="English" author="e.World Technology Ltd.">
   <!-- 
 	*** Important Notes:
 	1. Language ID should follow: https://developers.google.com/recaptcha/docs/language,
@@ -699,6 +699,9 @@
   <project>
     <phrase id="bodytitle" value="Pembayaran v.3.1" />
     <phrase id="footertext" value="&amp;copy;2019 ESTIGA[dot]NET. All rights reserved." />
+    <menu id="10097">
+      <phrase id="menutext" value="v 112 daf kelas siswa iuran" />
+    </menu>
     <menu id="18">
       <phrase id="menutext" value="Home" />
     </menu>
@@ -720,11 +723,11 @@
     <menu id="5">
       <phrase id="menutext" value="Iuran" />
     </menu>
+    <menu id="8">
+      <phrase id="menutext" value="Import Data Siswa &amp; Iuran" />
+    </menu>
     <menu id="10043">
       <phrase id="menutext" value="Export Data Siswa &amp; Iuran" />
-    </menu>
-    <menu id="10096">
-      <phrase id="menutext" value="Import Data Siswa &amp; Iuran" />
     </menu>
     <menu id="20">
       <phrase id="menutext" value="Daftar" />
@@ -740,9 +743,6 @@
     </menu>
     <menu id="12">
       <phrase id="menutext" value="Kelas (View)" />
-    </menu>
-    <menu id="8">
-      <phrase id="menutext" value="Iuran" />
     </menu>
     <menu id="10034">
       <phrase id="menutext" value="Kelas &amp; Iuran" />
@@ -943,7 +943,7 @@
     <table id="t005_iuran">
       <phrase id="tblcaption" value="Iuran" />
       <field id="id">
-        <phrase id="fldcaption" value="id" />
+        <phrase id="fldcaption" value="Kode" />
       </field>
       <field id="nama">
         <phrase id="fldcaption" value="Nama" />
@@ -974,13 +974,13 @@
     <table id="t102_daf_kelas_siswa">
       <phrase id="tblcaption" value="Siswa" />
       <field id="id">
-        <phrase id="fldcaption" value="id" />
+        <phrase id="fldcaption" value="No. Urut" />
       </field>
       <field id="daf_kelas_id">
         <phrase id="fldcaption" value="daf kelas id" />
       </field>
       <field id="siswa_id">
-        <phrase id="fldcaption" value="Siswa" />
+        <phrase id="fldcaption" value="Nomor Induk - Siswa" />
       </field>
     </table>
     <table id="t103_daf_kelas_siswa_iuran">
@@ -989,7 +989,7 @@
         <phrase id="fldcaption" value="id" />
       </field>
       <field id="daf_kelas_siswa_id">
-        <phrase id="fldcaption" value="daf kelas siswa id" />
+        <phrase id="fldcaption" value="No. Urut Siswa" />
       </field>
       <field id="iuran_id">
         <phrase id="fldcaption" value="Iuran" />
@@ -1579,6 +1579,60 @@
       </field>
       <field id="jumlah_siswa">
         <phrase id="fldcaption" value="jumlah siswa" />
+      </field>
+    </table>
+    <table id="v112_daf_kelas_siswa_iuran">
+      <phrase id="tblcaption" value="v 112 daf kelas siswa iuran" />
+      <field id="tabel_kelas_id">
+        <phrase id="fldcaption" value="tabel kelas id" />
+      </field>
+      <field id="tahun_ajaran_id">
+        <phrase id="fldcaption" value="tahun ajaran id" />
+      </field>
+      <field id="tahun_ajaran">
+        <phrase id="fldcaption" value="tahun ajaran" />
+      </field>
+      <field id="sekolah_id">
+        <phrase id="fldcaption" value="sekolah id" />
+      </field>
+      <field id="sekolah_nama">
+        <phrase id="fldcaption" value="sekolah nama" />
+      </field>
+      <field id="kelas_id">
+        <phrase id="fldcaption" value="kelas id" />
+      </field>
+      <field id="kelas_nama">
+        <phrase id="fldcaption" value="kelas nama" />
+      </field>
+      <field id="tabel_siswa_id">
+        <phrase id="fldcaption" value="tabel siswa id" />
+      </field>
+      <field id="siswa_id">
+        <phrase id="fldcaption" value="siswa id" />
+      </field>
+      <field id="nomorinduk">
+        <phrase id="fldcaption" value="nomorinduk" />
+      </field>
+      <field id="siswa_nama">
+        <phrase id="fldcaption" value="siswa nama" />
+      </field>
+      <field id="tabel_iuran_id">
+        <phrase id="fldcaption" value="tabel iuran id" />
+      </field>
+      <field id="iuran_id">
+        <phrase id="fldcaption" value="iuran id" />
+      </field>
+      <field id="iuran_nama">
+        <phrase id="fldcaption" value="iuran nama" />
+      </field>
+      <field id="jumlah">
+        <phrase id="fldcaption" value="jumlah" />
+      </field>
+      <field id="tsk">
+        <phrase id="fldcaption" value="tsk" />
+      </field>
+      <field id="ns">
+        <phrase id="fldcaption" value="ns" />
       </field>
     </table>
     <table id="v113_export_siswa_iuran">

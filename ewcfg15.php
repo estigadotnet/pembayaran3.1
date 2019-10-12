@@ -37,7 +37,7 @@ define(PROJECT_NAMESPACE . "PATH_DELIMITER", ((IS_WINDOWS) ? "\\" : "/")); // Ph
 define(PROJECT_NAMESPACE . "UNFORMAT_YEAR", 50); // Unformat year
 define(PROJECT_NAMESPACE . "PROJECT_NAME", "p_pembayaran3_1"); // Project name
 define(PROJECT_NAMESPACE . "CONFIG_FILE_FOLDER", PROJECT_NAME); // Config file name
-define(PROJECT_NAMESPACE . "RANDOM_KEY", 'yrAgzWfso157Pa7X'); // Random key for encryption
+define(PROJECT_NAMESPACE . "RANDOM_KEY", '9742WbD9VxubOkKq'); // Random key for encryption
 define(PROJECT_NAMESPACE . "ENCRYPTION_KEY", ''); // Encryption key for data protection
 define(PROJECT_NAMESPACE . "PROJECT_STYLESHEET_FILENAME", "phpcss/p_pembayaran3_1.css"); // Project stylesheet file name
 define(PROJECT_NAMESPACE . "PROJECT_CHARSET", "utf-8"); // Project charset
@@ -461,7 +461,7 @@ define(PROJECT_NAMESPACE . "IMPORT_CSV_QUOTE_CHARACTER", "\""); // Import to CSV
 define(PROJECT_NAMESPACE . "IMPORT_MAX_EXECUTION_TIME", 300); // Import max execution time
 define(PROJECT_NAMESPACE . "IMPORT_FILE_ALLOWED_EXT", "csv,xls,xlsx"); // Import file allowed extensions
 define(PROJECT_NAMESPACE . "IMPORT_INSERT_ONLY", TRUE); // Import by insert only
-define(PROJECT_NAMESPACE . "IMPORT_USE_TRANSACTION", FALSE); // Import use transaction
+define(PROJECT_NAMESPACE . "IMPORT_USE_TRANSACTION", TRUE); // Import use transaction
 
 // Export records
 define(PROJECT_NAMESPACE . "EXPORT_ALL", TRUE); // Export all records

@@ -54,6 +54,11 @@ ft005_iuranedit.validate = function() {
 	for (var i = startcnt; i <= rowcnt; i++) {
 		var infix = ($k[0]) ? String(i) : "";
 		$fobj.data("rowindex", infix);
+		<?php if ($t005_iuran_edit->id->Required) { ?>
+			elm = this.getElements("x" + infix + "_id");
+			if (elm && !ew.isHidden(elm) && !ew.hasValue(elm))
+				return this.onError(elm, "<?php echo JsEncode(str_replace("%s", $t005_iuran->id->caption(), $t005_iuran->id->RequiredErrorMessage)) ?>");
+		<?php } ?>
 		<?php if ($t005_iuran_edit->Nama->Required) { ?>
 			elm = this.getElements("x" + infix + "_Nama");
 			if (elm && !ew.isHidden(elm) && !ew.hasValue(elm))
@@ -113,6 +118,18 @@ $t005_iuran_edit->showMessage();
 <input type="hidden" name="action" id="action" value="update">
 <input type="hidden" name="modal" value="<?php echo (int)$t005_iuran_edit->IsModal ?>">
 <div class="ew-edit-div"><!-- page* -->
+<?php if ($t005_iuran->id->Visible) { // id ?>
+	<div id="r_id" class="form-group row">
+		<label id="elh_t005_iuran_id" class="<?php echo $t005_iuran_edit->LeftColumnClass ?>"><?php echo $t005_iuran->id->caption() ?><?php echo ($t005_iuran->id->Required) ? $Language->phrase("FieldRequiredIndicator") : "" ?></label>
+		<div class="<?php echo $t005_iuran_edit->RightColumnClass ?>"><div<?php echo $t005_iuran->id->cellAttributes() ?>>
+<span id="el_t005_iuran_id">
+<span<?php echo $t005_iuran->id->viewAttributes() ?>>
+<input type="text" readonly class="form-control-plaintext" value="<?php echo RemoveHtml($t005_iuran->id->EditValue) ?>"></span>
+</span>
+<input type="hidden" data-table="t005_iuran" data-field="x_id" name="x_id" id="x_id" value="<?php echo HtmlEncode($t005_iuran->id->CurrentValue) ?>">
+<?php echo $t005_iuran->id->CustomMsg ?></div></div>
+	</div>
+<?php } ?>
 <?php if ($t005_iuran->Nama->Visible) { // Nama ?>
 	<div id="r_Nama" class="form-group row">
 		<label id="elh_t005_iuran_Nama" for="x_Nama" class="<?php echo $t005_iuran_edit->LeftColumnClass ?>"><?php echo $t005_iuran->Nama->caption() ?><?php echo ($t005_iuran->Nama->Required) ? $Language->phrase("FieldRequiredIndicator") : "" ?></label>
@@ -137,7 +154,6 @@ $t005_iuran_edit->showMessage();
 	</div>
 <?php } ?>
 </div><!-- /page* -->
-	<input type="hidden" data-table="t005_iuran" data-field="x_id" name="x_id" id="x_id" value="<?php echo HtmlEncode($t005_iuran->id->CurrentValue) ?>">
 <?php if (!$t005_iuran_edit->IsModal) { ?>
 <div class="form-group row"><!-- buttons .form-group -->
 	<div class="<?php echo $t005_iuran_edit->OffsetColumnClass ?>"><!-- buttons offset -->

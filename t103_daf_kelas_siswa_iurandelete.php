@@ -102,6 +102,9 @@ $t103_daf_kelas_siswa_iuran_delete->showMessage();
 <table class="table ew-table">
 	<thead>
 	<tr class="ew-table-header">
+<?php if ($t103_daf_kelas_siswa_iuran->daf_kelas_siswa_id->Visible) { // daf_kelas_siswa_id ?>
+		<th class="<?php echo $t103_daf_kelas_siswa_iuran->daf_kelas_siswa_id->headerCellClass() ?>"><span id="elh_t103_daf_kelas_siswa_iuran_daf_kelas_siswa_id" class="t103_daf_kelas_siswa_iuran_daf_kelas_siswa_id"><?php echo $t103_daf_kelas_siswa_iuran->daf_kelas_siswa_id->caption() ?></span></th>
+<?php } ?>
 <?php if ($t103_daf_kelas_siswa_iuran->iuran_id->Visible) { // iuran_id ?>
 		<th class="<?php echo $t103_daf_kelas_siswa_iuran->iuran_id->headerCellClass() ?>"><span id="elh_t103_daf_kelas_siswa_iuran_iuran_id" class="t103_daf_kelas_siswa_iuran_iuran_id"><?php echo $t103_daf_kelas_siswa_iuran->iuran_id->caption() ?></span></th>
 <?php } ?>
@@ -237,6 +240,14 @@ while (!$t103_daf_kelas_siswa_iuran_delete->Recordset->EOF) {
 	$t103_daf_kelas_siswa_iuran_delete->renderRow();
 ?>
 	<tr<?php echo $t103_daf_kelas_siswa_iuran->rowAttributes() ?>>
+<?php if ($t103_daf_kelas_siswa_iuran->daf_kelas_siswa_id->Visible) { // daf_kelas_siswa_id ?>
+		<td<?php echo $t103_daf_kelas_siswa_iuran->daf_kelas_siswa_id->cellAttributes() ?>>
+<span id="el<?php echo $t103_daf_kelas_siswa_iuran_delete->RowCnt ?>_t103_daf_kelas_siswa_iuran_daf_kelas_siswa_id" class="t103_daf_kelas_siswa_iuran_daf_kelas_siswa_id">
+<span<?php echo $t103_daf_kelas_siswa_iuran->daf_kelas_siswa_id->viewAttributes() ?>>
+<?php echo $t103_daf_kelas_siswa_iuran->daf_kelas_siswa_id->getViewValue() ?></span>
+</span>
+</td>
+<?php } ?>
 <?php if ($t103_daf_kelas_siswa_iuran->iuran_id->Visible) { // iuran_id ?>
 		<td<?php echo $t103_daf_kelas_siswa_iuran->iuran_id->cellAttributes() ?>>
 <span id="el<?php echo $t103_daf_kelas_siswa_iuran_delete->RowCnt ?>_t103_daf_kelas_siswa_iuran_iuran_id" class="t103_daf_kelas_siswa_iuran_iuran_id">

@@ -610,7 +610,7 @@ class t103_daf_kelas_siswa_iuran_preview extends t103_daf_kelas_siswa_iuran
 		// Set up list options
 		$this->setupListOptions();
 		$this->id->Visible = FALSE;
-		$this->daf_kelas_siswa_id->Visible = FALSE;
+		$this->daf_kelas_siswa_id->setVisibility();
 		$this->iuran_id->setVisibility();
 		$this->Jumlah->setVisibility();
 		$this->byr01->setVisibility();

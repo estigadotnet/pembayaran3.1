@@ -2157,6 +2157,7 @@ class v102_daf_kelas_siswa_list extends v102_daf_kelas_siswa
 		// Example:
 		//$header = "your header";
 
+		$this->siswa->Caption = "[No Urut] [Nomor Induk] [Nama Siswa]";
 	}
 
 	// Page Data Rendered event

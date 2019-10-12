@@ -611,7 +611,7 @@ class t005_iuran_edit extends t005_iuran
 		// Create form object
 		$CurrentForm = new HttpForm();
 		$this->CurrentAction = Param("action"); // Set up current action
-		$this->id->Visible = FALSE;
+		$this->id->setVisibility();
 		$this->Nama->setVisibility();
 		$this->Jenis->setVisibility();
 		$this->hideFieldsForAddEdit();
@@ -786,6 +786,11 @@ class t005_iuran_edit extends t005_iuran
 		// Load from form
 		global $CurrentForm;
 
+		// Check field name 'id' first before field var 'x_id'
+		$val = $CurrentForm->hasValue("id") ? $CurrentForm->getValue("id") : $CurrentForm->getValue("x_id");
+		if (!$this->id->IsDetailKey)
+			$this->id->setFormValue($val);
+
 		// Check field name 'Nama' first before field var 'x_Nama'
 		$val = $CurrentForm->hasValue("Nama") ? $CurrentForm->getValue("Nama") : $CurrentForm->getValue("x_Nama");
 		if (!$this->Nama->IsDetailKey) {
@@ -803,11 +808,6 @@ class t005_iuran_edit extends t005_iuran
 			else
 				$this->Jenis->setFormValue($val);
 		}
-
-		// Check field name 'id' first before field var 'x_id'
-		$val = $CurrentForm->hasValue("id") ? $CurrentForm->getValue("id") : $CurrentForm->getValue("x_id");
-		if (!$this->id->IsDetailKey)
-			$this->id->setFormValue($val);
 	}
 
 	// Restore form values
@@ -925,6 +925,11 @@ class t005_iuran_edit extends t005_iuran
 			}
 			$this->Jenis->ViewCustomAttributes = "";
 
+			// id
+			$this->id->LinkCustomAttributes = "";
+			$this->id->HrefValue = "";
+			$this->id->TooltipValue = "";
+
 			// Nama
 			$this->Nama->LinkCustomAttributes = "";
 			$this->Nama->HrefValue = "";
@@ -935,6 +940,12 @@ class t005_iuran_edit extends t005_iuran
 			$this->Jenis->HrefValue = "";
 			$this->Jenis->TooltipValue = "";
 		} elseif ($this->RowType == ROWTYPE_EDIT) { // Edit row
+
+			// id
+			$this->id->EditAttrs["class"] = "form-control";
+			$this->id->EditCustomAttributes = "";
+			$this->id->EditValue = $this->id->CurrentValue;
+			$this->id->ViewCustomAttributes = "";
 
 			// Nama
 			$this->Nama->EditAttrs["class"] = "form-control";
@@ -949,8 +960,13 @@ class t005_iuran_edit extends t005_iuran
 			$this->Jenis->EditValue = $this->Jenis->options(FALSE);
 
 			// Edit refer script
-			// Nama
+			// id
 
+			$this->id->LinkCustomAttributes = "";
+			$this->id->HrefValue = "";
+			$this->id->TooltipValue = "";
+
+			// Nama
 			$this->Nama->LinkCustomAttributes = "";
 			$this->Nama->HrefValue = "";
 

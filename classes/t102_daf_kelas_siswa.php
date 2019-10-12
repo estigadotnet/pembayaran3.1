@@ -878,6 +878,7 @@ class t102_daf_kelas_siswa extends DbTable
 			if ($doc->Horizontal) { // Horizontal format, write header
 				$doc->beginExportRow();
 				if ($exportPageType == "view") {
+					$doc->exportCaption($this->id);
 					$doc->exportCaption($this->siswa_id);
 				} else {
 					$doc->exportCaption($this->id);
@@ -914,6 +915,7 @@ class t102_daf_kelas_siswa extends DbTable
 				if (!$doc->ExportCustom) {
 					$doc->beginExportRow($rowCnt); // Allow CSS styles if enabled
 					if ($exportPageType == "view") {
+						$doc->exportField($this->id);
 						$doc->exportField($this->siswa_id);
 					} else {
 						$doc->exportField($this->id);

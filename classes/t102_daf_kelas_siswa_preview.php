@@ -609,7 +609,7 @@ class t102_daf_kelas_siswa_preview extends t102_daf_kelas_siswa
 
 		// Set up list options
 		$this->setupListOptions();
-		$this->id->Visible = FALSE;
+		$this->id->setVisibility();
 		$this->daf_kelas_id->Visible = FALSE;
 		$this->siswa_id->setVisibility();
 		$this->hideFieldsForAddEdit();

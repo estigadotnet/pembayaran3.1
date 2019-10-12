@@ -596,7 +596,7 @@ class t103_daf_kelas_siswa_iuran_delete extends t103_daf_kelas_siswa_iuran
 		}
 		$this->CurrentAction = Param("action"); // Set up current action
 		$this->id->Visible = FALSE;
-		$this->daf_kelas_siswa_id->Visible = FALSE;
+		$this->daf_kelas_siswa_id->setVisibility();
 		$this->iuran_id->setVisibility();
 		$this->Jumlah->setVisibility();
 		$this->byr01->setVisibility();
@@ -1236,6 +1236,11 @@ class t103_daf_kelas_siswa_iuran_delete extends t103_daf_kelas_siswa_iuran
 			$this->tgl12->ViewValue = $this->tgl12->CurrentValue;
 			$this->tgl12->ViewValue = FormatDateTime($this->tgl12->ViewValue, 7);
 			$this->tgl12->ViewCustomAttributes = "";
+
+			// daf_kelas_siswa_id
+			$this->daf_kelas_siswa_id->LinkCustomAttributes = "";
+			$this->daf_kelas_siswa_id->HrefValue = "";
+			$this->daf_kelas_siswa_id->TooltipValue = "";
 
 			// iuran_id
 			$this->iuran_id->LinkCustomAttributes = "";

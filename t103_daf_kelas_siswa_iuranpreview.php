@@ -47,6 +47,16 @@ $t103_daf_kelas_siswa_iuran_preview->renderListOptions();
 // Render list options (header, left)
 $t103_daf_kelas_siswa_iuran_preview->ListOptions->render("header", "left");
 ?>
+<?php if ($t103_daf_kelas_siswa_iuran->daf_kelas_siswa_id->Visible) { // daf_kelas_siswa_id ?>
+	<?php if ($t103_daf_kelas_siswa_iuran->SortUrl($t103_daf_kelas_siswa_iuran->daf_kelas_siswa_id) == "") { ?>
+		<th class="<?php echo $t103_daf_kelas_siswa_iuran->daf_kelas_siswa_id->headerCellClass() ?>"><?php echo $t103_daf_kelas_siswa_iuran->daf_kelas_siswa_id->caption() ?></th>
+	<?php } else { ?>
+		<th class="<?php echo $t103_daf_kelas_siswa_iuran->daf_kelas_siswa_id->headerCellClass() ?>"><div class="ew-pointer" data-sort="<?php echo $t103_daf_kelas_siswa_iuran->daf_kelas_siswa_id->Name ?>" data-sort-order="<?php echo $t103_daf_kelas_siswa_iuran_preview->SortField == $t103_daf_kelas_siswa_iuran->daf_kelas_siswa_id->Name && $t103_daf_kelas_siswa_iuran_preview->SortOrder == "ASC" ? "DESC" : "ASC" ?>"><div class="ew-table-header-btn">
+		<span class="ew-table-header-caption"><?php echo $t103_daf_kelas_siswa_iuran->daf_kelas_siswa_id->caption() ?></span>
+		<span class="ew-table-header-sort"><?php if ($t103_daf_kelas_siswa_iuran_preview->SortField == $t103_daf_kelas_siswa_iuran->daf_kelas_siswa_id->Name) { ?><?php if ($t103_daf_kelas_siswa_iuran_preview->SortOrder == "ASC") { ?><i class="fa fa-sort-up ew-sort-up"></span><?php } elseif ($t103_daf_kelas_siswa_iuran_preview->SortOrder == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?><?php } ?></span>
+	</div></div></th>
+	<?php } ?>
+<?php } ?>
 <?php if ($t103_daf_kelas_siswa_iuran->iuran_id->Visible) { // iuran_id ?>
 	<?php if ($t103_daf_kelas_siswa_iuran->SortUrl($t103_daf_kelas_siswa_iuran->iuran_id) == "") { ?>
 		<th class="<?php echo $t103_daf_kelas_siswa_iuran->iuran_id->headerCellClass() ?>"><?php echo $t103_daf_kelas_siswa_iuran->iuran_id->caption() ?></th>
@@ -460,6 +470,13 @@ while ($t103_daf_kelas_siswa_iuran_preview->Recordset && !$t103_daf_kelas_siswa_
 // Render list options (body, left)
 $t103_daf_kelas_siswa_iuran_preview->ListOptions->render("body", "left", $t103_daf_kelas_siswa_iuran_preview->RowCnt);
 ?>
+<?php if ($t103_daf_kelas_siswa_iuran->daf_kelas_siswa_id->Visible) { // daf_kelas_siswa_id ?>
+		<!-- daf_kelas_siswa_id -->
+		<td<?php echo $t103_daf_kelas_siswa_iuran->daf_kelas_siswa_id->cellAttributes() ?>>
+<span<?php echo $t103_daf_kelas_siswa_iuran->daf_kelas_siswa_id->viewAttributes() ?>>
+<?php echo $t103_daf_kelas_siswa_iuran->daf_kelas_siswa_id->getViewValue() ?></span>
+</td>
+<?php } ?>
 <?php if ($t103_daf_kelas_siswa_iuran->iuran_id->Visible) { // iuran_id ?>
 		<!-- iuran_id -->
 		<td<?php echo $t103_daf_kelas_siswa_iuran->iuran_id->cellAttributes() ?>>

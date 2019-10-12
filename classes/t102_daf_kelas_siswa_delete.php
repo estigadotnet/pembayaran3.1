@@ -595,7 +595,7 @@ class t102_daf_kelas_siswa_delete extends t102_daf_kelas_siswa
 			}
 		}
 		$this->CurrentAction = Param("action"); // Set up current action
-		$this->id->Visible = FALSE;
+		$this->id->setVisibility();
 		$this->daf_kelas_id->Visible = FALSE;
 		$this->siswa_id->setVisibility();
 		$this->hideFieldsForAddEdit();
@@ -803,6 +803,11 @@ class t102_daf_kelas_siswa_delete extends t102_daf_kelas_siswa
 				$this->siswa_id->ViewValue = NULL;
 			}
 			$this->siswa_id->ViewCustomAttributes = "";
+
+			// id
+			$this->id->LinkCustomAttributes = "";
+			$this->id->HrefValue = "";
+			$this->id->TooltipValue = "";
 
 			// siswa_id
 			$this->siswa_id->LinkCustomAttributes = "";

@@ -718,6 +718,42 @@ class t103_daf_kelas_siswa_iuran_list extends t103_daf_kelas_siswa_iuran
 
 		// Create form object
 		$CurrentForm = new HttpForm();
+
+		// Get export parameters
+		$custom = "";
+		if (Param("export") !== NULL) {
+			$this->Export = Param("export");
+			$custom = Param("custom", "");
+		} elseif (IsPost()) {
+			if (Post("exporttype") !== NULL)
+				$this->Export = Post("exporttype");
+			$custom = Post("custom", "");
+		} elseif (Get("cmd") == "json") {
+			$this->Export = Get("cmd");
+		} else {
+			$this->setExportReturnUrl(CurrentUrl());
+		}
+		$ExportFileName = $this->TableVar; // Get export file, used in header
+
+		// Get custom export parameters
+		if ($this->isExport() && $custom <> "") {
+			$this->CustomExport = $this->Export;
+			$this->Export = "print";
+		}
+		$CustomExportType = $this->CustomExport;
+		$ExportType = $this->Export; // Get export parameter, used in header
+
+		// Update Export URLs
+		if (defined(PROJECT_NAMESPACE . "USE_PHPEXCEL"))
+			$this->ExportExcelCustom = FALSE;
+		if ($this->ExportExcelCustom)
+			$this->ExportExcelUrl .= "&amp;custom=1";
+		if (defined(PROJECT_NAMESPACE . "USE_PHPWORD"))
+			$this->ExportWordCustom = FALSE;
+		if ($this->ExportWordCustom)
+			$this->ExportWordUrl .= "&amp;custom=1";
+		if ($this->ExportPdfCustom)
+			$this->ExportPdfUrl .= "&amp;custom=1";
 		$this->CurrentAction = Param("action"); // Set up current action
 
 		// Get grid add count
@@ -728,10 +764,13 @@ class t103_daf_kelas_siswa_iuran_list extends t103_daf_kelas_siswa_iuran
 		// Set up list options
 		$this->setupListOptions();
 
+		// Setup export options
+		$this->setupExportOptions();
+
 		// Setup import options
 		$this->setupImportOptions();
 		$this->id->Visible = FALSE;
-		$this->daf_kelas_siswa_id->Visible = FALSE;
+		$this->daf_kelas_siswa_id->setVisibility();
 		$this->iuran_id->setVisibility();
 		$this->Jumlah->setVisibility();
 		$this->byr01->setVisibility();
@@ -989,6 +1028,12 @@ class t103_daf_kelas_siswa_iuran_list extends t103_daf_kelas_siswa_iuran
 		} else {
 			$this->setSessionWhere($filter);
 			$this->CurrentFilter = "";
+		}
+
+		// Export data only
+		if (!$this->CustomExport && in_array($this->Export, array_keys($EXPORT))) {
+			$this->exportData();
+			$this->terminate();
 		}
 		if ($this->isGridAdd()) {
 			$this->CurrentFilter = "0=1";
@@ -1450,6 +1495,8 @@ class t103_daf_kelas_siswa_iuran_list extends t103_daf_kelas_siswa_iuran
 	public function emptyRow()
 	{
 		global $CurrentForm;
+		if ($CurrentForm->hasValue("x_daf_kelas_siswa_id") && $CurrentForm->hasValue("o_daf_kelas_siswa_id") && $this->daf_kelas_siswa_id->CurrentValue <> $this->daf_kelas_siswa_id->OldValue)
+			return FALSE;
 		if ($CurrentForm->hasValue("x_iuran_id") && $CurrentForm->hasValue("o_iuran_id") && $this->iuran_id->CurrentValue <> $this->iuran_id->OldValue)
 			return FALSE;
 		if ($CurrentForm->hasValue("x_Jumlah") && $CurrentForm->hasValue("o_Jumlah") && $this->Jumlah->CurrentValue <> $this->Jumlah->OldValue)
@@ -1611,6 +1658,7 @@ class t103_daf_kelas_siswa_iuran_list extends t103_daf_kelas_siswa_iuran
 		if (Get("order") !== NULL) {
 			$this->CurrentOrder = Get("order");
 			$this->CurrentOrderType = Get("ordertype", "");
+			$this->updateSort($this->daf_kelas_siswa_id, $ctrl); // daf_kelas_siswa_id
 			$this->updateSort($this->iuran_id, $ctrl); // iuran_id
 			$this->updateSort($this->Jumlah, $ctrl); // Jumlah
 			$this->updateSort($this->byr01, $ctrl); // byr01
@@ -1689,6 +1737,7 @@ class t103_daf_kelas_siswa_iuran_list extends t103_daf_kelas_siswa_iuran
 			if ($this->Command == "resetsort") {
 				$orderBy = "";
 				$this->setSessionOrderBy($orderBy);
+				$this->daf_kelas_siswa_id->setSort("");
 				$this->iuran_id->setSort("");
 				$this->Jumlah->setSort("");
 				$this->byr01->setSort("");
@@ -2312,6 +2361,16 @@ class t103_daf_kelas_siswa_iuran_list extends t103_daf_kelas_siswa_iuran
 		// Load from form
 		global $CurrentForm;
 
+		// Check field name 'daf_kelas_siswa_id' first before field var 'x_daf_kelas_siswa_id'
+		$val = $CurrentForm->hasValue("daf_kelas_siswa_id") ? $CurrentForm->getValue("daf_kelas_siswa_id") : $CurrentForm->getValue("x_daf_kelas_siswa_id");
+		if (!$this->daf_kelas_siswa_id->IsDetailKey) {
+			if (IsApi() && $val == NULL)
+				$this->daf_kelas_siswa_id->Visible = FALSE; // Disable update for API request
+			else
+				$this->daf_kelas_siswa_id->setFormValue($val);
+		}
+		$this->daf_kelas_siswa_id->setOldValue($CurrentForm->getValue("o_daf_kelas_siswa_id"));
+
 		// Check field name 'iuran_id' first before field var 'x_iuran_id'
 		$val = $CurrentForm->hasValue("iuran_id") ? $CurrentForm->getValue("iuran_id") : $CurrentForm->getValue("x_iuran_id");
 		if (!$this->iuran_id->IsDetailKey) {
@@ -2716,6 +2775,7 @@ class t103_daf_kelas_siswa_iuran_list extends t103_daf_kelas_siswa_iuran
 		global $CurrentForm;
 		if (!$this->isGridAdd() && !$this->isAdd())
 			$this->id->CurrentValue = $this->id->FormValue;
+		$this->daf_kelas_siswa_id->CurrentValue = $this->daf_kelas_siswa_id->FormValue;
 		$this->iuran_id->CurrentValue = $this->iuran_id->FormValue;
 		$this->Jumlah->CurrentValue = $this->Jumlah->FormValue;
 		$this->byr01->CurrentValue = $this->byr01->FormValue;
@@ -3322,6 +3382,11 @@ class t103_daf_kelas_siswa_iuran_list extends t103_daf_kelas_siswa_iuran
 			$this->tgl12->ViewValue = FormatDateTime($this->tgl12->ViewValue, 7);
 			$this->tgl12->ViewCustomAttributes = "";
 
+			// daf_kelas_siswa_id
+			$this->daf_kelas_siswa_id->LinkCustomAttributes = "";
+			$this->daf_kelas_siswa_id->HrefValue = "";
+			$this->daf_kelas_siswa_id->TooltipValue = "";
+
 			// iuran_id
 			$this->iuran_id->LinkCustomAttributes = "";
 			$this->iuran_id->HrefValue = "";
@@ -3512,6 +3577,20 @@ class t103_daf_kelas_siswa_iuran_list extends t103_daf_kelas_siswa_iuran
 			$this->tgl12->HrefValue = "";
 			$this->tgl12->TooltipValue = "";
 		} elseif ($this->RowType == ROWTYPE_ADD) { // Add row
+
+			// daf_kelas_siswa_id
+			$this->daf_kelas_siswa_id->EditAttrs["class"] = "form-control";
+			$this->daf_kelas_siswa_id->EditCustomAttributes = "";
+			if ($this->daf_kelas_siswa_id->getSessionValue() <> "") {
+				$this->daf_kelas_siswa_id->CurrentValue = $this->daf_kelas_siswa_id->getSessionValue();
+				$this->daf_kelas_siswa_id->OldValue = $this->daf_kelas_siswa_id->CurrentValue;
+			$this->daf_kelas_siswa_id->ViewValue = $this->daf_kelas_siswa_id->CurrentValue;
+			$this->daf_kelas_siswa_id->ViewValue = FormatNumber($this->daf_kelas_siswa_id->ViewValue, 0, -2, -2, -2);
+			$this->daf_kelas_siswa_id->ViewCustomAttributes = "";
+			} else {
+			$this->daf_kelas_siswa_id->EditValue = HtmlEncode($this->daf_kelas_siswa_id->CurrentValue);
+			$this->daf_kelas_siswa_id->PlaceHolder = RemoveHtml($this->daf_kelas_siswa_id->caption());
+			}
 
 			// iuran_id
 			$this->iuran_id->EditAttrs["class"] = "form-control";
@@ -3787,8 +3866,12 @@ class t103_daf_kelas_siswa_iuran_list extends t103_daf_kelas_siswa_iuran
 			$this->tgl12->PlaceHolder = RemoveHtml($this->tgl12->caption());
 
 			// Add refer script
-			// iuran_id
+			// daf_kelas_siswa_id
 
+			$this->daf_kelas_siswa_id->LinkCustomAttributes = "";
+			$this->daf_kelas_siswa_id->HrefValue = "";
+
+			// iuran_id
 			$this->iuran_id->LinkCustomAttributes = "";
 			$this->iuran_id->HrefValue = "";
 
@@ -3940,6 +4023,20 @@ class t103_daf_kelas_siswa_iuran_list extends t103_daf_kelas_siswa_iuran
 			$this->tgl12->LinkCustomAttributes = "";
 			$this->tgl12->HrefValue = "";
 		} elseif ($this->RowType == ROWTYPE_EDIT) { // Edit row
+
+			// daf_kelas_siswa_id
+			$this->daf_kelas_siswa_id->EditAttrs["class"] = "form-control";
+			$this->daf_kelas_siswa_id->EditCustomAttributes = "";
+			if ($this->daf_kelas_siswa_id->getSessionValue() <> "") {
+				$this->daf_kelas_siswa_id->CurrentValue = $this->daf_kelas_siswa_id->getSessionValue();
+				$this->daf_kelas_siswa_id->OldValue = $this->daf_kelas_siswa_id->CurrentValue;
+			$this->daf_kelas_siswa_id->ViewValue = $this->daf_kelas_siswa_id->CurrentValue;
+			$this->daf_kelas_siswa_id->ViewValue = FormatNumber($this->daf_kelas_siswa_id->ViewValue, 0, -2, -2, -2);
+			$this->daf_kelas_siswa_id->ViewCustomAttributes = "";
+			} else {
+			$this->daf_kelas_siswa_id->EditValue = HtmlEncode($this->daf_kelas_siswa_id->CurrentValue);
+			$this->daf_kelas_siswa_id->PlaceHolder = RemoveHtml($this->daf_kelas_siswa_id->caption());
+			}
 
 			// iuran_id
 			$this->iuran_id->EditAttrs["class"] = "form-control";
@@ -4215,8 +4312,12 @@ class t103_daf_kelas_siswa_iuran_list extends t103_daf_kelas_siswa_iuran
 			$this->tgl12->PlaceHolder = RemoveHtml($this->tgl12->caption());
 
 			// Edit refer script
-			// iuran_id
+			// daf_kelas_siswa_id
 
+			$this->daf_kelas_siswa_id->LinkCustomAttributes = "";
+			$this->daf_kelas_siswa_id->HrefValue = "";
+
+			// iuran_id
 			$this->iuran_id->LinkCustomAttributes = "";
 			$this->iuran_id->HrefValue = "";
 
@@ -4396,6 +4497,9 @@ class t103_daf_kelas_siswa_iuran_list extends t103_daf_kelas_siswa_iuran
 			if (!$this->daf_kelas_siswa_id->IsDetailKey && $this->daf_kelas_siswa_id->FormValue != NULL && $this->daf_kelas_siswa_id->FormValue == "") {
 				AddMessage($FormError, str_replace("%s", $this->daf_kelas_siswa_id->caption(), $this->daf_kelas_siswa_id->RequiredErrorMessage));
 			}
+		}
+		if (!CheckInteger($this->daf_kelas_siswa_id->FormValue)) {
+			AddMessage($FormError, $this->daf_kelas_siswa_id->errorMessage());
 		}
 		if ($this->iuran_id->Required) {
 			if (!$this->iuran_id->IsDetailKey && $this->iuran_id->FormValue != NULL && $this->iuran_id->FormValue == "") {
@@ -4784,6 +4888,9 @@ class t103_daf_kelas_siswa_iuran_list extends t103_daf_kelas_siswa_iuran
 			$rsold = &$rs->fields;
 			$this->loadDbValues($rsold);
 			$rsnew = [];
+
+			// daf_kelas_siswa_id
+			$this->daf_kelas_siswa_id->setDbValueDef($rsnew, $this->daf_kelas_siswa_id->CurrentValue, 0, $this->daf_kelas_siswa_id->ReadOnly);
 
 			// iuran_id
 			$this->iuran_id->setDbValueDef($rsnew, $this->iuran_id->CurrentValue, 0, $this->iuran_id->ReadOnly);
@@ -5308,6 +5415,7 @@ class t103_daf_kelas_siswa_iuran_list extends t103_daf_kelas_siswa_iuran
 		if (!$rs)
 			return "";
 		$hash = "";
+		$hash .= GetFieldHash($rs->fields('daf_kelas_siswa_id')); // daf_kelas_siswa_id
 		$hash .= GetFieldHash($rs->fields('iuran_id')); // iuran_id
 		$hash .= GetFieldHash($rs->fields('Jumlah')); // Jumlah
 		$hash .= GetFieldHash($rs->fields('byr01')); // byr01
@@ -5357,8 +5465,8 @@ class t103_daf_kelas_siswa_iuran_list extends t103_daf_kelas_siswa_iuran
 		// Check referential integrity for master table 'v102_daf_kelas_siswa'
 		$validMasterRecord = TRUE;
 		$masterFilter = $this->sqlMasterFilter_v102_daf_kelas_siswa();
-		if ($this->daf_kelas_siswa_id->getSessionValue() <> "") {
-			$masterFilter = str_replace("@id@", AdjustSql($this->daf_kelas_siswa_id->getSessionValue(), "DB"), $masterFilter);
+		if (strval($this->daf_kelas_siswa_id->CurrentValue) <> "") {
+			$masterFilter = str_replace("@id@", AdjustSql($this->daf_kelas_siswa_id->CurrentValue, "DB"), $masterFilter);
 		} else {
 			$validMasterRecord = FALSE;
 		}
@@ -5381,6 +5489,9 @@ class t103_daf_kelas_siswa_iuran_list extends t103_daf_kelas_siswa_iuran
 		if ($rsold) {
 		}
 		$rsnew = [];
+
+		// daf_kelas_siswa_id
+		$this->daf_kelas_siswa_id->setDbValueDef($rsnew, $this->daf_kelas_siswa_id->CurrentValue, 0, FALSE);
 
 		// iuran_id
 		$this->iuran_id->setDbValueDef($rsnew, $this->iuran_id->CurrentValue, 0, FALSE);
@@ -5532,11 +5643,6 @@ class t103_daf_kelas_siswa_iuran_list extends t103_daf_kelas_siswa_iuran
 		// tgl12
 		$this->tgl12->setDbValueDef($rsnew, UnFormatDateTime($this->tgl12->CurrentValue, 7), NULL, FALSE);
 
-		// daf_kelas_siswa_id
-		if ($this->daf_kelas_siswa_id->getSessionValue() <> "") {
-			$rsnew['daf_kelas_siswa_id'] = $this->daf_kelas_siswa_id->getSessionValue();
-		}
-
 		// Call Row Inserting event
 		$rs = ($rsold) ? $rsold->fields : NULL;
 		$insertRow = $this->Row_Inserting($rs, $rsnew);
@@ -5573,6 +5679,95 @@ class t103_daf_kelas_siswa_iuran_list extends t103_daf_kelas_siswa_iuran
 		return $addRow;
 	}
 
+	// Get export HTML tag
+	protected function getExportTag($type, $custom = FALSE)
+	{
+		global $Language;
+		if (SameText($type, "excel")) {
+			if ($custom)
+				return "<a href=\"javascript:void(0);\" class=\"ew-export-link ew-excel\" title=\"" . HtmlEncode($Language->phrase("ExportToExcelText")) . "\" data-caption=\"" . HtmlEncode($Language->phrase("ExportToExcelText")) . "\" onclick=\"ew.export(document.ft103_daf_kelas_siswa_iuranlist,'" . $this->ExportExcelUrl . "','excel',true);\">" . $Language->phrase("ExportToExcel") . "</a>";
+			else
+				return "<a href=\"" . $this->ExportExcelUrl . "\" class=\"ew-export-link ew-excel\" title=\"" . HtmlEncode($Language->phrase("ExportToExcelText")) . "\" data-caption=\"" . HtmlEncode($Language->phrase("ExportToExcelText")) . "\">" . $Language->phrase("ExportToExcel") . "</a>";
+		} elseif (SameText($type, "word")) {
+			if ($custom)
+				return "<a href=\"javascript:void(0);\" class=\"ew-export-link ew-word\" title=\"" . HtmlEncode($Language->phrase("ExportToWordText")) . "\" data-caption=\"" . HtmlEncode($Language->phrase("ExportToWordText")) . "\" onclick=\"ew.export(document.ft103_daf_kelas_siswa_iuranlist,'" . $this->ExportWordUrl . "','word',true);\">" . $Language->phrase("ExportToWord") . "</a>";
+			else
+				return "<a href=\"" . $this->ExportWordUrl . "\" class=\"ew-export-link ew-word\" title=\"" . HtmlEncode($Language->phrase("ExportToWordText")) . "\" data-caption=\"" . HtmlEncode($Language->phrase("ExportToWordText")) . "\">" . $Language->phrase("ExportToWord") . "</a>";
+		} elseif (SameText($type, "pdf")) {
+			if ($custom)
+				return "<a href=\"javascript:void(0);\" class=\"ew-export-link ew-pdf\" title=\"" . HtmlEncode($Language->phrase("ExportToPDFText")) . "\" data-caption=\"" . HtmlEncode($Language->phrase("ExportToPDFText")) . "\" onclick=\"ew.export(document.ft103_daf_kelas_siswa_iuranlist,'" . $this->ExportPdfUrl . "','pdf',true);\">" . $Language->phrase("ExportToPDF") . "</a>";
+			else
+				return "<a href=\"" . $this->ExportPdfUrl . "\" class=\"ew-export-link ew-pdf\" title=\"" . HtmlEncode($Language->phrase("ExportToPDFText")) . "\" data-caption=\"" . HtmlEncode($Language->phrase("ExportToPDFText")) . "\">" . $Language->phrase("ExportToPDF") . "</a>";
+		} elseif (SameText($type, "html")) {
+			return "<a href=\"" . $this->ExportHtmlUrl . "\" class=\"ew-export-link ew-html\" title=\"" . HtmlEncode($Language->phrase("ExportToHtmlText")) . "\" data-caption=\"" . HtmlEncode($Language->phrase("ExportToHtmlText")) . "\">" . $Language->phrase("ExportToHtml") . "</a>";
+		} elseif (SameText($type, "xml")) {
+			return "<a href=\"" . $this->ExportXmlUrl . "\" class=\"ew-export-link ew-xml\" title=\"" . HtmlEncode($Language->phrase("ExportToXmlText")) . "\" data-caption=\"" . HtmlEncode($Language->phrase("ExportToXmlText")) . "\">" . $Language->phrase("ExportToXml") . "</a>";
+		} elseif (SameText($type, "csv")) {
+			return "<a href=\"" . $this->ExportCsvUrl . "\" class=\"ew-export-link ew-csv\" title=\"" . HtmlEncode($Language->phrase("ExportToCsvText")) . "\" data-caption=\"" . HtmlEncode($Language->phrase("ExportToCsvText")) . "\">" . $Language->phrase("ExportToCsv") . "</a>";
+		} elseif (SameText($type, "print")) {
+			return "<a href=\"" . $this->ExportPrintUrl . "\" class=\"ew-export-link ew-print\" title=\"" . HtmlEncode($Language->phrase("PrinterFriendlyText")) . "\" data-caption=\"" . HtmlEncode($Language->phrase("PrinterFriendlyText")) . "\">" . $Language->phrase("PrinterFriendly") . "</a>";
+		}
+	}
+
+	// Set up export options
+	protected function setupExportOptions()
+	{
+		global $Language;
+
+		// Printer friendly
+		$item = &$this->ExportOptions->add("print");
+		$item->Body = $this->getExportTag("print");
+		$item->Visible = FALSE;
+
+		// Export to Excel
+		$item = &$this->ExportOptions->add("excel");
+		$item->Body = $this->getExportTag("excel");
+		$item->Visible = TRUE;
+
+		// Export to Word
+		$item = &$this->ExportOptions->add("word");
+		$item->Body = $this->getExportTag("word");
+		$item->Visible = FALSE;
+
+		// Export to Html
+		$item = &$this->ExportOptions->add("html");
+		$item->Body = $this->getExportTag("html");
+		$item->Visible = FALSE;
+
+		// Export to Xml
+		$item = &$this->ExportOptions->add("xml");
+		$item->Body = $this->getExportTag("xml");
+		$item->Visible = FALSE;
+
+		// Export to Csv
+		$item = &$this->ExportOptions->add("csv");
+		$item->Body = $this->getExportTag("csv");
+		$item->Visible = TRUE;
+
+		// Export to Pdf
+		$item = &$this->ExportOptions->add("pdf");
+		$item->Body = $this->getExportTag("pdf");
+		$item->Visible = FALSE;
+
+		// Export to Email
+		$item = &$this->ExportOptions->add("email");
+		$url = "";
+		$item->Body = "<button id=\"emf_t103_daf_kelas_siswa_iuran\" class=\"ew-export-link ew-email\" title=\"" . $Language->phrase("ExportToEmailText") . "\" data-caption=\"" . $Language->phrase("ExportToEmailText") . "\" onclick=\"ew.emailDialogShow({lnk:'emf_t103_daf_kelas_siswa_iuran',hdr:ew.language.phrase('ExportToEmailText'),f:document.ft103_daf_kelas_siswa_iuranlist,sel:false" . $url . "});\">" . $Language->phrase("ExportToEmail") . "</button>";
+		$item->Visible = FALSE;
+
+		// Drop down button for export
+		$this->ExportOptions->UseButtonGroup = TRUE;
+		$this->ExportOptions->UseDropDownButton = FALSE;
+		if ($this->ExportOptions->UseButtonGroup && IsMobile())
+			$this->ExportOptions->UseDropDownButton = TRUE;
+		$this->ExportOptions->DropDownButtonPhrase = $Language->phrase("ButtonExport");
+
+		// Add group option item
+		$item = &$this->ExportOptions->add($this->ExportOptions->GroupOptionName);
+		$item->Body = "";
+		$item->Visible = FALSE;
+	}
+
 	// Set up import options
 	protected function setupImportOptions()
 	{
@@ -5590,6 +5785,129 @@ class t103_daf_kelas_siswa_iuran_list extends t103_daf_kelas_siswa_iuran
 		$item = &$this->ImportOptions->add($this->ImportOptions->GroupOptionName);
 		$item->Body = "";
 		$item->Visible = FALSE;
+	}
+
+	/**
+	 * Export data in HTML/CSV/Word/Excel/XML/Email/PDF format
+	 *
+	 * @param boolean $return Return the data rather than output it
+	 * @return mixed 
+	 */
+	public function exportData($return = FALSE)
+	{
+		global $Language;
+		$utf8 = SameText(PROJECT_CHARSET, "utf-8");
+		$selectLimit = $this->UseSelectLimit;
+
+		// Load recordset
+		if ($selectLimit) {
+			$this->TotalRecs = $this->listRecordCount();
+		} else {
+			if (!$this->Recordset)
+				$this->Recordset = $this->loadRecordset();
+			$rs = &$this->Recordset;
+			if ($rs)
+				$this->TotalRecs = $rs->RecordCount();
+		}
+		$this->StartRec = 1;
+
+		// Export all
+		if ($this->ExportAll) {
+			set_time_limit(EXPORT_ALL_TIME_LIMIT);
+			$this->DisplayRecs = $this->TotalRecs;
+			$this->StopRec = $this->TotalRecs;
+		} else { // Export one page only
+			$this->setupStartRec(); // Set up start record position
+
+			// Set the last record to display
+			if ($this->DisplayRecs <= 0) {
+				$this->StopRec = $this->TotalRecs;
+			} else {
+				$this->StopRec = $this->StartRec + $this->DisplayRecs - 1;
+			}
+		}
+		if ($selectLimit)
+			$rs = $this->loadRecordset($this->StartRec - 1, $this->DisplayRecs <= 0 ? $this->TotalRecs : $this->DisplayRecs);
+		$this->ExportDoc = GetExportDocument($this, "h");
+		$doc = &$this->ExportDoc;
+		if (!$doc)
+			$this->setFailureMessage($Language->phrase("ExportClassNotFound")); // Export class not found
+		if (!$rs || !$doc) {
+			RemoveHeader("Content-Type"); // Remove header
+			RemoveHeader("Content-Disposition");
+			$this->showMessage();
+			return;
+		}
+		if ($selectLimit) {
+			$this->StartRec = 1;
+			$this->StopRec = $this->DisplayRecs <= 0 ? $this->TotalRecs : $this->DisplayRecs;
+		}
+
+		// Call Page Exporting server event
+		$this->ExportDoc->ExportCustom = !$this->Page_Exporting();
+
+		// Export master record
+		if (EXPORT_MASTER_RECORD && $this->getMasterFilter() <> "" && $this->getCurrentMasterTable() == "v102_daf_kelas_siswa") {
+			global $v102_daf_kelas_siswa;
+			if (!isset($v102_daf_kelas_siswa))
+				$v102_daf_kelas_siswa = new v102_daf_kelas_siswa();
+			$rsmaster = $v102_daf_kelas_siswa->loadRs($this->DbMasterFilter); // Load master record
+			if ($rsmaster && !$rsmaster->EOF) {
+				$exportStyle = $doc->Style;
+				$doc->setStyle("v"); // Change to vertical
+				if (!$this->isExport("csv") || EXPORT_MASTER_RECORD_FOR_CSV) {
+					$doc->Table = &$v102_daf_kelas_siswa;
+					$v102_daf_kelas_siswa->exportDocument($doc, $rsmaster);
+					$doc->exportEmptyRow();
+					$doc->Table = &$this;
+				}
+				$doc->setStyle($exportStyle); // Restore
+				$rsmaster->close();
+			}
+		}
+		$header = $this->PageHeader;
+		$this->Page_DataRendering($header);
+		$doc->Text .= $header;
+		$this->exportDocument($doc, $rs, $this->StartRec, $this->StopRec, "");
+		$footer = $this->PageFooter;
+		$this->Page_DataRendered($footer);
+		$doc->Text .= $footer;
+
+		// Close recordset
+		$rs->close();
+
+		// Call Page Exported server event
+		$this->Page_Exported();
+
+		// Export header and footer
+		$doc->exportHeaderAndFooter();
+
+		// Clean output buffer (without destroying output buffer)
+		$buffer = ob_get_contents(); // Save the output buffer
+		if (!DEBUG_ENABLED && $buffer)
+			ob_clean();
+
+		// Write debug message if enabled
+		if (DEBUG_ENABLED && !$this->isExport("pdf"))
+			echo GetDebugMessage();
+
+		// Output data
+		if ($this->isExport("email")) {
+
+			// Export-to-email disabled
+		} else {
+			$doc->export();
+			if ($return) {
+				RemoveHeader("Content-Type"); // Remove header
+				RemoveHeader("Content-Disposition");
+				$content = ob_get_contents();
+				if ($content)
+					ob_clean();
+				if ($buffer)
+					echo $buffer; // Resume the output buffer
+				return $content;
+			}
+		}
 	}
 
 	// Set up master/detail based on QueryString
@@ -5847,22 +6165,20 @@ class t103_daf_kelas_siswa_iuran_list extends t103_daf_kelas_siswa_iuran
 
 	// Page Importing event
 	function Page_Importing($reader, &$options) {
+		var_dump($reader); // Import data reader
+		var_dump($options); // Show all options for importing
+		return FALSE; // Return FALSE to skip import
 
-		//var_dump($reader); // Import data reader
-		//var_dump($options); // Show all options for importing
-		//return FALSE; // Return FALSE to skip import
-
-		return TRUE;
+		//return TRUE;
 	}
 
 	// Row Import event
 	function Row_Import(&$row, $cnt) {
+		echo $cnt; // Import record count
+		var_dump($row); // Import row
+		return FALSE; // Return FALSE to skip import
 
-		//echo $cnt; // Import record count
-		//var_dump($row); // Import row
-		//return FALSE; // Return FALSE to skip import
-
-		return TRUE;
+		//return TRUE;
 	}
 
 	// Page Imported event

@@ -797,6 +797,7 @@ class t005_iuran extends DbTable
 			if ($doc->Horizontal) { // Horizontal format, write header
 				$doc->beginExportRow();
 				if ($exportPageType == "view") {
+					$doc->exportCaption($this->id);
 					$doc->exportCaption($this->Nama);
 					$doc->exportCaption($this->Jenis);
 				} else {
@@ -834,6 +835,7 @@ class t005_iuran extends DbTable
 				if (!$doc->ExportCustom) {
 					$doc->beginExportRow($rowCnt); // Allow CSS styles if enabled
 					if ($exportPageType == "view") {
+						$doc->exportField($this->id);
 						$doc->exportField($this->Nama);
 						$doc->exportField($this->Jenis);
 					} else {

@@ -664,7 +664,7 @@ class t103_daf_kelas_siswa_iuran_grid extends t103_daf_kelas_siswa_iuran
 		// Set up list options
 		$this->setupListOptions();
 		$this->id->Visible = FALSE;
-		$this->daf_kelas_siswa_id->Visible = FALSE;
+		$this->daf_kelas_siswa_id->setVisibility();
 		$this->iuran_id->setVisibility();
 		$this->Jumlah->setVisibility();
 		$this->byr01->setVisibility();
@@ -1168,6 +1168,8 @@ class t103_daf_kelas_siswa_iuran_grid extends t103_daf_kelas_siswa_iuran
 	public function emptyRow()
 	{
 		global $CurrentForm;
+		if ($CurrentForm->hasValue("x_daf_kelas_siswa_id") && $CurrentForm->hasValue("o_daf_kelas_siswa_id") && $this->daf_kelas_siswa_id->CurrentValue <> $this->daf_kelas_siswa_id->OldValue)
+			return FALSE;
 		if ($CurrentForm->hasValue("x_iuran_id") && $CurrentForm->hasValue("o_iuran_id") && $this->iuran_id->CurrentValue <> $this->iuran_id->OldValue)
 			return FALSE;
 		if ($CurrentForm->hasValue("x_Jumlah") && $CurrentForm->hasValue("o_Jumlah") && $this->Jumlah->CurrentValue <> $this->Jumlah->OldValue)
@@ -1673,6 +1675,16 @@ class t103_daf_kelas_siswa_iuran_grid extends t103_daf_kelas_siswa_iuran
 		global $CurrentForm;
 		$CurrentForm->FormName = $this->FormName;
 
+		// Check field name 'daf_kelas_siswa_id' first before field var 'x_daf_kelas_siswa_id'
+		$val = $CurrentForm->hasValue("daf_kelas_siswa_id") ? $CurrentForm->getValue("daf_kelas_siswa_id") : $CurrentForm->getValue("x_daf_kelas_siswa_id");
+		if (!$this->daf_kelas_siswa_id->IsDetailKey) {
+			if (IsApi() && $val == NULL)
+				$this->daf_kelas_siswa_id->Visible = FALSE; // Disable update for API request
+			else
+				$this->daf_kelas_siswa_id->setFormValue($val);
+		}
+		$this->daf_kelas_siswa_id->setOldValue($CurrentForm->getValue("o_daf_kelas_siswa_id"));
+
 		// Check field name 'iuran_id' first before field var 'x_iuran_id'
 		$val = $CurrentForm->hasValue("iuran_id") ? $CurrentForm->getValue("iuran_id") : $CurrentForm->getValue("x_iuran_id");
 		if (!$this->iuran_id->IsDetailKey) {
@@ -2077,6 +2089,7 @@ class t103_daf_kelas_siswa_iuran_grid extends t103_daf_kelas_siswa_iuran
 		global $CurrentForm;
 		if (!$this->isGridAdd() && !$this->isAdd())
 			$this->id->CurrentValue = $this->id->FormValue;
+		$this->daf_kelas_siswa_id->CurrentValue = $this->daf_kelas_siswa_id->FormValue;
 		$this->iuran_id->CurrentValue = $this->iuran_id->FormValue;
 		$this->Jumlah->CurrentValue = $this->Jumlah->FormValue;
 		$this->byr01->CurrentValue = $this->byr01->FormValue;
@@ -2685,6 +2698,11 @@ class t103_daf_kelas_siswa_iuran_grid extends t103_daf_kelas_siswa_iuran
 			$this->tgl12->ViewValue = FormatDateTime($this->tgl12->ViewValue, 7);
 			$this->tgl12->ViewCustomAttributes = "";
 
+			// daf_kelas_siswa_id
+			$this->daf_kelas_siswa_id->LinkCustomAttributes = "";
+			$this->daf_kelas_siswa_id->HrefValue = "";
+			$this->daf_kelas_siswa_id->TooltipValue = "";
+
 			// iuran_id
 			$this->iuran_id->LinkCustomAttributes = "";
 			$this->iuran_id->HrefValue = "";
@@ -2875,6 +2893,20 @@ class t103_daf_kelas_siswa_iuran_grid extends t103_daf_kelas_siswa_iuran
 			$this->tgl12->HrefValue = "";
 			$this->tgl12->TooltipValue = "";
 		} elseif ($this->RowType == ROWTYPE_ADD) { // Add row
+
+			// daf_kelas_siswa_id
+			$this->daf_kelas_siswa_id->EditAttrs["class"] = "form-control";
+			$this->daf_kelas_siswa_id->EditCustomAttributes = "";
+			if ($this->daf_kelas_siswa_id->getSessionValue() <> "") {
+				$this->daf_kelas_siswa_id->CurrentValue = $this->daf_kelas_siswa_id->getSessionValue();
+				$this->daf_kelas_siswa_id->OldValue = $this->daf_kelas_siswa_id->CurrentValue;
+			$this->daf_kelas_siswa_id->ViewValue = $this->daf_kelas_siswa_id->CurrentValue;
+			$this->daf_kelas_siswa_id->ViewValue = FormatNumber($this->daf_kelas_siswa_id->ViewValue, 0, -2, -2, -2);
+			$this->daf_kelas_siswa_id->ViewCustomAttributes = "";
+			} else {
+			$this->daf_kelas_siswa_id->EditValue = HtmlEncode($this->daf_kelas_siswa_id->CurrentValue);
+			$this->daf_kelas_siswa_id->PlaceHolder = RemoveHtml($this->daf_kelas_siswa_id->caption());
+			}
 
 			// iuran_id
 			$this->iuran_id->EditAttrs["class"] = "form-control";
@@ -3150,8 +3182,12 @@ class t103_daf_kelas_siswa_iuran_grid extends t103_daf_kelas_siswa_iuran
 			$this->tgl12->PlaceHolder = RemoveHtml($this->tgl12->caption());
 
 			// Add refer script
-			// iuran_id
+			// daf_kelas_siswa_id
 
+			$this->daf_kelas_siswa_id->LinkCustomAttributes = "";
+			$this->daf_kelas_siswa_id->HrefValue = "";
+
+			// iuran_id
 			$this->iuran_id->LinkCustomAttributes = "";
 			$this->iuran_id->HrefValue = "";
 
@@ -3303,6 +3339,20 @@ class t103_daf_kelas_siswa_iuran_grid extends t103_daf_kelas_siswa_iuran
 			$this->tgl12->LinkCustomAttributes = "";
 			$this->tgl12->HrefValue = "";
 		} elseif ($this->RowType == ROWTYPE_EDIT) { // Edit row
+
+			// daf_kelas_siswa_id
+			$this->daf_kelas_siswa_id->EditAttrs["class"] = "form-control";
+			$this->daf_kelas_siswa_id->EditCustomAttributes = "";
+			if ($this->daf_kelas_siswa_id->getSessionValue() <> "") {
+				$this->daf_kelas_siswa_id->CurrentValue = $this->daf_kelas_siswa_id->getSessionValue();
+				$this->daf_kelas_siswa_id->OldValue = $this->daf_kelas_siswa_id->CurrentValue;
+			$this->daf_kelas_siswa_id->ViewValue = $this->daf_kelas_siswa_id->CurrentValue;
+			$this->daf_kelas_siswa_id->ViewValue = FormatNumber($this->daf_kelas_siswa_id->ViewValue, 0, -2, -2, -2);
+			$this->daf_kelas_siswa_id->ViewCustomAttributes = "";
+			} else {
+			$this->daf_kelas_siswa_id->EditValue = HtmlEncode($this->daf_kelas_siswa_id->CurrentValue);
+			$this->daf_kelas_siswa_id->PlaceHolder = RemoveHtml($this->daf_kelas_siswa_id->caption());
+			}
 
 			// iuran_id
 			$this->iuran_id->EditAttrs["class"] = "form-control";
@@ -3578,8 +3628,12 @@ class t103_daf_kelas_siswa_iuran_grid extends t103_daf_kelas_siswa_iuran
 			$this->tgl12->PlaceHolder = RemoveHtml($this->tgl12->caption());
 
 			// Edit refer script
-			// iuran_id
+			// daf_kelas_siswa_id
 
+			$this->daf_kelas_siswa_id->LinkCustomAttributes = "";
+			$this->daf_kelas_siswa_id->HrefValue = "";
+
+			// iuran_id
 			$this->iuran_id->LinkCustomAttributes = "";
 			$this->iuran_id->HrefValue = "";
 
@@ -3756,6 +3810,9 @@ class t103_daf_kelas_siswa_iuran_grid extends t103_daf_kelas_siswa_iuran
 			if (!$this->daf_kelas_siswa_id->IsDetailKey && $this->daf_kelas_siswa_id->FormValue != NULL && $this->daf_kelas_siswa_id->FormValue == "") {
 				AddMessage($FormError, str_replace("%s", $this->daf_kelas_siswa_id->caption(), $this->daf_kelas_siswa_id->RequiredErrorMessage));
 			}
+		}
+		if (!CheckInteger($this->daf_kelas_siswa_id->FormValue)) {
+			AddMessage($FormError, $this->daf_kelas_siswa_id->errorMessage());
 		}
 		if ($this->iuran_id->Required) {
 			if (!$this->iuran_id->IsDetailKey && $this->iuran_id->FormValue != NULL && $this->iuran_id->FormValue == "") {
@@ -4145,6 +4202,9 @@ class t103_daf_kelas_siswa_iuran_grid extends t103_daf_kelas_siswa_iuran
 			$this->loadDbValues($rsold);
 			$rsnew = [];
 
+			// daf_kelas_siswa_id
+			$this->daf_kelas_siswa_id->setDbValueDef($rsnew, $this->daf_kelas_siswa_id->CurrentValue, 0, $this->daf_kelas_siswa_id->ReadOnly);
+
 			// iuran_id
 			$this->iuran_id->setDbValueDef($rsnew, $this->iuran_id->CurrentValue, 0, $this->iuran_id->ReadOnly);
 
@@ -4369,8 +4429,8 @@ class t103_daf_kelas_siswa_iuran_grid extends t103_daf_kelas_siswa_iuran
 		// Check referential integrity for master table 'v102_daf_kelas_siswa'
 		$validMasterRecord = TRUE;
 		$masterFilter = $this->sqlMasterFilter_v102_daf_kelas_siswa();
-		if ($this->daf_kelas_siswa_id->getSessionValue() <> "") {
-			$masterFilter = str_replace("@id@", AdjustSql($this->daf_kelas_siswa_id->getSessionValue(), "DB"), $masterFilter);
+		if (strval($this->daf_kelas_siswa_id->CurrentValue) <> "") {
+			$masterFilter = str_replace("@id@", AdjustSql($this->daf_kelas_siswa_id->CurrentValue, "DB"), $masterFilter);
 		} else {
 			$validMasterRecord = FALSE;
 		}
@@ -4393,6 +4453,9 @@ class t103_daf_kelas_siswa_iuran_grid extends t103_daf_kelas_siswa_iuran
 		if ($rsold) {
 		}
 		$rsnew = [];
+
+		// daf_kelas_siswa_id
+		$this->daf_kelas_siswa_id->setDbValueDef($rsnew, $this->daf_kelas_siswa_id->CurrentValue, 0, FALSE);
 
 		// iuran_id
 		$this->iuran_id->setDbValueDef($rsnew, $this->iuran_id->CurrentValue, 0, FALSE);
@@ -4543,11 +4606,6 @@ class t103_daf_kelas_siswa_iuran_grid extends t103_daf_kelas_siswa_iuran
 
 		// tgl12
 		$this->tgl12->setDbValueDef($rsnew, UnFormatDateTime($this->tgl12->CurrentValue, 7), NULL, FALSE);
-
-		// daf_kelas_siswa_id
-		if ($this->daf_kelas_siswa_id->getSessionValue() <> "") {
-			$rsnew['daf_kelas_siswa_id'] = $this->daf_kelas_siswa_id->getSessionValue();
-		}
 
 		// Call Row Inserting event
 		$rs = ($rsold) ? $rsold->fields : NULL;

@@ -47,6 +47,16 @@ $t102_daf_kelas_siswa_preview->renderListOptions();
 // Render list options (header, left)
 $t102_daf_kelas_siswa_preview->ListOptions->render("header", "left");
 ?>
+<?php if ($t102_daf_kelas_siswa->id->Visible) { // id ?>
+	<?php if ($t102_daf_kelas_siswa->SortUrl($t102_daf_kelas_siswa->id) == "") { ?>
+		<th class="<?php echo $t102_daf_kelas_siswa->id->headerCellClass() ?>"><?php echo $t102_daf_kelas_siswa->id->caption() ?></th>
+	<?php } else { ?>
+		<th class="<?php echo $t102_daf_kelas_siswa->id->headerCellClass() ?>"><div class="ew-pointer" data-sort="<?php echo $t102_daf_kelas_siswa->id->Name ?>" data-sort-order="<?php echo $t102_daf_kelas_siswa_preview->SortField == $t102_daf_kelas_siswa->id->Name && $t102_daf_kelas_siswa_preview->SortOrder == "ASC" ? "DESC" : "ASC" ?>"><div class="ew-table-header-btn">
+		<span class="ew-table-header-caption"><?php echo $t102_daf_kelas_siswa->id->caption() ?></span>
+		<span class="ew-table-header-sort"><?php if ($t102_daf_kelas_siswa_preview->SortField == $t102_daf_kelas_siswa->id->Name) { ?><?php if ($t102_daf_kelas_siswa_preview->SortOrder == "ASC") { ?><i class="fa fa-sort-up ew-sort-up"></span><?php } elseif ($t102_daf_kelas_siswa_preview->SortOrder == "DESC") { ?><i class="fa fa-sort-down"></i><?php } ?><?php } ?></span>
+	</div></div></th>
+	<?php } ?>
+<?php } ?>
 <?php if ($t102_daf_kelas_siswa->siswa_id->Visible) { // siswa_id ?>
 	<?php if ($t102_daf_kelas_siswa->SortUrl($t102_daf_kelas_siswa->siswa_id) == "") { ?>
 		<th class="<?php echo $t102_daf_kelas_siswa->siswa_id->headerCellClass() ?>"><?php echo $t102_daf_kelas_siswa->siswa_id->caption() ?></th>
@@ -90,6 +100,13 @@ while ($t102_daf_kelas_siswa_preview->Recordset && !$t102_daf_kelas_siswa_previe
 // Render list options (body, left)
 $t102_daf_kelas_siswa_preview->ListOptions->render("body", "left", $t102_daf_kelas_siswa_preview->RowCnt);
 ?>
+<?php if ($t102_daf_kelas_siswa->id->Visible) { // id ?>
+		<!-- id -->
+		<td<?php echo $t102_daf_kelas_siswa->id->cellAttributes() ?>>
+<span<?php echo $t102_daf_kelas_siswa->id->viewAttributes() ?>>
+<?php echo $t102_daf_kelas_siswa->id->getViewValue() ?></span>
+</td>
+<?php } ?>
 <?php if ($t102_daf_kelas_siswa->siswa_id->Visible) { // siswa_id ?>
 		<!-- siswa_id -->
 		<td<?php echo $t102_daf_kelas_siswa->siswa_id->cellAttributes() ?>>
