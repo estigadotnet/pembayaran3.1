@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<ew-language date="2019/10/12" version="15.0.0.1" id="en" name="English" desc="English" author="e.World Technology Ltd.">
+<ew-language date="2019/10/13" version="15.0.0.1" id="en" name="English" desc="English" author="e.World Technology Ltd.">
   <!-- 
 	*** Important Notes:
 	1. Language ID should follow: https://developers.google.com/recaptcha/docs/language,
@@ -699,9 +699,6 @@
   <project>
     <phrase id="bodytitle" value="Pembayaran v.3.1" />
     <phrase id="footertext" value="&amp;copy;2019 ESTIGA[dot]NET. All rights reserved." />
-    <menu id="10097">
-      <phrase id="menutext" value="v 112 daf kelas siswa iuran" />
-    </menu>
     <menu id="18">
       <phrase id="menutext" value="Home" />
     </menu>
@@ -723,11 +720,14 @@
     <menu id="5">
       <phrase id="menutext" value="Iuran" />
     </menu>
-    <menu id="8">
-      <phrase id="menutext" value="Import Data Siswa &amp; Iuran" />
+    <menu id="10098">
+      <phrase id="menutext" value="Import Data Iuran Siswa" />
+    </menu>
+    <menu id="10097">
+      <phrase id="menutext" value="v 112 daf kelas siswa iuran" />
     </menu>
     <menu id="10043">
-      <phrase id="menutext" value="Export Data Siswa &amp; Iuran" />
+      <phrase id="menutext" value="v 113 export siswa iuran" />
     </menu>
     <menu id="20">
       <phrase id="menutext" value="Daftar" />
@@ -740,6 +740,9 @@
     </menu>
     <menu id="13">
       <phrase id="menutext" value="Siswa &amp; Iuran" />
+    </menu>
+    <menu id="8">
+      <phrase id="menutext" value="Import Data Siswa &amp; Iuran" />
     </menu>
     <menu id="12">
       <phrase id="menutext" value="Kelas (View)" />
@@ -1805,6 +1808,9 @@
       <field id="tgl12">
         <phrase id="fldcaption" value="tgl 12" />
       </field>
+    </table>
+    <table id="c303_import">
+      <phrase id="tblcaption" value="Import Data Iuran Siswa" />
     </table>
   </project>
 </ew-language>
