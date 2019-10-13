@@ -723,6 +723,9 @@
     <menu id="10098">
       <phrase id="menutext" value="Import Data Iuran Siswa" />
     </menu>
+    <menu id="10099">
+      <phrase id="menutext" value="Import Aksi" />
+    </menu>
     <menu id="10097">
       <phrase id="menutext" value="v 112 daf kelas siswa iuran" />
     </menu>
@@ -1811,6 +1814,9 @@
     </table>
     <table id="c303_import">
       <phrase id="tblcaption" value="Import Data Iuran Siswa" />
+    </table>
+    <table id="c304_import_aksi">
+      <phrase id="tblcaption" value="Import Aksi" />
     </table>
   </project>
 </ew-language>
