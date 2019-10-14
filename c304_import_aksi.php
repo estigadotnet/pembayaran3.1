@@ -38,19 +38,23 @@ $db =& DbHelper();
 // menghubungkan dengan koneksi
 //include 'koneksi.php';
 // menghubungkan dengan library excel reader
-include "excel_reader2.php"; echo "1";
+//require "excel_reader2.php"; //echo "1";
+include_once "php-excel-reader/excel_reader2.php"; //require('php-excel-reader/excel_reader2.php');
+include_once "SpreadsheetReader.php"; //require('SpreadsheetReader.php');
 ?>
 
 <?php
 // upload file xls
-$target = basename($_FILES['fileiuransiswa']['name']) ;
-move_uploaded_file($_FILES['fileiuransiswa']['tmp_name'], $target);
+//$target = basename($_FILES['fileiuransiswa']['name']) ;
+//move_uploaded_file($_FILES['fileiuransiswa']['tmp_name'], $target);
+//$Spreadsheet = new SpreadsheetReader($_FILES['fileiuransiswa']['name']);
+$data = new SpreadsheetReader($_FILES['fileiuransiswa']['name']);
 
 // beri permisi agar file xls dapat di baca
-chmod($_FILES['fileiuransiswa']['name'],0777);
+//chmod($_FILES['fileiuransiswa']['name'],0777);
 
 // mengambil isi file xls
-$data = new Spreadsheet_Excel_Reader($_FILES['fileiuransiswa']['name'],false);
+//$data = new Spreadsheet_Excel_Reader($_FILES['fileiuransiswa']['name'],false);
 // menghitung jumlah baris data yang ada
 $jumlah_baris = $data->rowcount($sheet_index=0);
 

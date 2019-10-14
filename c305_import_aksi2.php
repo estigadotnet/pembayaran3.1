@@ -15,10 +15,10 @@ ob_start();
 WriteHeader(FALSE);
 
 // Create page object
-$c303_import = new c303_import();
+$c305_import_aksi2 = new c305_import_aksi2();
 
 // Run the page
-$c303_import->run();
+$c305_import_aksi2->run();
 
 // Setup login status
 SetupLoginStatus();
@@ -29,26 +29,19 @@ Page_Rendering();
 ?>
 <?php include_once "header.php" ?>
 <?php
-if (isset($_GET["ok"]) and $_GET["ok"] == 1) {
-?>
-	<div class="ewContentColumn">
-	<p>&nbsp;</p>
-	<button class="btn btn-primary" name="btn-submit" id="btn-submit" type="submit" onclick="window.location.href='.'">Selesai</button>
-	</div>
-<?php
-}
-else {
-?>
-<form method="post" enctype="multipart/form-data" action="c305_import_aksi2.php">
-	Pilih File: 
-	<input name="fileiuransiswa" type="file" required="required"><br/><br/> 
-	<input name="upload" type="submit" value="Import">
-</form>
-<?php
-	}
+
+//include "conn.php";
+
+$db =& DbHelper();
+
+$target = basename($_FILES['fileiuransiswa']['name']) ;
+move_uploaded_file($_FILES['fileiuransiswa']['tmp_name'], $target);
+$Filepath = $target;
+
+header("location: test2.php?File=".$Filepath);
 ?>
 <?php if (DEBUG_ENABLED) echo GetDebugMessage(); ?>
 <?php include_once "footer.php" ?>
 <?php
-$c303_import->terminate();
+$c305_import_aksi2->terminate();
 ?>

@@ -4,17 +4,20 @@ namespace PHPMaker2019\p_pembayaran3_1;
 /**
  * Page class
  */
-class index
+class c305_import_aksi2
 {
 
 	// Page ID
-	public $PageID = "index";
+	public $PageID = "custom";
 
 	// Project ID
 	public $ProjectID = "{D97AB052-DD0F-4E43-8766-C499FD89B1B8}";
 
+	// Table name
+	public $TableName = 'c305_import_aksi2.php';
+
 	// Page object name
-	public $PageObjName = "index";
+	public $PageObjName = "c305_import_aksi2";
 
 	// Page headings
 	public $Heading = "";
@@ -300,7 +303,11 @@ class index
 
 		// Page ID
 		if (!defined(PROJECT_NAMESPACE . "PAGE_ID"))
-			define(PROJECT_NAMESPACE . "PAGE_ID", 'index');
+			define(PROJECT_NAMESPACE . "PAGE_ID", 'custom');
+
+		// Table name (for backward compatibility)
+		if (!defined(PROJECT_NAMESPACE . "TABLE_NAME"))
+			define(PROJECT_NAMESPACE . "TABLE_NAME", 'c305_import_aksi2.php');
 
 		// Start timer
 		if (!isset($GLOBALS["DebugTimer"]))
@@ -325,17 +332,12 @@ class index
 	{
 		global $ExportFileName, $TempImages;
 
-		// Page Unload event
-		$this->Page_Unload();
-
 		// Global Page Unloaded event (in userfn*.php)
 		Page_Unloaded();
 
 		// Export
-		if (!IsApi())
-			$this->Page_Redirecting($url);
-
 		// Close connection
+
 		CloseConnections();
 
 		// Return for API
@@ -362,8 +364,7 @@ class index
 
 	public function run()
 	{
-		global $ExportType, $CustomExportType, $ExportFileName, $UserProfile, $Language, $Security, $RequestSecurity, $CurrentForm,
-			$Breadcrumb;
+		global $ExportType, $CustomExportType, $ExportFileName, $UserProfile, $Language, $Security, $RequestSecurity, $CurrentForm;
 
 		// Init Session data for API request if token found
 		if (IsApi() && session_status() !== PHP_SESSION_ACTIVE) {
@@ -390,13 +391,30 @@ class index
 				$Security->loginUser(@$RequestSecurity["username"], @$RequestSecurity["userid"], @$RequestSecurity["parentuserid"], @$RequestSecurity["userlevelid"]);
 		}
 		if (!$validRequest) {
+			if (!$Security->isLoggedIn())
+				$Security->autoLogin();
+			if ($Security->isLoggedIn())
+				$Security->TablePermission_Loading();
+			$Security->loadCurrentUserLevel($this->ProjectID . $this->TableName);
+			if ($Security->isLoggedIn())
+				$Security->TablePermission_Loaded();
+			if (!$Security->canReport()) {
+				$Security->saveLastUrl();
+				$this->setFailureMessage(DeniedMessage()); // Set no permission
+				$this->terminate(GetUrl("index.php"));
+				return;
+			}
+			if ($Security->isLoggedIn()) {
+				$Security->UserID_Loading();
+				$Security->loadUserID();
+				$Security->UserID_Loaded();
+			}
 		}
+		if (Get("export") !== NULL)
+			$ExportType = Get("export"); // Get export parameter, used in header
 
 		// Global Page Loading event (in userfn*.php)
 		Page_Loading();
-
-		// Page Load event
-		$this->Page_Load();
 
 		// Check token
 		if (!$this->validPost()) {
@@ -406,88 +424,19 @@ class index
 
 		// Create Token
 		$this->createToken();
+
+		// Set up Breadcrumb
+		$this->setupBreadcrumb();
+	}
+
+	// Set up Breadcrumb
+	protected function setupBreadcrumb()
+	{
+		global $Breadcrumb, $Language;
 		$Breadcrumb = new Breadcrumb();
-
-		// If session expired, show session expired message
-		if (Get("expired") == "1")
-			$this->setFailureMessage($Language->phrase("SessionExpired"));
-		if (!$Security->isLoggedIn())
-			$Security->autoLogin();
-		$Security->loadUserLevel(); // Load User Level
-		if ($Security->allowList(CurrentProjectID() . 'c301_home.php'))
-			$this->terminate("c301_home.php"); // Exit and go to default page
-		if ($Security->allowList(CurrentProjectID() . 'c302_backup.php'))
-			$this->terminate("./c302_backup.php");
-		if ($Security->allowList(CurrentProjectID() . 't001_tahun_ajaran'))
-			$this->terminate("t001_tahun_ajaranlist.php");
-		if ($Security->allowList(CurrentProjectID() . 't002_sekolah'))
-			$this->terminate("t002_sekolahlist.php");
-		if ($Security->allowList(CurrentProjectID() . 't003_kelas'))
-			$this->terminate("t003_kelaslist.php");
-		if ($Security->allowList(CurrentProjectID() . 't004_siswa'))
-			$this->terminate("t004_siswalist.php");
-		if ($Security->allowList(CurrentProjectID() . 't005_iuran'))
-			$this->terminate("t005_iuranlist.php");
-		if ($Security->allowList(CurrentProjectID() . 't101_daf_kelas'))
-			$this->terminate("t101_daf_kelaslist.php");
-		if ($Security->allowList(CurrentProjectID() . 't102_daf_kelas_siswa'))
-			$this->terminate("t102_daf_kelas_siswalist.php");
-		if ($Security->allowList(CurrentProjectID() . 't103_daf_kelas_siswa_iuran'))
-			$this->terminate("t103_daf_kelas_siswa_iuranlist.php");
-		if ($Security->allowList(CurrentProjectID() . 't301_employees'))
-			$this->terminate("t301_employeeslist.php");
-		if ($Security->allowList(CurrentProjectID() . 't302_userlevels'))
-			$this->terminate("t302_userlevelslist.php");
-		if ($Security->allowList(CurrentProjectID() . 't303_userlevelpermissions'))
-			$this->terminate("t303_userlevelpermissionslist.php");
-		if ($Security->allowList(CurrentProjectID() . 't304_audit_trail'))
-			$this->terminate("t304_audit_traillist.php");
-		if ($Security->allowList(CurrentProjectID() . 'v102_daf_kelas_siswa'))
-			$this->terminate("v102_daf_kelas_siswalist.php");
-		if ($Security->allowList(CurrentProjectID() . 'v103_daf_kelas_siswa_iuran'))
-			$this->terminate("v103_daf_kelas_siswa_iuranlist.php");
-		if ($Security->allowList(CurrentProjectID() . 'v110_bukti_master'))
-			$this->terminate("v110_bukti_masterlist.php");
-		if ($Security->allowList(CurrentProjectID() . 'v113_export_siswa_iuran'))
-			$this->terminate("v113_export_siswa_iuranlist.php");
-		if ($Security->allowList(CurrentProjectID() . 'c303_import.php'))
-			$this->terminate("./c303_import.php");
-		if ($Security->allowList(CurrentProjectID() . 'c305_import_aksi2.php'))
-			$this->terminate("./c305_import_aksi2.php");
-		if ($Security->isLoggedIn()) {
-			$this->setFailureMessage(DeniedMessage() . "<br><br><a href=\"logout.php\">" . $Language->phrase("BackToLogin") . "</a>");
-		} else {
-			$this->terminate("login.php"); // Exit and go to login page
-		}
-	}
-
-	// Page Load event
-	function Page_Load() {
-
-		//echo "Page Load";
-	}
-
-	// Page Unload event
-	function Page_Unload() {
-
-		//echo "Page Unload";
-	}
-
-	// Page Redirecting event
-	function Page_Redirecting(&$url) {
-
-		// Example:
-		//$url = "your URL";
-
-	}
-
-	// Message Showing event
-	// $type = ''|'success'|'failure'
-	function Message_Showing(&$msg, $type) {
-
-		// Example:
-		//if ($type == 'success') $msg = "your success message";
-
+		$url = substr(CurrentUrl(), strrpos(CurrentUrl(), "/")+1);
+		$Breadcrumb->add("custom", "c305_import_aksi2", $url, "", "c305_import_aksi2", TRUE);
+		$this->Heading = $Language->TablePhrase("c305_import_aksi2", "TblCaption"); 
 	}
 }
 ?>

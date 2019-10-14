@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<ew-language date="2019/10/13" version="15.0.0.1" id="en" name="English" desc="English" author="e.World Technology Ltd.">
+<ew-language date="2019/10/14" version="15.0.0.1" id="en" name="English" desc="English" author="e.World Technology Ltd.">
   <!-- 
 	*** Important Notes:
 	1. Language ID should follow: https://developers.google.com/recaptcha/docs/language,
@@ -720,18 +720,6 @@
     <menu id="5">
       <phrase id="menutext" value="Iuran" />
     </menu>
-    <menu id="10098">
-      <phrase id="menutext" value="Import Data Iuran Siswa" />
-    </menu>
-    <menu id="10099">
-      <phrase id="menutext" value="Import Aksi" />
-    </menu>
-    <menu id="10097">
-      <phrase id="menutext" value="v 112 daf kelas siswa iuran" />
-    </menu>
-    <menu id="10043">
-      <phrase id="menutext" value="v 113 export siswa iuran" />
-    </menu>
     <menu id="20">
       <phrase id="menutext" value="Daftar" />
     </menu>
@@ -745,19 +733,7 @@
       <phrase id="menutext" value="Siswa &amp; Iuran" />
     </menu>
     <menu id="8">
-      <phrase id="menutext" value="Import Data Siswa &amp; Iuran" />
-    </menu>
-    <menu id="12">
-      <phrase id="menutext" value="Kelas (View)" />
-    </menu>
-    <menu id="10034">
-      <phrase id="menutext" value="Kelas &amp; Iuran" />
-    </menu>
-    <menu id="10041">
-      <phrase id="menutext" value="v 111 daf kelas iuran" />
-    </menu>
-    <menu id="10042">
-      <phrase id="menutext" value="Kelas &amp; Siswa &amp; Iuran" />
+      <phrase id="menutext" value="Iuran" />
     </menu>
     <menu id="14">
       <phrase id="menutext" value="Pembayaran" />
@@ -798,11 +774,29 @@
     <menu id="10029">
       <phrase id="menutext" value="v 109 lap pum" />
     </menu>
+    <menu id="10034">
+      <phrase id="menutext" value="Kelas &amp; Iuran" />
+    </menu>
+    <menu id="10041">
+      <phrase id="menutext" value="v 111 daf kelas iuran" />
+    </menu>
+    <menu id="10042">
+      <phrase id="menutext" value="Kelas &amp; Siswa &amp; Iuran" />
+    </menu>
     <menu id="21">
       <phrase id="menutext" value="General" />
     </menu>
     <menu id="10030">
       <phrase id="menutext" value="Backup" />
+    </menu>
+    <menu id="10098">
+      <phrase id="menutext" value="Import Data Iuran Siswa" />
+    </menu>
+    <menu id="10099">
+      <phrase id="menutext" value="Import Aksi" />
+    </menu>
+    <menu id="10100">
+      <phrase id="menutext" value="Proses Import" />
     </menu>
     <menu id="9">
       <phrase id="menutext" value="Users" />
@@ -815,6 +809,15 @@
     </menu>
     <menu id="22">
       <phrase id="menutext" value="Log Aktifitas" />
+    </menu>
+    <menu id="12">
+      <phrase id="menutext" value="v 101 daf kelas" />
+    </menu>
+    <menu id="10097">
+      <phrase id="menutext" value="v 112 daf kelas siswa iuran" />
+    </menu>
+    <menu id="10043">
+      <phrase id="menutext" value="v 113 export siswa iuran" />
     </menu>
     <menu id="10001">
       <phrase id="menutext" value="t 001 tahun ajaran" />
@@ -1817,6 +1820,9 @@
     </table>
     <table id="c304_import_aksi">
       <phrase id="tblcaption" value="Import Aksi" />
+    </table>
+    <table id="c305_import_aksi2">
+      <phrase id="tblcaption" value="Proses Import" />
     </table>
   </project>
 </ew-language>

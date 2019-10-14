@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<configuration date="2019/10/13" author="e.World Technology Ltd.">
-  <project id="{D97AB052-DD0F-4E43-8766-C499FD89B1B8}" file="C:\xampp\htdocs\pembayaran3.1\p_pembayaran3.1.pmp" name="p_pembayaran3_1" product="PHPMaker" version="15.0" datetime="2019/10/13 17:48:36" languagefolder="phplang" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" relatedid="{5ED375BE-ECE4-4069-8E33-06727256BDB4}">
+<configuration date="2019/10/14" author="e.World Technology Ltd.">
+  <project id="{D97AB052-DD0F-4E43-8766-C499FD89B1B8}" file="C:\xampp\htdocs\pembayaran3.1\p_pembayaran3.1.pmp" name="p_pembayaran3_1" product="PHPMaker" version="15.0" datetime="2019/10/14 11:51:49" languagefolder="phplang" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" relatedid="{5ED375BE-ECE4-4069-8E33-06727256BDB4}">
     <table id="c301_home" name="c301_home.php" caption="Home" userlevel="-2,&quot;Anonymous&quot;,72;0,&quot;Default&quot;,0" priv="1" />
     <table id="c302_backup" name="c302_backup.php" caption="Backup" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
     <table id="t001_tahun_ajaran" name="t001_tahun_ajaran" caption="Tahun Ajaran" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
@@ -30,5 +30,6 @@
     <table id="v113_export_siswa_iuran" name="v113_export_siswa_iuran" caption="Export Data Siswa &amp; Iuran" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
     <table id="c303_import" name="c303_import.php" caption="Import Data Iuran Siswa" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
     <table id="c304_import_aksi" name="c304_import_aksi.php" caption="Import Aksi" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+    <table id="c305_import_aksi2" name="c305_import_aksi2.php" caption="Proses Import" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
   </project>
 </configuration>
