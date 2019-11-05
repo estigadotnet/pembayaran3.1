@@ -127,12 +127,14 @@ $t101_daf_kelas_add->showMessage();
 		<label id="elh_t101_daf_kelas_tahun_ajaran_id" for="x_tahun_ajaran_id" class="<?php echo $t101_daf_kelas_add->LeftColumnClass ?>"><?php echo $t101_daf_kelas->tahun_ajaran_id->caption() ?><?php echo ($t101_daf_kelas->tahun_ajaran_id->Required) ? $Language->phrase("FieldRequiredIndicator") : "" ?></label>
 		<div class="<?php echo $t101_daf_kelas_add->RightColumnClass ?>"><div<?php echo $t101_daf_kelas->tahun_ajaran_id->cellAttributes() ?>>
 <span id="el_t101_daf_kelas_tahun_ajaran_id">
-<div class="input-group">
-	<select class="custom-select ew-custom-select" data-table="t101_daf_kelas" data-field="x_tahun_ajaran_id" data-value-separator="<?php echo $t101_daf_kelas->tahun_ajaran_id->displayValueSeparatorAttribute() ?>" id="x_tahun_ajaran_id" name="x_tahun_ajaran_id"<?php echo $t101_daf_kelas->tahun_ajaran_id->editAttributes() ?>>
-		<?php echo $t101_daf_kelas->tahun_ajaran_id->selectOptionListHtml("x_tahun_ajaran_id") ?>
-	</select>
+<div class="input-group ew-lookup-list">
+	<div class="form-control ew-lookup-text" tabindex="-1" id="lu_x_tahun_ajaran_id"><?php echo strval($t101_daf_kelas->tahun_ajaran_id->ViewValue) == "" ? $Language->phrase("PleaseSelect") : (REMOVE_XSS ? HtmlDecode($t101_daf_kelas->tahun_ajaran_id->ViewValue) : $t101_daf_kelas->tahun_ajaran_id->ViewValue) ?></div>
+	<div class="input-group-append">
+		<button type="button" title="<?php echo HtmlEncode(str_replace("%s", RemoveHtml($t101_daf_kelas->tahun_ajaran_id->caption()), $Language->phrase("LookupLink", TRUE))) ?>" class="ew-lookup-btn btn btn-default"<?php echo (($t101_daf_kelas->tahun_ajaran_id->ReadOnly || $t101_daf_kelas->tahun_ajaran_id->Disabled) ? " disabled" : "")?> onclick="ew.modalLookupShow({lnk:this,el:'x_tahun_ajaran_id',m:0,n:10});"><i class="fa fa-search ew-icon"></i></button>
+	</div>
 </div>
 <?php echo $t101_daf_kelas->tahun_ajaran_id->Lookup->getParamTag("p_x_tahun_ajaran_id") ?>
+<input type="hidden" data-table="t101_daf_kelas" data-field="x_tahun_ajaran_id" data-multiple="0" data-lookup="1" data-value-separator="<?php echo $t101_daf_kelas->tahun_ajaran_id->displayValueSeparatorAttribute() ?>" name="x_tahun_ajaran_id" id="x_tahun_ajaran_id" value="<?php echo $t101_daf_kelas->tahun_ajaran_id->CurrentValue ?>"<?php echo $t101_daf_kelas->tahun_ajaran_id->editAttributes() ?>>
 </span>
 <?php echo $t101_daf_kelas->tahun_ajaran_id->CustomMsg ?></div></div>
 	</div>
@@ -142,12 +144,23 @@ $t101_daf_kelas_add->showMessage();
 		<label id="elh_t101_daf_kelas_sekolah_id" for="x_sekolah_id" class="<?php echo $t101_daf_kelas_add->LeftColumnClass ?>"><?php echo $t101_daf_kelas->sekolah_id->caption() ?><?php echo ($t101_daf_kelas->sekolah_id->Required) ? $Language->phrase("FieldRequiredIndicator") : "" ?></label>
 		<div class="<?php echo $t101_daf_kelas_add->RightColumnClass ?>"><div<?php echo $t101_daf_kelas->sekolah_id->cellAttributes() ?>>
 <span id="el_t101_daf_kelas_sekolah_id">
-<div class="input-group">
-	<select class="custom-select ew-custom-select" data-table="t101_daf_kelas" data-field="x_sekolah_id" data-value-separator="<?php echo $t101_daf_kelas->sekolah_id->displayValueSeparatorAttribute() ?>" id="x_sekolah_id" name="x_sekolah_id"<?php echo $t101_daf_kelas->sekolah_id->editAttributes() ?>>
-		<?php echo $t101_daf_kelas->sekolah_id->selectOptionListHtml("x_sekolah_id") ?>
-	</select>
-</div>
+<div class="btn-group ew-dropdown-list" role="group">
+	<div class="btn-group" role="group">
+		<button type="button" class="btn form-control dropdown-toggle ew-dropdown-toggle" aria-haspopup="true" aria-expanded="false"<?php if ($t101_daf_kelas->sekolah_id->ReadOnly) { ?> readonly<?php } else { ?>data-toggle="dropdown"<?php } ?>><?php echo $t101_daf_kelas->sekolah_id->ViewValue ?></button>
+		<div id="dsl_x_sekolah_id" data-repeatcolumn="1" class="dropdown-menu">
+			<div class="ew-items" style="overflow-x: hidden;">
+<?php echo $t101_daf_kelas->sekolah_id->radioButtonListHtml(TRUE, "x_sekolah_id") ?>
+			</div><!-- /.ew-items ##-->
+		</div><!-- /.dropdown-menu ##-->
+		<div id="tp_x_sekolah_id" class="ew-template"><input type="radio" class="form-check-input" data-table="t101_daf_kelas" data-field="x_sekolah_id" data-value-separator="<?php echo $t101_daf_kelas->sekolah_id->displayValueSeparatorAttribute() ?>" name="x_sekolah_id" id="x_sekolah_id" value="{value}"<?php echo $t101_daf_kelas->sekolah_id->editAttributes() ?>></div>
+	</div><!-- /.btn-group ##-->
+	<?php if (!$t101_daf_kelas->sekolah_id->ReadOnly) { ?>
+	<button type="button" class="btn btn-default ew-dropdown-clear" disabled>
+		<i class="fa fa-times ew-icon"></i>
+	</button>
 <?php echo $t101_daf_kelas->sekolah_id->Lookup->getParamTag("p_x_sekolah_id") ?>
+	<?php } ?>
+</div><!-- /.ew-dropdown-list ##-->
 </span>
 <?php echo $t101_daf_kelas->sekolah_id->CustomMsg ?></div></div>
 	</div>

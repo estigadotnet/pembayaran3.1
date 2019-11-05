@@ -931,7 +931,6 @@ class t101_daf_kelas extends DbTable
 		$this->tahun_ajaran_id->EditCustomAttributes = "";
 
 		// sekolah_id
-		$this->sekolah_id->EditAttrs["class"] = "form-control";
 		$this->sekolah_id->EditCustomAttributes = "";
 
 		// kelas_id

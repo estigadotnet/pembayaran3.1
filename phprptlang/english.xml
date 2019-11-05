@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<ew-language date="2019/10/11" version="12.0.1" id="en" name="English" desc="English" author="e.World Technology Ltd.">
+<ew-language date="2019/11/5" version="12.0.1" id="en" name="English" desc="English" author="e.World Technology Ltd.">
   <!-- 
 	*** Important Notes:
 	1. Language ID should follow: https://developers.google.com/recaptcha/docs/language,
@@ -403,6 +403,9 @@
   <project>
     <phrase id="bodytitle" value="Pembayaran v.3.1" />
     <phrase id="footertext" value="&amp;copy;2019 ESTIGA[dot]NET. All rights reserved." />
+    <menu id="37">
+      <phrase id="menutext" value="v 113 export siswa iuran" />
+    </menu>
     <menu id="1">
       <phrase id="menutext" value="t 001 tahun ajaran" />
     </menu>
@@ -1492,6 +1495,129 @@
       </field>
       <field id="tabel_iuran_id">
         <phrase id="fldcaption" value="tabel iuran id" />
+      </field>
+    </table>
+    <table id="v113_export_siswa_iuran_base">
+      <phrase id="tblcaption" value="v 113 export siswa iuran" />
+      <field id="id">
+        <phrase id="fldcaption" value="id" />
+      </field>
+      <field id="daf_kelas_siswa_id">
+        <phrase id="fldcaption" value="daf kelas siswa id" />
+      </field>
+      <field id="iuran_id">
+        <phrase id="fldcaption" value="iuran id" />
+      </field>
+      <field id="jumlah">
+        <phrase id="fldcaption" value="Jumlah" />
+      </field>
+      <field id="byr01">
+        <phrase id="fldcaption" value="byr 01" />
+      </field>
+      <field id="jml01">
+        <phrase id="fldcaption" value="jml 01" />
+      </field>
+      <field id="tgl01">
+        <phrase id="fldcaption" value="tgl 01" />
+      </field>
+      <field id="byr02">
+        <phrase id="fldcaption" value="byr 02" />
+      </field>
+      <field id="jml02">
+        <phrase id="fldcaption" value="jml 02" />
+      </field>
+      <field id="tgl02">
+        <phrase id="fldcaption" value="tgl 02" />
+      </field>
+      <field id="byr03">
+        <phrase id="fldcaption" value="byr 03" />
+      </field>
+      <field id="jml03">
+        <phrase id="fldcaption" value="jml 03" />
+      </field>
+      <field id="tgl03">
+        <phrase id="fldcaption" value="tgl 03" />
+      </field>
+      <field id="byr04">
+        <phrase id="fldcaption" value="byr 04" />
+      </field>
+      <field id="jml04">
+        <phrase id="fldcaption" value="jml 04" />
+      </field>
+      <field id="tgl04">
+        <phrase id="fldcaption" value="tgl 04" />
+      </field>
+      <field id="byr05">
+        <phrase id="fldcaption" value="byr 05" />
+      </field>
+      <field id="jml05">
+        <phrase id="fldcaption" value="jml 05" />
+      </field>
+      <field id="tgl05">
+        <phrase id="fldcaption" value="tgl 05" />
+      </field>
+      <field id="byr06">
+        <phrase id="fldcaption" value="byr 06" />
+      </field>
+      <field id="jml06">
+        <phrase id="fldcaption" value="jml 06" />
+      </field>
+      <field id="tgl06">
+        <phrase id="fldcaption" value="tgl 06" />
+      </field>
+      <field id="byr07">
+        <phrase id="fldcaption" value="byr 07" />
+      </field>
+      <field id="jml07">
+        <phrase id="fldcaption" value="jml 07" />
+      </field>
+      <field id="tgl07">
+        <phrase id="fldcaption" value="tgl 07" />
+      </field>
+      <field id="byr08">
+        <phrase id="fldcaption" value="byr 08" />
+      </field>
+      <field id="jml08">
+        <phrase id="fldcaption" value="jml 08" />
+      </field>
+      <field id="tgl08">
+        <phrase id="fldcaption" value="tgl 08" />
+      </field>
+      <field id="byr09">
+        <phrase id="fldcaption" value="byr 09" />
+      </field>
+      <field id="jml09">
+        <phrase id="fldcaption" value="jml 09" />
+      </field>
+      <field id="tgl09">
+        <phrase id="fldcaption" value="tgl 09" />
+      </field>
+      <field id="byr10">
+        <phrase id="fldcaption" value="byr 10" />
+      </field>
+      <field id="jml10">
+        <phrase id="fldcaption" value="jml 10" />
+      </field>
+      <field id="tgl10">
+        <phrase id="fldcaption" value="tgl 10" />
+      </field>
+      <field id="byr11">
+        <phrase id="fldcaption" value="byr 11" />
+      </field>
+      <field id="jml11">
+        <phrase id="fldcaption" value="jml 11" />
+      </field>
+      <field id="tgl11">
+        <phrase id="fldcaption" value="tgl 11" />
+      </field>
+      <field id="byr12">
+        <phrase id="fldcaption" value="byr 12" />
+      </field>
+      <field id="jml12">
+        <phrase id="fldcaption" value="jml 12" />
+      </field>
+      <field id="tgl12">
+        <phrase id="fldcaption" value="tgl 12" />
       </field>
     </table>
   </project>

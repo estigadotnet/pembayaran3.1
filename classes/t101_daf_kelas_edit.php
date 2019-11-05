@@ -1026,7 +1026,6 @@ class t101_daf_kelas_edit extends t101_daf_kelas
 		} elseif ($this->RowType == ROWTYPE_EDIT) { // Edit row
 
 			// tahun_ajaran_id
-			$this->tahun_ajaran_id->EditAttrs["class"] = "form-control";
 			$this->tahun_ajaran_id->EditCustomAttributes = "";
 			$curVal = trim(strval($this->tahun_ajaran_id->CurrentValue));
 			if ($curVal <> "")
@@ -1035,6 +1034,8 @@ class t101_daf_kelas_edit extends t101_daf_kelas
 				$this->tahun_ajaran_id->ViewValue = $this->tahun_ajaran_id->Lookup !== NULL && is_array($this->tahun_ajaran_id->Lookup->Options) ? $curVal : NULL;
 			if ($this->tahun_ajaran_id->ViewValue !== NULL) { // Load from cache
 				$this->tahun_ajaran_id->EditValue = array_values($this->tahun_ajaran_id->Lookup->Options);
+				if ($this->tahun_ajaran_id->ViewValue == "")
+					$this->tahun_ajaran_id->ViewValue = $Language->phrase("PleaseSelect");
 			} else { // Lookup from database
 				if ($curVal == "") {
 					$filterWrk = "0=1";
@@ -1043,13 +1044,20 @@ class t101_daf_kelas_edit extends t101_daf_kelas
 				}
 				$sqlWrk = $this->tahun_ajaran_id->Lookup->getSql(TRUE, $filterWrk, '', $this);
 				$rswrk = Conn()->execute($sqlWrk);
+				if ($rswrk && !$rswrk->EOF) { // Lookup values found
+					$arwrk = array();
+					$arwrk[1] = HtmlEncode($rswrk->fields('df'));
+					$arwrk[2] = HtmlEncode($rswrk->fields('df2'));
+					$this->tahun_ajaran_id->ViewValue = $this->tahun_ajaran_id->displayValue($arwrk);
+				} else {
+					$this->tahun_ajaran_id->ViewValue = $Language->phrase("PleaseSelect");
+				}
 				$arwrk = ($rswrk) ? $rswrk->GetRows() : array();
 				if ($rswrk) $rswrk->Close();
 				$this->tahun_ajaran_id->EditValue = $arwrk;
 			}
 
 			// sekolah_id
-			$this->sekolah_id->EditAttrs["class"] = "form-control";
 			$this->sekolah_id->EditCustomAttributes = "";
 			$curVal = trim(strval($this->sekolah_id->CurrentValue));
 			if ($curVal <> "")
@@ -1058,6 +1066,8 @@ class t101_daf_kelas_edit extends t101_daf_kelas
 				$this->sekolah_id->ViewValue = $this->sekolah_id->Lookup !== NULL && is_array($this->sekolah_id->Lookup->Options) ? $curVal : NULL;
 			if ($this->sekolah_id->ViewValue !== NULL) { // Load from cache
 				$this->sekolah_id->EditValue = array_values($this->sekolah_id->Lookup->Options);
+				if ($this->sekolah_id->ViewValue == "")
+					$this->sekolah_id->ViewValue = $Language->phrase("PleaseSelect");
 			} else { // Lookup from database
 				if ($curVal == "") {
 					$filterWrk = "0=1";
@@ -1066,6 +1076,13 @@ class t101_daf_kelas_edit extends t101_daf_kelas
 				}
 				$sqlWrk = $this->sekolah_id->Lookup->getSql(TRUE, $filterWrk, '', $this);
 				$rswrk = Conn()->execute($sqlWrk);
+				if ($rswrk && !$rswrk->EOF) { // Lookup values found
+					$arwrk = array();
+					$arwrk[1] = HtmlEncode($rswrk->fields('df'));
+					$this->sekolah_id->ViewValue = $this->sekolah_id->displayValue($arwrk);
+				} else {
+					$this->sekolah_id->ViewValue = $Language->phrase("PleaseSelect");
+				}
 				$arwrk = ($rswrk) ? $rswrk->GetRows() : array();
 				if ($rswrk) $rswrk->Close();
 				$this->sekolah_id->EditValue = $arwrk;
