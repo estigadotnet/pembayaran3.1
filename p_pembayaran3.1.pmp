@@ -1171,14 +1171,14 @@
       <Properties><![CDATA[[]]]></Properties>
     </ExtProject>
   </Extension>
-  <MasterDetail MasterTable="t101_daf_kelas" DetailTable="t102_daf_kelas_siswa" EnforceReferentialIntegrity="1" CascadeUpdate="1" CascadeDelete="1">
-    <Relation MasterField="id" DetailField="daf_kelas_id" />
-  </MasterDetail>
   <MasterDetail MasterTable="v102_daf_kelas_siswa" DetailTable="t103_daf_kelas_siswa_iuran" EnforceReferentialIntegrity="1" CascadeUpdate="1" CascadeDelete="1">
     <Relation MasterField="id" DetailField="daf_kelas_siswa_id" />
   </MasterDetail>
   <MasterDetail MasterTable="v102_daf_kelas_siswa" DetailTable="v110_bukti_master" EnforceReferentialIntegrity="1" CascadeUpdate="1" CascadeDelete="1">
     <Relation MasterField="id" DetailField="daf_kelas_siswa_id" />
+  </MasterDetail>
+  <MasterDetail MasterTable="t101_daf_kelas" DetailTable="t102_daf_kelas_siswa" EnforceReferentialIntegrity="1" CascadeUpdate="1" CascadeDelete="1">
+    <Relation MasterField="id" DetailField="daf_kelas_id" />
   </MasterDetail>
   <CustomScript ScriptType="Server" ScriptCodeType="Table" ScriptName="Row_Rendering" ScriptCtrlID="" ScriptL1Key="t101_daf_kelas" ScriptL2Key=""><![CDATA[// Row Rendering event
 function Row_Rendering() {
