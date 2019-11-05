@@ -452,6 +452,8 @@ class index
 			$this->terminate("v113_export_siswa_iuranlist.php");
 		if ($Security->allowList(CurrentProjectID() . 'c303_import.php'))
 			$this->terminate("./c303_import.php");
+		if ($Security->allowList(CurrentProjectID() . 'c304_import_aksi.php'))
+			$this->terminate("./c304_import_aksi.php");
 		if ($Security->allowList(CurrentProjectID() . 'c305_import_aksi2.php'))
 			$this->terminate("./c305_import_aksi2.php");
 		if ($Security->isLoggedIn()) {

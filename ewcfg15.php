@@ -16,7 +16,7 @@ if (!function_exists("xml_parser_create"))
 	die("This script requires PHP XML Parser.");
 
 // Debug flag
-define(PROJECT_NAMESPACE . "DEBUG_ENABLED", TRUE); // TRUE to debug
+define(PROJECT_NAMESPACE . "DEBUG_ENABLED", FALSE); // TRUE to debug
 if (DEBUG_ENABLED) {
 	@ini_set("display_errors", "1"); // Display errors
 	error_reporting(E_ALL); // Report all errors
@@ -37,7 +37,7 @@ define(PROJECT_NAMESPACE . "PATH_DELIMITER", ((IS_WINDOWS) ? "\\" : "/")); // Ph
 define(PROJECT_NAMESPACE . "UNFORMAT_YEAR", 50); // Unformat year
 define(PROJECT_NAMESPACE . "PROJECT_NAME", "p_pembayaran3_1"); // Project name
 define(PROJECT_NAMESPACE . "CONFIG_FILE_FOLDER", PROJECT_NAME); // Config file name
-define(PROJECT_NAMESPACE . "RANDOM_KEY", '716AaBJIOJjYxMdc'); // Random key for encryption
+define(PROJECT_NAMESPACE . "RANDOM_KEY", 'pJoSl61OG8BKaZzw'); // Random key for encryption
 define(PROJECT_NAMESPACE . "ENCRYPTION_KEY", ''); // Encryption key for data protection
 define(PROJECT_NAMESPACE . "PROJECT_STYLESHEET_FILENAME", "phpcss/p_pembayaran3_1.css"); // Project stylesheet file name
 define(PROJECT_NAMESPACE . "PROJECT_CHARSET", "utf-8"); // Project charset
@@ -95,7 +95,7 @@ if (!isset($GLOBALS["ADODB_OUTP"]))
 	$GLOBALS["ADODB_OUTP"] = PROJECT_NAMESPACE . 'SetDebugMessage';
 
 // Database connection info
-$CONNECTIONS["DB"] = array("conn" => NULL, "id" => "DB", "type" => "MYSQL", "host" => "localhost", "port" => 3307, "user" => "root", "pass" => "admin", "db" => "db_pembayaran3coba", "qs" => "`", "qe" => "`");
+$CONNECTIONS["DB"] = array("conn" => NULL, "id" => "DB", "type" => "MYSQL", "host" => "localhost", "port" => 3307, "user" => "root", "pass" => "admin", "db" => "db_pembayaran3", "qs" => "`", "qe" => "`");
 $CONNECTIONS[0] = &$CONNECTIONS["DB"];
 
 // Database error function
